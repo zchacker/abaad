@@ -1,111 +1,111 @@
 class EstateBody {
-  String id ;
-  String address;
-  String   property;
-  String space;
-  String categoryId;
-  String price;
-  String ownershipType;
-  String districts;
-  String networkType;
-  String serviceOffers;
-  String arPath;
-  String latitude;
-  String longitude;
-  String  zoneId;
-  String territoryId;
-  String ageEstate;
-  String shortDescription;
-  String longDescription;
-  String floors;
-  String near;
-  String priceNegotiation;
-  String nationalAddress;
-  String facilities;
-  String user_id;
-  String adNumber;
-  String advertiserNo;
-  String city;
-  String otherAdvantages;
-  String interface;
-  String streetSpace;
-  String buildSpace;
-  String documentNumber;
-  String feature;
-  String property_type;
-  String estate_type;
-  String  authorization_number;
-  String propertyFace;
-  String deedNumber;
-  String categoryName;
-  String totalPrice;
-  String advertisementType;
-  String postalCode;
-  String planNumber;
-  String northLimit;
-  String eastLimit;
-  String westLimit;
-  String southLimit;
+  String? id ;
+  String? address;
+  String? property;
+  String? space;
+  String? categoryId;
+  String? price;
+  String? ownershipType;
+  String? districts;
+  String? networkType;
+  String? serviceOffers;
+  String? arPath;
+  String? latitude;
+  String? longitude;
+  String? zoneId;
+  String? territoryId;
+  String? ageEstate;
+  String? shortDescription;
+  String? longDescription;
+  String? floors;
+  String? near;
+  String? priceNegotiation;
+  String? nationalAddress;
+  String? facilities;
+  String? user_id;
+  String? adNumber;
+  String? advertiserNo;
+  String? city;
+  String? otherAdvantages;
+  String? interface;
+  String? streetSpace;
+  String? buildSpace;
+  String? documentNumber;
+  String? feature;
+  String? property_type;
+  String? estate_type;
+  String?  authorization_number;
+  String? propertyFace;
+  String? deedNumber;
+  String? categoryName;
+  String? totalPrice;
+  String? advertisementType;
+  String? postalCode;
+  String? planNumber;
+  String? northLimit;
+  String? eastLimit;
+  String? westLimit;
+  String? southLimit;
 
-   String licenseNumber;
-   String advertiserNumber;
-   String idType;
+   String? licenseNumber;
+   String? advertiserNumber;
+   String? idType;
 
 
 
   EstateBody(
       {
-        this.id,
-        this.address,
-        this.property,
-        this.space,
-        this.categoryId,
-        this.price,
-        this.ownershipType,
-        this.districts,
-        this.networkType,
-        this.serviceOffers,
-        this.arPath,
-        this.latitude,
-        this.longitude,
-        this.zoneId,
-        this.territoryId,
-        this.ageEstate,
-        this.shortDescription,
-        this.longDescription,
-        this.floors,
-        this.near,
-        this.priceNegotiation,
-        this.nationalAddress,
-        this.facilities,
-        this.user_id,
-        this.adNumber,
-        this.advertiserNo,
-        this.city,
-        this.otherAdvantages,
-        this.interface,
-        this.streetSpace,
-        this.buildSpace,
-        this.documentNumber,
-        this.feature,
-        this.property_type,
-        this.estate_type,
-        this.authorization_number,
+        required this.id,
+        required this.address,
+        required this.property,
+        required this.space,
+        required this.categoryId,
+        required this.price,
+        required this.ownershipType,
+        required this.districts,
+        required this.networkType,
+        required this.serviceOffers,
+        required this.arPath,
+        required this.latitude,
+        required this.longitude,
+        required this.zoneId,
+        required this.territoryId,
+        required this.ageEstate,
+        required this.shortDescription,
+        required this.longDescription,
+        required this.floors,
+        required this.near,
+        required this.priceNegotiation,
+        required this.nationalAddress,
+        required this.facilities,
+        required this.user_id,
+        required this.adNumber,
+        required this.advertiserNo,
+        required this.city,
+        required this.otherAdvantages,
+        required this.interface,
+        required this.streetSpace,
+        required this.buildSpace,
+        required this.documentNumber,
+        required this.feature,
+        required this.property_type,
+        required this.estate_type,
+        required this.authorization_number,
 
-        this.propertyFace,
-        this.deedNumber,
-        this.categoryName,
-        this.totalPrice,
-        this.advertisementType,
-        this.postalCode,
-        this.planNumber,
-        this.northLimit,
-        this.eastLimit,
-        this.westLimit,
-        this.southLimit,
-        this.licenseNumber,
-        this.advertiserNumber,
-        this.idType
+        required this.propertyFace,
+        required this.deedNumber,
+        required this.categoryName,
+        required this.totalPrice,
+        required this.advertisementType,
+        required this.postalCode,
+        required this.planNumber,
+        required this.northLimit,
+        required this.eastLimit,
+        required this.westLimit,
+        required this.southLimit,
+        required this.licenseNumber,
+        required this.advertiserNumber,
+        required this.idType
 
       });
 

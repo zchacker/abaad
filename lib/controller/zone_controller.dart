@@ -60,7 +60,7 @@ class ZoneController extends GetxController implements GetxService {
       }
       update();
     } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
 
 
     }
@@ -82,7 +82,7 @@ class ZoneController extends GetxController implements GetxService {
       }
 
         } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
   }
@@ -107,7 +107,7 @@ class ZoneController extends GetxController implements GetxService {
         //   setSubCategoryIndex(_subCategoryIds.indexOf(int.parse(product.categoryIds[1].id)), false);
         // }
             } else {
-        ApiChecker.checkApi(response);
+        ApiChecker.checkApi(response, showToaster: true);
       }
     }
     update();
@@ -131,7 +131,7 @@ class ZoneController extends GetxController implements GetxService {
         //   setSubCategoryIndex(_subCategoryIds.indexOf(int.parse(product.categoryIds[1].id)), false);
         // }
             } else {
-        ApiChecker.checkApi(response);
+        ApiChecker.checkApi(response, showToaster: true);
       }
     }
     update();

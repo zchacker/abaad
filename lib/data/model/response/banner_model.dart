@@ -3,50 +3,50 @@ import 'package:abaad/data/model/response/service_provider.dart';
 
 
 class BannerModel {
-  List<BasicCampaignModel> campaigns;
-  List<Banner> banners;
+  List<BasicCampaignModel>? campaigns;
+  List<Banner>? banners;
 
-  BannerModel({this.campaigns, this.banners});
+  BannerModel({required this.campaigns, required this.banners});
 
   BannerModel.fromJson(Map<String, dynamic> json) {
     if (json['campaigns'] != null) {
       campaigns = [];
       json['campaigns'].forEach((v) {
-        campaigns.add(BasicCampaignModel.fromJson(v));
+        campaigns?.add(BasicCampaignModel.fromJson(v));
       });
     }
     if (json['banners'] != null) {
       banners = [];
       json['banners'].forEach((v) {
-        banners.add(Banner.fromJson(v));
+        banners?.add(Banner.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['campaigns'] = campaigns.map((v) => v.toJson()).toList();
-      data['banners'] = banners.map((v) => v.toJson()).toList();
+    data['campaigns'] = campaigns?.map((v) => v.toJson()).toList();
+      data['banners'] = banners?.map((v) => v.toJson()).toList();
       return data;
   }
 }
 
 class Banner {
-  int id;
-  String title;
-  String type;
-  String image;
-  ServiceProvider restaurant;
+  int id = 0;
+  String title = "";
+  String type = "";
+  String image = "";
+  ServiceProvider restaurant = ServiceProvider();
 
   Banner(
-      {this.id, this.title, this.type, this.image, this.restaurant});
+      {required this.id, required this.title, required this.type, required this.image, required this.restaurant});
 
   Banner.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     type = json['type'];
     image = json['image'];
-    restaurant = json['providers'] != null ? ServiceProvider.fromJson(json['providers']) : null;
+    restaurant = (json['providers'] != null ? ServiceProvider.fromJson(json['providers']) : null)!;
   }
 
   Map<String, dynamic> toJson() {

@@ -1,35 +1,35 @@
 import 'package:abaad/data/model/response/zone_response_model.dart';
 class AddressModel {
-  int id;
-  String addressType;
-  String contactPersonNumber;
-  String address;
-  String latitude;
-  String longitude;
-  int zoneId;
-  List<int> zoneIds;
-  String method;
-  String contactPersonName;
-  String road;
-  String house;
-  String floor;
-  List<ZoneData> zoneData;
-  AddressModel(
-      {this.id,
-      this.addressType,
-      this.contactPersonNumber,
-      this.address,
-      this.latitude,
-      this.longitude,
-      this.zoneId,
-      this.zoneIds,
-      this.method,
-      this.contactPersonName,
-      this.road,
-      this.house,
-      this.floor,
-        this.zoneData,
-      });
+  int? id;
+  String? addressType;
+  String? contactPersonNumber;
+  String? address;
+  String? latitude;
+  String? longitude;
+  int? zoneId;
+  List<int>? zoneIds;
+  String? method;
+  String? contactPersonName;
+  String? road;
+  String? house;
+  String? floor;
+  List<ZoneData>? zoneData;
+  AddressModel({
+      required this.id,
+      required this.addressType,
+      required this.contactPersonNumber,
+      required this.address,
+      required this.latitude,
+      required this.longitude,
+      required this.zoneId,
+      required this.zoneIds,
+      required this.method,
+      required this.contactPersonName,
+      required this.road,
+      required this.house,
+      required this.floor,
+      required this.zoneData,
+  });
 
   AddressModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -48,7 +48,7 @@ class AddressModel {
     if (json['zone_data'] != null) {
       zoneData = [];
       json['zone_data'].forEach((v) {
-        zoneData.add(ZoneData.fromJson(v));
+        zoneData?.add(ZoneData.fromJson(v));
       });
     }
   }
@@ -68,7 +68,7 @@ class AddressModel {
     data['road'] = road;
     data['house'] = house;
     data['floor'] = floor;
-    data['zone_data'] = zoneData.map((v) => v.toJson()).toList();
+    data['zone_data'] = zoneData?.map((v) => v.toJson()).toList();
       return data;
   }
 }

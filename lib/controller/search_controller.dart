@@ -177,7 +177,7 @@ class SearchController extends GetxController implements GetxService {
       _suggestedFoodList = [];
       response.body.forEach((suggestedFood) => _suggestedFoodList?.add(Estate.fromJson(suggestedFood)));
     }else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
   }
@@ -226,7 +226,7 @@ class SearchController extends GetxController implements GetxService {
           }
         }
       } else {
-        ApiChecker.checkApi(response);
+        ApiChecker.checkApi(response, showToaster: true);
       }
       update();
     }

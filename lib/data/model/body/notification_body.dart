@@ -6,22 +6,22 @@ enum NotificationType{
 }
 
 class NotificationBody {
-  NotificationType notificationType;
-  int orderId;
-  int adminId;
-  int deliverymanId;
-  int restaurantId;
-  String type;
-  int conversationId;
+  NotificationType? notificationType;
+  int? orderId;
+  int? adminId;
+  int? deliverymanId;
+  int? restaurantId;
+  String? type;
+  int? conversationId;
 
   NotificationBody({
-    this.notificationType,
-    this.orderId,
-    this.adminId,
-    this.deliverymanId,
-    this.restaurantId,
-    this.type,
-    this.conversationId,
+    required this.notificationType,
+    required this.orderId,
+    required this.adminId,
+    required this.deliverymanId,
+    required this.restaurantId,
+    required this.type,
+    required this.conversationId,
   });
 
   NotificationBody.fromJson(Map<String, dynamic> json) {

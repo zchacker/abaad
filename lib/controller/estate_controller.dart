@@ -154,7 +154,7 @@ class EstateController extends GetxController implements GetxService {
       }
       update();
     } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
   }
 
@@ -175,7 +175,7 @@ class EstateController extends GetxController implements GetxService {
 
   void setCategoryList() {
     _categoryList = [];
-    _categoryList?.add(CategoryModel(id: 0, name: 'all'.tr));
+    _categoryList?.add(CategoryModel(id: 0, name: 'all'.tr, nameAr: '', slug: '', position: '', statusHome: '', image: '', createdAt: '', updatedAt: ''));
     Get.find<CategoryController>().categoryList?.forEach((category) {
         _categoryList?.add(category);
 
@@ -329,7 +329,7 @@ class EstateController extends GetxController implements GetxService {
   //     Get.offNamed(RouteHelper.getPaymentRoute(161));
   //     //   Get.offAllNamed(RouteHelper.getSuccess());
   //   } else {
-  //     ApiChecker.checkApi(response);
+  //     ApiChecker.checkApi(response, showToaster: true);
   //     print("error estate---------------------------------------------------${response.body}");
   //   }
   //   _isLoading = false;
@@ -370,7 +370,7 @@ class EstateController extends GetxController implements GetxService {
     
    //   Get.offAllNamed(RouteHelper.getSuccess());
     } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
             // print("🔴 Error: Status Code: ${response.body["message"].toString()}");
       print("🔴 Error Body: ${response.statusText}");
       print("🔴 Error Body2: ${response.statusCode}");
@@ -402,7 +402,7 @@ class EstateController extends GetxController implements GetxService {
   //     update();
   //
   //   } else {
-  //     ApiChecker.checkApi(response);
+  //     ApiChecker.checkApi(response, showToaster: true);
   //     print("error estate---------------------------------------------------${response.body}");
   //   }
   //   _isLoading = false;
@@ -432,7 +432,7 @@ class EstateController extends GetxController implements GetxService {
       update();
 
     } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
       print("error estate---------------------------------------------------${response.body}");
     }
     _isLoading = false;
@@ -452,7 +452,7 @@ class EstateController extends GetxController implements GetxService {
       Get.toNamed(RouteHelper.getProfileRoute());
 
     }else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     _isLoading = false;
     update();
@@ -493,7 +493,7 @@ class EstateController extends GetxController implements GetxService {
       setCategoryIndex(_categoryIds.indexOf(product.categoryId));
     //  await getSubCategoryList(int.parse(product.categoryIds[0].id), product);
             } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
   }
@@ -617,7 +617,7 @@ class EstateController extends GetxController implements GetxService {
   //
   //     showCustomSnackBar(response.body['message'], isError: false);
   //   } else {
-  //     ApiChecker.checkApi(response);
+  //     ApiChecker.checkApi(response, showToaster: true);
   //   }
   //   update();
   // }

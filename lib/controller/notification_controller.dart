@@ -26,7 +26,7 @@ class NotificationController extends GetxController implements GetxService {
         _notificationList = iterable.cast<NotificationModel>().toList();
        // _hasNotification = _notificationList.length != getSeenNotificationCount();
       } else {
-        ApiChecker.checkApi(response);
+        ApiChecker.checkApi(response, showToaster: true);
       }
       update();
     }

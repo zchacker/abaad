@@ -1,85 +1,85 @@
 class ConfigModel {
-  String businessName;
-  String logo;
-  String address;
-  String phone;
-  String email;
-  BaseUrls baseUrls;
+  String businessName = "";
+  String logo = "";
+  String address = "";
+  String phone = "";
+  String email = "";
+  BaseUrls? baseUrls;
 
 
-  String country;
-  DefaultLocation defaultLocation;
-  String appUrlAndroid;
-  String appUrlIos;
+  String country = "";
+  DefaultLocation? defaultLocation;
+  String appUrlAndroid = "";
+  String appUrlIos = "";
 //  String appUrlAndroid;
-  bool customerVerification;
+  bool customerVerification = false;
 
-  double marketingCommission;
-  int agentRegistration;
-  String aboutUs;
-  String aboutUsAr;
-  String privacyPolicy;
-  String privacyPolicyAr;
-  String termsConditions;
-  String termsConditionsAr;
-  int appMinimumVersionAndroid;
-  int appMinimumVersionIos;
-  bool demo;
-  bool maintenanceMode;
-  bool phoneVerification;
-  int freeTrialPeriodStatus;
-  int freeTrialPeriodDay;
-  BusinessPlan businessPlan;
-  double adminCommission;
-  String currencySymbolDirection;
-  int loyaltyPointExchangeRate;
-  int minimumPointToTransfer;
-  String currencySymbol;
-  int digitAfterDecimalPoint;
-  String termsAndConditions;
-  String featureAr;
-  String feature;
+  double marketingCommission = 0;
+  int agentRegistration = 0;
+  String aboutUs = "";
+  String aboutUsAr = "";
+  String privacyPolicy = "";
+  String privacyPolicyAr = "";
+  String termsConditions = "";
+  String termsConditionsAr = "";
+  int appMinimumVersionAndroid = 0;
+  int appMinimumVersionIos= 0;
+  bool demo = false;
+  bool maintenanceMode = false;
+  bool phoneVerification = false;
+  int freeTrialPeriodStatus = 0;
+  int freeTrialPeriodDay = 0;
+  BusinessPlan? businessPlan;
+  double adminCommission = 0;
+  String currencySymbolDirection = "";
+  int loyaltyPointExchangeRate = 0;
+  int minimumPointToTransfer = 0;
+  String currencySymbol  = "";
+  int digitAfterDecimalPoint = 0;
+  String termsAndConditions  = "";
+  String featureAr = "";
+  String feature = "";
 
 
 
-  ConfigModel(
-      {this.businessName,
-        this.logo,
-        this.address,
-        this.phone,
-        this.email,
-        this.baseUrls,
-        this.privacyPolicy,
-        this.aboutUs,
-        this.country,
-        this.defaultLocation,
-        this.appUrlAndroid,
-        this.appUrlIos,
-        this.customerVerification,
-        this.appMinimumVersionAndroid,
-        this.appMinimumVersionIos,
-        this.termsConditions,
-        this.marketingCommission,
-        this.demo,
-        this.maintenanceMode,
-        this.agentRegistration,
-        this.phoneVerification,
-        this.freeTrialPeriodStatus,
-        this.freeTrialPeriodDay,
-        this.businessPlan,
-        this.adminCommission,
-        this.currencySymbolDirection,
-        this.loyaltyPointExchangeRate,
-        this.minimumPointToTransfer,
-        this.currencySymbol,
-        this.digitAfterDecimalPoint,
-        this.termsAndConditions,
-        this.termsConditionsAr,
-this.aboutUsAr,
-      this.feature,
-      this.featureAr,
-      this.privacyPolicyAr
-      });
+  ConfigModel({
+    required this.businessName,
+    required this.logo,
+    required this.address,
+    required this.phone,
+    required this.email,
+    required this.baseUrls,
+    required this.privacyPolicy,
+    required this.aboutUs,
+    required this.country,
+    required this.defaultLocation,
+    required this.appUrlAndroid,
+    required this.appUrlIos,
+    required this.customerVerification,
+    required this.appMinimumVersionAndroid,
+    required this.appMinimumVersionIos,
+    required this.termsConditions,
+    required this.marketingCommission,
+    required this.demo,
+    required this.maintenanceMode,
+    required this.agentRegistration,
+    required this.phoneVerification,
+    required this.freeTrialPeriodStatus,
+    required this.freeTrialPeriodDay,
+    required this.businessPlan,
+    required this.adminCommission,
+    required this.currencySymbolDirection,
+    required this.loyaltyPointExchangeRate,
+    required this.minimumPointToTransfer,
+    required this.currencySymbol,
+    required this.digitAfterDecimalPoint,
+    required this.termsAndConditions,
+    required this.termsConditionsAr,
+    required this.aboutUsAr,
+    required this.feature,
+    required this.featureAr,
+    required this.privacyPolicyAr
+  });
 
   ConfigModel.fromJson(Map<String, dynamic> json) {
     businessName = json['business_name'];
@@ -132,12 +132,12 @@ this.aboutUsAr,
     data['address'] = address;
     data['phone'] = phone;
     data['email'] = email;
-    data['base_urls'] = baseUrls.toJson();
+    data['base_urls'] = baseUrls?.toJson();
       data['terms_conditions'] = termsConditions;
     data['privacy_policy'] = privacyPolicy;
     data['about_us'] = aboutUs;
     data['country'] = country;
-    data['default_location'] = defaultLocation.toJson();
+    data['default_location'] = defaultLocation?.toJson();
        data['app_url_android'] = appUrlAndroid;
     data['app_url_ios'] = appUrlIos;
     data['customer_verification'] = customerVerification;
@@ -169,29 +169,29 @@ this.aboutUsAr,
 }
 
 class BaseUrls {
-  String estateImageUrl;
-  String categoryImageUrl;
-  String customerImageUrl;
-  String reviewImageUrl;
-  String chatImageUrl;
-  String agentImageUrl;
-  String activitiesImageUrl;
-  String notificationImageUrl;
-  String planed;
-  String provider;
-  String banners;
+  String estateImageUrl = "";
+  String categoryImageUrl = "";
+  String customerImageUrl = "";
+  String reviewImageUrl = "";
+  String chatImageUrl = "";
+  String agentImageUrl = "";
+  String activitiesImageUrl = "";
+  String notificationImageUrl = "";
+  String planed = "";
+  String provider = "";
+  String banners = "";
 
   BaseUrls(
-      {  this.estateImageUrl,
-        this.categoryImageUrl,
-        this.customerImageUrl,
-        this.reviewImageUrl,
-        this.agentImageUrl,
-        this.notificationImageUrl,
-        this.banners,
-        this.provider,
-        this.chatImageUrl,
-        this.planed
+      {  required this.estateImageUrl,
+        required this.categoryImageUrl,
+        required this.customerImageUrl,
+        required this.reviewImageUrl,
+        required this.agentImageUrl,
+        required this.notificationImageUrl,
+        required this.banners,
+        required this.provider,
+        required this.chatImageUrl,
+        required this.planed
       });
 
   BaseUrls.fromJson(Map<String, dynamic> json) {
@@ -228,10 +228,10 @@ class BaseUrls {
 }
 
 class DefaultLocation {
-  String lat;
-  String lng;
+  String lat = "";
+  String lng = "";
 
-  DefaultLocation({this.lat, this.lng});
+  DefaultLocation({required this.lat, required this.lng});
 
   DefaultLocation.fromJson(Map<String, dynamic> json) {
     lat = json['lat'];
@@ -247,10 +247,10 @@ class DefaultLocation {
 }
 
 class SocialLogin {
-  String loginMedium;
-  bool status;
+  String loginMedium = "";
+  bool status =false;
 
-  SocialLogin({this.loginMedium, this.status});
+  SocialLogin({required this.loginMedium, required this.status});
 
   SocialLogin.fromJson(Map<String, dynamic> json) {
     loginMedium = json['login_medium'];
@@ -267,10 +267,10 @@ class SocialLogin {
 
 
 class BusinessPlan {
-  int commission;
-  int subscription;
+  int commission = 0;
+  int subscription = 0;
 
-  BusinessPlan({this.commission, this.subscription});
+  BusinessPlan({required this.commission, required this.subscription});
 
   BusinessPlan.fromJson(Map<String, dynamic> json) {
     commission = json['commission'];

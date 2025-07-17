@@ -51,7 +51,7 @@ class UserController extends GetxController implements GetxService {
       responseModel = ResponseModel(true, 'successful');
     } else {
       responseModel = ResponseModel(false, response!.statusText);
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
     return responseModel;
@@ -72,7 +72,7 @@ class UserController extends GetxController implements GetxService {
       responseModel = ResponseModel(true, 'successful');
     } else {
       responseModel = ResponseModel(false, response!.statusText);
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
     return responseModel;
@@ -140,7 +140,7 @@ class UserController extends GetxController implements GetxService {
 
     }else{
       Get.back();
-      ApiChecker.checkApi(response ?? Response());
+      ApiChecker.checkApi(response ?? Response() , showToaster: true);
     }
   }
 
@@ -237,7 +237,7 @@ class UserController extends GetxController implements GetxService {
       }
       update();
     } else {
-      ApiChecker.checkApi(response!);
+      ApiChecker.checkApi(response! , showToaster: true);
     }
   }
 

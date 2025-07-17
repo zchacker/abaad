@@ -1,24 +1,25 @@
 class CategoryModel {
-  int id;
-  String name;
-  String nameAr;
-  String slug;
-  String   position;
-  String statusHome;
-  String image;
-  String createdAt;
-  String updatedAt;
+  int id = 0;
+  String name = "";
+  String nameAr = "";
+  String slug = "";
+  String position = "";
+  String statusHome = "";
+  String image = "";
+  String createdAt = "";
+  String updatedAt = "";
 
-  CategoryModel(
-      {this.id,
-        this.name,
-        this.nameAr,
-        this.slug,
-        this.position,
-        this.statusHome,
-        this.image,
-        this.createdAt,
-        this.updatedAt});
+  CategoryModel({
+    required this.id,
+    required this.name,
+    required this.nameAr,
+    required this.slug,
+    required this.position,
+    required this.statusHome,
+    required this.image,
+    required this.createdAt,
+    required this.updatedAt
+  });
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -47,14 +48,14 @@ class CategoryModel {
   }
 }
 class Variation {
-  String name;
-  String type;
-  String min;
-  String max;
-  String required;
-  List<VariationOption> variationValues;
+  String name = "";
+  String type = "";
+  String min = "";
+  String max = "";
+  String required = "";
+  List<VariationOption>? variationValues;
 
-  Variation({this.name, this.type, this.min, this.max, this.required, this.variationValues});
+  Variation({required this.name, required this.type, required this.min, required this.max, required this.required, required this.variationValues});
 
   Variation.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -65,7 +66,7 @@ class Variation {
     if (json['values'] != null) {
       variationValues = [];
       json['values'].forEach((v) {
-        variationValues.add(VariationOption.fromJson(v));
+        variationValues?.add(VariationOption.fromJson(v));
       });
     }
   }
@@ -77,16 +78,16 @@ class Variation {
     data['min'] = min;
     data['max'] = max;
     data['required'] = required;
-    data['values'] = variationValues.map((v) => v.toJson()).toList();
+    data['values'] = variationValues?.map((v) => v.toJson()).toList();
       return data;
   }
 }
 
 class VariationOption {
-  String level;
-  String optionPrice;
+  String level = "";
+  String optionPrice = "";
 
-  VariationOption({this.level, this.optionPrice});
+  VariationOption({required this.level, required this.optionPrice});
 
   VariationOption.fromJson(Map<String, dynamic> json) {
     level = json['label'];

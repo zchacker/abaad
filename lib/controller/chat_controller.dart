@@ -66,16 +66,16 @@ class ChatController extends GetxController implements GetxService {
       }else {
         _conversationModel?.totalSize = ConversationsModel.fromJson(response.body).totalSize;
         _conversationModel?.offset = ConversationsModel.fromJson(response.body).offset;
-        _conversationModel?.conversations.addAll(ConversationsModel.fromJson(response.body).conversations);
+        _conversationModel?.conversations?.addAll(ConversationsModel.fromJson(response.body).conversations as Iterable<Conversation>);
       }
       int index0 = -1;
        bool sender = false;
-      for(int index=0 ; index<_conversationModel!.conversations.length; index++) {
-        if(_conversationModel?.conversations[index].receiverType == UserType.admin.name) {
+      for(int index=0 ; index<_conversationModel!.conversations!.length; index++) {
+        if(_conversationModel!.conversations?[index].receiverType == UserType.admin.name) {
           index0 = index;
           sender = false;
           break;
-        }else if(_conversationModel?.conversations[index].receiverType == UserType.admin.name) {
+        }else if(_conversationModel!.conversations?[index].receiverType == UserType.admin.name) {
           index0 = index;
           sender = true;
           break;
@@ -85,7 +85,7 @@ class ChatController extends GetxController implements GetxService {
       if(index0 != -1 && !ResponsiveHelper.isDesktop(Get.context)) {
         _hasAdmin = true;
         if(sender) {
-          _conversationModel?.conversations[index0].sender = Userinfo(
+          _conversationModel!.conversations?[index0].sender = Userinfo(
             id: 0, name: Get.find<SplashController>().configModel!.businessName,
             phone: Get.find<SplashController>().configModel!.phone,
             image: Get.find<SplashController>().configModel!.logo,
@@ -96,26 +96,26 @@ class ChatController extends GetxController implements GetxService {
         }
       }
     }else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
   }
 
 
   Future<void> searchConversation(String name) async {
-    _searchConversationModel = ConversationsModel();
+    _searchConversationModel = ConversationsModel(totalSize: 0, limit: 100, offset: 0, conversations: null);
     update();
     Response response = await chatRepo.searchConversationList(name);
     if(response.statusCode == 200) {
       _searchConversationModel = ConversationsModel.fromJson(response.body);
       int index0 = -1;
       bool sender = false;
-      for(int index=0; index<_searchConversationModel!.conversations.length; index++) {
-        if(_searchConversationModel?.conversations[index].receiverType == UserType.admin.name) {
+      for(int index=0; index<_searchConversationModel!.conversations!.length; index++) {
+        if(_searchConversationModel!.conversations?[index].receiverType == UserType.admin.name) {
           index0 = index;
           sender = false;
           break;
-        }else if(_searchConversationModel?.conversations[index].receiverType == UserType.admin.name) {
+        }else if(_searchConversationModel!.conversations?[index].receiverType == UserType.admin.name) {
           index0 = index;
           sender = true;
           break;
@@ -123,13 +123,13 @@ class ChatController extends GetxController implements GetxService {
       }
       if(index0 != -1) {
         if(sender) {
-          _searchConversationModel?.conversations[index0].sender = Userinfo(
+          _searchConversationModel!.conversations?[index0].sender = Userinfo(
             id: 0, name: Get.find<SplashController>().configModel!.businessName,
             phone: Get.find<SplashController>().configModel!.phone,
             image: Get.find<SplashController>().configModel!.logo,
           );
         }else {
-          _searchConversationModel?.conversations[index0].receiver = Userinfo(
+          _searchConversationModel!.conversations?[index0].receiver = Userinfo(
             id: 0, name: Get.find<SplashController>().configModel!.businessName,
             phone: Get.find<SplashController>().configModel!.phone,
             image: Get.find<SplashController>().configModel!.logo,
@@ -137,7 +137,7 @@ class ChatController extends GetxController implements GetxService {
         }
       }
     }else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
   }
@@ -162,7 +162,7 @@ class ChatController extends GetxController implements GetxService {
 
         /// Unread-read
         int index0 = -1;
-        for(int index=0; index<_conversationModel!.conversations.length; index++) {
+        for(int index=0; index<_conversationModel!.conversations!.length; index++) {
           if(conversationID == _conversationModel?.conversations[index].id) {
             index0 = index;
             break;
@@ -180,7 +180,7 @@ class ChatController extends GetxController implements GetxService {
             id: 0, name: Get.find<SplashController>().configModel!.businessName,
             image: Get.find<SplashController>().configModel!.logo,
           ) : user);
-        _sortMessage(notificationBody.adminId);
+        _sortMessage(notificationBody.adminId!);
       }else {
         _messageModel?.totalSize = MessageModel.fromJson(response.body).totalSize;
         _messageModel?.offset = MessageModel.fromJson(response.body).offset;
@@ -188,7 +188,7 @@ class ChatController extends GetxController implements GetxService {
         _messageModel?.messages.addAll(MessageModel.fromJson(response.body).messages);
       }
     } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
   }
@@ -250,7 +250,7 @@ class ChatController extends GetxController implements GetxService {
         _conversationModel?.conversations.add(_messageModel!.conversation);
         _hasAdmin = true;
       }
-      _sortMessage(notificationBody.adminId);
+      _sortMessage(notificationBody.adminId!);
       Future.delayed(Duration(seconds: 2),() {
         getMessages(1, notificationBody, Userinfo(), conversationID);
       });

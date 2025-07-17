@@ -81,8 +81,8 @@ class LocationController extends GetxController implements GetxService {
       myPosition = newLocalData;
     }catch(e) {
       myPosition = Position(
-        latitude: defaultLatLng != null ? defaultLatLng.latitude : double.parse(Get.find<SplashController>().configModel?.defaultLocation.lat ?? '0'),
-        longitude: defaultLatLng != null ? defaultLatLng.longitude : double.parse(Get.find<SplashController>().configModel?.defaultLocation.lng ?? '0'),
+        latitude: defaultLatLng != null ? defaultLatLng.latitude : double.parse(Get.find<SplashController>().configModel?.defaultLocation?.lat ?? '0'),
+        longitude: defaultLatLng != null ? defaultLatLng.longitude : double.parse(Get.find<SplashController>().configModel?.defaultLocation?.lng ?? '0'),
         timestamp: DateTime.now(), accuracy: 1, altitude: 1, heading: 1, speed: 1, speedAccuracy: 1,
           headingAccuracy: 0.0, altitudeAccuracy: 0.0
       );
@@ -102,7 +102,7 @@ class LocationController extends GetxController implements GetxService {
     addressModel = AddressModel(
       latitude: myPosition.latitude.toString(), longitude: myPosition.longitude.toString(), addressType: 'others',
       zoneId: responseModel.isSuccess ? responseModel.zoneIds[0] : 0, zoneIds: responseModel.zoneIds,
-      address: addressFromGeocode, zoneData: responseModel.zoneData,
+      address: addressFromGeocode, zoneData: responseModel.zoneData, id: 0, contactPersonNumber: '', method: '', contactPersonName: '', road: '', house: '', floor: '',
     );
     _loading = false;
     update();
@@ -207,7 +207,7 @@ class LocationController extends GetxController implements GetxService {
         _allAddressList?.add(AddressModel.fromJson(address));
       });
     } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
   }
@@ -218,7 +218,7 @@ class LocationController extends GetxController implements GetxService {
       _addressList?.addAll(_allAddressList as Iterable<AddressModel>);
     } else {
       for (var address in _allAddressList!) {
-        if (address.address.toLowerCase().contains(queryText.toLowerCase())) {
+        if (address.address!.toLowerCase().contains(queryText.toLowerCase())) {
           _addressList?.add(address);
         }
       }
@@ -245,7 +245,7 @@ class LocationController extends GetxController implements GetxService {
 
   Future<bool> saveUserAddress(AddressModel address) async {
     String userAddress = jsonEncode(address.toJson());
-    return await locationRepo.saveUserAddress(userAddress, address.zoneIds, address.latitude, address.longitude);
+    return await locationRepo.saveUserAddress(userAddress, address.zoneIds!, address.latitude!, address.longitude!);
   }
 
   AddressModel? getUserAddress() {
@@ -304,12 +304,12 @@ class LocationController extends GetxController implements GetxService {
 
   void setUpdateAddress(AddressModel address){
     _position = Position(
-      latitude: double.parse(address.latitude), longitude: double.parse(address.longitude), timestamp: DateTime.now(),
+      latitude: double.parse(address.latitude!), longitude: double.parse(address.longitude!), timestamp: DateTime.now(),
       altitude: 1, heading: 1, speed: 1, speedAccuracy: 1, floor: 1, accuracy: 1,
       headingAccuracy: 0.0, altitudeAccuracy: 0.0
     );
-    _address = address.address;
-    _addressTypeIndex = _addressTypeList.indexOf(address.addressType);
+    _address = address.address!;
+    _addressTypeIndex = _addressTypeList.indexOf(address.addressType!);
   }
 
   void setPickData() {
@@ -450,7 +450,7 @@ class LocationController extends GetxController implements GetxService {
         _zoneIds.add(_categoryList![index].id);
       }
         } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
   }

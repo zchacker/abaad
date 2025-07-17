@@ -1,10 +1,10 @@
 class CityModel {
-  int cityId;
-  int regionId;
-  String nameAr;
-  String nameEn;
+  int cityId = 0;
+  int regionId = 0;
+  String nameAr = "";
+  String nameEn = "";
 
-  CityModel({this.cityId, this.regionId, this.nameAr, this.nameEn});
+  CityModel({required this.cityId, required this.regionId, required this.nameAr, required this.nameEn});
 
   CityModel.fromJson(Map<String, dynamic> json) {
     cityId = json['city_id'];

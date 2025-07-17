@@ -26,7 +26,7 @@ class WishListController extends GetxController implements GetxService {
 
       showCustomSnackBar(response?.body['message'], isError: false);
     } else {
-      ApiChecker.checkApi(response!);
+      ApiChecker.checkApi(response! , showToaster: true);
     }
     update();
   }
@@ -44,7 +44,7 @@ class WishListController extends GetxController implements GetxService {
 
       showCustomSnackBar(response.body['message'], isError: false);
     } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
   }
@@ -72,7 +72,7 @@ class WishListController extends GetxController implements GetxService {
 
       });
     } else {
-      ApiChecker.checkApi(response!);
+      ApiChecker.checkApi(response! , showToaster: true);
     }
     update();
   }

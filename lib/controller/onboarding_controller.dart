@@ -24,7 +24,7 @@ class OnBoardingController extends GetxController implements GetxService {
       _onBoardingList = [];
       _onBoardingList.addAll(response.body);
     } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
   }

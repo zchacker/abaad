@@ -203,7 +203,7 @@ class CategoryController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       _isLoading = false;
       _subCategoryList= [];
-      _subCategoryList?.add(CategoryModel(id: int.parse(categoryID),nameAr: 'الكل'));
+      _subCategoryList?.add(CategoryModel(id: int.parse(categoryID),nameAr: 'الكل', name: '', slug: '', position: '', statusHome: '', image: '', createdAt: '', updatedAt: ''));
       _isLoading=false;
       response.body.forEach((category) => _subCategoryList?.add(CategoryModel.fromJson(category)));
       getCategoryProductList(0,categoryID, 0 ,'0',"0","0","0","1",0,0,"");
@@ -275,7 +275,7 @@ class CategoryController extends GetxController implements GetxService {
       // Get.find<EstateController>() .getCategoryList(response.body);
       _isLoading = false;
     } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     update();
   }

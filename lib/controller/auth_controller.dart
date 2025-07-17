@@ -78,7 +78,7 @@ class AuthController extends GetxController implements GetxService {
 
 
   void resetBusiness(){
-    _businessIndex = Get.find<SplashController>().configModel?.businessPlan.commission == 0 ? 1 : 0;
+    _businessIndex = Get.find<SplashController>().configModel?.businessPlan?.commission == 0 ? 1 : 0;
     _activeSubscriptionIndex = 0;
     _businessPlanStatus = 'business';
     _secondStep = 'second_step';
@@ -273,8 +273,8 @@ class AuthController extends GetxController implements GetxService {
       _zoneList = [];
       response.body.forEach((zone) => _zoneList?.add(ZoneModel.fromJson(zone)));
       setLocation(LatLng(
-        double.parse(Get.find<SplashController>().configModel?.defaultLocation.lat ?? '0'),
-        double.parse(Get.find<SplashController>().configModel?.defaultLocation.lng ?? '0'),
+        double.parse(Get.find<SplashController>().configModel?.defaultLocation?.lat ?? '0'),
+        double.parse(Get.find<SplashController>().configModel?.defaultLocation?.lng ?? '0'),
       ));
     } else {
       ApiChecker.checkApi(response, showToaster: true);
@@ -420,7 +420,7 @@ class AuthController extends GetxController implements GetxService {
     print("ahmed ahemd$businessIndex");
     if(businessIndex == 0){
       businessPlan = 'commission';
-      setUpBusinessPlan(BusinessPlanBody(businessPlan: businessPlan, estateId: estateId.toString()));
+      setUpBusinessPlan(BusinessPlanBody(businessPlan: businessPlan, estateId: estateId.toString(), packageId: '', payment: ''));
 
     }else{
       _businessPlanStatus = 'payment';

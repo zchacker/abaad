@@ -29,16 +29,16 @@ class LocalizationController extends GetxController implements GetxService {
     Get.updateLocale(locale);
     _locale = locale;
     if(_locale.languageCode == 'ar') {
-      _isLtr = false;
+      _isLdel : false;
     }else {
       _isLtr = true;
     }
-    AddressModel addressModel = AddressModel();
+    AddressModel addressModel = AddressModel(id: 0, addressType: '', contactPersonNumber: '', address: '', latitude: '', longitude: '', zoneId: 0, zoneIds: [], method: '', contactPersonName: '', road: '', house: '', floor: '', zoneData: []);
     try {
       addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!));
     }catch(_) {}
     apiClient.updateHeader(
-      sharedPreferences.getString(AppConstants.TOKEN)!, addressModel.zoneIds,
+      sharedPreferences.getString(AppConstants.TOKEN)!, addressModel.zoneIds!,
       locale.languageCode,   "24.263867",
       "45.033284",
     );

@@ -22,12 +22,12 @@ class BannerController extends GetxController implements GetxService {
         _bannerImageList = [];
         _bannerDataList = [];
         BannerModel bannerModel = BannerModel.fromJson(response.body);
-        for (var campaign in bannerModel.campaigns) {
+        for (var campaign in bannerModel.campaigns!) {
           _bannerImageList?.add(campaign.image);
           _bannerDataList?.add(campaign);
         }
         print("-------------------------bnners${response.body}");
-        for (var banner in bannerModel.banners) {
+        for (var banner in bannerModel.banners!) {
           _bannerImageList?.add(banner.image);
 
         }

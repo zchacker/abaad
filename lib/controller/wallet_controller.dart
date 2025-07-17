@@ -57,7 +57,7 @@ class WalletController extends GetxController implements GetxService{
         _isLoading = false;
         update();
       } else {
-        ApiChecker.checkApi(response);
+        ApiChecker.checkApi(response, showToaster: true);
       }
     } else {
       if(isLoading) {
@@ -77,7 +77,7 @@ class WalletController extends GetxController implements GetxService{
       Get.find<UserController>().getUserInfo();
       showCustomSnackBar('converted_successfully_transfer_to_your_wallet'.tr, isError: false);
     } else {
-      ApiChecker.checkApi(response);
+      ApiChecker.checkApi(response, showToaster: true);
     }
     _isLoading = false;
     update();

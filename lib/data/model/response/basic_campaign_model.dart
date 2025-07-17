@@ -1,25 +1,28 @@
+import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
+
 import 'package:abaad/data/model/response/service_provider.dart';
 class BasicCampaignModel {
-  int id;
-  String title;
-  String image;
-  String description;
-  String availableDateStarts;
-  String availableDateEnds;
-  String startTime;
-  String endTime;
-  List<ServiceProvider> restaurants;
+  int id = 0;
+  String title = "";
+  String image = "";
+  String description = "";
+  String availableDateStarts = "";
+  String availableDateEnds = "";
+  String startTime = "";
+  String endTime = "";
+  List<ServiceProvider>? restaurants;
 
-  BasicCampaignModel(
-      {this.id,
-        this.title,
-        this.image,
-        this.description,
-        this.availableDateStarts,
-        this.availableDateEnds,
-        this.startTime,
-        this.endTime,
-        this.restaurants});
+  BasicCampaignModel({
+    required this.id,
+    required this.title,
+    required this.image,
+    required this.description,
+    required this.availableDateStarts,
+    required this.availableDateEnds,
+    required this.startTime,
+    required this.endTime,
+    required this.restaurants
+  });
 
   BasicCampaignModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -33,7 +36,7 @@ class BasicCampaignModel {
     if (json['restaurants'] != null) {
       restaurants = [];
       json['providers'].forEach((v) {
-        restaurants.add(ServiceProvider.fromJson(v));
+        restaurants?.add(ServiceProvider.fromJson(v));
       });
     }
   }
@@ -48,7 +51,7 @@ class BasicCampaignModel {
     data['available_date_ends'] = availableDateEnds;
     data['start_time'] = startTime;
     data['end_time'] = endTime;
-    data['providers'] = restaurants.map((v) => v.toJson()).toList();
+    data['providers'] = restaurants?.map((v) => v.toJson()).toList();
       return data;
   }
 }

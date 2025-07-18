@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:abaad/controller/auth_controller.dart';
 import 'package:abaad/controller/banner_controller.dart';
 import 'package:abaad/controller/category_controller.dart';
@@ -52,7 +54,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => BannerRepo(apiClient: Get.find()));
   Get.lazyPut(() => NotificationRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
   Get.lazyPut(() => ZoneRepo(apiClient: Get.find()));
-  Get.lazyPut(() => ChatRepo(apiClient: Get.find()));
+  Get.lazyPut(() => ChatRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
   Get.lazyPut(() => WishListRepo(apiClient: Get.find()));
   Get.lazyPut(() => WalletRepo(apiClient: Get.find()));
   // Controller
@@ -78,8 +80,8 @@ Future<Map<String, Map<String, String>>> init() async {
   Map<String, Map<String, String>> languages = {};
   for(LanguageModel languageModel in AppConstants.languages) {
     String jsonStringValues =  await rootBundle.loadString('assets/language/${languageModel.languageCode}.json');
-    Map<String, dynamic> mappedJson = json.decode(jsonStringValues);
     Map<String, String> json = {};
+    Map<String, dynamic> mappedJson = jsonDecode(jsonStringValues);// json.decode(jsonStringValues);
     mappedJson.forEach((key, value) {
       json[key] = value.toString();
     });

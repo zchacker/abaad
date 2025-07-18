@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class BtnOnBoarding extends StatelessWidget {
   const BtnOnBoarding({super.key, 
-     key,
+     key_local,
      this.currentPage,
      this.pageController,
     this.trailingWidget,

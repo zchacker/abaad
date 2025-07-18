@@ -7,8 +7,9 @@ import 'package:abaad/view/screen/test.dart';
 import 'package:flutter/material.dart';
 
 class OnBoardingCard extends StatelessWidget {
-  const OnBoardingCard({super.key, 
-     key,
+  const OnBoardingCard({
+     super.key,
+     key_local,
      this.onboardingContent,
      this.currentPage,
      this.pageController,

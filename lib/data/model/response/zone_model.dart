@@ -15,7 +15,7 @@ class ZoneModel {
   String updatedAt = "";
 
 
-  ZoneModel({required this.id, required this.name,required this.nameAr, required this.coordinates, required this.status, required this.createdAt, required this.updatedAt ,required this.latitude, required this.longitude,required this.image});
+  ZoneModel({required this.id, required this.name,required this.nameAr, required this.coordinates , required this.status, required this.createdAt, required this.updatedAt ,required this.latitude, required this.longitude,required this.image});
 
   ZoneModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

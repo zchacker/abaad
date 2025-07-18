@@ -10,7 +10,7 @@ import 'package:connectivity_for_web/connectivity_for_web.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:firebase_core_web/firebase_core_web.dart';
 import 'package:firebase_messaging_web/firebase_messaging_web.dart';
-import 'package:flutter_google_street_view/flutter_google_street_view_web.dart';
+// import 'package:flutter_google_street_view/flutter_google_street_view_web.dart';
 import 'package:flutter_keyboard_visibility_web/flutter_keyboard_visibility_web.dart';
 import 'package:geolocator_web/geolocator_web.dart';
 import 'package:google_maps_flutter_web/google_maps_flutter_web.dart';
@@ -25,7 +25,7 @@ import 'package:video_player_web/video_player_web.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 // ignore: public_member_api_docs
-void registerPlugins(Registrar registrar) {
+void registerPlugins(Registrar registrar, dynamic FlutterGoogleStreetViewPlugin) {
   CameraPlugin.registerWith(registrar);
   ConnectivityPlugin.registerWith(registrar);
   FilePickerWeb.registerWith(registrar);

@@ -230,9 +230,9 @@ class UserController extends GetxController implements GetxService {
         _estateModel?.offset = EstateModel
             .fromJson(response?.body)
             .offset;
-        _estateModel?.estates.addAll(EstateModel
+        _estateModel?.estates?.addAll(EstateModel
             .fromJson(response?.body)
-            .estates);
+            .estates as Iterable<Estate>);
         Get.find<EstateController>() .getCategoryList(response?.body);
       }
       update();

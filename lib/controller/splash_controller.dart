@@ -43,7 +43,7 @@ class SplashController extends GetxController implements GetxService {
     return splashRepo.initSharedData();
   }
 
-  bool showIntro() {
+  bool? showIntro() {
     return splashRepo.showIntro();
   }
 

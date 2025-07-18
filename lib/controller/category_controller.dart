@@ -12,17 +12,17 @@ class CategoryController extends GetxController implements GetxService {
 
   List<CategoryModel>? _categoryList;
 
-  List<FacilitiesModel>? _facilitiesList;
-  List<OtherAdvantages>? _advanList;
-  List<CategoryModel>? _subCategoryList;
-  List<Estate>? _categoryRestList;
-  List<Property>? _propertiesRestList;
+  List<FacilitiesModel>? _facilitiesList = [];
+  List<OtherAdvantages>? _advanList = [];
+  List<CategoryModel>? _subCategoryList = [];
+  List<Estate>? _categoryRestList = [];
+  List<Property>? _propertiesRestList = [];
   final List<Estate> _searchEstList = [];
-  List<bool>? _interestSelectedList;
-  List<bool>? _advanSelectedList;
+  List<bool>? _interestSelectedList = [];
+  List<bool>? _advanSelectedList = [];
   int _subCategoryIndex = 0;
   final int _filterIndex = 0;
-  List<Estate>? _categoryProductList;
+  List<Estate>? _categoryProductList = [];
   EstateModel? _estateModel;
   Estate? _estate;
 
@@ -269,7 +269,7 @@ class CategoryController extends GetxController implements GetxService {
 
       }
       _isLoading=false;
-      _categoryProductList?.addAll(EstateModel.fromJson(response.body).estates);
+      _categoryProductList?.addAll(EstateModel.fromJson(response.body).estates as Iterable<Estate>);
       _pageSize = EstateModel.fromJson(response.body).totalSize;
       _estateModel = EstateModel.fromJson(response.body);
       // Get.find<EstateController>() .getCategoryList(response.body);

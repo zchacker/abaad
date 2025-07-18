@@ -10,7 +10,7 @@ class NotificationRepo {
   NotificationRepo({required this.apiClient, required this.sharedPreferences});
 
   Future<Response> getNotificationList() async {
-    return await apiClient.getData(AppConstants.NOTIFICATION_URI);
+    return await apiClient.getData(AppConstants.NOTIFICATION_URI, query: {}, headers: {});
   }
 
   // void saveSeenNotificationCount(int count) {

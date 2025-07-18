@@ -1,6 +1,6 @@
 
 class PackageModel {
-  List<Packages>? packages;
+  List<Packages>? packages = [];
 
   PackageModel({ required this.packages});
 

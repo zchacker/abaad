@@ -1,5 +1,4 @@
 /// errors : [{"code":"l_name","message":"The last name field is required."},{"code":"password","message":"The password field is required."}]
-library;
 
 class ErrorResponse {
   List<Errors>? _errors;

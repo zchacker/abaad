@@ -82,7 +82,7 @@ class UpdateTodoScreen extends StatefulWidget {
 }
 
 class _UpdateTodoScreenState extends State<UpdateTodoScreen> {
-   bool completed;
+   late bool completed;
 
   @override
   void initState() {
@@ -107,7 +107,7 @@ class _UpdateTodoScreenState extends State<UpdateTodoScreen> {
               value: completed,
               onChanged: (value) {
                 setState(() {
-                  completed = value;
+                  completed = value!;
                 });
               },
             ),
@@ -144,8 +144,8 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
-   List<Todo> todos;
-   TodoService todoService;
+   late List<Todo> todos;
+   late TodoService todoService;
 
   @override
   void initState() {
@@ -176,13 +176,13 @@ class _TodoScreenState extends State<TodoScreen> {
             subtitle: Text('Completed: ${todos[index].completed}'),
             trailing: Checkbox(
               value: todos[index].completed,
-              onChanged: (bool value) {
+              onChanged: (bool? value) {
                 // Update the completed status in the backend
                 // and update the UI accordingly
                 // You may use todoService.updateTodo here
                 // to update the completed status in Laravel API
                 setState(() {
-                  todos[index].completed = value;
+                  todos[index].completed = value ?? false;
                 });
               },
             ),

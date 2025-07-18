@@ -150,7 +150,7 @@ class EstateController extends GetxController implements GetxService {
       } else {
         _estateModel?.totalSize = EstateModel.fromJson(response.body).totalSize;
         _estateModel?.offset = EstateModel.fromJson(response.body).offset;
-        _estateModel?.estates.addAll(EstateModel.fromJson(response.body).estates);
+        _estateModel?.estates?.addAll(EstateModel.fromJson(response.body).estates as Iterable<Estate>);
       }
       update();
     } else {

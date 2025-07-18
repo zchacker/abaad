@@ -7,16 +7,16 @@ class WishListRepo {
   WishListRepo({required this.apiClient});
 
   Future<Response> getWishList() async {
-    return await apiClient.getData(AppConstants.WISH_LIST_GET_URI);
+    return await apiClient.getData(AppConstants.WISH_LIST_GET_URI, query: {}, headers: {});
   }
 
   Future<Response> addWishList(int id, bool isRestaurant) async {
-    return await apiClient.postData('${AppConstants.ADD_WISH_LIST_URI}estate_id=$id', null);
+    return await apiClient.postData('${AppConstants.ADD_WISH_LIST_URI}estate_id=$id', null, headers: {});
   }
 
   Future<Response> removeWishList(int id) async {
 
-    return await apiClient.deleteData( '${AppConstants.REMOVE_WISH_LIST_URI}?estate_id=$id');
+    return await apiClient.deleteData( '${AppConstants.REMOVE_WISH_LIST_URI}?estate_id=$id', headers: {});
   }
 
 

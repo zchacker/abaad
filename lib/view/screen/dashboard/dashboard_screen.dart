@@ -34,11 +34,19 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'widget/bottom_sheet_guide.dart';
 
 class DashboardScreen extends StatefulWidget {
-  final bool fromSignUp;
-  final bool fromHome;
-  final String route;
+  final bool fromSignUp ;
+  final bool fromHome ;
+  final String route ;
   final int pageIndex;
-  const DashboardScreen({super.key, required this.fromSignUp, required this.fromHome, required this.route,required this.pageIndex});
+
+  const DashboardScreen({
+    super.key,
+    this.fromSignUp = false,
+    this.fromHome = false,
+    this.route = "",
+    this.pageIndex = 0
+  });
+
   static Future<void> loadData(bool reload) async {
     Get.find<UserController>().getUserInfo();
 
@@ -53,12 +61,12 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  PageController _pageController;
+  PageController? _pageController;
 
   int _pageIndex = 0;
 
 
-  List<Widget> _screens;
+  List<Widget> _screens = [];
   final ScrollController scrollController = ScrollController();
 
   final ScrollController _scrollController = ScrollController();
@@ -72,7 +80,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     scrollController.addListener(() {
       if (scrollController.position.pixels == scrollController.position.maxScrollExtent
           && !Get.find<CategoryController>().isLoading) {
-        int pageSize = (Get.find<CategoryController>().pageSize / 10).ceil();
+        int pageSize = (Get.find<CategoryController>().pageSize! / 10).ceil();
         if (offset < pageSize) {
           offset++;
           print('end of the page');
@@ -153,7 +161,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       child: Scaffold(
         key: _key,
-        appBar: WebMenuBar(ontop:()=>     _key.currentState.openDrawer(),),
+        appBar: WebMenuBar(ontop:()=>     _key.currentState?.openDrawer(), fromPage: '',),
         drawer: DrawerMenu(),
 
         floatingActionButton:
@@ -168,7 +176,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               elevation: 0,
               onPressed: () {
 
-                if (userController.userInfoModel.accountVerification != "0") {
+                if (userController.userInfoModel!.accountVerification != "0") {
                   Get.toNamed(RouteHelper.getAddLicenseRoute());
                   // Get.toNamed(RouteHelper.getAddEstateRoute());
                 } else {
@@ -244,26 +252,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void _initDynamicLinks(context) async {
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData dynamicLink) async {
-          final Uri deepLink = dynamicLink.link;
+    FirebaseDynamicLinks.instance.onLink;
 
-          // final code = deepLink.path.split('/')[1];
-          handleMyLink(deepLink);
-        
-
-
-
-
-
-
-        }, onError: (OnLinkErrorException error) async {
-      // show error
-    });
-
-    final PendingDynamicLinkData data =
+    final PendingDynamicLinkData? data =
     await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri deepLink = data.link;
+    final Uri deepLink = data!.link;
 
     // final code = deepLink.path.split('/')[1];
     handleMyLink(deepLink);
@@ -332,7 +325,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
-                                    blurRadius: 10, color: Colors.grey[300], spreadRadius: 5)
+                                    blurRadius: 10, color: Colors.grey[300]!, spreadRadius: 5)
                               ]),
                           child: Column(
                             children: <Widget>[
@@ -402,30 +395,62 @@ class _DashboardScreenState extends State<DashboardScreen> {
         packageName: "sa.pdm.abaad.abaad",
         minimumVersion: 0,
       ),
-      iosParameters: IosParameters(
-        bundleId: "Bundle-ID",
-        minimumVersion: '0',
-      ),
+        iosParameters: IOSParameters(
+            bundleId: "sa.pdm.abaad.abaad" ,
+            minimumVersion: "2.0.6"
+        ),
       socialMetaTagParameters: SocialMetaTagParameters(
           description: '',
           imageUrl:
           Uri.parse(image),
           title: title),
     );
-    final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
 
-    String desc = dynamicUrl.shortUrl.toString();
+    //final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
+
+    // 1. Get FirebaseDynamicLinks instance
+    final dynamicLinks = FirebaseDynamicLinks.instance;
+
+    // 2. Build short link
+    final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
+      parameters,  // Your DynamicLinkParameters object
+    );
+
+    // 3. Get the URL
+    final dynamicUrl = shortLink.shortUrl;
+
+    String desc = dynamicUrl.toString();
 
     await Share.share(desc, subject: title,);
 
   }
   void _setPage(int pageIndex) {
     setState(() {
-      _pageController.jumpToPage(pageIndex);
+      _pageController!.jumpToPage(pageIndex);
       _pageIndex = pageIndex;
     });
   }
 }
+
+Future<String> createDynamicLink() async {
+  final dynamicLinks = FirebaseDynamicLinks.instance;
+
+  final parameters = DynamicLinkParameters(
+    uriPrefix: 'https://yourdomain.page.link',
+    link: Uri.parse('https://yourdomain.com/?id=123'),
+    androidParameters: const AndroidParameters(
+      packageName: 'com.your.package',
+    ),
+    iosParameters: const IOSParameters(
+      bundleId: 'com.your.bundle',
+    ),
+  );
+
+  final shortLink = await dynamicLinks.buildShortLink(parameters);
+  return shortLink.shortUrl.toString();
+}
+
+
 Widget listItem( int  index ,IconData icon, String label, Color color,onTop) {
   return InkWell(
     onTap: onTop,

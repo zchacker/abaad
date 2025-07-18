@@ -1,10 +1,9 @@
 class NearbyPlacesResponse {
-  String nextPageToken;
-  List<Results> results;
-  String status;
+  String nextPageToken = "";
+  List<Results> results = [];
+  String status = "";
 
-  NearbyPlacesResponse(
-      { this.nextPageToken, this.results, this.status});
+  NearbyPlacesResponse({ required  this.nextPageToken, required  this.results, required  this.status});
 
   NearbyPlacesResponse.fromJson(Map<String, dynamic> json) {
 
@@ -29,47 +28,46 @@ class NearbyPlacesResponse {
 }
 
 class Results {
-  Geometry geometry;
-  String icon;
-  String iconBackgroundColor;
-  String iconMaskBaseUri;
-  String name;
-  List<Photos> photos;
-  String placeId;
-  String reference;
-  String scope;
-  List<String> types;
-  String vicinity;
-  String businessStatus;
-  OpeningHours openingHours;
-  dynamic rating;
-  int userRatingsTotal;
-  PlusCode plusCode;
-  int priceLevel;
+  Geometry? geometry;
+  String icon = "";
+  String iconBackgroundColor = "";
+  String iconMaskBaseUri = "";
+  String name = "";
+  List<Photos> photos = [];
+  String placeId  = "";
+  String reference  = "";
+  String scope  = "";
+  List<String> types = [];
+  String vicinity  = "";
+  String businessStatus  = "";
+  OpeningHours? openingHours;
+  dynamic? rating;
+  int userRatingsTotal = 0;
+  PlusCode? plusCode;
+  int priceLevel = 0;
 
-  Results(
-      {this.geometry,
-        this.icon,
-        this.iconBackgroundColor,
-        this.iconMaskBaseUri,
-        this.name,
-        this.photos,
-        this.placeId,
-        this.reference,
-        this.scope,
-        this.types,
-        this.vicinity,
-        this.businessStatus,
-        this.openingHours,
-        this.rating,
-        this.userRatingsTotal,
-        this.plusCode,
-        this.priceLevel});
+  Results({
+    required this.geometry,
+    required this.icon,
+    required this.iconBackgroundColor,
+    required this.iconMaskBaseUri,
+    required this.name,
+    required this.photos,
+    required this.placeId,
+    required this.reference,
+    required this.scope,
+    required this.types,
+    required this.vicinity,
+    required this.businessStatus,
+    required this.openingHours,
+    required this.rating,
+    required this.userRatingsTotal,
+    required this.plusCode,
+    required this.priceLevel
+  });
 
   Results.fromJson(Map<String, dynamic> json) {
-    geometry = json['geometry'] != null
-        ? Geometry.fromJson(json['geometry'])
-        : null;
+    geometry = (json['geometry'] != null  ? Geometry.fromJson(json['geometry']) : null)!;
     icon = json['icon'];
     iconBackgroundColor = json['icon_background_color'];
     iconMaskBaseUri = json['icon_mask_base_uri'];
@@ -99,32 +97,32 @@ class Results {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['geometry'] = geometry.toJson();
-      data['icon'] = icon;
+    data['geometry'] = geometry?.toJson();
+    data['icon'] = icon;
     data['icon_background_color'] = iconBackgroundColor;
     data['icon_mask_base_uri'] = iconMaskBaseUri;
     data['name'] = name;
     data['photos'] = photos.map((v) => v.toJson()).toList();
-      data['place_id'] = placeId;
+    data['place_id'] = placeId;
     data['reference'] = reference;
     data['scope'] = scope;
     data['types'] = types;
     data['vicinity'] = vicinity;
     data['business_status'] = businessStatus;
-    data['opening_hours'] = openingHours.toJson();
-      data['rating'] = rating;
+    data['opening_hours'] = openingHours?.toJson();
+    data['rating'] = rating;
     data['user_ratings_total'] = userRatingsTotal;
-    data['plus_code'] = plusCode.toJson();
-      data['price_level'] = priceLevel;
+    data['plus_code'] = plusCode?.toJson();
+    data['price_level'] = priceLevel;
     return data;
   }
 }
 
 class Geometry {
-  Location location;
-  Viewport viewport;
+  Location? location;
+  Viewport? viewport;
 
-  Geometry({this.location, this.viewport});
+  Geometry({required this.location, required this.viewport});
 
   Geometry.fromJson(Map<String, dynamic> json) {
     location = json['location'] != null
@@ -137,17 +135,17 @@ class Geometry {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['location'] = location.toJson();
-      data['viewport'] = viewport.toJson();
+    data['location'] = location?.toJson();
+      data['viewport'] = viewport?.toJson();
       return data;
   }
 }
 
 class Location {
-  double lat;
-  double lng;
+  double lat = 0;
+  double lng = 0;
 
-  Location({this.lat, this.lng});
+  Location({required this.lat, required this.lng});
 
   Location.fromJson(Map<String, dynamic> json) {
     lat = json['lat'];
@@ -163,10 +161,10 @@ class Location {
 }
 
 class Viewport {
-  Location northeast;
-  Location southwest;
+  Location? northeast;
+  Location? southwest;
 
-  Viewport({this.northeast, this.southwest});
+  Viewport({required this.northeast, required this.southwest});
 
   Viewport.fromJson(Map<String, dynamic> json) {
     northeast = json['northeast'] != null
@@ -179,19 +177,19 @@ class Viewport {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['northeast'] = northeast.toJson();
-      data['southwest'] = southwest.toJson();
+    data['northeast'] = northeast!.toJson();
+      data['southwest'] = southwest!.toJson();
       return data;
   }
 }
 
 class Photos {
-  int height;
-  List<String> htmlAttributions;
-  String photoReference;
-  int width;
+  int height = 0;
+  List<String> htmlAttributions = [];
+  String photoReference = "";
+  int width = 0;
 
-  Photos({this.height, this.htmlAttributions, this.photoReference, this.width});
+  Photos({required this.height, required this.htmlAttributions, required this.photoReference, required this.width});
 
   Photos.fromJson(Map<String, dynamic> json) {
     height = json['height'];
@@ -211,9 +209,9 @@ class Photos {
 }
 
 class OpeningHours {
-  bool openNow;
+  bool openNow = false;
 
-  OpeningHours({this.openNow});
+  OpeningHours({required this.openNow});
 
   OpeningHours.fromJson(Map<String, dynamic> json) {
     openNow = json['open_now'];
@@ -227,10 +225,10 @@ class OpeningHours {
 }
 
 class PlusCode {
-  String compoundCode;
-  String globalCode;
+  String compoundCode = "";
+  String globalCode = "";
 
-  PlusCode({this.compoundCode, this.globalCode});
+  PlusCode({required this.compoundCode, required this.globalCode});
 
   PlusCode.fromJson(Map<String, dynamic> json) {
     compoundCode = json['compound_code'];

@@ -146,24 +146,32 @@ class RouteHelper {
 
 
 
-  static String getChatRoute({required NotificationBody notificationBody, Userinfo user, int conversationID, int index,int estate_id,String link, Estate estate,}) {
+  static String getChatRoute({
+    required NotificationBody notificationBody,
+    required Userinfo? user,
+    required int conversationID,
+    required int index,
+    required int estate_id,
+    required String link,
+    required Estate? estate
+  }) {
     String notificationBody0 = 'null';
     notificationBody0 = base64Encode(utf8.encode(jsonEncode(notificationBody.toJson())));
       String user0 = 'null';
-    user0 = base64Encode(utf8.encode(jsonEncode(user.toJson())));
+    user0 = base64Encode(utf8.encode(jsonEncode(user?.toJson())));
   
 
     String estate0 = 'null';
-    estate0 = base64Encode(utf8.encode(jsonEncode(estate.toJson())));
+    estate0 = base64Encode(utf8.encode(jsonEncode(estate?.toJson())));
       return '$messages?notification=$notificationBody0&user=$user0&conversation_id=$conversationID&index=$index&estate_id=$estate_id&link=$link&estate=$estate0';
   }
   static String getProfileAgentRoute(int id,int isMyProfile) => '$marketer?id=$id&isMyProfile=$isMyProfile';
   static List<GetPage> routes = [
      GetPage(name: initial, page: () => DashboardScreen(pageIndex: 0)),
     GetPage(name: splash, page: () {
-      NotificationBody data;
+      NotificationBody data = NotificationBody(notificationType: null, orderId: null, adminId: 0, deliverymanId: null, restaurantId: 0, type: null, conversationId: 0);
       if(Get.parameters['data'] != 'null') {
-        List<int> decode = base64Decode(Get.parameters['data'].replaceAll(' ', '+'));
+        List<int> decode = base64Decode(Get.parameters['data']!.replaceAll(' ', '+'));
         data = NotificationBody.fromJson(jsonDecode(utf8.decode(decode)));
       }
       return SplashScreen(body: data);
@@ -177,22 +185,22 @@ class RouteHelper {
 
     GetPage(name: agent, page: () => AgentRegistrationScreen()),
     GetPage(name: success, page: () => ScreenSuccess()),
-    GetPage(name: wallet, page: () => WalletScreen(fromWallet: Get.parameters['page'] == 'wallet')),
+    GetPage(name: wallet, page: () => WalletScreen(fromWallet: Get.parameters['page'] == 'wallet', key: null,)),
 
     GetPage(name: signIn, page: () => SignInScreen(
       exitFromApp: Get.parameters['page'] == signUp || Get.parameters['page'] == splash || Get.parameters['page'] == onBoarding
     )),
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(name: verification, page: () {
-      List<int> decode = base64Decode(Get.parameters['pass'].replaceAll(' ', '+'));
+      List<int> decode = base64Decode(Get.parameters['pass']!.replaceAll(' ', '+'));
       String data = utf8.decode(decode);
       return VerificationScreen(
-        number: Get.parameters['number'], fromSignUp: Get.parameters['page'] == signUp, token: Get.parameters['token'],
+        number: Get.parameters['number']!, fromSignUp: Get.parameters['page'] == signUp, token: Get.parameters['token']!,
         password: data,
       );
     }),
     GetPage(name: accessLocation, page: () => DashboardScreen(
-      fromSignUp: Get.parameters['page'] == signUp, fromHome: Get.parameters['page'] == 'home', route: null,pageIndex: 0,
+      fromSignUp: Get.parameters['page'] == signUp, fromHome: Get.parameters['page'] == 'home', route: "null",pageIndex: 0,
     )),
 
     GetPage(name: support, page: () => SupportScreen()),
@@ -204,7 +212,7 @@ class RouteHelper {
     GetPage(name: categories, page: () {
       MapScreen pickMapScreen = Get.arguments;
       bool fromAddress = Get.parameters['page'] == 'add-address';
-      return (fromAddress && pickMapScreen == null) ? NotFound() : pickMapScreen ?? MapScreen(mainCategory:ZoneModel(id: int.parse(Get.parameters['id']),latitude:Get.parameters['latitude'],longitude: Get.parameters['longitude'] ) ,
+      return (fromAddress && pickMapScreen == null) ? NotFound() : pickMapScreen ?? MapScreen(mainCategory:ZoneModel(id: int.parse(Get.parameters['id']!),latitude:Get.parameters['latitude']!,longitude: Get.parameters['longitude']!, name: '', nameAr: '', coordinates: null, status: '', createdAt: '', updatedAt: '', image: '' ) ,
          fromSignUp: Get.parameters['page'] == signUp, fromAddAddress: fromAddress, route: Get.parameters['page'],
         canRoute: Get.parameters['route'] == 'true',
       );
@@ -228,17 +236,17 @@ class RouteHelper {
     GetPage(name: messages, page: () {
       NotificationBody notificationBody;
       if(Get.parameters['notification'] != 'null') {
-        notificationBody = NotificationBody.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['notification'].replaceAll(' ', '+')))));
+        notificationBody = NotificationBody.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['notification']!.replaceAll(' ', '+')))));
       }
       Userinfo user;
       Estate estate;
       if(Get.parameters['user'] != 'null') {
-        user = Userinfo.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['user'].replaceAll(' ', '+')))));
+        user = Userinfo.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['user']!.replaceAll(' ', '+')))));
       }
       return ChatScreen(
         notificationBody: notificationBody,
-        user: user, index: Get.parameters['index'] != 'null' ? int.parse(Get.parameters['index']) : null,
-        conversationID: (Get.parameters['conversation_id'] != null && Get.parameters['conversation_id'] != 'null') ? int.parse(Get.parameters['conversation_id']) : null,
+        user: user, index: Get.parameters['index'] != 'null' ? int.parse(Get.parameters['index']!) : null,
+        conversationID: (Get.parameters['conversation_id'] != null && Get.parameters['conversation_id'] != 'null') ? int.parse(Get.parameters['conversation_id']!) : null,
         estate_id:  Get.parameters['estate_id'] != 'null' ?Get.parameters['estate_id']: null ,link:Get.parameters['like'] != 'null' ?Get.parameters['link']: null,estate: estate, );
     }),
     GetPage(name: estate, page: () {

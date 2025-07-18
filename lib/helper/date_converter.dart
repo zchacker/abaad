@@ -67,7 +67,7 @@ class DateConverter {
     return DateFormat('${_timeFormatter()} | d-MMM-yyyy ').format(dateTime.toLocal());
   }
 
-  static bool isAvailable(String start, String end, {DateTime time, bool isoTime = false}) {
+  static bool isAvailable(String start, String end, {required DateTime time, bool isoTime = false}) {
     DateTime currentTime;
     currentTime = time;
       DateTime start0 = start != null ? isoTime ? isoStringToLocalDate(start) : DateFormat('HH:mm').parse(start) : DateTime(currentTime.year);
@@ -85,7 +85,7 @@ class DateConverter {
   }
 
   static String _timeFormatter() {
-    return Get.find<SplashController>().configModel.demo == '24' ? 'HH:mm' : 'hh:mm a';
+    return Get.find<SplashController>().configModel?.demo == '24' ? 'HH:mm' : 'hh:mm a';
   }
 
   static int differenceInMinute(String deliveryTime, String orderTime, int processingTime, String scheduleAt) {

@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:abaad/controller/user_controller.dart';
 import 'package:abaad/util/dimensions.dart';
 import 'package:abaad/util/styles.dart';
@@ -13,8 +14,15 @@ class ConfirmationDialog extends StatelessWidget {
   final Function onYesPressed;
   final bool isLogOut;
   final Function onNoPressed;
-  const ConfirmationDialog({super.key, required this.icon, this.title, required this.description, required this.onYesPressed,
-    this.isLogOut = false, this.onNoPressed});
+  const ConfirmationDialog({
+    super.key,
+    required this.icon,
+    this.title = "",
+    required this.description,
+    required this.onYesPressed,
+    this.isLogOut = false,
+    this.onNoPressed
+  });
 
   @override
   Widget build(BuildContext context) {

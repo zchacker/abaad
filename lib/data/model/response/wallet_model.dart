@@ -1,12 +1,12 @@
 
 class WalletModel {
 
-  int totalSize;
-  String limit;
-  String offset;
-  List<Transaction> data;
+  int totalSize = 0;
+  String limit = "";
+  String offset = "";
+  List<Transaction>? data;
 
-  WalletModel({this.totalSize, this.limit, this.offset, this.data});
+  WalletModel({required this.totalSize, required this.limit, required this.offset, required this.data});
 
   WalletModel.fromJson(Map<String, dynamic> json) {
      totalSize = json["total_size"];
@@ -15,7 +15,7 @@ class WalletModel {
      if (json['data'] != null) {
        data = [];
      json['data'].forEach((v) {
-       data.add(Transaction.fromJson(v));
+       data?.add(Transaction.fromJson(v));
      });
      }
   }
@@ -25,33 +25,33 @@ class WalletModel {
       data['total_size'] = totalSize;
       data['limit'] = limit;
       data['offset'] = offset;
-     data['data'] = this.data.map((v) => v.toJson()).toList();
-          return data;
+      data['data'] = this.data?.map((v) => v.toJson()).toList();
+      return data;
   }
 }
 
 class Transaction {
 
-  int userId;
-  String transactionId;
-  double credit;
-  double debit;
-  double adminBonus;
-  double balance;
-  String transactionType;
-  DateTime createdAt;
-  DateTime updatedAt;
+  int userId = 0;
+  String transactionId = "";
+  double credit =0;
+  double debit =0;
+  double adminBonus = 0;
+  double balance = 0;
+  String transactionType = "";
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   Transaction({
-    this.userId,
-    this.transactionId,
-    this.credit,
-    this.debit,
-    this.adminBonus,
-    this.balance,
-    this.transactionType,
-    this.createdAt,
-    this.updatedAt,
+    required this.userId,
+    required this.transactionId,
+    required this.credit,
+    required this.debit,
+    required this.adminBonus,
+    required this.balance,
+    required this.transactionType,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
 
@@ -78,8 +78,8 @@ class Transaction {
     data["admin_bonus"] = adminBonus;
     data["balance"] = balance;
     data["transaction_type"] = transactionType;
-    data["created_at"] = createdAt.toIso8601String();
-    data["updated_at"] = updatedAt.toIso8601String();
+    data["created_at"] = createdAt?.toIso8601String();
+    data["updated_at"] = updatedAt?.toIso8601String();
   return data;
   }
 }

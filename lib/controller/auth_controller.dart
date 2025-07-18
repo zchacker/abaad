@@ -293,7 +293,7 @@ class AuthController extends GetxController implements GetxService {
       location.latitude.toString(), location.longitude.toString(), false,
     );
     _restaurantLocation = location;
-    if(response.isSuccess && response.zoneIds.isNotEmpty) {
+    if(response.isSuccess && response.zoneIds!.isNotEmpty) {
       _restaurantLocation = location;
       _zoneIds = response.zoneIds;
       for(int index=0; index<_zoneList!.length; index++) {

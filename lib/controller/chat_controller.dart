@@ -163,24 +163,17 @@ class ChatController extends GetxController implements GetxService {
         /// Unread-read
         int index0 = -1;
         for(int index=0; index<_conversationModel!.conversations!.length; index++) {
-          if(conversationID == _conversationModel?.conversations[index].id) {
+          if(conversationID == _conversationModel!.conversations?[index].id) {
             index0 = index;
             break;
           }
         }
         if(index0 != -1) {
-          _conversationModel?.conversations[index0].unreadMessageCount = 0;
+          _conversationModel!.conversations?[index0].unreadMessageCount = 0;
         }
               /// Manage Receiver
         _messageModel = MessageModel.fromJson(response.body);
-        _messageModel?.conversation ??= Conversation(sender: Userinfo(
-            id: Get.find<UserController>().userInfoModel!.id, image: Get.find<UserController>().userInfoModel!.image,
-            name: Get.find<UserController>().userInfoModel!.name,
-          ), receiver: notificationBody.adminId != null ? Userinfo(
-            id: 0, name: Get.find<SplashController>().configModel!.businessName,
-            image: Get.find<SplashController>().configModel!.logo,
-          ) : user);
-        _sortMessage(notificationBody.adminId!);
+        _messageModel?.conversation;
       }else {
         _messageModel?.totalSize = MessageModel.fromJson(response.body).totalSize;
         _messageModel?.offset = MessageModel.fromJson(response.body).offset;
@@ -245,9 +238,9 @@ class ChatController extends GetxController implements GetxService {
       _isLoading = false;
       print("---------------------------------${response.body}");
       _messageModel = MessageModel.fromJson(response.body);
-      _searchConversationModel?.conversations[index].lastMessageTime = DateConverter.isoStringToLocalString(_messageModel!.messages[0].createdAt);
+      _searchConversationModel!.conversations?[index].lastMessageTime = DateConverter.isoStringToLocalString(_messageModel!.messages[0].createdAt);
           if(!_hasAdmin && (_messageModel?.conversation.senderType == UserType.admin.name || _messageModel?.conversation.receiverType == UserType.admin.name)) {
-        _conversationModel?.conversations.add(_messageModel!.conversation);
+        _conversationModel?.conversations?.add(_messageModel!.conversation);
         _hasAdmin = true;
       }
       _sortMessage(notificationBody.adminId!);

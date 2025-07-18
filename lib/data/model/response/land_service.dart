@@ -1,35 +1,36 @@
 class LandModel {
-  bool exceededTransferLimit;
-  List<Features> features;
-  List<Fields> fields;
-  String geometryType;
-  SpatialReference spatialReference;
-  String objectIdFieldName;
-  bool hasZ;
-  bool hasM;
+  bool exceededTransferLimit = false;
+  List<Features>? features;
+  List<Fields>? fields;
+  String geometryType = "";
+  SpatialReference? spatialReference;
+  String objectIdFieldName = "";
+  bool hasZ = false;
+  bool hasM = false;
 
-  LandModel (
-      {this.exceededTransferLimit,
-        this.features,
-        this.fields,
-        this.geometryType,
-        this.spatialReference,
-        this.objectIdFieldName,
-        this.hasZ,
-        this.hasM});
+  LandModel ({
+    required this.exceededTransferLimit,
+    required this.features,
+    required this.fields,
+    required this.geometryType,
+    required this.spatialReference,
+    required this.objectIdFieldName,
+    required this.hasZ,
+    required this.hasM
+  });
 
   LandModel .fromJson(Map<String, dynamic> json) {
     exceededTransferLimit = json['exceededTransferLimit'];
     if (json['features'] != null) {
       features = <Features>[];
       json['features'].forEach((v) {
-        features.add(Features.fromJson(v));
+        features?.add(Features.fromJson(v));
       });
     }
     if (json['fields'] != null) {
       fields = <Fields>[];
       json['fields'].forEach((v) {
-        fields.add(Fields.fromJson(v));
+        fields?.add(Fields.fromJson(v));
       });
     }
     geometryType = json['geometryType'];
@@ -44,10 +45,10 @@ class LandModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['exceededTransferLimit'] = exceededTransferLimit;
-    data['features'] = features.map((v) => v.toJson()).toList();
-      data['fields'] = fields.map((v) => v.toJson()).toList();
+    data['features'] = features?.map((v) => v.toJson()).toList();
+      data['fields'] = fields?.map((v) => v.toJson()).toList();
       data['geometryType'] = geometryType;
-    data['spatialReference'] = spatialReference.toJson();
+    data['spatialReference'] = spatialReference?.toJson();
       data['objectIdFieldName'] = objectIdFieldName;
     data['hasZ'] = hasZ;
     data['hasM'] = hasM;
@@ -56,10 +57,10 @@ class LandModel {
 }
 
 class Features {
-  Attributes attributes;
-  Geometry geometry;
+  Attributes? attributes;
+  Geometry? geometry;
 
-  Features({this.attributes, this.geometry});
+  Features({required this.attributes, required this.geometry});
 
   Features.fromJson(Map<String, dynamic> json) {
     attributes = json['attributes'] != null
@@ -72,16 +73,16 @@ class Features {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['attributes'] = attributes.toJson();
-      data['geometry'] = geometry.toJson();
+    data['attributes'] = attributes?.toJson();
+      data['geometry'] = geometry?.toJson();
       return data;
   }
 }
 
 class Attributes {
-  String systemId;
+  String systemId = "";
 
-  Attributes({this.systemId});
+  Attributes({required this.systemId});
 
   Attributes.fromJson(Map<String, dynamic> json) {
     systemId = json['system_id'];
@@ -95,10 +96,10 @@ class Attributes {
 }
 
 class Geometry {
-  double x;
-  double y;
+  double x = 0;
+  double y = 0;
 
-  Geometry({this.x, this.y});
+  Geometry({required this.x, required this.y});
 
   Geometry.fromJson(Map<String, dynamic> json) {
     x = json['x'];
@@ -114,22 +115,23 @@ class Geometry {
 }
 
 class Fields {
-  String name;
-  String type;
-  String alias;
-  int length;
+  String name = "";
+  String type = "";
+  String alias = "";
+  int length = 0;
   Null defaultValue;
-  String modelName;
-  bool visible;
+  String modelName = "";
+  bool visible = false;
 
-  Fields(
-      {this.name,
-        this.type,
-        this.alias,
-        this.length,
-        this.defaultValue,
-        this.modelName,
-        this.visible});
+  Fields({
+    required this.name,
+    required this.type,
+    required this.alias,
+    required this.length,
+    required this.defaultValue,
+    required this.modelName,
+    required this.visible
+  });
 
   Fields.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -155,10 +157,10 @@ class Fields {
 }
 
 class SpatialReference {
-  int wkid;
-  int latestWkid;
+  int wkid = 0;
+  int latestWkid = 0;
 
-  SpatialReference({this.wkid, this.latestWkid});
+  SpatialReference({required this.wkid, required this.latestWkid});
 
   SpatialReference.fromJson(Map<String, dynamic> json) {
     wkid = json['wkid'];

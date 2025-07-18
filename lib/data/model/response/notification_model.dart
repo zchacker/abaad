@@ -1,28 +1,29 @@
 class NotificationModel {
-  int id;
-  String title;
-  String description;
-  String tergat;
-  String type;
-  String readAt;
-  int status;
-  int userId;
-  String createdAt;
-  String updatedAt;
-  int zoneId;
+  int id = 0;
+  String title = "";
+  String description = "";
+  String tergat = "";
+  String type = "";
+  String readAt = "";
+  int status = 0;
+  int userId = 0;
+  String createdAt = "";
+  String updatedAt = "";
+  int zoneId = 0;
 
-  NotificationModel(
-      {this.id,
-        this.title,
-        this.description,
-        this.tergat,
-        this.type,
-        this.readAt,
-        this.status,
-        this.userId,
-        this.createdAt,
-        this.updatedAt,
-        this.zoneId});
+  NotificationModel({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.tergat,
+    required this.type,
+    required this.readAt,
+    required this.status,
+    required this.userId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.zoneId
+  });
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

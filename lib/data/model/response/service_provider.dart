@@ -1,42 +1,43 @@
 class ServiceProvider {
-  int id;
-  String name;
-  String phone;
-  String email;
-  String identityNumber;
-  String identityType;
-  int serviceTypeId;
-  String image;
-  String password;
-  String address;
-  int zoneId;
-  String job;
-  String authToken;
-  String fcmToken;
-  String status;
-  String active;
-  String createdAt;
-  String updatedAt;
+  int id = 0;
+  String name = "";
+  String phone = "";
+  String email = "";
+  String identityNumber = "";
+  String identityType = "";
+  int serviceTypeId =0;
+  String image = "";
+  String password = "";
+  String address = "";
+  int zoneId = 0;
+  String job = "";
+  String authToken = "";
+  String fcmToken = "";
+  String status = "";
+  String active = "";
+  String createdAt = "";
+  String updatedAt = "";
 
-  ServiceProvider(
-  {this.id,
-  this.name,
-  this.phone,
-  this.email,
-  this.identityNumber,
-  this.identityType,
-  this.serviceTypeId,
-  this.image,
-  this.password,
-  this.address,
-  this.zoneId,
-  this.job,
-  this.authToken,
-  this.fcmToken,
-  this.status,
-  this.active,
-  this.createdAt,
-  this.updatedAt});
+  ServiceProvider({
+    required this.id,
+    required this.name,
+    required this.phone,
+    required this.email,
+    required this.identityNumber,
+    required this.identityType,
+    required this.serviceTypeId,
+    required this.image,
+    required this.password,
+    required this.address,
+    required this.zoneId,
+    required this.job,
+    required this.authToken,
+    required this.fcmToken,
+    required this.status,
+    required this.active,
+    required this.createdAt,
+    required this.updatedAt
+  });
 
   ServiceProvider.fromJson(Map<String, dynamic> json) {
   id = json['id'];

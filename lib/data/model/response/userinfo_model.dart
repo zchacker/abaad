@@ -1,62 +1,63 @@
 class UserInfoModel {
-  int id;
-  String name;
-  String phone;
-  String email;
-  String emailVerifiedAt;
-  String refCode;
-  String isActive;
-  String userType;
-  String isPhoneVerifiedAt;
-  String cmFirebaseToken;
-  String createdAt;
-  String updatedAt;
-  Userinfo userinfo;
-  int estateCount;
-  String image;
-  double walletBalance;
-  int loyaltyPoint;
+  int id = 0;
+  String name  = "";
+  String phone = "";
+  String email = "";
+  String emailVerifiedAt = "";
+  String refCode = "";
+  String isActive = "";
+  String userType = "";
+  String isPhoneVerifiedAt = "";
+  String cmFirebaseToken = "";
+  String createdAt = "";
+  String updatedAt = "";
+  Userinfo? userinfo;
+  int estateCount = 0;
+  String image = "";
+  double walletBalance = 0;
+  int loyaltyPoint = 0;
 
-  String youtube;
-  String snapchat;
-  String instagram;
-  String website;
-  String tiktok;
-  String twitter;
+  String youtube = "";
+  String snapchat = "";
+  String instagram = "";
+  String website = "";
+  String tiktok = "";
+  String twitter = "";
 
-  Userinfo agent;
-  String membershipType;
-  String accountVerification;
-  String  advertiserNo;
+  Userinfo? agent;
+  String membershipType = "";
+  String accountVerification = "";
+  String  advertiserNo = "";
 
-  UserInfoModel(
-      {this.id,
-        this.name,
-        this.phone,
-        this.email,
-        this.emailVerifiedAt,
-        this.refCode,
-        this.isActive,
-        this.userType,
-        this.isPhoneVerifiedAt,
-        this.cmFirebaseToken,
-        this.createdAt,
-        this.updatedAt,
-        this.userinfo,
-        this.estateCount,
-        this.image,
-        this.agent,
-        this.walletBalance,
-        this.loyaltyPoint,
-        this.youtube,
-        this.snapchat,
-        this.instagram,
-        this.website,
-        this.tiktok,
-        this.twitter,
-      this.membershipType,
-      this.accountVerification,
-      this.advertiserNo});
+  UserInfoModel({
+    required this.id,
+    required this.name,
+    required this.phone,
+    required this.email,
+    required this.emailVerifiedAt,
+    required this.refCode,
+    required this.isActive,
+    required this.userType,
+    required this.isPhoneVerifiedAt,
+    required this.cmFirebaseToken,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.userinfo,
+    required this.estateCount,
+    required this.image,
+    required this.agent,
+    required this.walletBalance,
+    required this.loyaltyPoint,
+    required this.youtube,
+    required this.snapchat,
+    required this.instagram,
+    required this.website,
+    required this.tiktok,
+    required this.twitter,
+    required this.membershipType,
+    required this.accountVerification,
+    required this.advertiserNo
+  });
 
   UserInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -74,9 +75,9 @@ class UserInfoModel {
     image = json['image'];
 
 
-    userinfo = json['userinfo'] != null
+    userinfo = (json['userinfo'] != null
         ? Userinfo.fromJson(json['userinfo'])
-        : null;
+        : null)!;
     estateCount = json['estate_count'];
     agent = json['agent'] != null ? Userinfo.fromJson(json['agent']) : null;
     walletBalance = json['wallet_balance'].toDouble();
@@ -120,42 +121,43 @@ class UserInfoModel {
     data['account_verification']=accountVerification;
     data['advertiser_no']=advertiserNo;
 
-    data['userinfo'] = userinfo.toJson();
+    data['userinfo'] = userinfo?.toJson();
       data['estate_count'] = estateCount;
-    data['agent'] = agent.toJson();
+    data['agent'] = agent?.toJson();
       return data;
   }
 }
 
 class Userinfo {
-  int id;
-  String identity;
-  String advertiserNo;
-  String membershipType;
-  String identityType;
-  String image;
-  String commercialRegisterionNo;
-  String     userId;
-  String name;
-  String phone;
-  String createdAt;
-  String  updatedAt;
-  String falLicenseNumber;
+  int id = 0;
+  String identity = "";
+  String advertiserNo = "";
+  String membershipType = "";
+  String identityType = "";
+  String image = "";
+  String commercialRegisterionNo = "";
+  String     userId = "";
+  String name = "";
+  String phone = "";
+  String createdAt = "";
+  String  updatedAt = "";
+  String falLicenseNumber = "";
 
-  Userinfo(
-      {this.id,
-        this.name,
-        this.phone,
-        this.identity,
-        this.image,
-        this.commercialRegisterionNo,
-        this.userId,
-        this.advertiserNo,
-        this.membershipType,
-        this.identityType,
-        this.createdAt,
-        this.updatedAt,
-      this.falLicenseNumber});
+  Userinfo({
+    required this.id,
+    required this.name,
+    required this.phone,
+    required this.identity,
+    required this.image,
+    required this.commercialRegisterionNo,
+    required this.userId,
+    required this.advertiserNo,
+    required this.membershipType,
+    required this.identityType,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.falLicenseNumber
+  });
 
   Userinfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -51,7 +51,7 @@ class WalletController extends GetxController implements GetxService{
         if (offset == '1') {
           _transactionList = [];
         }
-          _transactionList?.addAll(WalletModel.fromJson(response.body).data);
+          _transactionList?.addAll(WalletModel.fromJson(response.body).data as Iterable<Transaction>);
           _pageSize = WalletModel.fromJson(response.body).totalSize;
 
         _isLoading = false;

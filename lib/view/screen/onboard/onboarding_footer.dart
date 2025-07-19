@@ -7,7 +7,7 @@ import 'dots.dart';
 
 class OnBoardingFooter extends StatelessWidget {
   const OnBoardingFooter({super.key, 
-      key,
+      key_local,
      this.onboardingContent,
      this.currentPage,
      this.pageController,

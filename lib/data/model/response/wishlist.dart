@@ -1,20 +1,21 @@
 import 'package:abaad/data/model/response/estate_model.dart';
 
 class Wishlist {
-  int id;
-  int userId;
-  int estateId;
-  String createdAt;
-  String updatedAt;
-  Estate estate;
+  int id = 0;
+  int userId = 0;
+  int estateId = 0;
+  String createdAt = "";
+  String updatedAt = "";
+  Estate? estate;
 
-  Wishlist(
-      {this.id,
-        this.userId,
-        this.estateId,
-        this.createdAt,
-        this.updatedAt,
-        this.estate});
+  Wishlist({
+    required this.id,
+    required this.userId,
+    required this.estateId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.estate
+  });
 
   Wishlist.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -33,7 +34,7 @@ class Wishlist {
     data['estate_id'] = estateId;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
-    data['estate'] = estate.toJson();
+    data['estate'] = estate?.toJson();
       return data;
   }
 }

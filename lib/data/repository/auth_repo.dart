@@ -18,23 +18,23 @@ class AuthRepo {
   AuthRepo({required this.apiClient, required this.sharedPreferences});
 
   Future<Response> registration(SignUpBody signUpBody) async {
-    return await apiClient.postData(AppConstants.REGISTER_URI, signUpBody.toJson());
+    return await apiClient.postData(AppConstants.REGISTER_URI, signUpBody.toJson(), headers: {});
   }
 
-  Future<Response> login({String phone, String password}) async {
-    return await apiClient.postData(AppConstants.LOGIN_URI, {"phone": phone, "password": password});
+  Future<Response> login({String phone = "", String password = ""}) async {
+    return await apiClient.postData(AppConstants.LOGIN_URI, {"phone": phone, "password": password}, headers: {});
   }
 
 
 
   Future<Response> getZoneList() async {
-    return await apiClient.getData(AppConstants.ZONE_ALL);
+    return await apiClient.getData(AppConstants.ZONE_ALL, query: {}, headers: {});
   }
 
 
 
   Future<Response> updateToken() async {
-    String deviceToken;
+    String? deviceToken = "";
     if (GetPlatform.isIOS && !GetPlatform.isWeb) {
       FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
       NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
@@ -50,11 +50,11 @@ class AuthRepo {
     if(!GetPlatform.isWeb) {
       FirebaseMessaging.instance.subscribeToTopic(AppConstants.TOPIC);
     }
-    return await apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "cm_firebase_token": deviceToken});
+    return await apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "cm_firebase_token": deviceToken}, headers: {});
   }
 
-  Future<String> _saveDeviceToken() async {
-    String deviceToken = '@';
+  Future<String?> _saveDeviceToken() async {
+    String? deviceToken = '@';
     if(!GetPlatform.isWeb) {
       try {
         deviceToken = await FirebaseMessaging.instance.getToken();
@@ -66,7 +66,7 @@ class AuthRepo {
 
 
   Future<Response> verifyToken(String phone, String token) async {
-    return await apiClient.postData(AppConstants.VERIFY_TOKEN_URI, {"phone": phone, "reset_token": token});
+    return await apiClient.postData(AppConstants.VERIFY_TOKEN_URI, {"phone": phone, "reset_token": token}, headers: {});
   }
 
 
@@ -74,20 +74,29 @@ class AuthRepo {
 
 
   Future<Response> updateZone() async {
-    return await apiClient.getData(AppConstants.UPDATE_ZONE_URL);
+    return await apiClient.getData(AppConstants.UPDATE_ZONE_URL, query: {}, headers: {});
   }
 
   // for  user token
   Future<bool> saveUserToken(String token, {bool alreadyInApp = false}) async {
     apiClient.token = token;
     if(alreadyInApp){
-      AddressModel addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)));
+      AddressModel addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!));
       apiClient.updateHeader(
-        token, addressModel.zoneIds, sharedPreferences.getString(AppConstants.languageCode),
-        addressModel.latitude, addressModel.longitude,
+        token,
+        addressModel.zoneIds!,
+        sharedPreferences.getString(AppConstants.languageCode)!,
+        addressModel.latitude!,
+        addressModel.longitude!,
       );
     }else{
-      apiClient.updateHeader(token, null, sharedPreferences.getString(AppConstants.languageCode),null, null);
+      apiClient.updateHeader(
+          token,
+          [],
+          sharedPreferences.getString(AppConstants.languageCode)!,
+          "",
+          ""
+      );
     }
 
     return await sharedPreferences.setString(AppConstants.TOKEN, token);
@@ -105,12 +114,12 @@ class AuthRepo {
   bool clearSharedData() {
     if(!GetPlatform.isWeb) {
       FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
-      apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "cm_firebase_token": '@'});
+      apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "cm_firebase_token": '@'}, headers: {});
     }
     sharedPreferences.remove(AppConstants.TOKEN);
     sharedPreferences.remove(AppConstants.userAddress);
     apiClient.token = null;
-    apiClient.updateHeader(null, null, null,null, null);
+    apiClient.updateHeader("", [], "", "", "");
     return true;
   }
 
@@ -148,7 +157,7 @@ class AuthRepo {
       if(!GetPlatform.isWeb) {
         FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
         if(isLoggedIn()) {
-          FirebaseMessaging.instance.unsubscribeFromTopic('zone_${Get.find<LocationController>().getUserAddress().zoneId}_customer');
+          FirebaseMessaging.instance.unsubscribeFromTopic('zone_${Get.find<LocationController>().getUserAddress()?.zoneId}_customer');
         }
       }
     }
@@ -170,22 +179,22 @@ class AuthRepo {
 
 
   Future<Response> verifyPhone(String phone, String otp) async {
-    return await apiClient.postData(AppConstants.VERIFY_PHONE_URI, {"phone": phone, "otp": otp});
+    return await apiClient.postData(AppConstants.VERIFY_PHONE_URI, {"phone": phone, "otp": otp}, headers: {});
   }
 
 
 
   Future<Response> registerAgent(Userinfo agnetBody) async {
-    return apiClient.postData(AppConstants.REGISTER_AS_AGENT, agnetBody.toJson());
+    return apiClient.postData(AppConstants.REGISTER_AS_AGENT, agnetBody.toJson(), headers: {});
   }
 
 
   Future<Response> getPackageList() async {
-    return await apiClient.getData(AppConstants.RESTAURANT_PACKAGES_URI);
+    return await apiClient.getData(AppConstants.RESTAURANT_PACKAGES_URI, query: {}, headers: {});
   }
 
   Future<Response> setUpBusinessPlan(BusinessPlanBody businessPlanBody) async {
-    return await apiClient.postData(AppConstants.BUSINESS_PLAN_URI, businessPlanBody.toJson());
+    return await apiClient.postData(AppConstants.BUSINESS_PLAN_URI, businessPlanBody.toJson(), headers: {});
   }
 
 

@@ -101,7 +101,7 @@ class LocationController extends GetxController implements GetxService {
     _buttonDisabled = !responseModel.isSuccess;
     addressModel = AddressModel(
       latitude: myPosition.latitude.toString(), longitude: myPosition.longitude.toString(), addressType: 'others',
-      zoneId: responseModel.isSuccess ? responseModel.zoneIds[0] : 0, zoneIds: responseModel.zoneIds,
+      zoneId: responseModel.isSuccess ? responseModel.zoneIds![0] : 0, zoneIds: responseModel.zoneIds,
       address: addressFromGeocode, zoneData: responseModel.zoneData, id: 0, contactPersonNumber: '', method: '', contactPersonName: '', road: '', house: '', floor: '',
     );
     _loading = false;
@@ -251,7 +251,7 @@ class LocationController extends GetxController implements GetxService {
   AddressModel? getUserAddress() {
     AddressModel? addressModel;
     try {
-      addressModel = AddressModel.fromJson(jsonDecode(locationRepo.getUserAddress()));
+      addressModel = AddressModel.fromJson(jsonDecode(locationRepo.getUserAddress()!));
     }catch(e) {}
     return addressModel;
   }
@@ -270,7 +270,7 @@ class LocationController extends GetxController implements GetxService {
     if(response.statusCode == 200) {
       PlaceDetailsModel placeDetails = PlaceDetailsModel.fromJson(response.body);
       if(placeDetails.status == 'OK') {
-        latLng = LatLng(placeDetails.result.geometry.location.lat, placeDetails.result.geometry.location.lng);
+        latLng = LatLng(placeDetails.result!.geometry!.location!.lat, placeDetails.result!.geometry!.location!.lng);
       }
     }
 

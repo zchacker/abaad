@@ -1,4 +1,4 @@
-import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
+// import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
 
 import 'package:abaad/data/model/response/service_provider.dart';
 class BasicCampaignModel {
@@ -13,14 +13,14 @@ class BasicCampaignModel {
   List<ServiceProvider>? restaurants;
 
   BasicCampaignModel({
-    required this.id,
-    required this.title,
-    required this.image,
-    required this.description,
-    required this.availableDateStarts,
-    required this.availableDateEnds,
-    required this.startTime,
-    required this.endTime,
+    this.id = 0,
+    this.title = "",
+    this.image = "",
+    this.description = "",
+    this.availableDateStarts = "",
+    this.availableDateEnds = "",
+    this.startTime = "",
+    this.endTime = "",
     required this.restaurants
   });
 

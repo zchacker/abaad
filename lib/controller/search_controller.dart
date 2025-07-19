@@ -215,14 +215,14 @@ class SearchController extends GetxController implements GetxService {
             _restResultText = query;
             _searchRestList = [];
             _allRestList = [];
-            _searchRestList?.addAll(EstateModel.fromJson(response.body).estates);
-            _allRestList?.addAll(EstateModel.fromJson(response.body).estates);
+            _searchRestList?.addAll(EstateModel.fromJson(response.body).estates as Iterable<Estate>);
+            _allRestList?.addAll(EstateModel.fromJson(response.body).estates as Iterable<Estate>);
           } else {
             _prodResultText = query;
             _searchProductList = [];
             _allProductList = [];
-            _searchProductList?.addAll(EstateModel.fromJson(response.body).estates);
-            _allProductList?.addAll(EstateModel.fromJson(response.body).estates);
+            _searchProductList?.addAll(EstateModel.fromJson(response.body).estates as Iterable<Estate>);
+            _allProductList?.addAll(EstateModel.fromJson(response.body).estates as Iterable<Estate>);
           }
         }
       } else {

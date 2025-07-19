@@ -19,7 +19,7 @@ import 'widget/wallet_bottom_sheet.dart';
 
 class WalletScreen extends StatefulWidget {
   final bool fromWallet;
-  const WalletScreen({required Key key, required this.fromWallet}) : super(key: key);
+  const WalletScreen({required Key? key, required this.fromWallet}) : super(key: key);
 
   @override
   State<WalletScreen> createState() => _WalletScreenState();

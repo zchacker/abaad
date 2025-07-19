@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:abaad/data/model/response/conversation_model.dart';
 class MessageModel {
-  int totalSize;
-  int limit;
-  int offset;
-  int  status;
-  Conversation conversation;
-  List<Message> messages;
-  String estate_id;
+  int totalSize = 0;
+  int limit = 0;
+  int offset = 0;
+  int status = 0;
+  Conversation? conversation;
+  List<Message>? messages;
+  String estate_id = "";
 
-  MessageModel({this.totalSize, this.limit, this.offset, this.status, this.conversation, this.messages,this.estate_id});
+  MessageModel({required this.totalSize, required this.limit, required this.offset, required this.status, required this.conversation, required this.messages,required this.estate_id});
 
   MessageModel.fromJson(Map<String, dynamic> json) {
     totalSize = json['total_size'];
@@ -22,7 +22,7 @@ class MessageModel {
     if (json['messages'] != null) {
       messages = <Message>[];
       json['messages'].forEach((v) {
-        messages.add(Message.fromJson(v));
+        messages?.add(Message.fromJson(v));
       });
     }
   }
@@ -34,31 +34,32 @@ class MessageModel {
     data['offset'] = offset;
     data['status'] = status;
     data['estate_id']=estate_id;
-    data['conversation'] = conversation.toJson();
-      data['messages'] = messages.map((v) => v.toJson()).toList();
+    data['conversation'] = conversation?.toJson();
+      data['messages'] = messages?.map((v) => v.toJson()).toList();
       return data;
   }
 }
 
 class Message {
-  int id;
-  int conversationId;
-  int senderId;
-  String message;
-  List<String> files;
-  int isSeen;
-  String createdAt;
-  String updatedAt;
+  int id = 0;
+  int conversationId = 0;
+  int senderId = 0;
+  String message = "";
+  List<String>? files;
+  int isSeen = 0;
+  String createdAt = "";
+  String updatedAt = "";
 
-  Message(
-      {this.id,
-        this.conversationId,
-        this.senderId,
-        this.message,
-        this.files,
-        this.isSeen,
-        this.createdAt,
-        this.updatedAt});
+  Message({
+    required this.id,
+    required this.conversationId,
+    required this.senderId,
+    required this.message,
+    required this.files,
+    required this.isSeen,
+    required this.createdAt,
+    required this.updatedAt
+  });
 
   Message.fromJson(Map<String, dynamic> json) {
     id = json['id'];

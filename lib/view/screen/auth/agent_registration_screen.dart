@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AgentRegistrationScreen extends StatefulWidget {
-  const AgentRegistrationScreen({super.key});
+  const AgentRegistrationScreen({  super.key });
 
   @override
   State<AgentRegistrationScreen> createState() => _AgentRegistrationScreenState();
@@ -26,9 +26,9 @@ class _AgentRegistrationScreenState extends State<AgentRegistrationScreen> {
   final TextEditingController _identityNumberController = TextEditingController();
   final FocusNode _advertiserNoNode = FocusNode();
   final FocusNode _identityNumberNode = FocusNode();
-  String _documentTypeValue;
-  String _membershipType;
-  bool _isLoggedIn;
+  String _documentTypeValue = "";
+  String _membershipType = "";
+  bool _isLoggedIn = false;
 
 
   @override
@@ -88,12 +88,12 @@ class _AgentRegistrationScreenState extends State<AgentRegistrationScreen> {
                             borderRadius: BorderRadius.circular(
                                 Dimensions.RADIUS_SMALL),
                             boxShadow: [
-                              BoxShadow(color: Colors.grey[Get.isDarkMode
-                                  ? 800
-                                  : 200],
+                              BoxShadow(
+                                  color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
                                   spreadRadius: 2,
                                   blurRadius: 5,
-                                  offset: Offset(0, 5))
+                                  offset: Offset(0, 5)
+                              )
                             ],
                           ),
                           child: DropdownButton<String>(
@@ -122,9 +122,9 @@ class _AgentRegistrationScreenState extends State<AgentRegistrationScreen> {
                                   fontSize: Dimensions.fontSizeLarge,
                                   color: Colors.black),
                             ),
-                            onChanged: (String value) {
+                            onChanged: (String? value) {
                               setState(() {
-                                _documentTypeValue = value;
+                                _documentTypeValue = value ?? "";
                               });
                             },
                           ),
@@ -199,7 +199,7 @@ class _AgentRegistrationScreenState extends State<AgentRegistrationScreen> {
       authController.registerAgent(Userinfo(membershipType: _membershipType ?? "فرد",
           commercialRegisterionNo: identityNumber,
           identityType: _documentTypeValue,
-          identity: advertiser,advertiserNo: advertiser));
+          identity: advertiser,advertiserNo: advertiser, id: 0, name: '', phone: '', image: '', userId: '', createdAt: '', updatedAt: '', falLicenseNumber: ''));
     }
   }
 }

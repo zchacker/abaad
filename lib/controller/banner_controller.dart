@@ -4,8 +4,8 @@ import 'package:abaad/data/repository/banner_repo.dart';
 import 'package:get/get.dart';
 
 class BannerController extends GetxController implements GetxService {
-  final BannerRepo bannerRepo;
-  BannerController({required this.bannerRepo});
+  final BannerRepo? bannerRepo;
+  BannerController({ this.bannerRepo});
 
   List<String>? _bannerImageList;
   List<dynamic>? _bannerDataList;
@@ -17,7 +17,7 @@ class BannerController extends GetxController implements GetxService {
 
   Future<void> getBannerList(bool reload,int zoneId) async {
     if(_bannerImageList == null || reload) {
-      Response response = await bannerRepo.getBannerList(zoneId);
+      Response response = await bannerRepo!.getBannerList(zoneId);
       if (response.statusCode == 200) {
         _bannerImageList = [];
         _bannerDataList = [];

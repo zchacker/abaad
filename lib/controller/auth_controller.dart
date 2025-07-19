@@ -45,7 +45,7 @@ class AuthController extends GetxController implements GetxService {
   int _dmTypeIndex = 0;
 
   List<String> subscriptionImages = [Images.subscription1, Images.subscription2, Images.subscription3];
-  PackageModel? _packageModel;
+  PackageModel? _packageModel = PackageModel(packages: []);
   int _activeSubscriptionIndex = 0;
   String _businessPlanStatus = 'business';
   String _secondStep= 'second_step';
@@ -293,7 +293,7 @@ class AuthController extends GetxController implements GetxService {
       location.latitude.toString(), location.longitude.toString(), false,
     );
     _restaurantLocation = location;
-    if(response.isSuccess && response.zoneIds.isNotEmpty) {
+    if(response.isSuccess && response.zoneIds!.isNotEmpty) {
       _restaurantLocation = location;
       _zoneIds = response.zoneIds;
       for(int index=0; index<_zoneList!.length; index++) {
@@ -425,10 +425,10 @@ class AuthController extends GetxController implements GetxService {
     }else{
       _businessPlanStatus = 'payment';
       if(!isFirstTime) {
-        if (_businessPlanStatus == 'payment' && _packageModel!.packages.isNotEmpty) {
+        if (_businessPlanStatus == 'payment' && _packageModel!.packages!.isNotEmpty  ) {
 
           businessPlan = 'subscription';
-          int? packageId = _packageModel?.packages[_activeSubscriptionIndex].id;
+          int? packageId = _packageModel!.packages?[_activeSubscriptionIndex].id;
           String payment = _paymentIndex == 0 ? 'free_trial' : 'paying_now';
           setUpBusinessPlan(BusinessPlanBody(businessPlan: businessPlan,
               packageId: packageId.toString(),
@@ -436,7 +436,7 @@ class AuthController extends GetxController implements GetxService {
               payment: payment),
           );
 
-        } else if(_packageModel?.packages.isEmpty ?? false && _packageModel!.packages.isEmpty){
+        } else if(_packageModel?.packages?.isEmpty ?? false && _packageModel!.packages!.isEmpty ){
           showCustomSnackBar('no_package_found'.tr);
         } else {
           showCustomSnackBar('please Select Any Process');

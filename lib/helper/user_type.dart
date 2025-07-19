@@ -3,7 +3,7 @@ enum UserType {
   customer,
   admin,
   delivery_man,
-  vendor,
+  vendor, adnullname,
 }
 
 enum Types {

@@ -1,21 +1,23 @@
 class RegionModel {
-  int regionId;
-  int capitalCityId;
-  String code;
-  String nameAr;
-  String nameEn;
-  int population;
-  String latitude;
-  String longitude;
+  int regionId = 0;
+  int capitalCityId = 0;
+  String code = "";
+  String nameAr = "";
+  String nameEn = "";
+  int population = 0;
+  String latitude = "";
+  String longitude = "";
 
-  RegionModel(
-      {this.regionId,
-        this.capitalCityId,
-        this.code,
-        this.nameAr,
-        this.nameEn,
-        this.population,this.latitude,
-        this.longitude});
+  RegionModel({
+    required this.regionId,
+    required this.capitalCityId,
+    required this.code,
+    required this.nameAr,
+    required this.nameEn,
+    required this.population,
+    required this.latitude,
+    required this.longitude
+  });
 
   RegionModel.fromJson(Map<String, dynamic> json) {
     regionId = json['region_id'];

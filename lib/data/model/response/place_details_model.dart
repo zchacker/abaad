@@ -1,8 +1,8 @@
 class PlaceDetailsModel {
-  Result result;
-  String status;
+  Result? result;
+  String status = "";
 
-  PlaceDetailsModel({this.result, this.status});
+  PlaceDetailsModel({required this.result, required this.status});
 
   PlaceDetailsModel.fromJson(Map<String, dynamic> json) {
     result =
@@ -12,51 +12,52 @@ class PlaceDetailsModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['result'] = result.toJson();
+    data['result'] = result?.toJson();
       data['status'] = status;
     return data;
   }
 }
 
 class Result {
-  List<AddressComponents> addressComponents;
-  String adrAddress;
-  String formattedAddress;
-  Geometry geometry;
-  String icon;
-  String iconBackgroundColor;
-  String iconMaskBaseUri;
-  String name;
-  List<Photos> photos;
-  String placeId;
-  String reference;
-  List<String> types;
-  String url;
-  int utcOffset;
-  String website;
+  List<AddressComponents>? addressComponents;
+  String adrAddress = "";
+  String formattedAddress = "";
+  Geometry? geometry;
+  String icon = "";
+  String iconBackgroundColor = "";
+  String iconMaskBaseUri = "";
+  String name = "";
+  List<Photos>? photos;
+  String placeId = "";
+  String reference = "";
+  List<String>? types;
+  String url = "";
+  int utcOffset = 0;
+  String website = "";
 
-  Result(
-      {this.addressComponents,
-        this.adrAddress,
-        this.formattedAddress,
-        this.geometry,
-        this.icon,
-        this.iconBackgroundColor,
-        this.iconMaskBaseUri,
-        this.name,
-        this.photos,
-        this.placeId,
-        this.reference,
-        this.types,
-        this.url,
-        this.utcOffset,
-        this.website});
+  Result({
+    required this.addressComponents,
+    required this.adrAddress,
+    required this.formattedAddress,
+    required this.geometry,
+    required this.icon,
+    required this.iconBackgroundColor,
+    required this.iconMaskBaseUri,
+    required this.name,
+    required this.photos,
+    required this.placeId,
+    required this.reference,
+    required this.types,
+    required this.url,
+    required this.utcOffset,
+    required this.website
+  });
 
   Result.fromJson(Map<String, dynamic> json) {
     if (json['address_components'] != null) {
       addressComponents = [];
       json['address_components'].forEach((v) {
-        addressComponents.add(AddressComponents.fromJson(v));
+        addressComponents?.add(AddressComponents.fromJson(v));
       });
     }
     adrAddress = json['adr_address'];
@@ -71,7 +72,7 @@ class Result {
     if (json['photos'] != null) {
       photos = [];
       json['photos'].forEach((v) {
-        photos.add(Photos.fromJson(v));
+        photos?.add(Photos.fromJson(v));
       });
     }
     placeId = json['place_id'];
@@ -85,15 +86,15 @@ class Result {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['address_components'] =
-        addressComponents.map((v) => v.toJson()).toList();
+        addressComponents?.map((v) => v.toJson()).toList();
       data['adr_address'] = adrAddress;
     data['formatted_address'] = formattedAddress;
-    data['geometry'] = geometry.toJson();
+    data['geometry'] = geometry?.toJson();
       data['icon'] = icon;
     data['icon_background_color'] = iconBackgroundColor;
     data['icon_mask_base_uri'] = iconMaskBaseUri;
     data['name'] = name;
-    data['photos'] = photos.map((v) => v.toJson()).toList();
+    data['photos'] = photos?.map((v) => v.toJson()).toList();
       data['place_id'] = placeId;
     data['reference'] = reference;
     data['types'] = types;
@@ -105,11 +106,11 @@ class Result {
 }
 
 class AddressComponents {
-  String longName;
-  String shortName;
-  List<String> types;
+  String longName = "";
+  String shortName = "";
+  List<String>? types;
 
-  AddressComponents({this.longName, this.shortName, this.types});
+  AddressComponents({required this.longName, required this.shortName, required this.types});
 
   AddressComponents.fromJson(Map<String, dynamic> json) {
     longName = json['long_name'];
@@ -127,10 +128,10 @@ class AddressComponents {
 }
 
 class Geometry {
-  Location location;
-  Viewport viewport;
+  Location? location;
+  Viewport? viewport;
 
-  Geometry({this.location, this.viewport});
+  Geometry({required this.location, required this.viewport});
 
   Geometry.fromJson(Map<String, dynamic> json) {
     location = json['location'] != null
@@ -143,17 +144,17 @@ class Geometry {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['location'] = location.toJson();
-      data['viewport'] = viewport.toJson();
+    data['location'] = location?.toJson();
+      data['viewport'] = viewport?.toJson();
       return data;
   }
 }
 
 class Location {
-  double lat;
-  double lng;
+  double lat = 0;
+  double lng = 0;
 
-  Location({this.lat, this.lng});
+  Location({required this.lat, required this.lng});
 
   Location.fromJson(Map<String, dynamic> json) {
     lat = json['lat'];
@@ -169,10 +170,10 @@ class Location {
 }
 
 class Viewport {
-  Location northeast;
-  Location southwest;
+  Location? northeast;
+  Location? southwest;
 
-  Viewport({this.northeast, this.southwest});
+  Viewport({required this.northeast, required this.southwest});
 
   Viewport.fromJson(Map<String, dynamic> json) {
     northeast = json['northeast'] != null
@@ -185,19 +186,19 @@ class Viewport {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['northeast'] = northeast.toJson();
-      data['southwest'] = southwest.toJson();
+    data['northeast'] = northeast?.toJson();
+      data['southwest'] = southwest?.toJson();
       return data;
   }
 }
 
 class Photos {
-  int height;
-  List<String> htmlAttributions;
-  String photoReference;
-  int width;
+  int height =  0;
+  List<String>? htmlAttributions;
+  String photoReference = "";
+  int width = 0;
 
-  Photos({this.height, this.htmlAttributions, this.photoReference, this.width});
+  Photos({required this.height, required this.htmlAttributions, required this.photoReference, required this.width});
 
   Photos.fromJson(Map<String, dynamic> json) {
     height = json['height'];

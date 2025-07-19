@@ -3,17 +3,17 @@ import 'package:abaad/controller/splash_controller.dart';
 import 'package:get/get.dart';
 
 class PriceConverter {
-  static String convertPrice(double price, {double discount, String discountType}) {
+  static String convertPrice(double price, { double discount = 0,  String discountType = ""}) {
     if(discountType == 'amount') {
       price = price - discount;
     }else if(discountType == 'percent') {
       price = price - ((discount / 100) * price);
     }
-      bool isRightSide = Get.find<SplashController>().configModel.currencySymbolDirection == 'right';
-    return '${isRightSide ? '' : '${Get.find<SplashController>().configModel.currencySymbol} '}'
-        '${(price).toStringAsFixed(Get.find<SplashController>().configModel.digitAfterDecimalPoint)
+      bool isRightSide = Get.find<SplashController>().configModel?.currencySymbolDirection == 'right';
+    return '${isRightSide ? '' : '${Get.find<SplashController>().configModel?.currencySymbol} '}'
+        '${(price).toStringAsFixed(Get.find<SplashController>().configModel!.digitAfterDecimalPoint)
         .replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}'
-        '${isRightSide ? ' ${Get.find<SplashController>().configModel.currencySymbol}' : ''}';
+        '${isRightSide ? ' ${Get.find<SplashController>().configModel?.currencySymbol}' : ''}';
   }
 
 
@@ -37,6 +37,6 @@ class PriceConverter {
   }
 
   static String percentageCalculation(String price, String discount, String discountType) {
-    return '$discount${discountType == 'percent' ? '%' : Get.find<SplashController>().configModel.currencySymbol} OFF';
+    return '$discount${discountType == 'percent' ? '%' : Get.find<SplashController>().configModel?.currencySymbol} OFF';
   }
 }

@@ -1,22 +1,21 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ZoneModel {
-  int id;
-  String name;
-  Coordinates coordinates;
-  String  status;
-  String nameAr;
-  String latitude;
-  String longitude;
-  String createdAt;
-  int  territory_id;
-  String     estate_count;
-  String image;
-  String updatedAt;
+  int id = 0;
+  String name = "";
+  Coordinates? coordinates;
+  String status = "";
+  String nameAr = "";
+  String latitude = "";
+  String longitude = "";
+  String createdAt = "";
+  int territory_id = 0;
+  String estate_count = "";
+  String image = "";
+  String updatedAt = "";
 
 
-  ZoneModel({this.id, this.name,this.nameAr, this.coordinates, this.status, this.createdAt, this.updatedAt ,this.latitude,
-    this.longitude,this.image});
+  ZoneModel({required this.id, required this.name,required this.nameAr, required this.coordinates , required this.status, required this.createdAt, required this.updatedAt ,required this.latitude, required this.longitude,required this.image});
 
   ZoneModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -37,8 +36,8 @@ class ZoneModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
-    // if (this.coordinates != null) {
-    //   data['coordinates'] = this.coordinates.toJson();
+    // if (required this.coordinates != null) {
+    //   data['coordinates'] = required this.coordinates.toJson();
     // }
     data['status'] = status;
     data['created_at'] = createdAt;
@@ -54,17 +53,17 @@ class ZoneModel {
 }
 
 class Coordinates {
-  String type;
-  List<LatLng> coordinates;
+  String type = "";
+  List<LatLng>? coordinates;
 
-  Coordinates({this.type, this.coordinates});
+  Coordinates({required this.type, required this.coordinates});
 
   Coordinates.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     if (json['coordinates'] != null) {
       coordinates = <LatLng>[];
       json['coordinates'][0].forEach((v) {
-        coordinates.add(LatLng(double.parse(v[0].toString()), double.parse(v[1].toString())));
+        coordinates?.add(LatLng(double.parse(v[0].toString()), double.parse(v[1].toString())));
       });
     }
   }
@@ -72,7 +71,7 @@ class Coordinates {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['type'] = type;
-    data['coordinates'] = coordinates.map((v) => v.toJson()).toList();
+    data['coordinates'] = coordinates?.map((v) => v.toJson()).toList();
       return data;
   }
 }

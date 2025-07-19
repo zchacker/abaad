@@ -1,27 +1,28 @@
 class ZoneResponseModel {
   final bool _isSuccess;
-  final List<int> _zoneIds;
+  final List<int>? _zoneIds;
   final String _message;
-  final List<ZoneData> _zoneData;
-  ZoneResponseModel(this._isSuccess, this._message, this._zoneIds, this._zoneData);
+  final List<ZoneData>? _zoneData;
+  ZoneResponseModel( this._isSuccess, this._message, this._zoneIds, this._zoneData);
 
   String get message => _message;
-  List<int> get zoneIds => _zoneIds;
+  List<int>? get zoneIds => _zoneIds;
   bool get isSuccess => _isSuccess;
-  List<ZoneData> get zoneData => _zoneData;
+  List<ZoneData>? get zoneData => _zoneData;
 }
 
 class ZoneData {
-  int id;
-  int status;
-  double minimumShippingCharge;
-  double perKmShippingCharge;
+  int id = 0;
+  int status = 0;
+  double minimumShippingCharge = 0;
+  double perKmShippingCharge = 0;
 
-  ZoneData(
-      {this.id,
-        this.status,
-        this.minimumShippingCharge,
-        this.perKmShippingCharge});
+  ZoneData({
+    required this.id,
+    required this.status,
+    required this.minimumShippingCharge,
+    required this.perKmShippingCharge
+  });
 
   ZoneData.fromJson(Map<String, dynamic> json) {
     id = json['id'];

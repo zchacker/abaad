@@ -4,7 +4,7 @@ import 'package:abaad/util/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class LanguageRepo {
-  List<LanguageModel> getAllLanguages({BuildContext context}) {
+  List<LanguageModel> getAllLanguages({required BuildContext context}) {
     return AppConstants.languages;
   }
 }

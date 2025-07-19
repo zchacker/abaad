@@ -10,7 +10,7 @@ class SplashRepo {
   SplashRepo({required this.sharedPreferences, required this.apiClient});
 
   Future<Response> getConfigData() async {
-    Response response = await apiClient.getData(AppConstants.CONFIG_URI);
+    Response response = await apiClient.getData(AppConstants.CONFIG_URI, query: {}, headers: {});
     return response;
   }
 
@@ -44,7 +44,7 @@ class SplashRepo {
     sharedPreferences.setBool(AppConstants.INTRO, false);
   }
 
-  bool showIntro() {
+  bool? showIntro() {
     return sharedPreferences.getBool(AppConstants.INTRO);
   }
 

@@ -1,12 +1,11 @@
 class DistrictModel {
-  int districtId;
-  int cityId;
-  int regionId;
-  String nameAr;
-  String nameEn;
+  int districtId = 0;
+  int cityId = 0;
+  int regionId = 0;
+  String nameAr = "";
+  String nameEn = "";
 
-  DistrictModel(
-      {this.districtId, this.cityId, this.regionId, this.nameAr, this.nameEn});
+  DistrictModel(this.districtId, this.cityId, this.regionId, this.nameAr, this.nameEn);
 
   DistrictModel.fromJson(Map<String, dynamic> json) {
     districtId = json['district_id'];

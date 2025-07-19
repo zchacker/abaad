@@ -20,16 +20,16 @@ import '../profile/widget/profile_bg_widget.dart';
 
 
 class AgentProfileScreen extends StatefulWidget {
-  final Userinfo userInfo;
-  final int  isMyProfile;
-   const AgentProfileScreen({ required Key key,  this.userInfo ,this.isMyProfile}) : super(key: key);
+  final Userinfo? userInfo;
+  final int?  isMyProfile;
+   const AgentProfileScreen({  Key? key,  this.userInfo ,this.isMyProfile}) : super(key: key);
 
   @override
   State<AgentProfileScreen> createState() => _AgentProfileScreenState();
 }
 
 class _AgentProfileScreenState extends State<AgentProfileScreen> {
-  bool _isLoggedIn;
+  bool? _isLoggedIn;
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
      _isLoggedIn = Get.find<AuthController>().isLoggedIn();
 
     Get.find<AuthController>().getZoneList();
-    Get.find<UserController>().getEstateByUser(1, false,widget.userInfo.id);
+    Get.find<UserController>().getEstateByUser(1, false,widget.userInfo!.id ?? 0);
 
   }
 
@@ -50,7 +50,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
       backgroundColor: Theme.of(context).cardColor,
       body: GetBuilder<UserController>(builder: (userController) {
     return   GetBuilder<UserController>(builder: (restController) {
-        return (_isLoggedIn && userController.agentInfoModel == null ) ? Center(child: CircularProgressIndicator()) :( restController.estateModel.estates != null) ?  Padding(
+        return (_isLoggedIn! && userController.agentInfoModel == null ) ? Center(child: CircularProgressIndicator()) :( restController.estateModel!.estates != null) ?  Padding(
           padding: const EdgeInsets.only(right: 0.0,left: 0.0),
           child: ProfileBgWidget(
 
@@ -81,8 +81,8 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                 ),
                                 alignment: Alignment.topRight,
                                 child: ClipOval(child: CustomImage(
-                                  image: '${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}'
-                                      '/${(_isLoggedIn) ? userController.agentInfoModel.image : ''}',
+                                  image: '${Get.find<SplashController>().configModel!.baseUrls!.customerImageUrl}'
+                                      '/${(_isLoggedIn ?? false) ? userController.agentInfoModel!.image : ''}',
                                   height: 80, width: 80, fit: BoxFit.cover,
                                 )),
                               ),
@@ -119,7 +119,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                         fontSize: Dimensions.fontSizeSmall),
                                   ),
                           Text(
-                             userController.agentInfoModel.membershipType ?? '',
+                             userController.agentInfoModel!.membershipType ?? '',
                             style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),)
 
 
@@ -132,7 +132,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                       style:  robotoRegular.copyWith(
                                           fontSize: Dimensions.fontSizeSmall),
                                   ),
-                                  Text("${restController.estateModel.totalSize}", style:  robotoRegular.copyWith(
+                                  Text("${restController.estateModel!.totalSize}", style:  robotoRegular.copyWith(
                                       fontSize: Dimensions.fontSizeSmall)),
                                 ],
                               ),
@@ -149,11 +149,11 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                      Text(
-                     userController.agentInfoModel.name,
+                     userController.agentInfoModel!.name!,
                        style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
                      ),
                         SizedBox(height: 4),
-                        widget.isMyProfile==1? Text(   userController.agentInfoModel.phone,
+                        widget.isMyProfile==1? Text(   userController.agentInfoModel!.phone!,
                           style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                         ):Container(),
                         SizedBox(height: 4),
@@ -173,7 +173,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                             ),
                             SizedBox(width: 7,),
                             Text(
-                                userController.agentInfoModel.agent.falLicenseNumber??'' ,
+                                userController.agentInfoModel!.agent!.falLicenseNumber??'' ,
                                 style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
                           ],
                         ),
@@ -186,8 +186,8 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                       backgroundColor: WidgetStateProperty.all(Colors.blue),
                                     ),
                                     onPressed: (){
-                                      __launchWhatsapp(userController.agentInfoModel.phone,userController.agentInfoModel.name);
-                                    }, icon: Icon(Icons.whatsapp), label: Text("whatsapp".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall))),
+                                      __launchWhatsapp(userController.agentInfoModel!.phone!, userController.agentInfoModel!.name!);
+                                    }, icon: Icon(Icons.whatshot_rounded), label: Text("whatsapp".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall))),
                             ),
                             const SizedBox(width:5),
                             Expanded(
@@ -197,8 +197,8 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                   ),
                                   onPressed: ()async{
                                     await Get.toNamed(RouteHelper.getChatRoute(
-                                        notificationBody: NotificationBody(orderId: 1 ,restaurantId:userController.agentInfoModel.id),
-                                        user: Userinfo(id: userController.agentInfoModel.id, name: userController.agentInfoModel.name,  image: userController.agentInfoModel.image,),estate_id: 0
+                                        notificationBody: NotificationBody(orderId: 1 ,restaurantId:userController.agentInfoModel!.id),
+                                        user: Userinfo(id: userController.agentInfoModel!.id, name: userController.agentInfoModel!.name,  image: userController.agentInfoModel!.image,),estate_id: 0
 
                                     ));
                                   }, icon: Icon(Icons.chat), label: Text("conversation".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall))),
@@ -210,7 +210,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                     backgroundColor: WidgetStateProperty.all(Colors.blue),
                                   ),
                                   onPressed: () async{
-                                    final urlScheme = 'tel:${userController.agentInfoModel.phone}';
+                                    final urlScheme = 'tel:${userController.agentInfoModel!.phone}';
 
                                     if (await canLaunch(urlScheme)) {
                                     await launch(urlScheme);
@@ -241,7 +241,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                               iconData:Images.tiktok,
                               onPressed: () async{
 
-                                String tiktokProfileUrl = 'https://www.tiktok.com/@${userController.agentInfoModel.tiktok}'; // Replace 'username' with the desired username
+                                String tiktokProfileUrl = 'https://www.tiktok.com/@${userController.agentInfoModel!.tiktok}'; // Replace 'username' with the desired username
                                 if (await canLaunch(tiktokProfileUrl)) {
                                 await launch(tiktokProfileUrl);
                                 } else {
@@ -256,7 +256,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                               onPressed: () async{
 
 
-                                String tiktokProfileUrl = userController.agentInfoModel.snapchat; // Replace 'username' with the desired username
+                                String tiktokProfileUrl = userController.agentInfoModel?.snapchat ?? ""; // Replace 'username' with the desired username
 
                                 if (await canLaunch(tiktokProfileUrl)) {
                                   await launch(tiktokProfileUrl);
@@ -269,28 +269,28 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                               color: Color(0xFF38A1F3),
                               iconData:Images.website,
                               onPressed: () {
-                                _launchURL(userController.agentInfoModel.website);
+                                _launchURL(userController.agentInfoModel?.website ?? "");
                               },
                             ),
                             SocialIcon(
                               color: Color(0xFF2867B2),
                               iconData:Images.twiter,
                               onPressed: () {
-                                _launchURL(userController.agentInfoModel.twitter);
+                                _launchURL(userController.agentInfoModel?.twitter ?? "");
                               },
                             ),
                             SocialIcon(
                               color: Color(0xFF38A1F3),
                               iconData:Images.instgram,
                               onPressed: () {
-                                _launchURL(userController.agentInfoModel.instagram);
+                                _launchURL(userController.agentInfoModel?.instagram ?? "");
                               },
                             ),
                             SocialIcon(
                               color: Color(0xFF146522),
                               iconData:Images.youtube,
                               onPressed: () {
-                                _launchURL(userController.agentInfoModel.youtube);
+                                _launchURL(userController.agentInfoModel?.youtube ?? "");
                               },
                             ),
 
@@ -306,16 +306,16 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
             ),
             mainWidget: Scrollbar( child: Center(child:ListView.builder(
               physics: BouncingScrollPhysics(),
-              itemCount:  restController.estateModel.estates.length,
+              itemCount:  restController.estateModel?.estates?.length,
               scrollDirection: Axis.vertical,
 
               itemBuilder: (context, index) {
                 return  GetBuilder<EstateController>(builder: (wishController) {
                   return  Padding(
                     padding: const EdgeInsets.only(top: 2,bottom: 2),
-                    child: EstateItem(estate: restController.estateModel.estates[index],onPressed: (){
-                      Get.toNamed(RouteHelper.getDetailsRoute( restController.estateModel.estates[index].id));
-                    },fav: false,isMyProfile: widget.isMyProfile),
+                    child: EstateItem(estate: restController.estateModel!.estates![index],onPressed: (){
+                      Get.toNamed(RouteHelper.getDetailsRoute( restController.estateModel!.estates![index].id!));
+                    },fav: false,isMyProfile: widget!.isMyProfile!),
                   );
                 });
               },
@@ -347,9 +347,9 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
 
 
 class SocialIcon extends StatelessWidget {
-  final Color color;
-  final String  iconData;
-  final Function onPressed;
+  final Color? color;
+  final String?  iconData;
+  final Function? onPressed;
 
   const SocialIcon({super.key, this.color, this.iconData, this.onPressed});
 
@@ -366,8 +366,8 @@ class SocialIcon extends StatelessWidget {
         ),
         child: RawMaterialButton(
           shape: CircleBorder(),
-          onPressed: onPressed,
-          child:Image.asset(iconData,height: 30,width: 30),
+          onPressed: onPressed as VoidCallback?,
+          child:Image.asset(iconData ?? "",height: 30,width: 30),
         ),
       ),
     );

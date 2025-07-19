@@ -55,7 +55,7 @@ class ZoneController extends GetxController implements GetxService {
 
         _estateModel?.fields = LandModel.fromJson(response.body).fields;
         _estateModel?.features = LandModel.fromJson(response.body).features;
-        _estateModel?.features.addAll(LandModel.fromJson(response.body).features);
+        _estateModel?.features?.addAll(LandModel.fromJson(response.body).features as Iterable<Features>);
 
       }
       update();

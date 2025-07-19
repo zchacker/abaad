@@ -1,16 +1,17 @@
 class PredictionModel {
-  String description;
-  String id;
-  int distanceMeters;
-  String placeId;
-  String reference;
+  String description = "";
+  String id = "";
+  int distanceMeters = 0;
+  String placeId = "";
+  String reference = "";
 
-  PredictionModel(
-      {this.description,
-        this.id,
-        this.distanceMeters,
-        this.placeId,
-        this.reference});
+  PredictionModel({
+    required this.description,
+    required this.id,
+    required this.distanceMeters,
+    required this.placeId,
+    required this.reference
+  });
 
   PredictionModel.fromJson(Map<String, dynamic> json) {
     description = json['description'];

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
 import 'package:universal_html/html.dart' as html;
-import 'package:universal_ui/universal_ui.dart';
+//import 'package:universal_ui/universal_ui.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class HtmlViewerScreen extends StatelessWidget {

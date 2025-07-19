@@ -20,14 +20,15 @@ class MyTextField extends StatefulWidget {
   final Color fillColor;
   final bool autoFocus;
   @override
-  final GlobalKey<FormFieldState<String>> key;
+  final GlobalKey<FormFieldState<String>> key_local;
   final bool showBorder;
   final double size;
 
   bool multiLine;
 
-  MyTextField(
-      {super.key, this.hintText = '',
+  MyTextField({
+        super.key,
+        this.hintText = '',
         this.controller,
         this.focusNode,
         this.nextFocus,
@@ -45,7 +46,8 @@ class MyTextField extends StatefulWidget {
         this.showBorder = false,
         this.size,
         this.multiLine=false,
-        this.key});
+        this.key_local
+  });
 
   @override
   _MyTextFieldState createState() => _MyTextFieldState();
@@ -59,7 +61,7 @@ class _MyTextFieldState extends State<MyTextField> {
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), border: widget.showBorder ? Border.all(color: Theme.of(context).disabledColor) : null),
       child: TextField(
-        key: widget.key,
+        key: widget.key_local,
         maxLines: widget.maxLines,
         controller: widget.controller,
         focusNode: widget.focusNode,

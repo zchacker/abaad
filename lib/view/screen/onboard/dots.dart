@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Dots extends StatelessWidget {
-  const Dots({super.key, key, this.currentPage});
+  const Dots({super.key, key_local, this.currentPage});
   final int currentPage;
   //
   @override

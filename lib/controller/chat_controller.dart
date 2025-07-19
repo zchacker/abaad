@@ -88,7 +88,7 @@ class ChatController extends GetxController implements GetxService {
           _conversationModel!.conversations?[index0].sender = Userinfo(
             id: 0, name: Get.find<SplashController>().configModel!.businessName,
             phone: Get.find<SplashController>().configModel!.phone,
-            image: Get.find<SplashController>().configModel!.logo,
+            image: Get.find<SplashController>().configModel!.logo, identity: '', commercialRegisterionNo: '', userId: '', advertiserNo: '', membershipType: '', identityType: '', createdAt: '', updatedAt: '', falLicenseNumber: '',
           );
         }else {
 
@@ -126,13 +126,13 @@ class ChatController extends GetxController implements GetxService {
           _searchConversationModel!.conversations?[index0].sender = Userinfo(
             id: 0, name: Get.find<SplashController>().configModel!.businessName,
             phone: Get.find<SplashController>().configModel!.phone,
-            image: Get.find<SplashController>().configModel!.logo,
+            image: Get.find<SplashController>().configModel!.logo, identity: '', commercialRegisterionNo: '', userId: '', advertiserNo: '', membershipType: '', identityType: '', createdAt: '', updatedAt: '', falLicenseNumber: '',
           );
         }else {
           _searchConversationModel!.conversations?[index0].receiver = Userinfo(
             id: 0, name: Get.find<SplashController>().configModel!.businessName,
             phone: Get.find<SplashController>().configModel!.phone,
-            image: Get.find<SplashController>().configModel!.logo,
+            image: Get.find<SplashController>().configModel!.logo, identity: '', commercialRegisterionNo: '', userId: '', advertiserNo: '', membershipType: '', identityType: '', createdAt: '', updatedAt: '', falLicenseNumber: '',
           );
         }
       }
@@ -147,7 +147,7 @@ class ChatController extends GetxController implements GetxService {
     update();
   }
 
-  Future<void> getMessages(int offset, NotificationBody notificationBody, Userinfo user, int conversationID, {bool firstLoad = false}) async {
+  Future<void> getMessages(int offset, NotificationBody notificationBody, Userinfo? user, int? conversationID, {bool firstLoad = false}) async {
     Response response;
     if(firstLoad) {
       _messageModel = null;
@@ -163,29 +163,22 @@ class ChatController extends GetxController implements GetxService {
         /// Unread-read
         int index0 = -1;
         for(int index=0; index<_conversationModel!.conversations!.length; index++) {
-          if(conversationID == _conversationModel?.conversations[index].id) {
+          if(conversationID == _conversationModel!.conversations?[index].id) {
             index0 = index;
             break;
           }
         }
         if(index0 != -1) {
-          _conversationModel?.conversations[index0].unreadMessageCount = 0;
+          _conversationModel!.conversations?[index0].unreadMessageCount = 0;
         }
               /// Manage Receiver
         _messageModel = MessageModel.fromJson(response.body);
-        _messageModel?.conversation ??= Conversation(sender: Userinfo(
-            id: Get.find<UserController>().userInfoModel!.id, image: Get.find<UserController>().userInfoModel!.image,
-            name: Get.find<UserController>().userInfoModel!.name,
-          ), receiver: notificationBody.adminId != null ? Userinfo(
-            id: 0, name: Get.find<SplashController>().configModel!.businessName,
-            image: Get.find<SplashController>().configModel!.logo,
-          ) : user);
-        _sortMessage(notificationBody.adminId!);
+        _messageModel?.conversation;
       }else {
         _messageModel?.totalSize = MessageModel.fromJson(response.body).totalSize;
         _messageModel?.offset = MessageModel.fromJson(response.body).offset;
-        _messageModel?.messages.addAll(MessageModel.fromJson(response.body).messages);
-        _messageModel?.messages.addAll(MessageModel.fromJson(response.body).messages);
+        _messageModel?.messages?.addAll(MessageModel.fromJson(response.body).messages as Iterable<Message>);
+        _messageModel?.messages?.addAll(MessageModel.fromJson(response.body).messages as Iterable<Message>);
       }
     } else {
       ApiChecker.checkApi(response, showToaster: true);
@@ -245,14 +238,14 @@ class ChatController extends GetxController implements GetxService {
       _isLoading = false;
       print("---------------------------------${response.body}");
       _messageModel = MessageModel.fromJson(response.body);
-      _searchConversationModel?.conversations[index].lastMessageTime = DateConverter.isoStringToLocalString(_messageModel!.messages[0].createdAt);
-          if(!_hasAdmin && (_messageModel?.conversation.senderType == UserType.admin.name || _messageModel?.conversation.receiverType == UserType.admin.name)) {
-        _conversationModel?.conversations.add(_messageModel!.conversation);
+      _searchConversationModel!.conversations?[index].lastMessageTime = DateConverter.isoStringToLocalString(_messageModel!.messages![0].createdAt);
+          if(!_hasAdmin && (_messageModel?.conversation?.senderType == UserType.admin.name || _messageModel?.conversation?.receiverType == UserType.admin.name)) {
+        _conversationModel?.conversations?.add(_messageModel!.conversation!);
         _hasAdmin = true;
       }
       _sortMessage(notificationBody.adminId!);
       Future.delayed(Duration(seconds: 2),() {
-        getMessages(1, notificationBody, Userinfo(), conversationID);
+        getMessages(1, notificationBody, Userinfo(id: 0, name: '', phone: '', identity: '', image: '', commercialRegisterionNo: '', userId: '', advertiserNo: '', membershipType: '', identityType: '', createdAt: '', updatedAt: '', falLicenseNumber: ''), conversationID);
       });
     }
     update();
@@ -260,15 +253,26 @@ class ChatController extends GetxController implements GetxService {
   }
 
   void _sortMessage(int adminId) {
-    if((_messageModel?.conversation.receiverType == UserType.user.name
-        || _messageModel?.conversation.receiverType == UserType.customer.name)) {
-      Userinfo? receiver = _messageModel?.conversation.receiver;
-      _messageModel?.conversation.receiver = _messageModel!.conversation.sender;
-      _messageModel?.conversation.sender = receiver!;
+    if((_messageModel?.conversation?.receiverType == UserType.user.name
+        || _messageModel?.conversation?.receiverType == UserType.customer.name)) {
+      Userinfo? receiver = _messageModel?.conversation?.receiver;
+      _messageModel?.conversation?.receiver = _messageModel!.conversation?.sender;
+      _messageModel?.conversation?.sender = receiver!;
     }
-    _messageModel?.conversation.receiver = Userinfo(
-      id: 0, name: Get.find<SplashController>().configModel!.businessName,
+    _messageModel?.conversation?.receiver = Userinfo(
+      id: 0,
+      name: Get.find<SplashController>().configModel!.businessName,
       image: Get.find<SplashController>().configModel!.logo,
+      phone: '',
+      identity: '',
+      commercialRegisterionNo: '',
+      userId: '',
+      advertiserNo: '',
+      membershipType: '',
+      identityType: '',
+      createdAt: '',
+      updatedAt: '',
+      falLicenseNumber: '',
     );
     }
 
@@ -284,23 +288,23 @@ class ChatController extends GetxController implements GetxService {
   void reloadConversationWithNotification(int conversationID) {
     int index0 = -1;
     Conversation? conversation;
-    for(int index=0; index<_conversationModel!.conversations.length; index++) {
-      if(_conversationModel?.conversations[index].id == conversationID) {
+    for(int index=0; index<_conversationModel!.conversations!.length; index++) {
+      if(_conversationModel!.conversations?[index].id == conversationID) {
         index0 = index;
-        conversation = _conversationModel?.conversations[index];
+        conversation = _conversationModel!.conversations?[index];
         break;
       }
     }
     if(index0 != -1) {
-      _conversationModel?.conversations.removeAt(index0);
+      _conversationModel?.conversations?.removeAt(index0);
     }
     conversation?.unreadMessageCount++;
-    _conversationModel?.conversations.insert(0, conversation!);
+    _conversationModel?.conversations?.insert(0, conversation!);
     update();
   }
 
   void reloadMessageWithNotification(Message message) {
-    _messageModel?.messages.insert(0, message);
+    _messageModel?.messages?.insert(0, message);
     update();
   }
 

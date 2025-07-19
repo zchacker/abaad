@@ -9,11 +9,11 @@ class SearchRepo {
   SearchRepo({required this.apiClient, required this.sharedPreferences});
 
   Future<Response> getSearchData(String query, bool isRestaurant) async {
-    return await apiClient.getData('${AppConstants.SEARCH_URI}${isRestaurant ? 'restaurants' : 'products'}/search?name=$query&offset=1&limit=50');
+    return await apiClient.getData('${AppConstants.SEARCH_URI}${isRestaurant ? 'restaurants' : 'products'}/search?name=$query&offset=1&limit=50', query: {}, headers: {});
   }
 
   Future<Response> getSuggestedFoods() async {
-    return await apiClient.getData(AppConstants.SUGGESTED_FOOD_URI);
+    return await apiClient.getData(AppConstants.SUGGESTED_FOOD_URI, query: {}, headers: {});
   }
 
   Future<bool> saveSearchHistory(List<String> searchHistories) async {

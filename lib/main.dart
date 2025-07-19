@@ -1,3 +1,5 @@
+// @dart=2.17.0
+
 import 'dart:async';
 import 'dart:io';
 import 'package:abaad/controller/auth_controller.dart';
@@ -44,17 +46,22 @@ Future<void> main() async {
 
   Map<String, Map<String, String>> languages = await di.init();
 
-  NotificationBody body;
+  NotificationBody? body;
   try {
     if (GetPlatform.isMobile) {
-      final RemoteMessage remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
-      body = NotificationHelper.convertNotification(remoteMessage.data);
-          await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
+
+      final RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
+      body = NotificationHelper.convertNotification(remoteMessage!.data , null);
+      await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
+
     }
+
+    runApp(MyApp(languages: languages, body: body!));
+
   }catch(e) {}
 
-  runApp(MyApp(languages: languages, body: body));
+
 }
 
 class MyApp extends StatelessWidget {
@@ -110,7 +117,7 @@ class MyApp extends StatelessWidget {
 
 class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext context) {
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }

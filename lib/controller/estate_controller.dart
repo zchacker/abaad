@@ -490,7 +490,7 @@ class EstateController extends GetxController implements GetxService {
       for(int index=0; index<_categoryList!.length; index++) {
         _categoryIds.add(_categoryList![index].id);
       }
-      setCategoryIndex(_categoryIds.indexOf(product.categoryId));
+      setCategoryIndex(_categoryIds.indexOf(product.categoryId ?? 0));
     //  await getSubCategoryList(int.parse(product.categoryIds[0].id), product);
             } else {
       ApiChecker.checkApi(response, showToaster: true);

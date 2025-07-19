@@ -1,10 +1,10 @@
 class EstateModel {
-  int totalSize = 0;
-  String limit = "";
-  int offset = 0;
+  int? totalSize = 0;
+  String? limit = "";
+  int? offset = 0;
   List<Estate>? estates;
 
-  EstateModel({required  this.totalSize, required  this.limit, required  this.offset, required  this.estates});
+  EstateModel({  this.totalSize,   this.limit,   this.offset,   this.estates});
 
   EstateModel.fromJson(Map<String, dynamic> json) {
     totalSize = json['total_size'];
@@ -29,166 +29,166 @@ class EstateModel {
 }
 
 class Estate {
-  int id = 0;
-  String address = "";
-  String title  = "";
+  int? id = 0;
+  String? address = "";
+  String? title  = "";
   List<Property>?  property;
-  String space = "";
-  int categoryId = 0;
-  String   price = "";
-  String ownershipType = "";
+  String? space = "";
+  int? categoryId = 0;
+  String?   price = "";
+  String? ownershipType = "";
 
-  int view = 0;
-  String status = "";
-  String districts = "";
+  int? view = 0;
+  String? status = "";
+  String? districts = "";
   List<NetworkType>?  networkType;
-  int height = 0;
-  int width = 0;
+  int? height = 0;
+  int? width = 0;
   List<ServiceOffers>? serviceOffers;
-  String qr = "";
+  String? qr = "";
   List<String>? images;
   List<String>? planned;
-  String arPath = "";
-  String latitude = "";
-  String longitude = "";
-  int zoneId = 0;
-  String type_add = "";
-  int territoryId = 0;
-  String  ageEstate = "";
-  String shortDescription = "";
-  String longDescription = "";
-  int floors = 0;
-  String near = "";
-  String priceNegotiation = "";
+  String? arPath = "";
+  String? latitude = "";
+  String? longitude = "";
+  int? zoneId = 0;
+  String? type_add = "";
+  int? territoryId = 0;
+  String?  ageEstate = "";
+  String? shortDescription = "";
+  String? longDescription = "";
+  int? floors = 0;
+  String? near = "";
+  String? priceNegotiation = "";
 
-  String createdAt = "";
-  String updatedAt = "";
-  int adNumber = 0;
-  int advertiserNo = 0;
-  String nationalAddress = "";
-  int userId = 0;
-  int estate_id = 0;
-  String city = "";
-  String category = "";
+  String? createdAt = "";
+  String? updatedAt = "";
+  int? adNumber = 0;
+  int? advertiserNo = 0;
+  String? nationalAddress = "";
+  int? userId = 0;
+  int? estate_id = 0;
+  String? city = "";
+  String? category = "";
   List<OtherAdvantages>? otherAdvantages;
   List<Interface>? interface;
-  String streetSpace = "";
-  String buildSpace = "";
-  String documentNumber = "";
-  String videoUrl = "";
+  String? streetSpace = "";
+  String? buildSpace = "";
+  String? documentNumber = "";
+  String? videoUrl = "";
   Users? users;
-  String categoryName = "";
-  String zoneName = "";
-  String categoryNameAr = "";
-  String zoneNameAr = "";
-  String property_type = "";
-  String skyView = "";
-  String estate_type = "";
-  String authorization_number = "";
+  String? categoryName = "";
+  String? zoneName = "";
+  String? categoryNameAr = "";
+  String? zoneNameAr = "";
+  String? property_type = "";
+  String? skyView = "";
+  String? estate_type = "";
+  String? authorization_number = "";
 
 
-  String creationDate = "";
-  String endDate = "";
-  String adLicenseNumber = "";
-  String deedNumber = "";
-  String brokerageAndMarketingLicenseNumber = "";
-  String titleDeedTypeName = "";
-  String northLimit = "";
-  String eastLimit = "";
-  String westLimit = "";
-  String southLimit = "";
-  String streetWidth = "";
-  String propertyFace = "";
-  String advertisementType = "";
-  String totalPrice = "";
-  String licenseNumber = "";
-  String planNumber = "";
+  String? creationDate = "";
+  String? endDate = "";
+  String? adLicenseNumber = "";
+  String? deedNumber = "";
+  String? brokerageAndMarketingLicenseNumber = "";
+  String? titleDeedTypeName = "";
+  String? northLimit = "";
+  String? eastLimit = "";
+  String? westLimit = "";
+  String? southLimit = "";
+  String? streetWidth = "";
+  String? propertyFace = "";
+  String? advertisementType = "";
+  String? totalPrice = "";
+  String? licenseNumber = "";
+  String? planNumber = "";
 
-  String obligationsOnTheProperty = "";
-  String guaranteesAndTheirDuration = "";
-  String locationDescriptionOnMOJDeed = "";
-  String numberOfRooms = "";
-  String mainLandUseTypeName = "";
+  String? obligationsOnTheProperty = "";
+  String? guaranteesAndTheirDuration = "";
+  String? locationDescriptionOnMOJDeed = "";
+  String? numberOfRooms = "";
+  String? mainLandUseTypeName = "";
   List<String>? propertyUtilities;
-  String landNumber = "";
+  String? landNumber = "";
 
   Estate({
-    required this.id,
-    required this.address,
-    required this.property,
-    required this.space,
-    required this.categoryId,
-    required this.price,
-    required this.ownershipType,
-    required this.planned,
-    required this.view,
-    required this.status,
-    required this.districts,
-    required this.networkType,
-    required this.height,
-    required this.width,
-    required this.serviceOffers,
-    required this.qr,
-    required this.images,
-    required this.arPath,
-    required this.latitude,
-    required this.longitude,
-    required this.zoneId,
-    required this.type_add,
-    required this.territoryId,
-    required this.ageEstate,
-    required this.shortDescription,
-    required this.longDescription,
-    required this.floors,
-    required this.near,
-    required this.priceNegotiation,
-    required this.adNumber,
-    required this.advertiserNo,
-    required this.nationalAddress,
-    required this.userId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.estate_id,
-    required this.city,
-    required this.title,
-    required this.category,
-    required this.otherAdvantages,
-    required this.interface,
-    required this.streetSpace,
-    required this.buildSpace,
-    required this.documentNumber,
-    required this.videoUrl,
-    required this.users,
-    required this.categoryName,
-    required this.categoryNameAr,
-    required this.zoneName,
-    required this.zoneNameAr,
-    required this.property_type,
-    required this.skyView,
-    required this.estate_type,
-    required this.authorization_number,
-    required this.creationDate,
-    required this.endDate,
-    required this.adLicenseNumber,
-    required this.deedNumber,
-    required this.brokerageAndMarketingLicenseNumber,
-    required this.titleDeedTypeName,
-    required this.northLimit,
-    required this.eastLimit,
-    required this.westLimit,
-    required this.southLimit,
-    required this.streetWidth,
-    required this.propertyFace,
-    required this.advertisementType,
-    required this.licenseNumber,
-    required this.planNumber,
-    required this.obligationsOnTheProperty,
-    required this.guaranteesAndTheirDuration,
-    required this.locationDescriptionOnMOJDeed,
-    required this.numberOfRooms,
-    required this.mainLandUseTypeName,
-    required this.propertyUtilities,
-    required this.landNumber,
+     this.id,
+     this.address,
+     this.property,
+     this.space,
+     this.categoryId,
+     this.price,
+     this.ownershipType,
+     this.planned,
+     this.view,
+     this.status,
+     this.districts,
+     this.networkType,
+     this.height,
+     this.width,
+     this.serviceOffers,
+     this.qr,
+     this.images,
+     this.arPath,
+     this.latitude,
+     this.longitude,
+     this.zoneId,
+     this.type_add,
+     this.territoryId,
+     this.ageEstate,
+     this.shortDescription,
+     this.longDescription,
+     this.floors,
+     this.near,
+     this.priceNegotiation,
+     this.adNumber,
+     this.advertiserNo,
+     this.nationalAddress,
+     this.userId,
+     this.createdAt,
+     this.updatedAt,
+     this.estate_id,
+     this.city,
+     this.title,
+     this.category,
+     this.otherAdvantages,
+     this.interface,
+     this.streetSpace,
+     this.buildSpace,
+     this.documentNumber,
+     this.videoUrl,
+     this.users,
+     this.categoryName,
+     this.categoryNameAr,
+     this.zoneName,
+     this.zoneNameAr,
+     this.property_type,
+     this.skyView,
+     this.estate_type,
+     this.authorization_number,
+     this.creationDate,
+     this.endDate,
+     this.adLicenseNumber,
+     this.deedNumber,
+     this.brokerageAndMarketingLicenseNumber,
+     this.titleDeedTypeName,
+     this.northLimit,
+     this.eastLimit,
+     this.westLimit,
+     this.southLimit,
+     this.streetWidth,
+     this.propertyFace,
+     this.advertisementType,
+     this.licenseNumber,
+     this.planNumber,
+     this.obligationsOnTheProperty,
+     this.guaranteesAndTheirDuration,
+     this.locationDescriptionOnMOJDeed,
+     this.numberOfRooms,
+     this.mainLandUseTypeName,
+     this.propertyUtilities,
+    this.landNumber,
   });
 
   Estate.fromJson(Map<String, dynamic> json) {
@@ -401,13 +401,13 @@ class Estate {
 
 
 class EstateImages {
-  int id = 0;
-  String image = "";
-  String estateId = "";
+  int? id = 0;
+  String? image = "";
+  String? estateId = "";
   Null createdAt;
   Null updatedAt;
 
-  EstateImages({required this.id, required this.image, required this.estateId, required this.createdAt, required this.updatedAt});
+  EstateImages({ this.id,  this.image,  this.estateId,  this.createdAt,  this.updatedAt});
 
   EstateImages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -430,40 +430,40 @@ class EstateImages {
 
 
 class ServiceOffers {
-  String id  = "";
-  String title = "";
-  String expiryDate = "";
-  String servicePrice = "";
-  String description = "";
-  String discount = "";
-  String sendedAt = "";
-  String serviceTypeId = "";
-  String offerType = "";
-  String createdAt = "";
-  String updatedAt = "";
-  String image = "";
-  String phoneProvider = "";
-  String category_id = "";
-  String offer_id = "";
-  String provider_name = "";
+  String? id  = "";
+  String? title = "";
+  String? expiryDate = "";
+  String? servicePrice = "";
+  String? description = "";
+  String? discount = "";
+  String? sendedAt = "";
+  String? serviceTypeId = "";
+  String? offerType = "";
+  String? createdAt = "";
+  String? updatedAt = "";
+  String? image = "";
+  String? phoneProvider = "";
+  String? category_id = "";
+  String? offer_id = "";
+  String? provider_name = "";
 
   ServiceOffers({
-    required this.id,
-    required this.title,
-    required this.expiryDate,
-    required this.servicePrice,
-    required this.description,
-    required this.discount,
-    required this.sendedAt,
-    required this.serviceTypeId,
-    required this.offerType,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.image,
-    required this.phoneProvider,
-    required this.category_id,
-    required this.offer_id,
-    required this.provider_name});
+     this.id,
+     this.title,
+     this.expiryDate,
+     this.servicePrice,
+     this.description,
+     this.discount,
+     this.sendedAt,
+     this.serviceTypeId,
+     this.offerType,
+     this.createdAt,
+     this.updatedAt,
+     this.image,
+     this.phoneProvider,
+     this.category_id,
+     this.offer_id,
+     this.provider_name});
 
   ServiceOffers.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -513,12 +513,12 @@ class ServiceOffers {
 
 
 class Property {
-  String id = "";
-  String name = "";
-  String number = "";
-  String category_id = "";
+  String? id = "";
+  String? name = "";
+  String? number = "";
+  String? category_id = "";
 
-  Property({required this.id, required this.name, required this.number,required this.category_id});
+  Property({ this.id,  this.name,  this.number, this.category_id});
 
   Property.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -538,10 +538,10 @@ class Property {
 }
 
 class NetworkType {
-  String name = "";
-  String image = "";
+  String? name = "";
+  String? image = "";
 
-  NetworkType({required this.name, required this.image});
+  NetworkType({ this.name,  this.image});
 
   NetworkType.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -561,11 +561,11 @@ class NetworkType {
 
 class OtherAdvantages {
 
-  String name = "";
+  String? name = "";
 
 
 
-  OtherAdvantages({required this.name });
+  OtherAdvantages({ this.name });
 
   OtherAdvantages.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -583,11 +583,11 @@ class OtherAdvantages {
 }
 
 class Interface {
-  String name = "";
-  String space = "";
+  String? name = "";
+  String? space = "";
 
 
-  Interface({required this.name,required this.space});
+  Interface({ this.name, this.space});
 
   Interface.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -608,17 +608,17 @@ class Interface {
 
 
 class Users {
-  int id = 0;
-  String name = "";
-  String email = "";
-  String phone = "";
-  String image = "";
-  String membershipType = "";
-  String advertiserNo = "";
-  String identity = "";
-  String falLicenseNumber = "";
+  int? id = 0;
+  String? name = "";
+  String? email = "";
+  String? phone = "";
+  String? image = "";
+  String? membershipType = "";
+  String? advertiserNo = "";
+  String? identity = "";
+  String? falLicenseNumber = "";
 
-  Users({required this.id ,required this.name, required this.email, required this.phone, required this.image,required this.membershipType,required this.advertiserNo,required this.identity,required this.falLicenseNumber});
+  Users({ this.id , this.name,  this.email,  this.phone,  this.image, this.membershipType, this.advertiserNo, this.identity, this.falLicenseNumber});
 
   Users.fromJson(Map<String, dynamic> json) {
     id = json['id'];

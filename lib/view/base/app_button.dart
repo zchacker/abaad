@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class AppButton extends StatelessWidget {
   const AppButton({
-    Key key,
+    Key? key,
      this.label,
     this.roundness = 8.0,
     this.btnColor,
@@ -16,14 +16,14 @@ class AppButton extends StatelessWidget {
   }) : super(key: key);
 
   ///
-  final String label;
-  final double roundness;
-  final FontWeight fontWeight;
-  final EdgeInsets padding;
-  final Widget trailingWidget;
-  final void Function() onPressed;
-  final Color btnColor;
-  final Color titleColor;
+  final String? label;
+  final double? roundness;
+  final FontWeight? fontWeight;
+  final EdgeInsets? padding;
+  final Widget? trailingWidget;
+  final void Function()? onPressed;
+  final Color? btnColor;
+  final Color? titleColor;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class AppButton extends StatelessWidget {
       child: MaterialButton(
         visualDensity: VisualDensity.compact,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(roundness),
+          borderRadius: BorderRadius.circular(roundness!),
         ),
         color: btnColor ?? Theme.of(context).primaryColor,
         textColor: titleColor ?? Colors.white,
@@ -48,7 +48,7 @@ class AppButton extends StatelessWidget {
         // )
         child: trailingWidget == null
             ? Text(
-                label,
+                label!,
                 textAlign: TextAlign.center,
                 style: robotoMedium.copyWith(fontSize: 16.0),
               )
@@ -58,7 +58,7 @@ class AppButton extends StatelessWidget {
                   trailingWidget ?? const SizedBox(),
                   const SizedBox(width: 20.0),
                   Text(
-                    label,
+                    label!,
                     textAlign: TextAlign.center,
                     style:robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
                   ),

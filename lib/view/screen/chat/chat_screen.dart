@@ -24,11 +24,11 @@ import 'package:get/get.dart';
 class ChatScreen extends StatefulWidget {
   final NotificationBody notificationBody;
   final Userinfo  user;
-  final int    conversationID;
-  final int index;
-  final String  estate_id;
-  final String link;
-  final Estate estate;
+  final int? conversationID;
+  final int? index;
+  final String?  estate_id;
+  final String? link;
+  final Estate? estate;
   const ChatScreen({super.key, required this.notificationBody, required this.user, this.conversationID, this.index,this.estate_id,this.link,this.estate});
 
   @override

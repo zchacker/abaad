@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'package:abaad/controller/user_controller.dart';
 import 'package:abaad/util/dimensions.dart';
 import 'package:abaad/util/styles.dart';
@@ -13,7 +12,7 @@ class ConfirmationDialog extends StatelessWidget {
   final String description;
   final Function onYesPressed;
   final bool isLogOut;
-  final Function onNoPressed;
+  final Function? onNoPressed;
   const ConfirmationDialog({
     super.key,
     required this.icon,
@@ -57,14 +56,14 @@ class ConfirmationDialog extends StatelessWidget {
             GetBuilder<UserController>(builder: (userController) {
                   return ( userController.isLoading) ? Center(child: CircularProgressIndicator()) : Row(children: [
                                       Expanded(child: TextButton(
-                      onPressed: () => isLogOut ? onYesPressed() : onNoPressed != null ? onNoPressed() : Get.back(),
+                      onPressed: () => isLogOut ? onYesPressed() : onNoPressed != null ? onNoPressed!() : Get.back(),
                       style: TextButton.styleFrom(
                         backgroundColor: Theme.of(context).disabledColor.withOpacity(0.3), minimumSize: Size(Dimensions.WEB_MAX_WIDTH, 40), padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),
                       ),
                       child: Text(
                         isLogOut ? 'yes'.tr : 'no'.tr, textAlign: TextAlign.center,
-                        style: robotoBold.copyWith(color: Theme.of(context).textTheme.bodyLarge.color),
+                        style: robotoBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color),
                       ),
                     )),
                     SizedBox(width: Dimensions.PADDING_SIZE_LARGE),

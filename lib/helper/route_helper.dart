@@ -147,16 +147,16 @@ class RouteHelper {
 
 
   static String getChatRoute({
-    required NotificationBody notificationBody,
-    required Userinfo? user,
-    required int conversationID,
-    required int index,
-    required int estate_id,
-    required String link,
-    required Estate? estate
+     NotificationBody? notificationBody,
+     Userinfo? user,
+     int? conversationID,
+     int? index,
+     int? estate_id,
+     String? link,
+     Estate? estate
   }) {
     String notificationBody0 = 'null';
-    notificationBody0 = base64Encode(utf8.encode(jsonEncode(notificationBody.toJson())));
+    notificationBody0 = base64Encode(utf8.encode(jsonEncode(notificationBody!.toJson())));
       String user0 = 'null';
     user0 = base64Encode(utf8.encode(jsonEncode(user?.toJson())));
   
@@ -212,8 +212,19 @@ class RouteHelper {
     GetPage(name: categories, page: () {
       MapScreen pickMapScreen = Get.arguments;
       bool fromAddress = Get.parameters['page'] == 'add-address';
-      return (fromAddress && pickMapScreen == null) ? NotFound() : pickMapScreen ?? MapScreen(mainCategory:ZoneModel(id: int.parse(Get.parameters['id']!),latitude:Get.parameters['latitude']!,longitude: Get.parameters['longitude']!, name: '', nameAr: '', coordinates: null, status: '', createdAt: '', updatedAt: '', image: '' ) ,
-         fromSignUp: Get.parameters['page'] == signUp, fromAddAddress: fromAddress, route: Get.parameters['page'],
+      return (fromAddress && pickMapScreen == null) ? NotFound() : pickMapScreen ?? MapScreen(
+        mainCategory:ZoneModel(id: int.parse(Get.parameters['id']!),
+            latitude:Get.parameters['latitude']!,
+            longitude: Get.parameters['longitude']!,
+            name: '',
+            nameAr: '',
+            coordinates: null,
+            status: '',
+            createdAt: '',
+            updatedAt: '',
+            image: ''
+        ) ,
+         fromSignUp: Get.parameters['page'] == signUp, fromAddAddress: fromAddress, route: Get.parameters['page']!,
         canRoute: Get.parameters['route'] == 'true',
       );
     }),
@@ -224,57 +235,57 @@ class RouteHelper {
           : Get.parameters['page'] == 'cancellation-policy' ? HtmlType.CANCELLATION_POLICY
           : Get.parameters['page'] == 'refund-policy' ? HtmlType.REFUND_POLICY : HtmlType.ABOUT_US,
     )),
-   GetPage(name: webview, page: () => WebViewScreen(url: Get.parameters['url'])),
+   GetPage(name: webview, page: () => WebViewScreen(url: Get.parameters['url']!)),
     GetPage(name: pickMap, page: () {
       PickMapScreen pickMapScreen = Get.arguments;
       bool fromAddress = Get.parameters['page'] == 'add-address';
       return (fromAddress && pickMapScreen == null) ? NotFound() : pickMapScreen ?? PickMapScreen(
-        fromSignUp: Get.parameters['page'] == signUp, fromAddAddress: fromAddress, route: Get.parameters['page'],
+        fromSignUp: Get.parameters['page'] == signUp, fromAddAddress: fromAddress, route: Get.parameters['page']!,
         canRoute: Get.parameters['route'] == 'true',
       );
     }),
     GetPage(name: messages, page: () {
-      NotificationBody notificationBody;
+      NotificationBody notificationBody =  NotificationBody(notificationType: NotificationType.general, orderId: null, adminId: null, deliverymanId: null, restaurantId: null, type: '', conversationId: null);
       if(Get.parameters['notification'] != 'null') {
         notificationBody = NotificationBody.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['notification']!.replaceAll(' ', '+')))));
       }
-      Userinfo user;
+      Userinfo user = Userinfo(id: 0, name: "", phone: "", identity: "", image: "", commercialRegisterionNo: "", userId: "", advertiserNo: "", membershipType: "", identityType: "", createdAt: "", updatedAt: "", falLicenseNumber: "");
       Estate estate;
       if(Get.parameters['user'] != 'null') {
         user = Userinfo.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['user']!.replaceAll(' ', '+')))));
       }
       return ChatScreen(
-        notificationBody: notificationBody,
-        user: user, index: Get.parameters['index'] != 'null' ? int.parse(Get.parameters['index']!) : null,
-        conversationID: (Get.parameters['conversation_id'] != null && Get.parameters['conversation_id'] != 'null') ? int.parse(Get.parameters['conversation_id']!) : null,
-        estate_id:  Get.parameters['estate_id'] != 'null' ?Get.parameters['estate_id']: null ,link:Get.parameters['like'] != 'null' ?Get.parameters['link']: null,estate: estate, );
+        notificationBody: notificationBody ,
+        user: user, index: Get.parameters['index']! != 'null' ? int.parse(Get.parameters['index']!) : 0,
+        conversationID: (Get.parameters['conversation_id'] != null && Get.parameters['conversation_id'] != 'null') ? int.parse(Get.parameters['conversation_id']!) : 0,
+        estate_id:  Get.parameters['estate_id'] != null ? Get.parameters['estate_id']: null ,link:Get.parameters['like'] != null ?Get.parameters['link']: null,estate: null, );
     }),
     GetPage(name: estate, page: () {
-      return Get.arguments ?? EstateDetails(estate: Estate(id: int.parse(Get.parameters['id'])) ,);
+      return Get.arguments ?? EstateDetails(estate: Estate(id: int.parse(Get.parameters['id']!)) ,);
     }),
 
 
 
 
     GetPage(name: editEstate, page: () => EditDialog(
-      estate: Estate.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['item'].replaceAll(' ', '+'))))),
+      estate: Estate.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['item']!.replaceAll(' ', '+'))))),
     )),
 
     GetPage(name: feature, page: () {
-      return Get.arguments ?? FeatureScreen(estate: Estate(id: int.parse(Get.parameters['id']),latitude:Get.parameters['latitude'],longitude: Get.parameters['longitude']),featureId:Get.parameters['feature_id'],path:Get.parameters['path'] ,pathVideo:Get.parameters['path_video'],skyView: Get.parameters['sky_view'],);
+      return Get.arguments ?? FeatureScreen(estate: Estate(id: int.parse(Get.parameters['id']!),latitude:Get.parameters['latitude'],longitude: Get.parameters['longitude']),featureId:Get.parameters['feature_id'],path:Get.parameters['path']! ,pathVideo:Get.parameters['path_video']!,skyView: Get.parameters['sky_view']!,);
     }),
-    GetPage(name: businessPlan, page: () => BusinessPlanScreen(estateId: int.parse(Get.parameters['id']))),
+    GetPage(name: businessPlan, page: () => BusinessPlanScreen(estateId: int.parse(Get.parameters['id']!))),
    // GetPage(name: categories, page: () =>MapScreen(mainCategory: ZoneModel(id: int.parse(Get.parameters['id'])))),
 
     GetPage(name: marketer, page: () {
-      return Get.arguments ?? AgentProfileScreen(userInfo: Userinfo(id: int.parse(Get.parameters['id'])) ,isMyProfile:int.parse(Get.parameters['isMyProfile']));
+      return Get.arguments ?? AgentProfileScreen(userInfo: Userinfo(id: int.parse(Get.parameters['id']!)) ,isMyProfile:int.parse(Get.parameters['isMyProfile']!));
     }),
 
-    GetPage(name: payment, page: () => SuccessScreen(estate_id: int.parse(Get.parameters['id']),)),
+    GetPage(name: payment, page: () => SuccessScreen(estate_id: int.parse(Get.parameters['id']!),)),
 
-    GetPage(name: upload_screen, page: () => UploadScreen(estateId: int.parse(Get.parameters['id']),)),
+    GetPage(name: upload_screen, page: () => UploadScreen(estateId: int.parse(Get.parameters['id']!),)),
 
-    GetPage(name: sucess2, page: () => SuccessScreen2(estate_id: int.parse(Get.parameters['id']),)),
+    GetPage(name: sucess2, page: () => SuccessScreen2(estate_id: int.parse(Get.parameters['id']!),)),
   ];
 
 
@@ -283,9 +294,9 @@ class RouteHelper {
   static getRoute(Widget navigateTo) {
     int minimumVersion = 0;
     if(GetPlatform.isAndroid) {
-      minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionAndroid;
+      minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionAndroid;
     }else if(GetPlatform.isIOS) {
-      minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionIos;
+      minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionIos;
     }
     // return AppConstants.APP_VERSION < _minimumVersion ? UpdateScreen(isUpdate: true)
     //     : Get.find<SplashController>().configModel.maintenanceMode ? UpdateScreen(isUpdate: false));

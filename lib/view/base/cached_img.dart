@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class CachedImage extends StatelessWidget {
   const CachedImage({
-    Key key,
+    Key? key,
     this.imageUrl,
     this.width,
     this.height,
@@ -14,18 +14,18 @@ class CachedImage extends StatelessWidget {
   }) : super(key: key);
 
   ///
-  final String imageUrl;
-  final double width, height;
-  final bool isCircle;
-  final BorderRadiusGeometry borderRadius;
-  final BoxFit fit;
+  final String? imageUrl;
+  final double? width, height;
+  final bool? isCircle;
+  final BorderRadiusGeometry? borderRadius;
+  final BoxFit? fit;
 
   ///
   @override
   Widget build(BuildContext context) {
     //
     return CachedNetworkImage(
-      imageUrl: imageUrl,
+      imageUrl: imageUrl ?? "",
       width: width ?? 50.0,
       height: height ?? 50.0,
       alignment: Alignment.center,
@@ -48,19 +48,19 @@ class CachedImage extends StatelessWidget {
       ),
       // in loading image case
       placeholder: (context, index) => PlaceHolderImage(
-        width: width,
-        height: height,
-        isCircle: isCircle,
+        width: width ?? 0,
+        height: height ?? 0,
+        isCircle: isCircle ?? false,
       ),
       // in error case
       errorWidget: (context, url, error) {
         debugPrint('url $url , error $error');
         try {
           return ShowDefaultImage(
-            width: width,
-            height: height,
-            isCircle: isCircle,
-            borderRadius: borderRadius,
+            width: width ?? 0,
+            height: height ?? 0,
+            isCircle: isCircle ?? false,
+            borderRadius: borderRadius ?? null,
             fit: fit,
           );
         } catch (e) {
@@ -79,15 +79,16 @@ class CachedImage extends StatelessWidget {
 }
 
 class PlaceHolderImage extends StatelessWidget {
-  const PlaceHolderImage({super.key, 
+  const PlaceHolderImage({
+    super.key,
     this.height,
     this.width,
     this.isCircle,
     this.borderRadius,
   });
-  final double width, height;
-  final bool isCircle;
-  final BorderRadiusGeometry borderRadius;
+  final double? width, height;
+  final bool? isCircle;
+  final BorderRadiusGeometry? borderRadius;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -110,7 +111,7 @@ class PlaceHolderImage extends StatelessWidget {
 
 class ShowDefaultImage extends StatelessWidget {
   const ShowDefaultImage({
-    Key key,
+    Key? key,
     this.width,
     this.height,
     this.isCircle,
@@ -118,10 +119,10 @@ class ShowDefaultImage extends StatelessWidget {
     this.fit,
   }) : super(key: key);
 
-  final double width, height;
-  final bool isCircle;
-  final BorderRadiusGeometry borderRadius;
-  final BoxFit fit;
+  final double? width, height;
+  final bool? isCircle;
+  final BorderRadiusGeometry? borderRadius;
+  final BoxFit? fit;
 
   @override
   Widget build(BuildContext context) {

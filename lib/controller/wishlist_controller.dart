@@ -18,10 +18,10 @@ class WishListController extends GetxController implements GetxService {
   List<int> get wishProductIdList => _wishProductIdList;
   List<int> get wishRestIdList => _wishRestIdList;
 
-  void addToWishList(Estate restaurant, bool isRestaurant) async {
-    Response? response = await wishListRepo?.addWishList( restaurant.id, isRestaurant);
+  void addToWishList( Estate restaurant, bool isRestaurant) async {
+    Response? response = await wishListRepo?.addWishList( restaurant.id ?? 0, isRestaurant);
     if (response?.statusCode == 200) {
-        _wishRestIdList.add(restaurant.id);
+        _wishRestIdList.add(restaurant.id ?? 0);
         _wishRestList?.add(restaurant);
 
       showCustomSnackBar(response?.body['message'], isError: false);

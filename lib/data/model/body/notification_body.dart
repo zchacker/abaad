@@ -15,13 +15,13 @@ class NotificationBody {
   int? conversationId;
 
   NotificationBody({
-    required this.notificationType,
-    required this.orderId,
-    required this.adminId,
-    required this.deliverymanId,
-    required this.restaurantId,
-    required this.type,
-    required this.conversationId,
+     this.notificationType,
+     this.orderId,
+     this.adminId,
+     this.deliverymanId,
+     this.restaurantId,
+     this.type,
+     this.conversationId,
   });
 
   NotificationBody.fromJson(Map<String, dynamic> json) {

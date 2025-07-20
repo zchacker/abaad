@@ -31,7 +31,7 @@ class DrawerMenu extends StatelessWidget {
 
               UserAccountsDrawerHeader(
                 accountName:  Text(
-                  isLoggedIn ? userController.userInfoModel.name : 'guest'.tr,
+                  isLoggedIn ? userController.userInfoModel!.name! : 'guest'.tr,
                   style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge,color:  Colors.grey), ),
 
                 accountEmail:   Row(
@@ -41,7 +41,7 @@ class DrawerMenu extends StatelessWidget {
                     //   style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall,color: Colors.grey),
                     // ),
                     Text(
-                      isLoggedIn ? userController.userInfoModel.phone : 'guest'.tr,
+                      isLoggedIn ? userController.userInfoModel?.phone ?? '' : 'guest'.tr,
                       style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall,color: Colors.grey),
                     ),
                   ],
@@ -58,14 +58,14 @@ class DrawerMenu extends StatelessWidget {
                   // ),
                 ),
                 currentAccountPicture:  ClipOval(child: CustomImage(
-                  image: '${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}'
-                      '/${(isLoggedIn) ? userController.userInfoModel.image : ''}',
+                  image: '${Get.find<SplashController>().configModel?.baseUrls?.customerImageUrl ?? ""}'
+                      '/${(isLoggedIn) ? userController.userInfoModel?.image ?? "" : ''}',
                   height: 100, width: 100, fit: BoxFit.cover,
                 )),
               ),
               listItem(1,Icons.manage_accounts_outlined, 'my_account'.tr, Colors.blueAccent,(){
-                Get.find<UserController>().getUserInfoByID(userController.userInfoModel.id );
-                Get.find<UserController>().getEstateByUser(1, false,userController.userInfoModel.id );
+                Get.find<UserController>().getUserInfoByID(userController.userInfoModel?.id ?? 0 );
+                Get.find<UserController>().getEstateByUser(1, false,userController.userInfoModel?.id ?? 0 );
                 Get.toNamed(RouteHelper.getProfileRoute());
               
               }),

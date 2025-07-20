@@ -10,18 +10,18 @@ import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class ImageViewDiloag extends StatelessWidget {
-  Estate estate;
+  Estate? estate;
    ImageViewDiloag({super.key, this.estate});
 
   @override
   Widget build(BuildContext context) {
       return GetBuilder<EstateController>(builder: (estateController) {
-      return (estate.planned!= null) ?
+      return (estate?.planned!= null) ?
     Container(
 
 
       padding: EdgeInsets.only(top: 2),
-      child: (estate.planned != null)  != null ? Stack(
+      child: (estate?.planned != null)  != null ? Stack(
 
         children: [
           Padding(
@@ -38,9 +38,9 @@ class ImageViewDiloag extends StatelessWidget {
                   estateController.setCurrentIndex(index, true);
                 },
               ),
-              itemCount:estate.planned.isEmpty ? 1 :  estate.planned.length,
+              itemCount:estate?.planned?.isEmpty ?? false ? 1 :  estate?.planned?.length,
               itemBuilder: (context, index, _) {
-                String baseUrl = Get.find<SplashController>().configModel.baseUrls.estateImageUrl;
+                String baseUrl = Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl ?? "";
                 print("---------------anner----------$baseUrl");
                 return GestureDetector(
                   onTap: (){
@@ -51,13 +51,13 @@ class ImageViewDiloag extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                      boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5)],
+                      boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                       child:  GetBuilder<SplashController>(builder: (splashController) {
                         return  CustomImage(
-                          image: '$baseUrl/${estate.planned[index]}',
+                          image: '$baseUrl/${estate?.planned?[index]}',
                           fit: BoxFit.cover,
                         );
                       },
@@ -73,12 +73,13 @@ class ImageViewDiloag extends StatelessWidget {
           Positioned(
             bottom: 20,
             right: 20,
-            child:Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children:estate.images.map((bnr) {
-                int index =estate.images.indexOf(bnr);
+              children: estate!.images!.asMap().entries.map((entry) {
+                int index = entry.key;
                 return TabPageSelectorIndicator(
-                  backgroundColor: index == estateController.currentIndex ? Theme.of(context).primaryColor
+                  backgroundColor: index == estateController.currentIndex
+                      ? Theme.of(context).primaryColor
                       : Theme.of(context).primaryColor.withOpacity(0.5),
                   borderColor: Theme.of(context).colorScheme.surface,
                   size: index == estateController.currentIndex ? 10 : 7,
@@ -90,7 +91,7 @@ class ImageViewDiloag extends StatelessWidget {
         ],
       ) : Shimmer(
         duration: Duration(seconds: 2),
-        enabled: estate.images == null,
+        enabled: estate?.images == null,
         child: Container(margin: EdgeInsets.symmetric(horizontal: 10), decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
           color: Colors.grey[Get.find<ThemeController>().darkTheme ? 700 : 300],

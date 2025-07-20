@@ -9,19 +9,19 @@ import 'package:flutter/services.dart';
 class CustomTextField extends StatefulWidget {
   final String titleText;
   final String hintText;
-  final TextEditingController controller;
-  final FocusNode focusNode;
-  final FocusNode nextFocus;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final FocusNode? nextFocus;
   final TextInputType inputType;
   final TextInputAction inputAction;
   final bool isPassword;
-  final Function onChanged;
-  final Function onSubmit;
+  final Function? onChanged;
+  final Function? onSubmit;
   final bool isEnabled;
   final int maxLines;
   final TextCapitalization capitalization;
-  final String prefixImage;
-  final IconData prefixIcon;
+  final String? prefixImage;
+  final IconData? prefixIcon;
   final double prefixSize;
   final TextAlign textAlign;
   final bool isAmount;
@@ -31,41 +31,41 @@ class CustomTextField extends StatefulWidget {
   final double iconSize;
   final bool divider;
   final bool isPhone;
-  final String countryDialCode;
-  final int maxLength;
-  final Function(CountryCode countryCode) onCountryChanged;
+  final String? countryDialCode;
+  final int? maxLength;
+  final Function(CountryCode countryCode)? onCountryChanged;
 
-  const CustomTextField(
-      {Key key,
-        this.titleText = 'Write something...',
-        this.hintText = '',
-        this.controller,
-        this.focusNode,
-        this.nextFocus,
-        this.isEnabled = true,
-        this.inputType = TextInputType.text,
-        this.inputAction = TextInputAction.next,
-        this.maxLines = 1,
-        this.onSubmit,
-        this.onChanged,
-        this.prefixImage,
-        this.prefixIcon,
-        this.capitalization = TextCapitalization.none,
-        this.isPassword = false,
-        this.prefixSize = Dimensions.paddingSizeSmall,
-        this.textAlign = TextAlign.start,
-        this.isAmount = false,
-        this.isNumber = false,
-        this.showTitle = false,
-        this.showBorder = true,
-        this.iconSize = 18,
-        this.divider = false,
-        this.isPhone = false,
-        this.countryDialCode,
-        this.onCountryChanged,
-        this.maxLength
+  const CustomTextField({
+    Key? key,
+    this.titleText = 'Write something...',
+    this.hintText = '',
+    this.controller,
+    this.focusNode,
+    this.nextFocus,
+    this.isEnabled = true,
+    this.inputType = TextInputType.text,
+    this.inputAction = TextInputAction.next,
+    this.maxLines = 1,
+    this.onSubmit,
+    this.onChanged,
+    this.prefixImage,
+    this.prefixIcon,
+    this.capitalization = TextCapitalization.none,
+    this.isPassword = false,
+    this.prefixSize = Dimensions.paddingSizeSmall,
+    this.textAlign = TextAlign.start,
+    this.isAmount = false,
+    this.isNumber = false,
+    this.showTitle = false,
+    this.showBorder = true,
+    this.iconSize = 18,
+    this.divider = false,
+    this.isPhone = false,
+    this.countryDialCode,
+    this.onCountryChanged,
+    this.maxLength
 
-      }) : super(key: key);
+  }) : super(key: key);
 
   @override
   @override
@@ -133,11 +133,11 @@ class CustomTextFieldState extends State<CustomTextField> {
                   child: CodePickerWidget(
                     flagWidth: 25,
                     padding: EdgeInsets.zero,
-                    onChanged: widget.onCountryChanged,
-                    initialSelection: widget.countryDialCode,
-                    favorite: [widget.countryDialCode],
+                    onChanged: widget.onCountryChanged!,
+                    initialSelection: widget.countryDialCode!,
+                    favorite: [widget.countryDialCode!],
                     textStyle: robotoRegular.copyWith(
-                      fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyMedium.color,
+                      fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyMedium?.color!,
                     ),
                   ),
                 ),
@@ -150,7 +150,7 @@ class CustomTextFieldState extends State<CustomTextField> {
             ]),
             ) : widget.prefixIcon == null ? Padding(
               padding: EdgeInsets.symmetric(horizontal: widget.prefixSize),
-              child: Image.asset(widget.prefixImage, height: 20, width: 20),
+              child: Image.asset(widget.prefixImage!, height: 20, width: 20),
             ) : widget.prefixImage == null ? Icon(widget.prefixIcon, size: widget.iconSize) : null,
             suffixIcon: widget.isPassword ? IconButton(
               icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility, color: Theme.of(context).hintColor.withOpacity(0.3)),
@@ -158,7 +158,7 @@ class CustomTextFieldState extends State<CustomTextField> {
             ) : null,
           ),
           onSubmitted: (text) => widget.nextFocus != null ? FocusScope.of(context).requestFocus(widget.nextFocus)
-              : widget.onSubmit != null ? widget.onSubmit(text) : null,
+              : widget.onSubmit != null ? widget.onSubmit!(text) : null,
           onChanged: widget.onChanged as void Function(String),
         ),
 

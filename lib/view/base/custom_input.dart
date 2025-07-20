@@ -17,19 +17,19 @@ class CustomInput extends StatelessWidget {
     this.maxLength,
   });
   //
-  final int maxLength;
-  final String hint;
-  final String hintInnerTxt;
-  final bool isRequired;
-  final void Function() onTap;
-  final void Function(String) onChanged;
+  final int? maxLength;
+  final String? hint;
+  final String? hintInnerTxt;
+  final bool? isRequired;
+  final void Function()? onTap;
+  final void Function(String)? onChanged;
 
   /// when show input only without column
-  final bool isPutHintTxtInTextFormField;
-  final String Function(String) validator;
-  final Widget prefixIcon;
-  final TextEditingController controller;
-  final TextInputType keyboardType;
+  final bool? isPutHintTxtInTextFormField;
+  final String Function(String?)? validator;
+  final Widget? prefixIcon;
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
   //
   @override
   Widget build(BuildContext context) {

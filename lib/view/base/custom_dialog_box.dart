@@ -9,9 +9,9 @@ import 'package:get/get.dart';
 
 
 class ScreenSuccess extends StatefulWidget {
-  const ScreenSuccess({Key key,  this.title}) : super(key: key);
+  const ScreenSuccess({Key? key,  this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   State<ScreenSuccess> createState() => _ScreenSuccessState();

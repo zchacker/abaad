@@ -6,16 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PaginatedListView extends StatefulWidget {
-  final ScrollController scrollController;
-  final Function(int offset) onPaginate;
-  final int totalSize;
-  final int offset;
-  final Widget productView;
-  final bool enabledPagination;
-  final bool reverse;
+  final ScrollController? scrollController;
+  final Function(int offset)? onPaginate;
+  final int? totalSize;
+  final int? offset;
+  final Widget? productView;
+  final bool? enabledPagination;
+  final bool? reverse;
   const PaginatedListView({
-    Key key, required this.scrollController, required this.onPaginate, required this.totalSize,
-    required this.offset, required this.productView, this.enabledPagination = true, this.reverse = false,
+    Key? key,
+    this.scrollController,
+    this.onPaginate,
+    this.totalSize,
+    this.offset,
+    this.productView,
+    this.enabledPagination = true,
+    this.reverse = false,
   }) : super(key: key);
 
   @override
@@ -23,8 +29,8 @@ class PaginatedListView extends StatefulWidget {
 }
 
 class _PaginatedListViewState extends State<PaginatedListView> {
-  int _offset;
-  List<int> _offsetList;
+  late int _offset;
+  late List<int> _offsetList;
   bool _isLoading = false;
 
   @override
@@ -34,8 +40,8 @@ class _PaginatedListViewState extends State<PaginatedListView> {
     _offset = 1;
     _offsetList = [1];
 
-    widget.scrollController.addListener(() {
-      if (widget.scrollController.position.pixels == widget.scrollController.position.maxScrollExtent && !_isLoading && widget.enabledPagination) {
+    widget.scrollController?.addListener(() {
+      if (widget.scrollController?.position.pixels == widget.scrollController?.position.maxScrollExtent && !_isLoading && (widget.enabledPagination ?? false)) {
         if(mounted && !ResponsiveHelper.isDesktop(context)) {
           _paginate();
         }
@@ -44,7 +50,7 @@ class _PaginatedListViewState extends State<PaginatedListView> {
   }
 
   void _paginate() async {
-    int pageSize = (widget.totalSize / 10).ceil();
+    int pageSize = (widget.totalSize ?? 0 / 10).ceil();
     if (_offset < pageSize && !_offsetList.contains(_offset+1)) {
 
       setState(() {
@@ -52,7 +58,7 @@ class _PaginatedListViewState extends State<PaginatedListView> {
         _offsetList.add(_offset);
         _isLoading = true;
       });
-      await widget.onPaginate(_offset);
+      await widget.onPaginate!(_offset);
       setState(() {
         _isLoading = false;
       });
@@ -68,17 +74,17 @@ class _PaginatedListViewState extends State<PaginatedListView> {
 
   @override
   Widget build(BuildContext context) {
-    _offset = widget.offset;
+    _offset = widget.offset!;
     _offsetList = [];
-    for(int index=1; index<=widget.offset; index++) {
+    for(int index=1; index<=widget.offset!; index++) {
       _offsetList.add(index);
     }
   
     return Column(children: [
 
-      widget.reverse ? SizedBox() : widget.productView,
+      widget.reverse! ? SizedBox() : widget.productView!,
 
-      (ResponsiveHelper.isDesktop(context) && (_offset >= (widget.totalSize / 10).ceil() || _offsetList.contains(_offset+1))) ? SizedBox() : Center(child: Padding(
+      (ResponsiveHelper.isDesktop(context) && (_offset >= (widget.totalSize! / 10).ceil() || _offsetList.contains(_offset+1))) ? SizedBox() : Center(child: Padding(
         padding: (_isLoading || ResponsiveHelper.isDesktop(context)) ? EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL) : EdgeInsets.zero,
         child: _isLoading ? CircularProgressIndicator() : (ResponsiveHelper.isDesktop(context)) ? InkWell(
           onTap: _paginate,
@@ -94,7 +100,7 @@ class _PaginatedListViewState extends State<PaginatedListView> {
         ) : SizedBox(),
       )),
 
-      widget.reverse ? widget.productView : SizedBox(),
+      widget.reverse! ? widget.productView! : SizedBox(),
 
     ]);
   }

@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 
 class NumberStepper extends StatelessWidget {
-  final double width;
+  final double? width;
   final totalSteps;
-  final int curStep;
-  final Color stepCompleteColor;
-  final Color currentStepColor;
-  final Color inactiveColor;
-  final double lineWidth;
+  final int? curStep;
+  final Color? stepCompleteColor;
+  final Color? currentStepColor;
+  final Color? inactiveColor;
+  final double? lineWidth;
+
   const NumberStepper({
-    Key key,
-    required this.width,
-    required this.curStep,
-    required this.stepCompleteColor,
-    required this.totalSteps,
-    required this.inactiveColor,
-    required this.currentStepColor,
-    required this.lineWidth,
-  })  : assert(curStep > 0 == true && curStep <= totalSteps + 1),
+    Key? key,
+     this.width,
+     this.curStep = 1,
+     this.stepCompleteColor,
+     this.totalSteps,
+     this.inactiveColor,
+     this.currentStepColor,
+     this.lineWidth,
+  })  : assert( ((curStep ?? 1) > 0 == true) && (curStep ?? 1) <= totalSteps + 1),
         super(key: key);
 
   @override
@@ -38,9 +39,9 @@ class NumberStepper extends StatelessWidget {
   getCircleColor(i) {
     Color color;
     if (i + 1 < curStep) {
-      color = stepCompleteColor;
+      color = stepCompleteColor!;
     } else if (i + 1 == curStep)
-      color = currentStepColor;
+      color = currentStepColor ?? Color(1);
     else
       color = Colors.white;
     return color;
@@ -49,18 +50,18 @@ class NumberStepper extends StatelessWidget {
   getBorderColor(i) {
     Color color;
     if (i + 1 < curStep) {
-      color = stepCompleteColor;
+      color = stepCompleteColor?? Color(1);
     } else if (i + 1 == curStep)
-      color = currentStepColor;
+      color = currentStepColor?? Color(1);
     else
-      color = inactiveColor;
+      color = inactiveColor?? Color(1);
 
     return color;
   }
 
   getLineColor(i) {
     var color =
-    curStep > i + 1 ? Colors.blue.withOpacity(0.4) : Colors.grey[200];
+    (curStep ?? 1) > i + 1 ? Colors.blue.withOpacity(0.4) : Colors.grey[200];
     return color;
   }
 

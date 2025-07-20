@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class NoInternetScreen extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   const NoInternetScreen({super.key, this.child});
 
   @override
@@ -22,7 +22,7 @@ class NoInternetScreen extends StatelessWidget {
             Image.asset(Images.no_internet, width: 150, height: 150),
             Text('oops'.tr, style: robotoBold.copyWith(
               fontSize: 30,
-              color: Theme.of(context).textTheme.bodyLarge.color,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
             )),
             SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Text(
@@ -37,7 +37,7 @@ class NoInternetScreen extends StatelessWidget {
               child: CustomButton(
                 onPressed: () async {
                   if(await Connectivity().checkConnectivity() != ConnectivityResult.none) {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => child));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => child as Widget));
                   }
                 },
                 buttonText: 'retry'.tr,

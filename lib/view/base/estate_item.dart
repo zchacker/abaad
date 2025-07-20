@@ -14,13 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class EstateItem extends StatelessWidget {
- final  Estate estate;
- final  bool fav;
- final int  isMyProfile;
- final void Function() onPressed;
+ final Estate? estate;
+ final bool? fav;
+ final int? isMyProfile ;
+ final void Function()? onPressed;
 
 
-  const EstateItem({super.key, required this.estate,this.onPressed,this.fav,this.isMyProfile});
+  const EstateItem({super.key, required this.estate,this.onPressed,this.fav = false, this.isMyProfile = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -75,14 +75,17 @@ class EstateItem extends StatelessWidget {
                               decoration: BoxDecoration(
                                 color: Theme.of(context).cardColor,
                                 borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                                boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5)],
+                                boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                                 child:  GetBuilder<SplashController>(builder: (splashController) {
-                                  String baseUrl = Get.find<SplashController>().configModel.baseUrls.estateImageUrl;
+                                  String baseUrl = Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl ?? "";
                                   return         CustomImage(
-                                    image:estate.images.isNotEmpty?"$baseUrl/${estate.images[0]}":Images.estate_type,
+                                    image: (estate?.images != null && estate!.images!.isNotEmpty)
+                                        ? "$baseUrl/${estate!.images![0]}"
+                                        : Images.estate_type
+                                    ,
                                     fit:  BoxFit.cover,
                                     width: MediaQuery.of(context).size.width,
 
@@ -102,7 +105,7 @@ class EstateItem extends StatelessWidget {
                                   Get.dialog(ConfirmationDialog(icon: Images.support,
                                     title: 'do_you_really_want_to_delete_this_offer'.tr,
                                     description: 'you_will_remove_all_your_information_from_the_offer'.tr, isLogOut: true,
-                                    onYesPressed: () => Get.find<EstateController>().deleteEstate(estate.id),
+                                    onYesPressed: () => Get.find<EstateController>().deleteEstate(estate?.id ?? 0),
                                   ), useSafeArea: false);
                                 },
                                 icon: Icon(Icons.delete_forever, color: Colors.red ,size: 20,),
@@ -121,7 +124,7 @@ class EstateItem extends StatelessWidget {
                                 onPressed: ()async {
                                   Get.find<EstateController>().currentIndex==0;
                                   Get.find<EstateController>().categoryIndex==0;
-                                  await    Get.dialog(ViewImageUploadScreen(estate));
+                                  await    Get.dialog(ViewImageUploadScreen(estate!));
                                 },
                                 icon: Icon(Icons.image_sharp, color: Colors.blue),
                               ),
@@ -144,11 +147,7 @@ class EstateItem extends StatelessWidget {
                                        Text("price".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
                                        SizedBox(width: 11.0),
                                        Text(
-                                         formatPrice(
-                                             estate.categoryName == "ارض"
-                                                 ? estate.totalPrice
-                                                 : estate.price
-                                         ),
+                                         formatPrice( (estate?.categoryName ?? "") == "ارض"  ? estate?.totalPrice ?? "" : estate?.price ?? "" ),
                                          style: robotoBlack.copyWith(fontSize: 11),
                                        ),
 
@@ -160,22 +159,21 @@ class EstateItem extends StatelessWidget {
                                     Container(
                                       // height: 60,
 
-
-
                                       child: Column(
                                         children: [
-                                          fav?  Container(
+                                          (fav ?? false) ?
+                                          Container(
                                             width: 30, height: 30,
                                             margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
                                             decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), color: Colors.white),
                                             child:     GetBuilder<WishListController>(builder: (wishController) {
-                                              bool isWished = wishController.wishRestIdList.contains(estate.estate_id);
+                                              bool isWished = wishController.wishRestIdList.contains(estate?.estate_id);
                                               return InkWell(
                                                 onTap: () {
                                                   if(Get.find<AuthController>().isLoggedIn()) {
 
-                                                    print("removed id ------------------omer-------${estate.id}");
-                                                    isWished ? wishController.removeFromWishList(estate.estate_id) : wishController.addToWishList(estate, true);
+                                                    print("removed id ------------------omer-------${estate?.id}");
+                                                    isWished ? wishController.removeFromWishList(estate?.estate_id ?? 0) : wishController.addToWishList(estate!, true);
                                                   }else {
                                                     showCustomSnackBar('you_are_not_logged_in'.tr);
                                                   }
@@ -189,7 +187,7 @@ class EstateItem extends StatelessWidget {
                                                 ),
                                               );
                                             }),
-                                          ):Container(),
+                                          ) :Container(),
 
                                           Container(
                                             padding: const EdgeInsets.only(right: 4,left: 4),
@@ -200,7 +198,7 @@ class EstateItem extends StatelessWidget {
                                             child:  Row(
                                               children: [
                                                 Text(
-                                                    "${estate.view}",
+                                                    "${estate?.view}",
                                                     style: robotoRegular.copyWith(
                                                       fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).cardColor,
                                                     )
@@ -220,7 +218,7 @@ class EstateItem extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Text(   isArabic ? "${estate.categoryNameAr} -${estate.city} -${estate.districts??''}":"${estate.categoryName} -${estate.zoneName} -${estate.districts}",
+                                    Text(   isArabic ? "${estate?.categoryNameAr} -${estate?.city} -${estate?.districts??''}":"${estate?.categoryName} -${estate?.zoneName} -${estate?.districts}",
                                         style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
                                     Container(
                                       padding: const EdgeInsets.only(right: 4,left: 4),
@@ -231,7 +229,7 @@ class EstateItem extends StatelessWidget {
                                       child:  Row(
                                         children: [
                                           Text(
-                                              estate.advertisementType,
+                                              estate?.advertisementType ?? "",
                                               style: robotoRegular.copyWith(
                                                 fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).cardColor,
                                               )
@@ -263,7 +261,7 @@ class EstateItem extends StatelessWidget {
                                       SizedBox(
                                         width: 4.0,
                                       ),
-                                      Text(" ${estate.adLicenseNumber}",style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor)),
+                                      Text(" ${estate?.adLicenseNumber}",style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor)),
                                       // IconButton(onPressed:(){
                                       //   FlutterClipboard.copy(estate.adNumber.toString()).then(( value ) {
                                       //     showCustomSnackBar('تم النسخ'.tr, isError: false);
@@ -275,18 +273,18 @@ class EstateItem extends StatelessWidget {
                                 const SizedBox(
                                   height: 7.0,
                                 ),
-estate.category!="5"?     estate.property  != null ?Center(
+estate?.category != "5"? estate?.property  != null ?Center(
   child: SizedBox(
     height: 35,
 
     child:ListView.builder(
       physics: BouncingScrollPhysics(),
-      itemCount:  estate.property.length,
+      itemCount:  estate?.property?.length,
       scrollDirection: Axis.horizontal,
       // ignore: missing_return
       itemBuilder: (context, index) {
 
-        return  estate.property[index].name=="حمام"? Container(
+        return  estate?.property?[index].name=="حمام"? Container(
           decoration: BoxDecoration(color: Theme
               .of(context)
               .cardColor,
@@ -324,14 +322,14 @@ estate.category!="5"?     estate.property  != null ?Center(
                     Text("bathroom".tr,style: robotoBlack.copyWith(fontSize: 9,)),
 
                     Container(
-                      child: Text(" ${estate.property[index].number ?? ""}",style: robotoBlack.copyWith(fontSize: 9,)),
+                      child: Text(" ${estate?.property?[index].number ?? ""}",style: robotoBlack.copyWith(fontSize: 9,)),
                     ),
                   ],
                 ),
               )
             ],
           ),
-        ):estate.property[index].name=="مطبخ"? Container(
+        ):estate?.property?[index].name=="مطبخ"? Container(
           decoration: BoxDecoration(color: Theme
               .of(context)
               .cardColor,
@@ -366,13 +364,13 @@ estate.category!="5"?     estate.property  != null ?Center(
                   Text("kitchen".tr,style: robotoBlack.copyWith(fontSize: 9,)),
                   Container(
 
-                    child: Text(" ${estate.property[index].number ?? ""}",style: robotoBlack.copyWith(fontSize: 9,)),
+                    child: Text(" ${estate?.property?[index].number ?? ""}",style: robotoBlack.copyWith(fontSize: 9,)),
                   ),
                 ],
               )
             ],
           ),
-        ): estate.property[index].name=="مطلبخ"?Container(
+        ): estate?.property?[index].name=="مطلبخ"?Container(
           decoration: BoxDecoration(color: Theme
               .of(context)
               .cardColor,
@@ -406,13 +404,13 @@ estate.category!="5"?     estate.property  != null ?Center(
                 children: [
               Text("kitchen".tr,style: robotoBlack.copyWith(fontSize: 9,)),
                   Container(
-                    child: Text(" ${ estate.property[index].number ?? ""}",style: robotoBlack.copyWith(fontSize: 9,)),
+                    child: Text(" ${ estate?.property?[index].number ?? ""}",style: robotoBlack.copyWith(fontSize: 9,)),
                   ),
                 ],
               )
             ],
           ),
-        ):estate.property[index].name=="غرف نوم"?Container(decoration: BoxDecoration(color: Theme
+        ):estate?.property?[index].name=="غرف نوم"?Container(decoration: BoxDecoration(color: Theme
             .of(context)
             .cardColor,
           borderRadius: BorderRadius.circular(
@@ -443,12 +441,12 @@ estate.category!="5"?     estate.property  != null ?Center(
               children: [
                 Text("bedrooms".tr,style: robotoBlack.copyWith(fontSize: 9,)),
                 Container(
-                  child: Text(" ${ estate.property[index].number}",style: robotoBlack.copyWith(fontSize: 9,)),
+                  child: Text(" ${ estate?.property?[index].number}",style: robotoBlack.copyWith(fontSize: 9,)),
                 ),
               ],
             )
           ],
-        ),):estate.property[index].name=="صلات"?Container(decoration: BoxDecoration(color: Theme
+        ),):estate?.property?[index].name=="صلات"?Container(decoration: BoxDecoration(color: Theme
             .of(context)
             .cardColor,
           borderRadius: BorderRadius.circular(
@@ -481,10 +479,9 @@ estate.category!="5"?     estate.property  != null ?Center(
                 Container(
 
                   child: estate
-                      .property[index]
-                      .number!=0?Text(estate
-                      .property[index]
-                      .number,style: robotoBlack.copyWith(fontSize: 9,)):Text("0",style: robotoBlack.copyWith(fontSize: 9,)),
+                      ?.property?[index]
+                      .number!=0?Text(estate?.property?[index].number ?? "",
+                      style: robotoBlack.copyWith(fontSize: 9,)):Text("0",style: robotoBlack.copyWith(fontSize: 9,)),
                 ),
               ],
             )
@@ -497,7 +494,7 @@ estate.category!="5"?     estate.property  != null ?Center(
       },
     ),
   ),
-):Container():        Text(estate.shortDescription,
+):Container():        Text(estate?.shortDescription ?? "",
     style: robotoBlack.copyWith(fontSize: 12)),
 
                               ],
@@ -521,12 +518,12 @@ estate.category!="5"?     estate.property  != null ?Center(
 
 
  String formatPrice(String priceStr) {
-   final num price = num.tryParse(priceStr);
+   final num? price = num.tryParse(priceStr);
 
-   if (price >= 1000000) {
-     return "${(price / 1000000).toStringAsFixed(2)} مليون";
-   } else if (price >= 1000) {
-     return "${(price / 1000).toStringAsFixed(2)} ألف";
+   if ((price ?? 0) >= 1000000) {
+     return "${((price ?? 0) / 1000000).toStringAsFixed(2)} مليون";
+   } else if ((price ?? 0) >= 1000) {
+     return "${((price ?? 0) / 1000).toStringAsFixed(2)} ألف";
    } else {
      return price.toString();
    }

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 void showCustomSnackBar(String message, {bool isError = true}) {
   if(message.isNotEmpty) {
-    ScaffoldMessenger.of(Get.context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
       dismissDirection: DismissDirection.horizontal,
       margin: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
       duration: Duration(seconds: 3),

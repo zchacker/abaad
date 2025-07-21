@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
-  final Function ontop;
-  final  String fromPage;
-  const WebMenuBar({super.key, required this.ontop,required this.fromPage});
+  final Function? ontop;
+  final  String? fromPage;
+  const WebMenuBar({super.key, this.ontop, this.fromPage});
   @override
   Widget build(BuildContext context) {
     return Center(child: Container(

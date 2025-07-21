@@ -19,8 +19,8 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EstateView extends StatefulWidget {
-  final bool fromView;
- final  Estate estate;
+  final bool? fromView;
+  final Estate? estate;
 
 
   const EstateView({super.key, required this.fromView,this.estate});
@@ -53,8 +53,8 @@ class _EstateViewState extends State<EstateView> {
     return GetBuilder<AuthController>(builder: (authController) {
       List<int> zoneIndexList = [];
       if(authController.zoneList != null && authController.zoneIds != null) {
-        for(int index=0; index<authController.zoneList.length; index++) {
-          if(authController.zoneIds.contains(authController.zoneList[index].id)) {
+        for(int index=0; index < (authController.zoneList?.length ?? 40); index++) {
+          if(authController.zoneIds!.contains(authController.zoneList?[index].id)) {
             zoneIndexList.add(index);
           }
         }
@@ -64,7 +64,7 @@ class _EstateViewState extends State<EstateView> {
         child: Card(
           // elevation: 2,
           child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: Padding(
-            padding: EdgeInsets.all(widget.fromView ? 0 : 4),
+            padding: EdgeInsets.all((widget.fromView ?? false) ? 0 : 4),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start, children: [
            //   const SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
@@ -116,7 +116,7 @@ class _EstateViewState extends State<EstateView> {
 
                                   Icon(Icons.remove_red_eye_outlined),
                                   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                                  Text("${widget.estate.view}",style: robotoBlack.copyWith(fontSize: 11),),
+                                  Text("${widget.estate?.view}",style: robotoBlack.copyWith(fontSize: 11),),
 
                                   Text("views".tr,style: robotoBlack.copyWith(fontSize: 11),),
                                 ],
@@ -125,7 +125,7 @@ class _EstateViewState extends State<EstateView> {
 
                               GestureDetector(
                                 onTap: ()async {
-                                  final String estateLink = 'https://app.abaadapp.sa/details/${widget.estate.id}'; // ضع رابط العقار هنا
+                                  final String estateLink = 'https://app.abaadapp.sa/details/${widget.estate?.id}'; // ضع رابط العقار هنا
                                   final String message = 'شاهد هذا العقار: $estateLink';
 
                                   final Uri whatsappUrl = Uri.parse("https://wa.me/?text=${Uri.encodeComponent(message)}");
@@ -139,11 +139,11 @@ class _EstateViewState extends State<EstateView> {
                                   ));
                                   }
                                 },
-                                  child: Icon(Icons.share, size: 23, color: Theme.of(context).textTheme.bodyLarge.color)),
+                                  child: Icon(Icons.share, size: 23, color: Theme.of(context).textTheme.bodyLarge?.color)),
                             ]),
                       ),
                     Container(
-                      height: widget.fromView ? 340 : (context.height * 0.70),
+                      height: (widget.fromView ?? false) ? 340 : (context.height * 0.70),
 
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
@@ -160,8 +160,8 @@ class _EstateViewState extends State<EstateView> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                           child: Stack(clipBehavior: Clip.none, children: [
-                               EstateImageView(estate_id: widget.estate.id,fromView: widget.fromView,),
-                            widget.fromView ? Positioned(
+                               EstateImageView(estate_id: widget.estate?.id,fromView: widget.fromView,),
+                            (widget.fromView ?? false) ? Positioned(
                               top: 10, right: 0,
                               child: InkWell(
                                 onTap: () {
@@ -187,15 +187,15 @@ class _EstateViewState extends State<EstateView> {
                                         return InkWell(
                                           onTap: () {
                                             if(Get.find<AuthController>().isLoggedIn()) {
-                                              wishController.wishRestIdList.contains(widget.estate.id) ? wishController.removeFromWishList(widget.estate.id)
-                                                  : wishController.addToWishList(widget.estate, null);
+                                              wishController.wishRestIdList.contains(widget.estate?.id) ? wishController.removeFromWishList(widget.estate!.id ?? 0)
+                                                  : wishController.addToWishList(widget.estate!, false);
                                             }else {
                                               showCustomSnackBar('you_are_not_logged_in'.tr);
                                             }
                                           },
                                             child: Icon(
-                                              wishController.wishRestIdList.contains(widget.estate.id) ? Icons.favorite : Icons.favorite_border,
-                                              color: wishController.wishRestIdList.contains(widget.estate.id) ? Theme.of(context).primaryColor
+                                              wishController.wishRestIdList.contains(widget.estate?.id ) ? Icons.favorite : Icons.favorite_border,
+                                              color: wishController.wishRestIdList.contains(widget.estate?.id) ? Theme.of(context).primaryColor
                                                   : Theme.of(context).disabledColor,
                                             ),
                                         );
@@ -237,9 +237,14 @@ class _EstateViewState extends State<EstateView> {
                           //   Get.toNamed(RouteHelper.getWebViewRoute(widget.estate.arPath));
                           // }else {
                             Get.toNamed(RouteHelper.getFeatureRoute(
-                                widget.estate.id, "${sampleData[index].id}",
-                                widget.estate.arPath,widget.estate.videoUrl, widget.estate.latitude,
-                                widget.estate.longitude,widget.estate.skyView));
+                                widget.estate?.id ?? 0,
+                                "${sampleData[index].id}",
+                                widget.estate?.arPath ?? "" ,
+                                widget.estate?.videoUrl ?? "",
+                                widget.estate?.latitude ?? "",
+                                widget.estate?.longitude ?? "",
+                                widget.estate?.skyView ?? ""
+                            ));
                           // }
                         });
                       },
@@ -249,11 +254,11 @@ class _EstateViewState extends State<EstateView> {
                 ),
               ),
 
-              widget.estate.serviceOffers.isNotEmpty?  ServiceProivderView(estate: widget.estate,fromView: widget.fromView):Container(),
+              (widget.estate?.serviceOffers?.isNotEmpty ?? false)?  ServiceProivderView(estate: widget.estate!,fromView: (widget.fromView ?? false)):Container(),
 
 
 
-              !widget.fromView ? CustomButton(
+              !(widget.fromView ?? false) ? CustomButton(
                 buttonText: 'back'.tr,
                 onPressed: () {
                //   widget.mapController.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition));
@@ -277,7 +282,7 @@ class _EstateViewState extends State<EstateView> {
         packageName: "sa.pdm.abaad.abaad",
         minimumVersion: 0,
       ),
-      iosParameters: IosParameters(
+      iosParameters: IOSParameters(
         bundleId: "Bundle-ID",
         minimumVersion: '0',
       ),
@@ -287,9 +292,20 @@ class _EstateViewState extends State<EstateView> {
           Uri.parse(image),
           title: title),
     );
-    final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
+    // final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
 
-    String desc = dynamicUrl.shortUrl.toString();
+    // 1. Get FirebaseDynamicLinks instance
+    final dynamicLinks = FirebaseDynamicLinks.instance;
+
+    // 2. Build short link
+    final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
+      parameters,  // Your DynamicLinkParameters object
+    );
+
+    // 3. Get the URL
+    final dynamicUrl = shortLink.shortUrl;
+
+    String desc = dynamicUrl.toString();
 
     await Share.share(desc, subject: title,);
 

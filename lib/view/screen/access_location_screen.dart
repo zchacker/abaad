@@ -18,7 +18,10 @@ class AccessLocationScreen extends StatelessWidget {
       Future.delayed(Duration(milliseconds: 500), () {
         Get.dialog(CustomLoader(), barrierDismissible: false);
         Get.find<LocationController>().autoNavigate(
-          Get.find<LocationController>().getUserAddress(), fromSignUp, route, route != null,
+          Get.find<LocationController>().getUserAddress()!,
+          fromSignUp,
+          route,
+          route != null
         );
       });
     }

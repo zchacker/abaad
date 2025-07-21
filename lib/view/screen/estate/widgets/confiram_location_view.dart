@@ -10,10 +10,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ConfirmMapView extends StatefulWidget {
   final bool fromView;
-  final GoogleMapController mapController;
-  final double lat;
-  final double lot;
-  final bool add;
+  final GoogleMapController? mapController;
+  final double? lat;
+  final double? lot;
+  final bool? add;
 
   const ConfirmMapView({super.key, required this.fromView, this.mapController,this.lat,this.lot,this.add});
 
@@ -22,9 +22,9 @@ class ConfirmMapView extends StatefulWidget {
 }
 
 class _ConfirmMapViewState extends State<ConfirmMapView> {
-  CameraPosition _cameraPosition;
-  GoogleMapController _mapController;
-  Uint8List imageDataBytes;
+  CameraPosition? _cameraPosition;
+  GoogleMapController? _mapController;
+  Uint8List? imageDataBytes;
   var markerIcon;
   GlobalKey iconKey = GlobalKey();
 
@@ -33,7 +33,7 @@ class _ConfirmMapViewState extends State<ConfirmMapView> {
   Widget build(BuildContext context) {
 
     return
-      widget.add? Card(
+      (widget.add ?? false )? Card(
         elevation: 0,
         child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: Padding(
           padding: EdgeInsets.all(widget.fromView ? 0 : Dimensions.PADDING_SIZE_SMALL),
@@ -57,8 +57,8 @@ class _ConfirmMapViewState extends State<ConfirmMapView> {
                 GoogleMap(
                   initialCameraPosition:  CameraPosition(
                     target: LatLng(
-                      widget.lat,
-                      widget.lot,
+                      widget.lat ?? 0,
+                      widget.lot ?? 0,
                     ), zoom: 16,
                   ),
                   markers: <Marker>{
@@ -66,8 +66,8 @@ class _ConfirmMapViewState extends State<ConfirmMapView> {
                         draggable: false,
                         markerId: MarkerId("1"),
                         position:LatLng(
-                          widget.lat,
-                          widget.lot,
+                          widget.lat ?? 0,
+                          widget.lot ?? 0,
                         ),
                         // icon: currentLocationIcon,
                         icon: markerIcon ?? BitmapDescriptor.defaultMarker),
@@ -82,7 +82,7 @@ class _ConfirmMapViewState extends State<ConfirmMapView> {
                   zoomGesturesEnabled: true,
                   onCameraIdle: () {
                     if(!widget.fromView) {
-                      widget.mapController.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition));
+                      widget.mapController?.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition ?? CameraPosition(target: LatLng(0, 0))));
                     }
                   },
                   onCameraMove: ((position) => _cameraPosition = position),
@@ -116,7 +116,7 @@ class _ConfirmMapViewState extends State<ConfirmMapView> {
           ]),
         )),
       ):GetBuilder<EstateController>(builder: (estateController) {
-        return  (estateController.estate.shortDescription != null) ?
+        return  (estateController.estate?.shortDescription != null) ?
 
         Card(
           elevation: 0,
@@ -144,16 +144,16 @@ class _ConfirmMapViewState extends State<ConfirmMapView> {
                     GoogleMap(
                       initialCameraPosition:  CameraPosition(
                         target: LatLng(
-                          widget.lat,
-                          widget.lot,
+                          widget.lat ?? 0,
+                          widget.lot ?? 0,
                         ), zoom: 16,
                       ),
                       markers: <Marker>{
                         Marker(
                             draggable: false,
                             markerId: MarkerId("1"),
-                            position: LatLng(double.parse(estateController.estate.latitude),
-                                double.parse(estateController.estate.longitude)),
+                            position: LatLng(double.parse(estateController?.estate?.latitude ?? ""),
+                                double.parse(estateController?.estate?.longitude ?? "")),
                             // icon: currentLocationIcon,
                             icon: markerIcon ?? BitmapDescriptor.defaultMarker),
                       },
@@ -167,7 +167,7 @@ class _ConfirmMapViewState extends State<ConfirmMapView> {
                       zoomGesturesEnabled: true,
                       onCameraIdle: () {
                         if(!widget.fromView) {
-                          widget.mapController.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition));
+                          widget.mapController?.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition ?? CameraPosition(target: LatLng(0, 0))));
                         }
                       },
                       onCameraMove: ((position) => _cameraPosition = position),

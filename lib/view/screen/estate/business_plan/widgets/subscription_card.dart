@@ -12,7 +12,7 @@ class SubscriptionCard extends StatelessWidget {
   final Packages package;
   final AuthController authController;
   final Color color;
-  const SubscriptionCard({Key key, required this.index, required this.package, required this.authController, required this.color}) : super(key: key);
+  const SubscriptionCard({Key? key, required this.index, required this.package, required this.authController, required this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +111,7 @@ class SubscriptionCard extends StatelessWidget {
   Widget packageWidget({ required String title}){
     return Column(children: [
       Padding(
-        padding: EdgeInsets.only(left: ResponsiveHelper.isDesktop(Get.context) ? MediaQuery.of(Get.context).size.width * 0.05 : MediaQuery.of(Get.context).size.width * 0.15),
+        padding: EdgeInsets.only(left: ResponsiveHelper.isDesktop(Get.context) ? MediaQuery.of(Get.context!).size.width * 0.05 : MediaQuery.of(Get.context!).size.width * 0.15),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           Icon(Icons.check_circle, size: 18, color: Colors.green),
           SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
@@ -120,7 +120,7 @@ class SubscriptionCard extends StatelessWidget {
         ]),
       ),
 
-      Divider(indent: 50, endIndent: 50, color: Theme.of(Get.context).dividerColor,thickness: 1,)
+      Divider(indent: 50, endIndent: 50, color: Theme.of(Get.context!).dividerColor,thickness: 1,)
     ]);
   }
 }

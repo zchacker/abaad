@@ -10,7 +10,17 @@ class SignUpBody {
   String? userType;
   String? unifiedNumber;
 
-  SignUpBody({required this.fName, required this.phone, this.email = '', required this.password, this.refCode = '', required this.zone_id,required this.city_id,required this.membershipType,required this.unifiedNumber});
+  SignUpBody({
+    required this.fName,
+    required this.phone,
+    this.email = '',
+    required this.password,
+    this.refCode = '',
+    required this.zone_id,
+    required this.city_id,
+    required this.membershipType,
+    required this.unifiedNumber
+  });
 
   SignUpBody.fromJson(Map<String, dynamic> json) {
     fName = json['name'];

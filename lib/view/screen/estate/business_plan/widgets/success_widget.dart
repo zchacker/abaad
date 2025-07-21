@@ -6,7 +6,7 @@ import 'package:abaad/view/screen/auth/widget/registration_stepper_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class SuccessWidget extends StatelessWidget {
-  const SuccessWidget({Key key}) : super(key: key);
+  const SuccessWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

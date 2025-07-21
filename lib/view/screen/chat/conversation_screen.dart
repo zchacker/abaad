@@ -20,7 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ConversationScreen extends StatefulWidget {
-  const ConversationScreen({Key key}) : super(key: key);
+  const ConversationScreen({Key? key}) : super(key: key);
 
   @override
   State<ConversationScreen> createState() => _ConversationScreenState();
@@ -46,8 +46,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ChatController>(builder: (chatController) {
-      ConversationsModel conversation;
-      conversation = chatController.searchConversationModel;
+      ConversationsModel conversation = chatController.searchConversationModel!;
+      //conversation = chatController.searchConversationModel;
     
       return Scaffold(
         // floatingActionButton: (chatController.conversationModel != null && !chatController.hasAdmin) ? FloatingActionButton.extended(
@@ -63,7 +63,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
           child: Column(children: [
 
             (Get.find<AuthController>().isLoggedIn()
-            && chatController.conversationModel.conversations.isNotEmpty) ? Center(child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: SearchField(
+            && (chatController.conversationModel?.conversations?.isNotEmpty ?? false)) ? Center(child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: SearchField(
               controller: _searchController,
               hint: 'search'.tr,
               suffixIcon: chatController.searchConversationModel != null ? Icons.close : Icons.search,
@@ -80,10 +80,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                             },
             ))) : SizedBox(),
             SizedBox(height: (Get.find<AuthController>().isLoggedIn()
-                && chatController.conversationModel.conversations.isNotEmpty) ? Dimensions.PADDING_SIZE_SMALL : 0),
+                && (chatController.conversationModel?.conversations?.isNotEmpty ?? false)) ? Dimensions.PADDING_SIZE_SMALL : 0),
 
             Expanded(child: Get.find<AuthController>().isLoggedIn() ? (conversation.conversations != null)
-            ? conversation.conversations.isNotEmpty ? RefreshIndicator(
+            ? conversation.conversations!.isNotEmpty ? RefreshIndicator(
               onRefresh: () async {
                 await Get.find<ChatController>().getConversationList(1);
               },
@@ -97,28 +97,28 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   offset: conversation.offset,
                   enabledPagination: chatController.searchConversationModel == null,
                   productView: ListView.builder(
-                    itemCount: conversation.conversations.length,
+                    itemCount: conversation.conversations!.length,
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
                     itemBuilder: (context, index) {
-                      Userinfo user;
-                      String type;
-                      if(conversation.conversations[index].senderType == UserType.user.name || conversation.conversations[index].senderType == UserType.customer.name) {
-                        user = conversation.conversations[index].receiver;
-                        type = conversation.conversations[index].receiverType;
+                      Userinfo? user;
+                      String? type;
+                      if(conversation.conversations?[index].senderType == UserType.user.name || conversation.conversations?[index].senderType == UserType.customer.name) {
+                        user = conversation.conversations?[index].receiver;
+                        type = conversation.conversations?[index].receiverType;
                       }else {
-                        user = conversation.conversations[index].sender;
-                        type = conversation.conversations[index].senderType;
+                        user = conversation.conversations?[index].sender;
+                        type = conversation.conversations?[index].senderType;
                       }
 
-                      String baseUrl = '';
+                      String? baseUrl = '';
                       if(type == UserType.vendor.name) {
-                        baseUrl = Get.find<SplashController>().configModel.baseUrls.customerImageUrl;
+                        baseUrl = Get.find<SplashController>().configModel?.baseUrls?.customerImageUrl;
                       }else if(type == UserType.delivery_man.name) {
-                        baseUrl = Get.find<SplashController>().configModel.baseUrls.customerImageUrl;
+                        baseUrl = Get.find<SplashController>().configModel?.baseUrls?.customerImageUrl;
                       }else if(type == UserType.admin.name){
-                        baseUrl = Get.find<SplashController>().configModel.baseUrls.customerImageUrl;
+                        baseUrl = Get.find<SplashController>().configModel?.baseUrls?.customerImageUrl;
                       }
 
                       // showCustomSnackBar(UserType.vendor.name);
@@ -128,25 +128,25 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                          boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5)],
+                          boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
                         ),
                         child: CustomInkWell(
                           onTap: () {
 
 
-                            print("-------------------------------------${ conversation.conversations[index].receiver.name}");
+                            print("-------------------------------------${ conversation.conversations![index].receiver!.name}");
                             Get.toNamed(RouteHelper.getChatRoute(
                               notificationBody: NotificationBody(
-                                type: conversation.conversations[index].senderType,
+                                type: conversation.conversations?[index].senderType,
                                 notificationType: NotificationType.message,
                                 adminId: type == UserType.admin.name ? 0 : null,
-                                restaurantId: type == UserType.vendor.name ? user.id : null,
-                                deliverymanId: type == UserType.delivery_man.name ? user.id : null,
+                                restaurantId: type == UserType.vendor.name ? user?.id : null,
+                                deliverymanId: type == UserType.delivery_man.name ? user?.id : null,
                               ),
-                              conversationID: conversation.conversations[index].id,
+                              conversationID: conversation.conversations?[index].id,
                               index: index,
                               estate_id: 3,
-                              estate: conversation.conversations[index].estate
+                              estate: conversation.conversations?[index].estate
                             ));
                                                     },
                           highlightColor: Theme.of(context).colorScheme.surface.withOpacity(0.1),
@@ -164,12 +164,13 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                 Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                                   user != null ? Text(
-                                   userController.userInfoModel.name==user.name? conversation.conversations[index].sender.name:user.name, style: robotoMedium,
+                                   ((userController.userInfoModel?.name ?? "") == (user.name != null ? (conversation.conversations![index].sender!.name ?? "") : (user.name ?? ""))) as String,
+                                    style: robotoMedium
                                   ) : Text('user_deleted'.tr, style: robotoMedium),
                                   SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                   Text(
                                     DateConverter.localDateToIsoStringAMPM(DateConverter.dateTimeStringToDate(
-                                        conversation.conversations[index].lastMessageTime)),
+                                        conversation.conversations![index].lastMessageTime)),
                                     style: robotoRegular.copyWith(color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeExtraSmall),
                                   ),
                                   // Text(
@@ -190,13 +191,13 @@ class _ConversationScreenState extends State<ConversationScreen> {
                             // ),
 
                             GetBuilder<UserController>(builder: (userController) {
-                              return (conversation.conversations[index].lastMessage.senderId != userController.userInfoModel.agent.id
-                                  && conversation.conversations[index].unreadMessageCount > 0) ? Positioned(right: 5,top: 5,
+                              return (conversation.conversations![index].lastMessage!.senderId != userController.userInfoModel!.agent!.id
+                                  && conversation.conversations![index].unreadMessageCount > 0) ? Positioned(right: 5,top: 5,
                                 child: Container(
                                   padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                   decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle),
                                   child: Text(
-                                    conversation.conversations[index].unreadMessageCount.toString(),
+                                    conversation.conversations![index].unreadMessageCount.toString(),
                                     style: robotoMedium.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeExtraSmall),
                                   ),
                                 ),

@@ -27,8 +27,8 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-  String _number;
-  Timer _timer;
+  String _number = "";
+  Timer _timer = Timer(Duration(seconds: 3), () => {});
   int _seconds = 0;
 
   @override
@@ -70,16 +70,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
           padding: context.width > 700 ? EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT) : null,
           decoration: context.width > 700 ? BoxDecoration(
             color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-            boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 700 : 300], blurRadius: 5, spreadRadius: 1)],
+            boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 700 : 300]!, blurRadius: 5, spreadRadius: 1)],
           ) : null,
           child: GetBuilder<AuthController>(builder: (authController) {
             return Column(children: [
 
-              Get.find<SplashController>().configModel.demo ? Text(
+              Get.find<SplashController>().configModel?.demo ?? false ? Text(
                 'for_demo_purpose'.tr, style: robotoRegular,
               ) : RichText(text: TextSpan(children: [
                 TextSpan(text: 'enter_the_verification_sent_to'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor)),
-                TextSpan(text: ' $_number', style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge.color)),
+                TextSpan(text: ' $_number', style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
               ])),
 
               Padding(
@@ -128,11 +128,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       });
                     }else {
                       authController.forgetPassword(_number).then((value) {
-                        if (value.isSuccess) {
+                        if ((value?.isSuccess ?? false)) {
                           _startTimer();
                           showCustomSnackBar('resend_code_successful'.tr, isError: false);
                         } else {
-                          showCustomSnackBar(value.message);
+                          showCustomSnackBar(value?.message ?? "");
                         }
                       });
                     }
@@ -156,7 +156,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                               Image.asset(Images.checked, width: 100, height: 100),
                               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
                               Text('verified'.tr, style: robotoBold.copyWith(
-                                fontSize: 30, color: Theme.of(context).textTheme.bodyLarge.color,
+                                fontSize: 30, color: Theme.of(context).textTheme.bodyLarge?.color,
                                 decoration: TextDecoration.none,
                               )),
                             ]),

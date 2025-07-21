@@ -16,23 +16,26 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SelectLocationView extends StatefulWidget {
-  final bool fromView;
-  final GoogleMapController mapController;
-  const SelectLocationView({super.key, required this.fromView, this.mapController});
+  final bool? fromView;
+  final GoogleMapController? mapController;
+  const SelectLocationView({
+    super.key,
+    this.fromView,
+    this.mapController
+  });
 
   @override
   State<SelectLocationView> createState() => _SelectLocationViewState();
 }
 
 class _SelectLocationViewState extends State<SelectLocationView> {
-  CameraPosition _cameraPosition;
+
+  CameraPosition? _cameraPosition;
   final Set<Polygon> _polygons = HashSet<Polygon>();
-  GoogleMapController _mapController;
-  GoogleMapController _screenMapController;
+  GoogleMapController? _mapController;
+  GoogleMapController? _screenMapController;
   MapType _currentMapType = MapType.normal;
-   LatLng _currentPosition;
-
-
+  LatLng? _currentPosition;
 
   @override
   void initState() {
@@ -57,8 +60,8 @@ class _SelectLocationViewState extends State<SelectLocationView> {
     return GetBuilder<AuthController>(builder: (authController) {
       List<int> zoneIndexList = [];
       if(authController.zoneList != null && authController.zoneIds != null) {
-        for(int index=0; index<authController.zoneList.length; index++) {
-          if(authController.zoneIds.contains(authController.zoneList[index].id)) {
+        for(int index=0; index < (authController.zoneList?.length ?? 140); index++) {
+          if( ( authController.zoneIds?.contains( (authController.zoneList?[index].id ?? 0) ) ?? false ) ) {
             zoneIndexList.add(index);
           }
         }
@@ -68,7 +71,7 @@ class _SelectLocationViewState extends State<SelectLocationView> {
          return Card(
           elevation: 0,
           child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: Padding(
-            padding: EdgeInsets.all(widget.fromView ? 0 : Dimensions.PADDING_SIZE_SMALL),
+            padding: EdgeInsets.all((widget.fromView ?? false) ? 0 : Dimensions.PADDING_SIZE_SMALL),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
               Text(
@@ -79,11 +82,11 @@ class _SelectLocationViewState extends State<SelectLocationView> {
 
               InkWell(
                 onTap: () async {
-                  var p = await Get.dialog(LocationSearchDialog(mapController: widget.fromView ? _mapController : _screenMapController));
+                  var p = await Get.dialog(LocationSearchDialog(mapController: (widget.fromView ?? false) ? _mapController! : _screenMapController!));
                   Position position = p;
                   _cameraPosition = CameraPosition(target: LatLng(position.latitude, position.longitude), zoom: 16);
                   // if(!widget.fromView) {
-                  widget.mapController.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition));
+                  widget.mapController?.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition!));
 
 
                   // }
@@ -104,14 +107,14 @@ class _SelectLocationViewState extends State<SelectLocationView> {
                       }),
                     ),
                     SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                    Icon(Icons.search, size: 25, color: Theme.of(context).textTheme.bodyLarge.color),
+                    Icon(Icons.search, size: 25, color: Theme.of(context).textTheme.bodyLarge?.color),
                   ]),
                 ),
               ),
               SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
               Container(
-                height: widget.fromView ? 200 : (context.height * 0.55),
+                height: (widget.fromView ?? false) ? 200 : (context.height * 0.55),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
@@ -141,24 +144,24 @@ class _SelectLocationViewState extends State<SelectLocationView> {
 
                       onCameraIdle: () {
 
-                        if(!widget.fromView) {
+                        if(!(widget.fromView ?? false)) {
                           //showCustomSnackBar("${_cameraPosition.target}");
 
-                          widget.mapController.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition));
+                          widget.mapController?.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition!));
 
                         }
                       },
                       onCameraMove: ((position) {
                         _cameraPosition = position;
                         setState(() {
-                          authController.setLocation(_cameraPosition.target);
+                          authController.setLocation((_cameraPosition?.target ?? LatLng(0, 0)));
                         });
 
                         //     showCustomSnackBar("lat${_cameraPosition.target.latitude}");
                       }),
                       onMapCreated: (GoogleMapController controller) {
 
-                        if(widget.fromView) {
+                        if((widget.fromView ?? false)) {
                           _mapController = controller;
 
 
@@ -197,7 +200,7 @@ class _SelectLocationViewState extends State<SelectLocationView> {
                       ),
                     ),
                     Center(child: Image.asset(Images.pick_marker, height: 50, width: 50)),
-                    widget.fromView ? Positioned(
+                    (widget.fromView ?? false) ? Positioned(
                       top: 10, right: 0,
                       child: InkWell(
                         onTap: () {
@@ -215,7 +218,7 @@ class _SelectLocationViewState extends State<SelectLocationView> {
                   ]),
                 ),
               ) ,
-              SizedBox(height: authController.zoneList.length > 0 ? Dimensions.PADDING_SIZE_SMALL : 0),
+              SizedBox(height: (authController.zoneList?.length ?? 0) > 0 ? Dimensions.PADDING_SIZE_SMALL : 0),
 
               SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
@@ -251,10 +254,10 @@ class _SelectLocationViewState extends State<SelectLocationView> {
               // ) : Center(child: Text('service_not_available_in_this_area'.tr)),
               // SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
-              !widget.fromView ? CustomButton(
+              !(widget.fromView ?? false) ? CustomButton(
                 buttonText: 'set_location'.tr,
                 onPressed: () {
-getAddressFromLatLang(authController.estateLocation.latitude, authController.estateLocation.longitude);
+                  getAddressFromLatLang((authController.estateLocation?.latitude ?? 0), (authController.estateLocation?.longitude ?? 0));
                  // widget.mapController.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition));
                   Get.back();
                 },

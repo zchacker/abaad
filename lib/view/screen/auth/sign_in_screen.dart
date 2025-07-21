@@ -15,6 +15,7 @@ import 'package:abaad/view/base/custom_snackbar.dart';
 import 'package:abaad/view/base/custom_text_field.dart';
 import 'package:abaad/view/base/web_menu_bar.dart';
 import 'package:abaad/view/screen/auth/widget/guest_button.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 //import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,15 +38,14 @@ class _SignInScreenState extends State<SignInScreen> {
   final FocusNode _passwordFocus = FocusNode();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  String _countryDialCode;
+  String? _countryDialCode;
   bool _canExit = GetPlatform.isWeb ? true : false;
 
   @override
   void initState() {
     super.initState();
 
-    _countryDialCode = Get.find<AuthController>().getUserCountryCode().isNotEmpty ? Get.find<AuthController>().getUserCountryCode()
-        : CountryCode.fromCountryCode(Get.find<SplashController>().configModel.country).dialCode;
+    _countryDialCode = Get.find<AuthController>().getUserCountryCode().isNotEmpty ? Get.find<AuthController>().getUserCountryCode() : CountryCode.fromCountryCode(Get.find<SplashController>().configModel?.country ?? "").dialCode;
     _phoneController.text =  Get.find<AuthController>().getUserNumber() ?? '';
     _passwordController.text = Get.find<AuthController>().getUserPassword() ?? '';
   }
@@ -83,9 +83,9 @@ class _SignInScreenState extends State<SignInScreen> {
         }
       },
       child: Scaffold(
-        appBar: ResponsiveHelper.isDesktop(context) ? WebMenuBar() : !widget.exitFromApp ? AppBar(leading: IconButton(
+        appBar: ResponsiveHelper.isDesktop(context) ? WebMenuBar(ontop: null, fromPage: '',) : !widget.exitFromApp ? AppBar(leading: IconButton(
           onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back_ios_rounded, color: Theme.of(context).textTheme.bodyLarge.color),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: Theme.of(context).textTheme.bodyLarge?.color),
         ), elevation: 0, backgroundColor: Colors.transparent) : null,
         body: SafeArea(child: Center(
           child: Scrollbar(
@@ -98,7 +98,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   padding: context.width > 700 ? EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT) : null,
                   decoration: context.width > 700 ? BoxDecoration(
                     color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                    boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 700 : 300], blurRadius: 5, spreadRadius: 1)],
+                    boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 700 : 300]!, blurRadius: 5, spreadRadius: 1)],
                   ) : null,
                   child: GetBuilder<AuthController>(builder: (authController) {
 
@@ -118,7 +118,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                             color: Theme.of(context).cardColor,
-                            boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5)],
+                            boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
                           ),
                           child: Column(children: [
 
@@ -128,16 +128,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                   _countryDialCode = countryCode.dialCode;
                                 },
                                 initialSelection: _countryDialCode != null ? Get.find<AuthController>().getUserCountryCode().isNotEmpty ? Get.find<AuthController>().getUserCountryCode()
-                                    : CountryCode.fromCountryCode(Get.find<SplashController>().configModel.country).code : Get.find<LocalizationController>().locale.countryCode,
-                                favorite: [Get.find<AuthController>().getUserCountryCode().isNotEmpty ? Get.find<AuthController>().getUserCountryCode()
-                                    : CountryCode.fromCountryCode(Get.find<SplashController>().configModel.country).code],
+                                    : CountryCode.fromCountryCode(Get.find < SplashController>().configModel?.country ?? "").code : Get.find<LocalizationController>().locale.countryCode,
+                                favorite: [(Get.find<AuthController>().getUserCountryCode().isNotEmpty ?? false) ?
+                                Get.find<AuthController>().getUserCountryCode() : CountryCode.fromCountryCode(Get.find<SplashController>().configModel?.country ?? "").code ?? ""],
                                 showDropDownButton: true,
                                 padding: EdgeInsets.zero,
                                 showFlagMain: true,
                                 flagWidth: 25,
                                 dialogBackgroundColor: Theme.of(context).cardColor,
                                 textStyle: robotoRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge.color,
+                                  fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge?.color,
                                 ),
                               ),
                               Expanded(flex: 1, child: CustomTextField(
@@ -176,7 +176,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       !authController.isLoading ? Row(children: [
                         Expanded(child: CustomButton(
                           buttonText: 'sign_in'.tr,
-                          onPressed: authController.acceptTerms ? () => _login(authController, _countryDialCode) : null,
+                          onPressed: authController.acceptTerms ? () => _login(authController, _countryDialCode!) : null,
                         )),
                       ]) : Center(child: CircularProgressIndicator()),
 

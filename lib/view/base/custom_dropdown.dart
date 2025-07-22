@@ -6,28 +6,28 @@ class CustomDropdown<T> extends StatefulWidget {
 
   /// onChange is called when the selected option is changed.;
   /// It will pass back the value and the index of the option.
-  final void Function(T, int) onChange;
+  final void Function(T, int)? onChange;
 
   /// list of DropdownItems
-  final List<DropdownItem<T>> items;
-  final DropdownStyle dropdownStyle;
+  final List<DropdownItem<T>>? items;
+  final DropdownStyle? dropdownStyle;
 
   /// dropdownButtonStyles passes styles to OutlineButton.styleFrom()
-  final DropdownButtonStyle dropdownButtonStyle;
+  final DropdownButtonStyle? dropdownButtonStyle;
 
   /// dropdown button icon defaults to caret
-  final Icon icon;
-  final bool hideIcon;
+  final Icon? icon;
+  final bool? hideIcon;
 
   /// if true the dropdown icon will as a leading icon, default to false
   final bool leadingIcon;
   const CustomDropdown({
-    Key key,
+    Key? key,
     this.hideIcon = false,
     required this.child,
     required this.items,
-    this.dropdownStyle = const DropdownStyle(),
-    this.dropdownButtonStyle = const DropdownButtonStyle(),
+    this.dropdownStyle,// = const DropdownStyle(),
+    this.dropdownButtonStyle,// = const DropdownButtonStyle(),
     this.icon,
     this.leadingIcon = false,
     this.onChange,
@@ -40,12 +40,12 @@ class CustomDropdown<T> extends StatefulWidget {
 class CustomDropdownState<T> extends State<CustomDropdown<T>>
     with TickerProviderStateMixin {
   final LayerLink _layerLink = LayerLink();
-   OverlayEntry _overlayEntry;
+   OverlayEntry? _overlayEntry;
   bool _isOpen = false;
   int _currentIndex = -1;
-   AnimationController _animationController;
-   Animation<double> _expandAnimation;
-   Animation<double> _rotateAnimation;
+   AnimationController? _animationController;
+   Animation<double>? _expandAnimation;
+   Animation<double>? _rotateAnimation;
 
   @override
   void initState() {
@@ -53,11 +53,11 @@ class CustomDropdownState<T> extends State<CustomDropdown<T>>
 
     _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
     _expandAnimation = CurvedAnimation(
-      parent: _animationController,
+      parent: _animationController!,
       curve: Curves.easeInOut,
     );
     _rotateAnimation = Tween(begin: 0.0, end: 0.5).animate(CurvedAnimation(
-      parent: _animationController,
+      parent: _animationController!,
       curve: Curves.easeInOut,
     ));
   }
@@ -69,15 +69,15 @@ class CustomDropdownState<T> extends State<CustomDropdown<T>>
     return CompositedTransformTarget(
       link: this._layerLink,
       child: SizedBox(
-        width: style.width,
-        height: style.height,
+        width: style?.width ?? 0,
+        height: style?.height ?? 0,
         child: InkWell(
           onTap: _toggleDropdown,
           child: Padding(
             padding: const EdgeInsets.all(5),
             child: Row(
               mainAxisAlignment:
-              style.mainAxisAlignment ?? MainAxisAlignment.center,
+              style?.mainAxisAlignment ?? MainAxisAlignment.center,
               textDirection:
               widget.leadingIcon ? TextDirection.rtl : TextDirection.ltr,
               mainAxisSize: MainAxisSize.max,
@@ -85,11 +85,11 @@ class CustomDropdownState<T> extends State<CustomDropdown<T>>
                 if (_currentIndex == -1) ...[
                   Expanded(child: widget.child),
                 ] else ...[
-                  Expanded(child: widget.items[_currentIndex]),
+                  Expanded(child: widget.items![_currentIndex]),
                 ],
-                if (!widget.hideIcon)
+                if (!widget.hideIcon!)
                   RotationTransition(
-                    turns: _rotateAnimation,
+                    turns: _rotateAnimation!,
                     child: widget.icon ?? const Icon(Icons.expand_more),
                   ),
               ],
@@ -122,21 +122,21 @@ class CustomDropdownState<T> extends State<CustomDropdown<T>>
               Positioned(
                 left: offset.dx,
                 top: topOffset,
-                width: widget.dropdownStyle.width ?? size.width,
+                width: widget.dropdownStyle?.width ?? size.width,
                 child: CompositedTransformFollower(
                   offset:
-                  widget.dropdownStyle.offset ?? Offset(0, size.height + 5),
+                  widget.dropdownStyle?.offset ?? Offset(0, size.height + 5),
                   link: this._layerLink,
                   showWhenUnlinked: false,
                   child: Material(
-                    elevation: widget.dropdownStyle.elevation ?? 0,
-                    borderRadius: widget.dropdownStyle.borderRadius ?? BorderRadius.zero,
-                    color: widget.dropdownStyle.color,
+                    elevation: widget.dropdownStyle?.elevation ?? 0,
+                    borderRadius: widget.dropdownStyle?.borderRadius ?? BorderRadius.zero,
+                    color: widget.dropdownStyle?.color,
                     child: SizeTransition(
                       axisAlignment: 1,
-                      sizeFactor: _expandAnimation,
+                      sizeFactor: _expandAnimation!,
                       child: ConstrainedBox(
-                        constraints: widget.dropdownStyle.constraints ??
+                        constraints: widget.dropdownStyle?.constraints ??
                             BoxConstraints(
                               maxHeight: MediaQuery.of(context).size.height -
                                   topOffset -
@@ -144,13 +144,13 @@ class CustomDropdownState<T> extends State<CustomDropdown<T>>
                             ),
                         child: ListView(
                           padding:
-                          widget.dropdownStyle.padding ?? EdgeInsets.zero,
+                          widget.dropdownStyle?.padding ?? EdgeInsets.zero,
                           shrinkWrap: true,
-                          children: widget.items.asMap().entries.map((item) {
+                          children: widget!.items!.asMap().entries.map((item) {
                             return InkWell(
                               onTap: () {
                                 setState(() => _currentIndex = item.key);
-                                widget.onChange(item.value.value, item.key);
+                                widget.onChange!(item.value.value as T, item.key);
                                 _toggleDropdown();
                               },
                               child: item.value,
@@ -171,16 +171,16 @@ class CustomDropdownState<T> extends State<CustomDropdown<T>>
 
   void _toggleDropdown({bool close = false}) async {
     if (_isOpen || close) {
-      await _animationController.reverse();
-      this._overlayEntry.remove();
+      await _animationController!.reverse();
+      this._overlayEntry!.remove();
       setState(() {
         _isOpen = false;
       });
     } else {
       this._overlayEntry = this._createOverlayEntry();
-      Overlay.of(context).insert(this._overlayEntry);
+      Overlay.of(context).insert(this._overlayEntry!);
       setState(() => _isOpen = true);
-      _animationController.forward();
+      _animationController!.forward();
     }
   }
 }
@@ -188,26 +188,26 @@ class CustomDropdownState<T> extends State<CustomDropdown<T>>
 /// DropdownItem is just a wrapper for each child in the dropdown list.\n
 /// It holds the value of the item.
 class DropdownItem<T> extends StatelessWidget {
-  final T value;
-  final Widget child;
+  final T? value;
+  final Widget? child;
 
-  const DropdownItem({Key key, this.value, this.child}) : super(key: key);
+  const DropdownItem({Key? key, this.value, this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return child;
+    return child!;
   }
 }
 
 class DropdownButtonStyle {
-  final MainAxisAlignment mainAxisAlignment;
-  final ShapeBorder shape;
-  final double elevation;
-  final Color backgroundColor;
-  final EdgeInsets padding;
-  final BoxConstraints constraints;
-  final double width;
-  final double height;
-  final Color primaryColor;
+  final MainAxisAlignment? mainAxisAlignment;
+  final ShapeBorder? shape;
+  final double? elevation;
+  final Color? backgroundColor;
+  final EdgeInsets? padding;
+  final BoxConstraints? constraints;
+  final double? width;
+  final double? height;
+  final Color? primaryColor;
   const DropdownButtonStyle({
     this.mainAxisAlignment,
     this.backgroundColor,
@@ -222,17 +222,17 @@ class DropdownButtonStyle {
 }
 
 class DropdownStyle {
-  final BorderRadius borderRadius;
-  final double elevation;
-  final Color color;
-  final EdgeInsets padding;
-  final BoxConstraints constraints;
+  final BorderRadius? borderRadius;
+  final double? elevation;
+  final Color? color;
+  final EdgeInsets? padding;
+  final BoxConstraints? constraints;
 
   /// position of the top left of the dropdown relative to the top left of the button
-  final Offset offset;
+  final Offset? offset;
 
   ///button width must be set for this to take effect
-  final double width;
+  final double? width;
 
   const DropdownStyle({
     this.constraints,

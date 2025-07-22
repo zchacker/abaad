@@ -5,13 +5,13 @@ import 'package:abaad/data/model/response/message_model.dart';
 import 'package:abaad/data/model/response/userinfo_model.dart';
 
 class ConversationsModel {
-  int totalSize = 0;
-  int limit = 0;
-  int offset = 0;
+  int? totalSize = 0;
+  int? limit = 0;
+  int? offset = 0;
 //  String categoryNmae
   List<Conversation>? conversations;
 
-  ConversationsModel({ required this.totalSize, required this.limit, required this.offset, required this.conversations});
+  ConversationsModel({ required this.totalSize, this.limit,  this.offset,  this.conversations});
 
   ConversationsModel.fromJson(Map<String, dynamic> json) {
     totalSize = json['total_size'];

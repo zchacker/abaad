@@ -12,10 +12,10 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 
 
 class EstateImageView extends StatefulWidget {
-  final int  estate_id;
-  final bool fromView;
+  final int?  estate_id;
+  final bool? fromView;
 
-   const EstateImageView({super.key, required this.estate_id,this.fromView});
+   const EstateImageView({super.key, required this.estate_id, this.fromView});
 
   @override
   State<EstateImageView> createState() => _EstateImageViewState();
@@ -38,12 +38,12 @@ class _EstateImageViewState extends State<EstateImageView> {
 
 
     return GetBuilder<EstateController>(builder: (estateController) {
-    return  (estateController.estate.shortDescription != null) ?
+    return  (estateController.estate?.shortDescription != null) ?
      Container(
 
 
       padding: const EdgeInsets.only(top: 2),
-      child: (estateController.estate.images != null)  != null ? Stack(
+      child: (estateController.estate?.images != null)  != null ? Stack(
 
         children: [
           Padding(
@@ -53,16 +53,16 @@ class _EstateImageViewState extends State<EstateImageView> {
               options: CarouselOptions(
                 viewportFraction: 1,
                 autoPlay: true,
-                height: widget.fromView ? 340 : (context.height * 0.70),
+                height: (widget.fromView ?? false) ? 340 : (context.height * 0.70),
 
                 autoPlayInterval: Duration(seconds: 3),
                 onPageChanged: (index, reason) {
                   estateController.setCurrentIndex(index, true);
                 },
               ),
-              itemCount:estateController.estate.images.isEmpty ? 1 :  estateController.estate.images.length,
+              itemCount: (estateController.estate?.images?.isEmpty ?? false) ? 1 :  estateController.estate?.images?.length,
               itemBuilder: (context, index, _) {
-                String baseUrl = Get.find<SplashController>().configModel.baseUrls.estateImageUrl;
+                String? baseUrl = Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl;
                 print("---------------anner----------$baseUrl");
                 return GestureDetector(
                   onTap: (){
@@ -73,13 +73,13 @@ class _EstateImageViewState extends State<EstateImageView> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                      boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5)],
+                      boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
                     ),
-                    child:   estateController.estate.images.isNotEmpty?ClipRRect(
+                    child:   (estateController.estate?.images?.isNotEmpty ?? false) ? ClipRRect(
                       borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                       child:  GetBuilder<SplashController>(builder: (splashController) {
                         return  CustomImage(
-                          image: '$baseUrl/${estateController.estate.images[index]}'??'',
+                          image: '$baseUrl/${estateController.estate?.images?[index]}'??'',
                           fit: BoxFit.cover,
                         );
                       },
@@ -100,8 +100,8 @@ class _EstateImageViewState extends State<EstateImageView> {
             right: 20,
             child:Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children:estateController.estate.images.map((bnr) {
-                int index =estateController.estate.images.indexOf(bnr);
+              children:estateController.estate!.images!.map((bnr) {
+                int index =estateController.estate!.images!.indexOf(bnr);
                 return TabPageSelectorIndicator(
                   backgroundColor: index == estateController.currentIndex ? Theme.of(context).primaryColor
                       : Theme.of(context).primaryColor.withOpacity(0.5),
@@ -115,7 +115,7 @@ class _EstateImageViewState extends State<EstateImageView> {
         ],
       ) : Shimmer(
         duration: Duration(seconds: 1),
-        enabled: estateController.estate.images == null,
+        enabled: estateController.estate?.images == null,
         child: Container(margin: EdgeInsets.symmetric(horizontal: 10), decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
           color: Colors.grey[Get.find<ThemeController>().darkTheme ? 700 : 300],

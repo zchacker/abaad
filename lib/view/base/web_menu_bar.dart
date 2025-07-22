@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
-  final Function ontop;
-  final  String fromPage;
-  const WebMenuBar({super.key, required this.ontop,required this.fromPage});
+  final Function? ontop;
+  final  String? fromPage;
+  const WebMenuBar({super.key, this.ontop, this.fromPage});
   @override
   Widget build(BuildContext context) {
     return Center(child: Container(
@@ -22,7 +22,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
           return Row(
             children: [
               InkWell(
-                onTap:ontop,
+                onTap:ontop as GestureTapCallback?,
                 child:  Image.asset(Images.menu, width: 37.0, height: 37.0),
               ),
               const Spacer(),
@@ -42,7 +42,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
               InkWell(
                 child: GetBuilder<NotificationController>(builder: (notificationController) {
                   return Stack(children: [
-                    Icon(fromPage=="main"?Icons.home_outlined: Icons.notifications_active_outlined, size: 37, color: Theme.of(context).textTheme.bodyLarge.color),
+                    Icon(fromPage=="main"?Icons.home_outlined: Icons.notifications_active_outlined, size: 37, color: Theme.of(context).textTheme.bodyLarge?.color),
                     notificationController.hasNotification ? Positioned(top: 0, right: 0, child: Container(
                       height: 10, width: 10, decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor, shape: BoxShape.circle,

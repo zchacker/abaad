@@ -7,6 +7,7 @@ import 'package:abaad/data/model/body/notification_body.dart';
 import 'package:abaad/data/model/response/estate_model.dart';
 import 'package:abaad/data/model/response/userinfo_model.dart';
 import 'package:abaad/helper/responsive_helper.dart';
+import 'package:abaad/helper/route_helper.dart';
 import 'package:abaad/helper/user_type.dart';
 import 'package:abaad/util/app_constants.dart';
 import 'package:abaad/util/dimensions.dart';
@@ -38,13 +39,12 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _inputMessageController = TextEditingController();
-  bool _isLoggedIn;
-  StreamSubscription _stream;
-  String url;
+  bool? _isLoggedIn;
+  StreamSubscription? _stream;
+  String? url;
   var data;
-  final String _errorImage =
-      "https://i.ytimg.com/vi/z8wrRRR7_qU/maxresdefault.jpg";
-  Timer _timer;
+  final String _errorImage = "https://i.ytimg.com/vi/z8wrRRR7_qU/maxresdefault.jpg";
+  Timer? _timer;
   @override
   void initState() {
     super.initState();
@@ -62,7 +62,7 @@ class _ChatScreenState extends State<ChatScreen> {
       setState(() {
       });
       Get.find<ChatController>().toggleSendButtonActivity();
-      _inputMessageController.text=widget.link;
+      _inputMessageController.text=widget.link!;
     }
     //
     startFetchingMessages();
@@ -74,7 +74,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     super.dispose();
-    _stream.cancel();
+    _stream?.cancel();
   }
 
 
@@ -106,7 +106,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     return GetBuilder<ChatController>(builder: (chatController) {
       String baseUrl = '';
-      baseUrl = Get.find<SplashController>().configModel.baseUrls.customerImageUrl;
+      baseUrl = Get.find<SplashController>().configModel?.baseUrls?.customerImageUrl ?? "";
     
       return Scaffold(
 
@@ -145,14 +145,14 @@ class _ChatScreenState extends State<ChatScreen> {
       //   ],
       // )),
 
-        body: _isLoggedIn ?
+        body: (_isLoggedIn ?? false) ?
         GetBuilder<UserController>(builder: (userController) {
       return  SafeArea(
           child: Center(
             child: SizedBox(
               width: ResponsiveHelper.isDesktop(context) ? Dimensions.WEB_MAX_WIDTH : MediaQuery.of(context).size.width,
               child: Column(children: [
-                widget.link!="null"?   SizedBox(
+                widget.link != "null"?   SizedBox(
                   height: 60.0,
                   child: Stack(
                     children: <Widget>[
@@ -171,18 +171,18 @@ class _ChatScreenState extends State<ChatScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 IconButton(
-                                  // onPressed: () {
-                                  //   if(widget.fromNotification) {
-                                  //     Get.offAllNamed(RouteHelper.getInitialRoute());
-                                  //   }else {
-                                  //     Get.back();
-                                  //   }
-                                  // },
-                                  icon: const Icon(Icons.arrow_back_ios),
+                                  onPressed: () {
+                                    if(  (widget.index ?? 1) == 1){// fromNotification ?? false ) {
+                                      Get.offAllNamed(RouteHelper.getInitialRoute());
+                                    }else {
+                                      Get.back();
+                                    }
+                                  },
+                                  icon: const Icon(Icons.arrow_back_ios)
                                 ),
 
-                                Text(chatController.messageModel != null ? '${chatController.messageModel.conversation.receiver.name}'
-                                    ' ${chatController.messageModel.conversation.receiver.name}' : 'receiver_name'.tr,style: TextStyle(color: Theme.of(context).disabledColor,),),
+                                Text(chatController.messageModel != null ? '${chatController.messageModel?.conversation?.receiver?.name ?? ""}'
+                                    ' ${(chatController.messageModel?.conversation?.receiver?.name ?? "")}' : 'receiver_name'.tr,style: TextStyle(color: Theme.of(context).disabledColor,),),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
@@ -194,7 +194,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                     ),
                                     child: ClipOval(child: CustomImage(
                                       image:'${AppConstants.BASE_URL}'
-                                          '/${chatController.messageModel != null ? chatController.messageModel.conversation.receiver.image : ''}',
+                                          '/${chatController.messageModel != null ? chatController.messageModel?.conversation?.receiver?.image : ''}',
                                       fit: BoxFit.cover, height: 40, width: 40,
                                     )),
                                   ),
@@ -211,14 +211,14 @@ class _ChatScreenState extends State<ChatScreen> {
                   // child:   Text(widget.estate.shortDescription),
                 ),
                 GetBuilder<ChatController>(builder: (chatController) {
-                  return Expanded(child: chatController.messageModel != null ? chatController.messageModel.messages.isNotEmpty ? SingleChildScrollView(
+                  return Expanded(child: chatController.messageModel != null ? (chatController.messageModel?.messages?.isNotEmpty ?? false) ? SingleChildScrollView(
                     controller: _scrollController,
                     reverse: true,
                     child: PaginatedListView(
                       scrollController: _scrollController,
                       reverse: true,
-                      totalSize: chatController.messageModel.totalSize,
-                      offset: chatController.messageModel.offset,
+                      totalSize: chatController.messageModel?.totalSize,
+                      offset: chatController.messageModel?.offset,
                       onPaginate: (int offset) async => await chatController.getMessages(
                         offset, widget.notificationBody, widget.user, widget.conversationID,
                       ),
@@ -226,11 +226,11 @@ class _ChatScreenState extends State<ChatScreen> {
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         reverse: true,
-                        itemCount: chatController.messageModel.messages.length,
+                        itemCount: (chatController.messageModel?.messages?.length ?? 40),
                         itemBuilder: (context, index) {
                           return MessageBubble(
-                            message: chatController.messageModel.messages[index],
-                            user: chatController.messageModel.conversation.receiver,
+                            message: chatController.messageModel?.messages?[index],
+                            user: chatController.messageModel?.conversation?.receiver,
                             userType: widget.notificationBody.adminId != null ? UserType.admin
                                 : widget.notificationBody.deliverymanId != null ? UserType.delivery_man : UserType.vendor,
                           );
@@ -246,12 +246,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
                     GetBuilder<ChatController>(builder: (chatController) {
 
-                      return chatController.chatImage.isNotEmpty ? SizedBox(height: 100,
+                      return (chatController.chatImage?.isNotEmpty ?? false) ? SizedBox(height: 100,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: chatController.chatImage.length,
+                            itemCount: chatController.chatImage?.length,
                             itemBuilder: (BuildContext context, index){
-                              return  chatController.chatImage.isNotEmpty ? Padding(
+                              return  (chatController.chatImage?.isNotEmpty ?? false) ? Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Stack(children: [
 
@@ -260,7 +260,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.all(Radius.circular(Dimensions.PADDING_SIZE_DEFAULT)),
                                       child: Image.memory(
-                                        chatController.chatRawImage[index], width: 100, height: 100, fit: BoxFit.cover,
+                                        chatController.chatRawImage![index], width: 100, height: 100, fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
@@ -287,7 +287,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     }),
                     AnyLinkPreview(
 
-                      link: widget.link,
+                      link: widget.link ?? "",
                       displayDirection: UIDirection.uiDirectionHorizontal,
                       cache: Duration(hours: 1),
                       backgroundColor: Colors.grey[300],
@@ -355,7 +355,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             // if(chatController.isSendButtonActive ||  widget.estate_id==null) {
                               await chatController.sendMessage(
                                 message: _inputMessageController.text, notificationBody: widget.notificationBody,
-                                conversationID: widget.conversationID, index: widget.index,estate_id: widget.estate_id
+                                conversationID: widget.conversationID ?? 0, index: widget.index ?? 0,estate_id: widget.estate_id ?? ""
                               );
                               _inputMessageController.clear();
                             // }else {

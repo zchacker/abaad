@@ -5,23 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DataView extends StatefulWidget {
-  final String  value;
-  final String title;
-  final bool isButtonActive;
-  final Function onTap;
-  const DataView({super.key, required this.value, required this.title, required this.onTap, this.isButtonActive});
+  final String?  value;
+  final String? title;
+  final bool? isButtonActive;
+  final Function? onTap;
+  const DataView({super.key,  this.value,  this.title,  this.onTap, this.isButtonActive});
 
   @override
   State<DataView> createState() => _DataViewState();
 }
 
 class _DataViewState extends State<DataView> {
-  bool _buttonActive;
+  bool? _buttonActive;
 
   @override
   void initState() {
     super.initState();
-
     _buttonActive = widget.isButtonActive;
   }
 
@@ -30,9 +29,9 @@ class _DataViewState extends State<DataView> {
     return InkWell(
       onTap: () {
         setState(() {
-          _buttonActive = !_buttonActive;
+          _buttonActive = !_buttonActive!;
         });
-              widget.onTap();
+              widget.onTap!();
       },
       child: Container(
         height: 50,
@@ -43,13 +42,13 @@ class _DataViewState extends State<DataView> {
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-          boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5)],
+          boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
         ),
         child: Row(children: [
 
           SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-          Expanded(child: Text(widget.title, style: robotoRegular)),
-          Text(widget.value),
+          Expanded(child: Text(widget.title!, style: robotoRegular)),
+          Text(widget.value!),
         ]),
       ),
     );

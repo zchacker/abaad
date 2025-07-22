@@ -5,24 +5,24 @@ import 'package:flutter/services.dart';
 
 class MyTextField extends StatefulWidget {
   final String hintText;
-  final TextEditingController controller;
-  final FocusNode focusNode;
-  final FocusNode nextFocus;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final FocusNode? nextFocus;
   final TextInputType inputType;
   final TextInputAction inputAction;
   final int maxLines;
   final bool isPassword;
-  final Function onTap;
-  final Function onChanged;
-  final Function onSubmit;
+  final Function? onTap;
+  final Function? onChanged;
+  final Function? onSubmit;
   final bool isEnabled;
   final TextCapitalization capitalization;
-  final Color fillColor;
+  final Color? fillColor;
   final bool autoFocus;
   @override
-  final GlobalKey<FormFieldState<String>> key_local;
+  final GlobalKey<FormFieldState<String>>? key_local;
   final bool showBorder;
-  final double size;
+  final double? size;
 
   bool multiLine;
 
@@ -89,10 +89,10 @@ class _MyTextFieldState extends State<MyTextField> {
             onPressed: _toggle,
           ) : null,
         ),
-        onTap: widget.onTap,
+        onTap: widget.onTap as GestureTapCallback?,
         onSubmitted: (text) => widget.nextFocus != null ? FocusScope.of(context).requestFocus(widget.nextFocus)
-            : widget.onSubmit != null ? widget.onSubmit(text) : null,
-        onChanged: widget.onChanged,
+            : widget.onSubmit != null ? widget.onSubmit!(text) : null,
+        onChanged: widget.onChanged as ValueChanged?,
       ),
     );
   }

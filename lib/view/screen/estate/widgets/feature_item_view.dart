@@ -26,7 +26,7 @@ class FeatureScreen extends StatefulWidget {
   String path ;
   String pathVideo;
   String skyView;
-  FeatureScreen({super.key, required this.featureId,this.estate,this.path,this.pathVideo,this.skyView});
+  FeatureScreen({super.key, required this.featureId,required this.estate, required this.path, required this.pathVideo, required this.skyView});
 
   @override
   State<FeatureScreen> createState() => _FeatureScreenState();
@@ -36,15 +36,15 @@ class _FeatureScreenState extends State<FeatureScreen> {
   //String selectedUrl;
   double value = 0.0;
 
-  VideoPlayerController _controller;
-  VideoPlayerController _controllerSkyView;
-  String selectedUrl;
-  WebViewController controllerGlobal;
+  VideoPlayerController? _controller;
+  VideoPlayerController? _controllerSkyView;
+  String? selectedUrl;
+  WebViewController? controllerGlobal;
   final bool _isLoading = true;
-  PullToRefreshController pullToRefreshController;
+  PullToRefreshController? pullToRefreshController;
 
-  StreetViewController streetViewController;
-  VideoPlayerController _controller1;
+  StreetViewController? streetViewController;
+  VideoPlayerController? _controller1;
 
   bool streetViewAvailable = true;
    double scale = 1.0;
@@ -151,7 +151,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
     return WillPopScope(
       onWillPop: () async {
       if(widget.featureId=="6") {
-        _controller.pause();
+        _controller?.pause();
       }
         return true;
       },
@@ -171,7 +171,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
                   Expanded(
                     child: GridView.builder(
                       physics: BouncingScrollPhysics(),
-                      itemCount: estateController.estate.images.length,
+                      itemCount: estateController.estate?.images?.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: ResponsiveHelper.isDesktop(context) ? 4 : ResponsiveHelper.isTab(context) ? 3 : 2,
                         childAspectRatio: (1/0.80),
@@ -184,14 +184,14 @@ class _FeatureScreenState extends State<FeatureScreen> {
                             decoration: BoxDecoration(
                               color: Theme.of(context).cardColor,
                               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5)],
+                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                               child: GetBuilder<SplashController>(builder: (splashController) {
-                                String baseUrl = Get.find<SplashController>().configModel.baseUrls.estateImageUrl;
+                                String baseUrl = Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl ?? "";
                                 return CustomImage(
-                                  image: '$baseUrl/${estateController.estate.images[index]}',
+                                  image: '$baseUrl/${estateController.estate!.images?[index]}',
                                   fit: BoxFit.cover,
                                 );
                               },
@@ -217,7 +217,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
                       initSource: StreetViewSource.outdoor,
                       // initBearing: 30,
                       zoomGesturesEnabled: false,
-                      initPos:LatLng(double.parse(widget.estate.latitude),double.parse(widget.estate.longitude)),
+                      initPos:LatLng(double.parse(widget.estate.latitude ?? ""),double.parse(widget.estate.longitude ?? "")),
                       onStreetViewCreated: (StreetViewController controller) async {
                         //save controller for late using
                         streetViewController = controller;
@@ -228,7 +228,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
 
 
                         //change position by controller
-                        controller.setPosition(position:LatLng(double.parse(widget.estate.latitude),double.parse(widget.estate.longitude)));
+                        controller.setPosition(position:LatLng(double.parse(widget.estate.latitude ?? ""),double.parse(widget.estate.longitude ?? "")));
                       }
                   ),
                 ),
@@ -243,7 +243,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
                   Expanded(
                     child: GridView.builder(
                       physics: BouncingScrollPhysics(),
-                      itemCount: estateController.estate.planned.length,
+                      itemCount: estateController.estate?.planned?.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: ResponsiveHelper.isDesktop(context) ? 4 : ResponsiveHelper.isTab(context) ? 3 : 2,
                         childAspectRatio: (1/0.80),
@@ -258,7 +258,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
                             decoration: BoxDecoration(
                               color: Theme.of(context).cardColor,
                               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5)],
+                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),

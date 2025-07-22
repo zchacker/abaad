@@ -11,8 +11,14 @@ class NotFound extends StatelessWidget {
             curve: Curves.bounceOut,
         duration: Duration(seconds: 2),
         tween: Tween<double>(begin: 12.0,end: 30.0),
-        builder: (BuildContext context, dynamic value, Widget child){
-              return Text('Page Not Found',style: TextStyle(fontWeight: FontWeight.bold,fontSize: value));
+        builder: (BuildContext context, double value, Widget? child) {
+          return Text(
+            'Page Not Found',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: value,
+            ),
+          );
         },
 
         ),

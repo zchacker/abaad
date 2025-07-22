@@ -11,6 +11,7 @@ import 'package:abaad/view/base/custom_button.dart';
 import 'package:abaad/view/base/custom_snackbar.dart';
 import 'package:abaad/view/base/custom_text_field.dart';
 import 'package:abaad/view/base/web_menu_bar.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 //import 'package:country_code_picker/country_code.dart';
 
 import 'package:flutter/material.dart';
@@ -42,18 +43,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _referCodeController = TextEditingController();
-  String _registrationType = 'individual';
+  String? _registrationType = 'individual';
   final TextEditingController _unifiedNumberController = TextEditingController();
 
-  String _countryDialCode;
-  String _membershipType;
-  String _selectedUserType;
+  String? _countryDialCode;
+  String? _membershipType;
+  String? _selectedUserType;
 
   @override
   void initState() {
     super.initState();
    // Get.find<AuthController>().zoneList.;
-    _countryDialCode = CountryCode.fromCountryCode(Get.find<SplashController>().configModel.country).dialCode;
+    _countryDialCode = CountryCode.fromCountryCode(Get.find<SplashController>().configModel?.country ?? "").dialCode;
   }
 
   @override
@@ -70,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               padding: context.width > 700 ? EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT) : null,
               decoration: context.width > 700 ? BoxDecoration(
 
-                boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 700 : 300], blurRadius: 5, spreadRadius: 1)],
+                boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 700 : 300]!, blurRadius: 5, spreadRadius: 1)],
               ) : null,
               child: GetBuilder<AuthController>(builder: (authController) {
 
@@ -158,14 +159,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   onChanged: (CountryCode countryCode) {
                                     _countryDialCode = countryCode.dialCode;
                                   },
-                                  initialSelection: CountryCode.fromCountryCode(Get.find<SplashController>().configModel.country).code,
-                                  favorite: [CountryCode.fromCountryCode(Get.find<SplashController>().configModel.country).code],
+                                  initialSelection: CountryCode.fromCountryCode(Get.find<SplashController>().configModel?.country ?? "").code,
+                                  favorite: [CountryCode.fromCountryCode(Get.find<SplashController>().configModel?.country ?? "").code ?? ""],
                                   showDropDownButton: true,
                                   padding: EdgeInsets.zero,
                                   showFlagMain: true,
                                   dialogBackgroundColor: Theme.of(context).cardColor,
                                   textStyle: robotoRegular.copyWith(
-                                    fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge.color,
+                                    fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge?.color ?? Color(0),
                                   ),
                                 ),
                                 Expanded(child: CustomTextField(
@@ -199,7 +200,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey[Get.isDarkMode ? 800 : 200],
+                                  color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
                                   spreadRadius: 1,
                                   blurRadius: 5,
                                 ),
@@ -227,9 +228,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     child: Text('مسوق عقاري'),
                                   ),
                                 ],
-                                onChanged: (String newValue) {
+                                onChanged: (String? newValue) {
                                   setState(() {
-                                    _selectedUserType = newValue;
+                                    this._selectedUserType = newValue;
                                   });
                                 },
                               ),
@@ -256,9 +257,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             child: DropdownButton<String>(
                               value: _registrationType,
-                              onChanged: (String newValue) {
+                              onChanged: (String? newValue) {
                                 setState(() {
-                                  _registrationType = newValue;
+                                  this._registrationType = newValue;
                                 });
                               },
                               isExpanded: true,
@@ -358,7 +359,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     // )),
                     Expanded(child: CustomButton(
                       buttonText: 'sign_up'.tr,
-                      onPressed: authController.acceptTerms ? () => _register(authController, _countryDialCode) : null,
+                      onPressed: authController.acceptTerms ? () => _register(authController, _countryDialCode ?? "966") : null,
                     )),
                   ]) : Center(child: CircularProgressIndicator()),
                   SizedBox(height: 30),
@@ -409,21 +410,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // }else if (_password != _confirmPassword) {
     //   showCustomSnackBar('confirm_password_does_not_matched'.tr);
     // }
-    else if (_selectedUserType.isEmpty) {
+    else if ((_selectedUserType?.isEmpty ?? false)) {
       showCustomSnackBar('يرجى اختيار نوع المستخدم');
     }
     else if (referCode.isNotEmpty && referCode.length != 10) {
       showCustomSnackBar('invalid_refer_code'.tr);
     }else {
       SignUpBody signUpBody = SignUpBody(
-        fName: fullName, email: email, phone: numberWithCountryCode, password: "1234567",
+        fName: fullName,
+        email: email,
+        phone: numberWithCountryCode,
+        password: "1234567",
         refCode: referCode,zone_id:  0,
         membershipType: _selectedUserType,
         unifiedNumber: _registrationType == 'organization' ? _unifiedNumberController.text.trim() : null,
+        city_id: 0,
       );
       authController.registration(signUpBody).then((status) async {
         if (status.isSuccess) {
-          if(Get.find<SplashController>().configModel.customerVerification) {
+          if((Get.find<SplashController>().configModel?.customerVerification ?? false)) {
             List<int> encoded = utf8.encode("1234567");
             String data = base64Encode(encoded);
             Get.toNamed(RouteHelper.getVerificationRoute(numberWithCountryCode, status.message, RouteHelper.signUp, data));

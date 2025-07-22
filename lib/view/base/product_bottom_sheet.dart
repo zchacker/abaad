@@ -33,19 +33,35 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductBottomSheet extends StatefulWidget {
-  final Product product;
-  final bool isCampaign;
-  final CartModel cart;
-  final int cartIndex;
-  final bool inRestaurantPage;
-  const ProductBottomSheet({super.key, required this.product, this.isCampaign = false, this.cart, this.cartIndex, this.inRestaurantPage = false});
+  //final Product product;
+  final bool? isCampaign;
+  //final CartModel cart;
+  final int? cartIndex;
+  final bool? inRestaurantPage;
+
+  const ProductBottomSheet({
+    super.key,
+    //this.product,
+    this.isCampaign = false,
+    //this.cart,
+    this.cartIndex,
+    this.inRestaurantPage = false
+  });
 
   @override
   State<ProductBottomSheet> createState() => _ProductBottomSheetState();
 }
 
+
 class _ProductBottomSheetState extends State<ProductBottomSheet> {
 
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+
+/*
   @override
   void initState() {
     super.initState();
@@ -587,6 +603,6 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
       dismissDirection: DismissDirection.horizontal,
     ));
   }
-
+*/
 }
 

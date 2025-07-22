@@ -18,7 +18,7 @@ import 'package:get/get.dart';
 import 'widgets/subscription_card.dart';
 class BusinessPlanScreen extends StatefulWidget {
   final int estateId;
-  const  BusinessPlanScreen({Key key, required this.estateId}) : super(key: key);
+  const  BusinessPlanScreen({Key? key, required this.estateId}) : super(key: key);
 
   @override
   State<BusinessPlanScreen> createState() => _BusinessPlanScreenState();
@@ -75,13 +75,13 @@ class _BusinessPlanScreenState extends State<BusinessPlanScreen> {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
                               child: Row(children: [
-                                Get.find<SplashController>().configModel.businessPlan.commission != 0 ? Expanded(
+                                Get.find<SplashController>().configModel?.businessPlan?.commission != 0 ? Expanded(
                                   child: baseCardWidget(authController, context, title: 'Commission Base',
                                       index: 0, onTap: ()=> authController.setBusiness(0)),
                                 ) : SizedBox(),
                                 SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
 
-                                Get.find<SplashController>().configModel.businessPlan.subscription != 0 ? Expanded(
+                                Get.find<SplashController>().configModel?.businessPlan?.subscription != 0 ? Expanded(
                                   child: baseCardWidget(authController, context, title: 'Subscription Base',
                                       index: 1, onTap: ()=> authController.setBusiness(1)),
                                 ) : SizedBox(),
@@ -92,7 +92,7 @@ class _BusinessPlanScreenState extends State<BusinessPlanScreen> {
                             authController.businessIndex == 0 ? Padding(
                               padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
                               child: Text(
-                                "${'restaurant_will_pay'.tr} ${Get.find<SplashController>().configModel.adminCommission}% ${'commission_to'.tr} ${Get.find<SplashController>().configModel.businessName} ${'from_each_order_You_will_get_access_of_all'.tr}",
+                                "${'restaurant_will_pay'.tr} ${Get.find<SplashController>().configModel?.adminCommission}% ${'commission_to'.tr} ${Get.find<SplashController>().configModel?.businessName} ${'from_each_order_You_will_get_access_of_all'.tr}",
                                 style: robotoRegular, textAlign: TextAlign.start, textScaleFactor: 1.1,
                               ),
                             ) : Container(
@@ -107,9 +107,9 @@ class _BusinessPlanScreenState extends State<BusinessPlanScreen> {
 
                                 authController.packageModel != null ? SizedBox(
                                   height: ResponsiveHelper.isDesktop(context) ? 700 : 600,
-                                  child: (authController.packageModel.packages.isNotEmpty && authController.packageModel.packages.isNotEmpty) ? Swiper(
+                                  child: ((authController.packageModel?.packages?.isNotEmpty ?? false) && (authController.packageModel?.packages?.isNotEmpty ?? false)) ? Swiper(
 
-                                    itemCount: authController.packageModel.packages.length,
+                                    itemCount: authController.packageModel?.packages?.length ?? 40,
                                     itemWidth: ResponsiveHelper.isDesktop(context) ? 400 : context.width * 0.8,
                                     itemHeight: 600.0,
                                     layout: SwiperLayout.STACK,
@@ -117,7 +117,7 @@ class _BusinessPlanScreenState extends State<BusinessPlanScreen> {
                                       authController.selectSubscriptionCard(index);
                                     },
                                     itemBuilder: (BuildContext context, int index){
-                                      Packages package = authController.packageModel.packages[index];
+                                      Packages package = authController.packageModel!.packages![index];
 
                                       Color color = ColorConverter.stringToColor(package.color);
 
@@ -130,7 +130,7 @@ class _BusinessPlanScreenState extends State<BusinessPlanScreen> {
                                                 decoration: BoxDecoration(
                                                   color: Theme.of(context).cardColor,
                                                   borderRadius: BorderRadius.circular(Dimensions.RADIUS_EXTRA_LARGE),
-                                                  boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 10)],
+                                                  boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 10)],
                                                 ),
                                                 padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                                 margin: EdgeInsets.only(top: Dimensions.PADDING_SIZE_LARGE, bottom: Dimensions.PADDING_SIZE_EXTRA_SMALL),
@@ -170,9 +170,9 @@ class _BusinessPlanScreenState extends State<BusinessPlanScreen> {
                             padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
                             child: Column(children: [
 
-                              Get.find<SplashController>().configModel.freeTrialPeriodStatus == 1
+                              Get.find<SplashController>().configModel?.freeTrialPeriodStatus == 1
                                   ? paymentCart(
-                                  title: '${'continue_with'.tr} ${Get.find<SplashController>().configModel.freeTrialPeriodDay} ${'days_free_trial'.tr}',
+                                  title: '${'continue_with'.tr} ${Get.find<SplashController>().configModel?.freeTrialPeriodDay} ${'days_free_trial'.tr}',
                                   index: 0,
                                   onTap: (){
                                     authController.setPaymentIndex(0);
@@ -219,7 +219,7 @@ class _BusinessPlanScreenState extends State<BusinessPlanScreen> {
                       ) : SizedBox(),
                       SizedBox(width: (authController.businessPlanStatus == 'payment') ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0),
 
-                      authController.businessIndex == 0 || (authController.businessIndex == 1 && authController.packageModel.packages.isNotEmpty) ? Expanded(child: CustomButton(
+                      authController.businessIndex == 0 || (authController.businessIndex == 1 && (authController.packageModel?.packages?.isNotEmpty ?? false)) ? Expanded(child: CustomButton(
                         buttonText: 'next'.tr,
                         onPressed: () => authController.submitBusinessPlan(estateId: widget.estateId),
                       )) : SizedBox(),
@@ -239,18 +239,18 @@ class _BusinessPlanScreenState extends State<BusinessPlanScreen> {
       builder: (authController) {
         return Stack( clipBehavior: Clip.none, children: [
             InkWell(
-              onTap: onTap,
+              onTap: onTap as GestureTapCallback?,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
                   border: authController.paymentIndex == index ? Border.all(color: Theme.of(context).primaryColor, width: 1) : null,
-                  boxShadow: authController.paymentIndex != index ? [BoxShadow(color: Colors.grey[300], blurRadius: 10)] : null,
+                  boxShadow: authController.paymentIndex != index ? [BoxShadow(color: Colors.grey[300]!, blurRadius: 10)] : null,
                   color: authController.paymentIndex == index ? Theme.of(context).primaryColor.withOpacity(0.05) : Theme.of(context).cardColor,
                 ),
                 alignment: Alignment.center,
                 width: context.width,
                 padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_LARGE),
-                child: Text(title, style: robotoBold.copyWith(color: authController.paymentIndex == index ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyLarge.color)),
+                child: Text(title, style: robotoBold.copyWith(color: authController.paymentIndex == index ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyLarge?.color)),
               ),
             ),
 
@@ -270,7 +270,7 @@ class _BusinessPlanScreenState extends State<BusinessPlanScreen> {
 
   Widget baseCardWidget(AuthController authController, BuildContext context,{ required String title, required int index, required Function onTap}){
     return InkWell(
-      onTap: onTap,
+      onTap: onTap  as GestureTapCallback?,
       child: Stack(clipBehavior: Clip.none, children: [
 
         Container(
@@ -278,10 +278,10 @@ class _BusinessPlanScreenState extends State<BusinessPlanScreen> {
               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
               color: authController.businessIndex == index ? Theme.of(context).primaryColor.withOpacity(0.1) : Theme.of(context).cardColor,
               border: authController.businessIndex == index ? Border.all(color: Theme.of(context).primaryColor, width: 0.5) : null,
-              boxShadow: authController.businessIndex == index ? null : [BoxShadow(color: Colors.grey[200], offset: Offset(5, 5), blurRadius: 10)]
+              boxShadow: authController.businessIndex == index ? null : [BoxShadow(color: Colors.grey[200]!, offset: Offset(5, 5), blurRadius: 10)]
           ),
           padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT, vertical: Dimensions.PADDING_SIZE_LARGE),
-          child: Center(child: Text(title, style: robotoMedium.copyWith(color: authController.businessIndex == index ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyLarge.color, fontSize: Dimensions.fontSizeDefault))),
+          child: Center(child: Text(title, style: robotoMedium.copyWith(color: authController.businessIndex == index ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyLarge?.color, fontSize: Dimensions.fontSizeDefault))),
         ),
 
         authController.businessIndex == index ? Positioned(

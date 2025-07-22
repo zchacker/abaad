@@ -16,15 +16,20 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MessageBubble extends StatelessWidget {
-  final Message message;
-  final Userinfo user;
-  final UserType userType;
-  const MessageBubble({Key key, required this.message, required this.user, required this.userType}) : super(key: key);
+  Message? message = Message(id: 0, conversationId: 0, senderId: 0, message: "message", files: [], isSeen: 0, createdAt: "", updatedAt: "");
+  Userinfo? user;
+  UserType? userType;
+  MessageBubble({
+    Key? key,
+    this.message,
+    this.user,
+    this.userType
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    BaseUrls baseUrl = Get.find<SplashController>().configModel.baseUrls;
-    bool isReply = message.senderId != Get.find<UserController>().userInfoModel.agent.id;
+    BaseUrls? baseUrl = Get.find<SplashController>().configModel?.baseUrls;
+    bool isReply = message?.senderId != Get.find<UserController>().userInfoModel?.agent?.id;
     
     return (isReply) ? Container(
       margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
@@ -61,23 +66,23 @@ class MessageBubble extends StatelessWidget {
                       bottomLeft: Radius.circular(Dimensions.RADIUS_DEFAULT),
                     ),
                   ),
-                  padding: EdgeInsets.all(message.message != null ? Dimensions.PADDING_SIZE_DEFAULT : 0),
+                  padding: EdgeInsets.all(message?.message != null ? Dimensions.PADDING_SIZE_DEFAULT : 0),
                   child: GestureDetector( onTap: () async{
   // showCustomSnackBar(message.message);
-  var url =message.message;
-  if (await canLaunch(url)) {
+  var url =message?.message;
+  if (await canLaunch(url!)) {
   await launch(url);
   } else {
   throw 'Could not launch $url';
   }
   },
-                      child: Text(message.message ?? '')),
+                      child: Text(message?.message ?? '')),
                 ),
               ),
             ),
               SizedBox(height: 8.0),
 
-              (message.files.isNotEmpty) ? GridView.builder(
+              ((message?.files?.isNotEmpty ?? false)) ? GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio: 1,
                     crossAxisCount: ResponsiveHelper.isDesktop(context) ? 8 : 3,
@@ -86,20 +91,20 @@ class MessageBubble extends StatelessWidget {
                   ),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: message.files.length,
+                  itemCount: message?.files?.length,
                   itemBuilder: (BuildContext context, index) {
-                    return  message.files.isNotEmpty ? Padding(
+                    return  (message?.files?.isNotEmpty ?? false) ? Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: InkWell(
                         hoverColor: Colors.transparent,
                         onTap: () => showDialog(context: context, builder: (context) {
-                          return ImageDialog(imageUrl: '${baseUrl.chatImageUrl}/${message.files[index]}');
+                          return ImageDialog(imageUrl: '${baseUrl?.chatImageUrl}/${message!.files?[index]}');
                         }),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(Dimensions.PADDING_SIZE_SMALL),
                           child: CustomImage(
                             height: 100, width: 100, fit: BoxFit.cover,
-                            image: '${baseUrl.chatImageUrl}/${message.files[index] ?? ''}',
+                            image: '${baseUrl?.chatImageUrl}/${message?.files?[index] ?? ''}',
                           ),
                         ),
                       ),
@@ -113,7 +118,7 @@ class MessageBubble extends StatelessWidget {
         SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
         Text(
-          DateConverter.localDateToIsoStringAMPM(DateTime.parse(message.createdAt)),
+          DateConverter.localDateToIsoStringAMPM(DateTime.parse(message?.createdAt ?? "")),
           style: robotoRegular.copyWith(color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeSmall),
         ),
       ]),
@@ -136,7 +141,7 @@ class MessageBubble extends StatelessWidget {
             Flexible(
               child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.end, children: [
 
-                (message.message.isNotEmpty) ? Flexible(
+                ((message?.message.isNotEmpty ?? false)) ? Flexible(
                   child: Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor.withOpacity(0.9),
@@ -147,22 +152,22 @@ class MessageBubble extends StatelessWidget {
                       ),
                     ),
                     child: Container(
-                      padding: EdgeInsets.all(message.message != null ? Dimensions.PADDING_SIZE_DEFAULT : 0),
+                      padding: EdgeInsets.all(message?.message != null ? Dimensions.PADDING_SIZE_DEFAULT : 0),
                       child: GestureDetector(
                           onTap: () async{
-                            showCustomSnackBar(message.message);
-                            var url =message.message;
-                            if (await canLaunch(url)) {
+                            showCustomSnackBar(message?.message ?? "");
+                            var url =message?.message;
+                            if (await canLaunch(url!)) {
                               await launch(url);
                             } else {
                               throw 'Could not launch $url';
                             }
-                          },                          child: Text(message.message ?? '',style: TextStyle(color: Colors.white),)),
+                          },                          child: Text(message?.message ?? '',style: TextStyle(color: Colors.white),)),
                     ),
                   ),
                 ) : SizedBox(),
 
-                (message.files.isNotEmpty) ? Directionality(
+                (message?.files?.isNotEmpty ?? false) ? Directionality(
                   textDirection: TextDirection.rtl,
                   child: GridView.builder(
                       reverse: true,
@@ -175,22 +180,22 @@ class MessageBubble extends StatelessWidget {
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: message.files.length,
+                      itemCount: message?.files?.length,
                       itemBuilder: (BuildContext context, index){
-                        return  message.files.isNotEmpty ?
+                        return  (message?.files?.isNotEmpty ?? false) ?
                         InkWell(
                           onTap: () => showDialog(context: context, builder: (context) {
-                            return ImageDialog(imageUrl: '${baseUrl.chatImageUrl}/${message.files[index]}');
+                            return ImageDialog(imageUrl: '${baseUrl?.chatImageUrl}/${message?.files?[index]}');
                           }),
                           child: Padding(
                             padding: EdgeInsets.only(
                               left: Dimensions.PADDING_SIZE_SMALL , right:  0,
-                              top: (message.message.isNotEmpty) ? Dimensions.PADDING_SIZE_SMALL : 0),
+                              top: (message?.message?.isNotEmpty ?? false) ? Dimensions.PADDING_SIZE_SMALL : 0),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                               child: CustomImage(
                                 height: 100, width: 100, fit: BoxFit.cover,
-                                image: '${baseUrl.chatImageUrl}/${message.files[index] ?? ''}',
+                                image: '${baseUrl?.chatImageUrl}/${message?.files?[index] ?? ''}',
                               ),
                             ),
                           ),
@@ -211,14 +216,14 @@ class MessageBubble extends StatelessWidget {
           ]),
 
           Icon(
-            message.isSeen == 1 ? Icons.done_all : Icons.check,
+            message?.isSeen == 1 ? Icons.done_all : Icons.check,
             size: 12,
-            color: message.isSeen == 1 ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
+            color: message?.isSeen == 1 ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
           ),
           SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
           Text(
-            DateConverter.localDateToIsoStringAMPM(DateTime.parse(message.createdAt)),
+            DateConverter.localDateToIsoStringAMPM(DateTime.parse(message?.createdAt ?? "")),
             style: robotoRegular.copyWith(color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeSmall),
           ),
           SizedBox(height: Dimensions.PADDING_SIZE_LARGE),

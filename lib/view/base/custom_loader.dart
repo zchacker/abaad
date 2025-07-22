@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 
 class CustomLoader extends StatefulWidget {
   const CustomLoader({
-    Key key,
+    Key? key,
     this.color,
     this.size = 50.0,
     this.itemBuilder,
@@ -14,20 +14,20 @@ class CustomLoader extends StatefulWidget {
   'You should specify either a itemBuilder or a color'),
         super(key: key);
 
-  final Color color;
-  final double size;
-  final IndexedWidgetBuilder itemBuilder;
-  final Duration duration;
-  final AnimationController controller;
+  final Color? color;
+  final double? size;
+  final IndexedWidgetBuilder? itemBuilder;
+  final Duration? duration;
+  final AnimationController? controller;
 
   @override
   _CustomLoaderState createState() => _CustomLoaderState();
 }
 
 class _CustomLoaderState extends State<CustomLoader> with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> animationCurve;
-  Animation<double> animationSize;
+  late AnimationController controller;
+  late Animation<double> animationCurve;
+  late Animation<double> animationSize;
 
   @override
   void initState() {
@@ -49,7 +49,7 @@ class _CustomLoaderState extends State<CustomLoader> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    final sizeValue = widget.size * animationSize.value;
+    final sizeValue = widget.size ?? 1 * animationSize.value;
     return Center(
       child: Transform(
         transform: Matrix4.identity()..rotateZ(animationCurve.value * math.pi),
@@ -63,7 +63,7 @@ class _CustomLoaderState extends State<CustomLoader> with SingleTickerProviderSt
   }
 
   Widget _itemBuilder(int index, double curveValue) => widget.itemBuilder != null
-      ? widget.itemBuilder(context, index)
+      ? widget.itemBuilder!(context, index)
       : DecoratedBox(
     decoration: BoxDecoration(
       color: widget.color,

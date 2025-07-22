@@ -12,11 +12,11 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OfferList extends StatefulWidget {
-  Estate estate;
+  Estate? estate;
   // Generate some dummy data
 
 
-  OfferList({Key key,this.estate}) : super(key: key);
+  OfferList({Key? key,this.estate}) : super(key: key);
 
   @override
   State<OfferList> createState() => _OfferListState();
@@ -29,7 +29,7 @@ class _OfferListState extends State<OfferList> {
         appBar:  CustomAppBar(title: 'offers'.tr),
         body: ListView.builder(
         physics: BouncingScrollPhysics(),
-    itemCount:  widget.estate.serviceOffers.length,
+    itemCount:  widget.estate?.serviceOffers?.length ?? 0,
     scrollDirection: Axis.vertical,
     itemBuilder: (context, index) {
       return   Card(
@@ -51,11 +51,11 @@ class _OfferListState extends State<OfferList> {
                 children: <Widget>[
                   // Add an image widget to display an image
               GetBuilder<SplashController>(builder: (splashController) {
-                String baseUrl = Get.find<SplashController>().configModel.baseUrls.provider;
-                //   print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
+                String baseUrl = Get.find<SplashController>().configModel?.baseUrls?.provider ?? "";
+                //   print("------------${'$_baseUrl/${estateController.estate?.serviceOffers[index].imageCover}'}");
                 return ClipOval(
                   child: CustomImage(
-                    image: '$baseUrl/${widget.estate.serviceOffers[index].image}',
+                    image: '$baseUrl/${widget.estate?.serviceOffers?[index].image}',
                     fit: BoxFit.cover,
                     height: 50,
                     width: 50,
@@ -78,7 +78,7 @@ class _OfferListState extends State<OfferList> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              widget.estate.serviceOffers[index].title,
+                              widget.estate?.serviceOffers?[index]?.title ?? "",
                               style:  robotoBlack.copyWith(fontSize: 10,color: Colors.red),
                             ),
                             IconButton(
@@ -118,7 +118,7 @@ class _OfferListState extends State<OfferList> {
                                                       child:GestureDetector(
 
                                                         onTap:(){
-                                                          buildDynamicLinks(widget.estate.title, "${Get.find<SplashController>().configModel.baseUrls.estateImageUrl}/${widget.estate.images[0]}", widget.estate.id.toString(),widget.estate.serviceOffers[index].phoneProvider);
+                                                          buildDynamicLinks(widget.estate?.title ?? "", "${Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl ?? ""}/${widget.estate?.images?[0] ?? ""}", (widget.estate?.id ?? 0).toString(),widget.estate?.serviceOffers?[index].phoneProvider ?? "");
                                                         },
                                                         child: Container(
                                                           padding: const EdgeInsets.symmetric(
@@ -144,7 +144,7 @@ class _OfferListState extends State<OfferList> {
                                                             mainAxisAlignment: MainAxisAlignment
                                                                 .center, // I had added main axis allignment to be center to make to be at the center.
                                                             children: [
-                                                              Icon(Icons.whatsapp),
+                                                              Icon(Icons.whatshot_rounded),
                                                               const SizedBox(width: 3),
                                                               Text(
                                                                 "واتساب",
@@ -164,7 +164,7 @@ class _OfferListState extends State<OfferList> {
                                                       flex: 1,
                                                       child:GestureDetector(
                                                         onTap:() async{
-                                                          openDialPad(widget.estate.serviceOffers[index].phoneProvider);
+                                                          openDialPad(widget.estate?.serviceOffers?[index].phoneProvider ?? "");
                                                         },
                                                         child: Container(
                                                           padding: const EdgeInsets.symmetric(
@@ -224,28 +224,28 @@ class _OfferListState extends State<OfferList> {
                         // Add a subtitle widget
                         Row(
                           children: [
-                            widget. estate.serviceOffers[index].servicePrice!=null?Text("price".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)):Text("discount".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                            widget. estate?.serviceOffers?[index].servicePrice!=null?Text("price".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)):Text("discount".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
                             SizedBox(width: 11.0),
-                            widget.estate.serviceOffers[index].discount!=null?  SizedBox(
+                            widget.estate?.serviceOffers?[index].discount!=null?  SizedBox(
                               height: 16,
                               width: 44,
                               child: CustomPaint(
                                 painter: PriceTagPaint(),
                                 child: Center(
                                   child: Text(
-                                      "${widget.estate.serviceOffers[index].discount}%",
+                                      "${widget.estate!.serviceOffers?[index].discount}%",
                                       style: robotoBlack.copyWith(fontSize: 10,color: Colors.white)
                                   ),
                                 ),
                               ),
-                            ):Text(" ${widget.estate.serviceOffers[index].servicePrice} ريال "  ,style: robotoBlack.copyWith(fontSize: 11)),
+                            ):Text(" ${widget.estate!.serviceOffers?[index].servicePrice} ريال "  ,style: robotoBlack.copyWith(fontSize: 11)),
                           ],
                         ),
                         // Add some spacing between the subtitle and the text
                         Container(height: 10),
                         // Add a text widget to display some text
                         Text(
-                        widget.estate.serviceOffers[index].description,
+                        widget.estate!.serviceOffers![index].description ?? "",
                           maxLines: 2,
                           style: robotoBlack.copyWith(fontSize: 10,color: Colors.black38),
                         ),
@@ -260,7 +260,7 @@ class _OfferListState extends State<OfferList> {
                             ),
                             SizedBox(width: 10,),
                             Text(
-                              widget.estate.serviceOffers[index].expiryDate,
+                              widget.estate?.serviceOffers?[index].expiryDate ?? "",
                               style:  robotoBlack.copyWith(fontSize: 10,color: Colors.red),
                             ),
                           ],
@@ -287,11 +287,11 @@ class _OfferListState extends State<OfferList> {
                 shape: BoxShape.circle,
               ),
               child:  GetBuilder<SplashController>(builder: (splashController) {
-                String baseUrl = Get.find<SplashController>().configModel.baseUrls.provider;
-                //   print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
+                String baseUrl = Get.find<SplashController>().configModel?.baseUrls?.provider ?? "";
+                //   print("------------${'$_baseUrl/${estateController.estate?.serviceOffers[index].imageCover}'}");
                 return ClipOval(
                   child: CustomImage(
-                    image: '$baseUrl/${widget.estate.serviceOffers[index].image}',
+                    image: '$baseUrl/${widget.estate!.serviceOffers?[index].image}',
                     fit: BoxFit.cover,
                     height: 35,
                     width: 35,
@@ -300,27 +300,27 @@ class _OfferListState extends State<OfferList> {
               },
               ),
             ),
-            title: Text(widget.estate.serviceOffers[index].title),
+            title: Text(widget.estate?.serviceOffers?[index].title ?? ""),
             subtitle:      Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
             Row(
             children: [
-              widget. estate.serviceOffers[index].servicePrice!=null?Text("price".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)):Text("discount".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
+              widget. estate!.serviceOffers?[index].servicePrice!=null?Text("price".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)):Text("discount".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
           SizedBox(width: 11.0),
-              widget.estate.serviceOffers[index].discount!=null?  SizedBox(
+              widget.estate!.serviceOffers?[index].discount!=null?  SizedBox(
             height: 16,
             width: 44,
             child: CustomPaint(
               painter: PriceTagPaint(),
               child: Center(
                 child: Text(
-                    "${widget.estate.serviceOffers[index].discount}%",
+                    "${widget.estate!.serviceOffers?[index].discount}%",
                     style: robotoBlack.copyWith(fontSize: 10,color: Colors.white)
                 ),
               ),
             ),
-          ):Text(" ${widget.estate.serviceOffers[index].servicePrice} ريال "  ,style: robotoBlack.copyWith(fontSize: 11)),
+          ):Text(" ${widget.estate!.serviceOffers?[index].servicePrice} ريال "  ,style: robotoBlack.copyWith(fontSize: 11)),
           ],
         ),
               ],
@@ -362,7 +362,7 @@ flex: 1,
                                       child:GestureDetector(
 
                                         onTap:(){
-                                          buildDynamicLinks(widget.estate.title, "${Get.find<SplashController>().configModel.baseUrls.estateImageUrl}/${widget.estate.images[0]}", widget.estate.id.toString(),widget.estate.serviceOffers[index].phoneProvider);
+                                          buildDynamicLinks(widget.estate?.title ?? "", "${Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl}/${widget.estate!.images?[0]}", widget.estate!.id.toString(),widget.estate?.serviceOffers?[index].phoneProvider ?? "");
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
@@ -388,7 +388,7 @@ flex: 1,
                                             mainAxisAlignment: MainAxisAlignment
                                                 .center, // I had added main axis allignment to be center to make to be at the center.
                                             children: [
-                                              Icon(Icons.whatsapp),
+                                              Icon(Icons.whatshot_rounded),
                                               const SizedBox(width: 3),
                                               Text(
                                                 "واتساب",
@@ -408,7 +408,7 @@ flex: 1,
                                       flex: 1,
                                       child:GestureDetector(
                                         onTap:() async{
-                                          openDialPad(widget.estate.serviceOffers[index].phoneProvider);
+                                          openDialPad(widget.estate?.serviceOffers?[index].phoneProvider ?? "");
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
@@ -481,7 +481,7 @@ flex: 1,
         packageName: "sa.pdm.abaad.abaad",
         minimumVersion: 0,
       ),
-      iosParameters: IosParameters(
+      iosParameters: IOSParameters(
         bundleId: "Bundle-ID",
         minimumVersion: '0',
       ),
@@ -491,9 +491,18 @@ flex: 1,
           Uri.parse(image),
           title: title),
     );
-    final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
+    // 1. Get FirebaseDynamicLinks instance
+    final dynamicLinks = FirebaseDynamicLinks.instance;
 
-    String desc = dynamicUrl.shortUrl.toString();
+    // 2. Build short link
+    final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
+      parameters,  // Your DynamicLinkParameters object
+    );
+
+    // 3. Get the URL
+    final dynamicUrl = shortLink.shortUrl;
+
+    String desc = dynamicUrl.toString();
 
     var whatsapp = phone;
     var whatsappAndroid =Uri.parse("whatsapp://send?phone=$whatsapp&text=$desc \n مرحبا لديك عرض في  تطبيق ابعاد ");

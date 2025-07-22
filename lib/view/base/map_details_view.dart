@@ -10,7 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapDetailsView extends StatefulWidget {
   final bool fromView;
-  final GoogleMapController mapController;
+  final GoogleMapController? mapController;
 
   const MapDetailsView({super.key, required this.fromView, this.mapController});
 
@@ -19,9 +19,9 @@ class MapDetailsView extends StatefulWidget {
 }
 
 class _MapDetailsViewState extends State<MapDetailsView> {
-  CameraPosition _cameraPosition;
-  GoogleMapController _mapController;
-  Uint8List imageDataBytes;
+  CameraPosition? _cameraPosition;
+  GoogleMapController? _mapController;
+  Uint8List? imageDataBytes;
   var markerIcon;
   GlobalKey iconKey = GlobalKey();
 
@@ -30,7 +30,7 @@ class _MapDetailsViewState extends State<MapDetailsView> {
   Widget build(BuildContext context) {
 
     return GetBuilder<EstateController>(builder: (estateController) {
-      return  (estateController.estate.shortDescription != null) ?
+      return  (estateController.estate?.shortDescription != null) ?
 
        Card(
         elevation: 0,
@@ -58,8 +58,8 @@ class _MapDetailsViewState extends State<MapDetailsView> {
                   GoogleMap(
                     initialCameraPosition:  CameraPosition(
                       target: LatLng(
-                     double.parse(  estateController.estate.latitude),
-                        double.parse(  estateController.estate.longitude)
+                     double.parse(  estateController.estate?.latitude ?? ""),
+                        double.parse(  estateController.estate?.longitude ?? "")
 
                       ), zoom: 16,
                     ),
@@ -67,8 +67,8 @@ class _MapDetailsViewState extends State<MapDetailsView> {
              Marker(
                  draggable: false,
                  markerId: MarkerId("1"),
-                 position: LatLng(double.parse(estateController.estate.latitude),
-                     double.parse(estateController.estate.longitude)),
+                 position: LatLng(double.parse(estateController.estate?.latitude ?? ""),
+                     double.parse(estateController.estate?.longitude ?? "")),
                  // icon: currentLocationIcon,
                  icon: markerIcon ?? BitmapDescriptor.defaultMarker),
            },
@@ -82,7 +82,7 @@ class _MapDetailsViewState extends State<MapDetailsView> {
                     zoomGesturesEnabled: true,
                     onCameraIdle: () {
                       if(!widget.fromView) {
-                        widget.mapController.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition));
+                        widget.mapController?.moveCamera(CameraUpdate.newCameraPosition(_cameraPosition!));
                       }
                     },
                     onCameraMove: ((position) => _cameraPosition = position),

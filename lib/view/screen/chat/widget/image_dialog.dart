@@ -4,8 +4,8 @@ import 'package:abaad/view/base/custom_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageDialog extends StatelessWidget {
-  final String imageUrl;
-  const ImageDialog({Key key, required this.imageUrl}) : super(key: key);
+  final String? imageUrl;
+  const ImageDialog({Key? key, this.imageUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

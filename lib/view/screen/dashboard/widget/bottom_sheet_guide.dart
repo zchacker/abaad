@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 
 
 class SheetButton extends StatefulWidget {
-  final String  idController;
-  const SheetButton({Key key,  this.idController}) : super(key: key);
+
+  final String?  idController;
+  const SheetButton({Key? key,  this.idController}) : super(key: key);
 
   @override
   _SheetButtonState createState() => _SheetButtonState();
@@ -44,7 +45,7 @@ class _SheetButtonState extends State<SheetButton> {
 
 
         print("--------------------------------------${widget.idController}");
-        showCustomSnackBar(widget.idController);
+        showCustomSnackBar( (widget.idController ?? "") );
 
 
 

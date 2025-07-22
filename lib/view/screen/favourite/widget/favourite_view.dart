@@ -10,7 +10,7 @@ class ProductView extends StatelessWidget {
 
 
   final String noDataText;
-  const ProductView({super.key, required this.restaurants,  this.noDataText});
+  const ProductView({super.key, required this.restaurants,  required this.noDataText});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class ProductView extends StatelessWidget {
             physics: BouncingScrollPhysics() ,
             itemBuilder: (context, index) {
               return  GetBuilder<WishListController>(builder: (wishController) {
-                bool isWished = wishController.wishRestIdList.contains(wishController.wishRestList[index].id);
+                bool isWished = wishController.wishRestIdList.contains(wishController.wishRestList?[index].id);
                 return InkWell(
                   // onTap: () {
                   //   if(Get.find<AuthController>().isLoggedIn()) {

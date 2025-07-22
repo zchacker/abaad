@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SliderView extends StatefulWidget {
-  const SliderView({Key key, this.onChangedistValue, this.distValue})
+  const SliderView({Key? key, this.onChangedistValue, this.distValue})
       : super(key: key);
 
-  final Function(double) onChangedistValue;
-  final double distValue;
+  final Function(double)? onChangedistValue;
+  final double? distValue;
 
   @override
   _SliderViewState createState() => _SliderViewState();
@@ -16,7 +16,7 @@ class _SliderViewState extends State<SliderView> {
 
   @override
   void initState() {
-    distValue = widget.distValue;
+    distValue = widget.distValue!;
     super.initState();
   }
 

@@ -37,13 +37,13 @@ class _SuccessScreenState extends State<SuccessScreen2> {
   }
 
 
-  FilePickerResult _filePickerResult;
+  late FilePickerResult _filePickerResult;
   final double _uploadProgress = 0.0;
   final bool _uploading = false;
 
 
-  VideoPlayerController _videoSkeyController;
-  FilePickerResult _fileSkyPickerResult;
+  late VideoPlayerController _videoSkeyController;
+  late FilePickerResult _fileSkyPickerResult;
   double _uploadSkyProgress = 0.0;
   bool _uploadingSky = false;
 
@@ -57,11 +57,11 @@ class _SuccessScreenState extends State<SuccessScreen2> {
 
   Future<void> pickSkyAndPreviewVideo() async {
 
-    FilePickerResult result = await FilePicker.platform.pickFiles(type: FileType.video);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.video);
 
     setState(() {
-      _fileSkyPickerResult = result;
-      _videoSkeyController = VideoPlayerController.file(File(result.files.single.path))
+      _fileSkyPickerResult = result!;
+      _videoSkeyController = VideoPlayerController.file(File((result.files.single.path ?? "")))
         ..initialize().then((_) {
           setState(() {});
         });
@@ -73,11 +73,11 @@ class _SuccessScreenState extends State<SuccessScreen2> {
   Future<void> uploadSkyVideo() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String  indexValue = prefs.getString('estate_id');
-    String filePath = _fileSkyPickerResult.files.single.path;
+    String?  indexValue = prefs.getString('estate_id');
+    String? filePath = _fileSkyPickerResult.files.single.path;
     var request = http.MultipartRequest('POST', Uri.parse('${AppConstants.BASE_URL}/api/v1/estate/upload-sky-view'));
-    request.fields['id'] = indexValue;
-    request.files.add(await http.MultipartFile.fromPath('video', filePath));
+    request.fields['id'] = indexValue!;
+    request.files.add(await http.MultipartFile.fromPath('video', filePath!));
 
     setState(() {
       _uploadingSky = true;
@@ -87,7 +87,7 @@ class _SuccessScreenState extends State<SuccessScreen2> {
     response.stream.listen((event) {
       setState(() {
         _uploadSkyProgress = response.contentLength != null
-            ? event.length / response.contentLength
+            ? event.length / (response.contentLength ?? 40)
             : 0;
       });
     }).onDone(() {

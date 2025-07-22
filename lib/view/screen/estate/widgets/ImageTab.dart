@@ -139,7 +139,7 @@ class _ImageTabState extends State<ImageTab> {
         children: [
           SizedBox.expand(
             child: Image.network(
-              '${Get.find<SplashController>().configModel.baseUrls.estateImageUrl}/${Uri.encodeComponent(imageUrl)}',
+              '${Get.find<SplashController>().configModel!.baseUrls!.estateImageUrl}/${Uri.encodeComponent(imageUrl)}',
               fit: BoxFit.cover,
             ),
           ),

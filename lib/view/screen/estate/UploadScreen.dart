@@ -18,8 +18,7 @@ class UploadScreen extends StatefulWidget {
 
 class _MediaTabScreenState extends State<UploadScreen>
     with TickerProviderStateMixin {
-   TabController _tabController;
-
+   TabController? _tabController;
 
    void _showUploadDialog() {
      showDialog(
@@ -70,8 +69,8 @@ class _MediaTabScreenState extends State<UploadScreen>
                onPressed: () {
                  Navigator.of(context).pop(); // أغلق الديالوج
                  final userController = Get.find<UserController>();
-                 userController.getUserInfoByID(userController.userInfoModel.id);
-                 Get.toNamed(RouteHelper.getProfileAgentRoute(userController.userInfoModel.id, 1));
+                 userController.getUserInfoByID(userController.userInfoModel?.id ?? 0);
+                 Get.toNamed(RouteHelper.getProfileAgentRoute(userController.userInfoModel?.id ?? 0, 1));
                },
                style: ElevatedButton.styleFrom(
                  backgroundColor: Color(0xFF003366),
@@ -141,9 +140,9 @@ class _MediaTabScreenState extends State<UploadScreen>
                     onPressed: () {
                       Navigator.of(context).pop();
                       final userController = Get.find<UserController>();
-                      userController.getUserInfoByID(userController.userInfoModel.id);
+                      userController.getUserInfoByID(userController.userInfoModel?.id ?? 0);
                       Get.toNamed(
-                        RouteHelper.getProfileAgentRoute(userController.userInfoModel.id, 1),
+                        RouteHelper.getProfileAgentRoute(userController.userInfoModel?.id ?? 0, 1),
                       );
                     },
                     style: ElevatedButton.styleFrom(

@@ -43,7 +43,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
         child: Center(child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: GetBuilder<AuthController>(builder: (authController) {
           return  GetBuilder<UserController>(builder: (userController) {
             if(_idNumberController.text.isEmpty) {
-              _idNumberController.text = userController.userInfoModel.agent.identity ?? '';
+              _idNumberController.text = userController.userInfoModel!.agent!.identity ?? '';
 
             }
           return   GetBuilder<EstateController>(builder: (estateController) {
@@ -106,7 +106,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                       ),
                     ],
                     onChanged: (value) {
-                      estateController.setAdvertiserType(value); // تحديث القيمة بناءً على الاختيار
+                      estateController.setAdvertiserType(value!); // تحديث القيمة بناءً على الاختيار
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),

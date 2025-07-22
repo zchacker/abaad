@@ -116,7 +116,7 @@ class _PlanImagesTabState extends State<PlanImagesTab> {
         children: [
           SizedBox.expand(
             child: Image.network(
-              '${Get.find<SplashController>().configModel.baseUrls.estateImageUrl}/${Uri.encodeComponent(imageUrl)}',
+              '${Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl ?? ""}/${Uri.encodeComponent(imageUrl)}',
               fit: BoxFit.cover,
             ),
           ),

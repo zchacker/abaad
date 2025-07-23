@@ -1,4 +1,5 @@
-import 'dart:ui_web' as ui;
+//import 'dart:ui_web' as ui;
+import 'package:flutter/widgets.dart';
 
 import 'package:abaad/controller/splash_controller.dart';
 import 'package:abaad/util/dimensions.dart';
@@ -30,19 +31,21 @@ class HtmlViewerScreen extends StatelessWidget {
     }
 
     String viewID = htmlType.toString();
+
+    // TODO: fix this code 2025
     if(GetPlatform.isWeb) {
-      try{
-        ui.platformViewRegistry.registerViewFactory(viewID, (int viewId) {
-          html.IFrameElement ife = html.IFrameElement();
-          ife.width = Dimensions.WEB_MAX_WIDTH.toString();
-          ife.height = MediaQuery.of(context).size.height.toString();
-          ife.srcdoc = data;
-          ife.contentEditable = 'false';
-          ife.style.border = 'none';
-          ife.allowFullscreen = true;
-          return ife;
-        });
-      }catch(e) {}
+      // try{
+      //   ui.platformViewRegistry.registerViewFactory(viewID, (int viewId) {
+      //     html.IFrameElement ife = html.IFrameElement();
+      //     ife.width = Dimensions.WEB_MAX_WIDTH.toString();
+      //     ife.height = MediaQuery.of(context).size.height.toString();
+      //     ife.srcdoc = data;
+      //     ife.contentEditable = 'false';
+      //     ife.style.border = 'none';
+      //     ife.allowFullscreen = true;
+      //     return ife;
+      //   });
+      // }catch(e) {}
     }
     return Scaffold(
       appBar: CustomAppBar(title: htmlType == HtmlType.TERMS_AND_CONDITION ? 'terms_conditions'.tr

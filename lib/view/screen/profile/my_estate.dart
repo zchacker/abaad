@@ -22,14 +22,14 @@ import '../profile/widget/profile_bg_widget.dart';
 
 class EstateScreen extends StatefulWidget {
   final Userinfo userInfo;
-   const EstateScreen({ required Key key,  this.userInfo}) : super(key: key);
+   const EstateScreen({ required Key key,  required this.userInfo}) : super(key: key);
 
   @override
   State<EstateScreen> createState() => _EstateScreenState();
 }
 
 class _EstateScreenState extends State<EstateScreen> {
-  bool _isLoggedIn;
+  late bool _isLoggedIn;
 
   @override
   void initState() {
@@ -38,11 +38,11 @@ class _EstateScreenState extends State<EstateScreen> {
 
      print("userInfo${widget.userInfo.id}");
     if(_isLoggedIn && Get.find<UserController>().agentInfoModel == null) {
-      Get.find<UserController>().getUserInfoByID(widget.userInfo.id);
+      Get.find<UserController>().getUserInfoByID(widget.userInfo.id ?? 0);
     }
 
     Get.find<AuthController>().getZoneList();
-    Get.find<UserController>().getEstateByUser(1, false,widget.userInfo.id);
+    Get.find<UserController>().getEstateByUser(1, false,widget.userInfo.id ?? 0);
 
   }
 
@@ -55,7 +55,7 @@ class _EstateScreenState extends State<EstateScreen> {
       backgroundColor: Theme.of(context).cardColor,
       body: GetBuilder<UserController>(builder: (userController) {
     return   GetBuilder<UserController>(builder: (restController) {
-        return (_isLoggedIn && userController.agentInfoModel == null) ? Center(child: CircularProgressIndicator()) :( restController.estateModel.estates != null) ?  Padding(
+        return (_isLoggedIn && userController.agentInfoModel == null) ? Center(child: CircularProgressIndicator()) :( restController.estateModel!.estates != null) ?  Padding(
           padding: const EdgeInsets.all(8.0),
           child: ProfileBgWidget(
             backButton: true,
@@ -76,8 +76,8 @@ class _EstateScreenState extends State<EstateScreen> {
                               ),
                               alignment: Alignment.topRight,
                               child: ClipOval(child: CustomImage(
-                                image: '${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}'
-                                    '/${(_isLoggedIn) ? userController.agentInfoModel.image : ''}',
+                                image: '${Get.find<SplashController>().configModel!.baseUrls!.customerImageUrl}'
+                                    '/${(_isLoggedIn) ? userController.agentInfoModel!.image : ''}',
                                 height: 90, width: 90, fit: BoxFit.cover,
                               )),
                             ),
@@ -114,7 +114,7 @@ class _EstateScreenState extends State<EstateScreen> {
                                       fontSize: Dimensions.fontSizeDefault),
                                 ),
                         Text(
-                           userController.agentInfoModel.userinfo.membershipType ?? '',
+                           userController.agentInfoModel!.userinfo!.membershipType ?? '',
                           style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault),)
 
 
@@ -127,7 +127,7 @@ class _EstateScreenState extends State<EstateScreen> {
                                     style:  robotoRegular.copyWith(
                                         fontSize: Dimensions.fontSizeDefault),
                                 ),
-                                Text("${restController.estateModel.totalSize}"),
+                                Text("${restController.estateModel!.totalSize}"),
                               ],
                             ),
                             Column(
@@ -138,7 +138,7 @@ class _EstateScreenState extends State<EstateScreen> {
                                         fontSize: Dimensions.fontSizeDefault),
                                 ),
                                 Text(
-                                userController.agentInfoModel.userinfo.advertiserNo??'' ,
+                                userController.agentInfoModel!.userinfo!.advertiserNo??'' ,
                                   style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
                               ],
                             ),
@@ -154,17 +154,17 @@ class _EstateScreenState extends State<EstateScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                    Text(
-                   userController.agentInfoModel.name,
+                   userController.agentInfoModel!.name ?? "",
                      style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                    ),
                       SizedBox(height: 4),
-                      Text(   userController.agentInfoModel.phone,
+                      Text(   userController.agentInfoModel?.phone ?? "",
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                       SizedBox(height: 4),
 RatingBar(rating: 4, ratingCount: 4)     ,
                       Text(
-                       userController.agentInfoModel.userinfo.membershipType ?? '',
+                       userController.agentInfoModel?.userinfo?.membershipType ?? '',
                        style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                      ),
 
@@ -179,8 +179,8 @@ RatingBar(rating: 4, ratingCount: 4)     ,
                                     backgroundColor: WidgetStateProperty.all(Colors.blue),
                                   ),
                                   onPressed: (){
-                                    __launchWhatsapp(userController.agentInfoModel.phone);
-                                  }, icon: Icon(Icons.whatsapp), label: Text("واتساب")),
+                                    __launchWhatsapp(userController.agentInfoModel?.phone ?? "");
+                                  }, icon: Icon(Icons.whatshot_rounded), label: Text("واتساب")),
                           ),
                           const SizedBox(width:5),
                           Expanded(
@@ -190,8 +190,8 @@ RatingBar(rating: 4, ratingCount: 4)     ,
                                 ),
                                 onPressed: ()async{
                                   await Get.toNamed(RouteHelper.getChatRoute(
-                                      notificationBody: NotificationBody(orderId: 1 ,restaurantId:userController.agentInfoModel.id),
-                                      user: Userinfo(id: userController.agentInfoModel.id, name: userController.agentInfoModel.name,  image: userController.agentInfoModel.image,),estate_id: 0
+                                      notificationBody: NotificationBody(orderId: 1 ,restaurantId:userController.agentInfoModel?.id ),
+                                      user: Userinfo(id: userController.agentInfoModel?.id ?? 0, name: userController.agentInfoModel?.name,  image: userController.agentInfoModel?.image,),estate_id: 0
 
                                   ));
                                 }, icon: Icon(Icons.chat), label: Text("محادثة")),
@@ -302,13 +302,13 @@ RatingBar(rating: 4, ratingCount: 4)     ,
                   height: 600,
                   child: ListView.builder(
                     physics: BouncingScrollPhysics(),
-                    itemCount:  restController.estateModel.estates.length,
+                    itemCount:  restController.estateModel?.estates?.length,
                     scrollDirection: Axis.vertical,
 
                     itemBuilder: (context, index) {
                       return  GetBuilder<EstateController>(builder: (wishController) {
-                        return  EstateItem(estate: restController.estateModel.estates[index],onPressed: (){
-                          Get.toNamed(RouteHelper.getDetailsRoute( restController.estateModel.estates[index].id));
+                        return  EstateItem(estate: restController.estateModel!.estates?[index],onPressed: (){
+                          Get.toNamed(RouteHelper.getDetailsRoute( restController.estateModel!.estates![index].id ?? 0));
                         },fav: false,isMyProfile: 0);
                       });
                     },
@@ -357,7 +357,7 @@ class SocialIcon extends StatelessWidget {
   final String  iconData;
   final Function onPressed;
 
-  const SocialIcon({super.key, this.color, this.iconData, this.onPressed});
+  const SocialIcon({super.key, required this.color, required this.iconData, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -372,7 +372,7 @@ class SocialIcon extends StatelessWidget {
         ),
         child: RawMaterialButton(
           shape: CircleBorder(),
-          onPressed: onPressed,
+          onPressed: onPressed as VoidCallback,
           child:Image.asset(iconData,height: 30,width: 30),
         ),
       ),

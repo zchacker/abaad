@@ -38,15 +38,15 @@ class EditDialog extends StatefulWidget {
   // Generate some dummy data
 
 
-  EditDialog({Key key,this.estate}) : super(key: key);
+  EditDialog({Key? key, required this.estate}) : super(key: key);
 
   @override
   State<EditDialog> createState() => _EditDialogState();
 }
 
 class _EditDialogState extends State<EditDialog> {
-  bool _isLoggedIn;
-  String like;
+  late bool _isLoggedIn;
+  late String like;
   int zone_id=0;
 
   List<String> selectedAdvantages = [];
@@ -55,8 +55,8 @@ class _EditDialogState extends State<EditDialog> {
 
   int zone_value=0;
   var isSelected2 = [true, false];
-  LatLng _initialPosition;
-  CameraPosition _cameraPosition;
+  late LatLng _initialPosition;
+  late CameraPosition _cameraPosition;
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _userTypeController = TextEditingController();
@@ -100,12 +100,12 @@ class _EditDialogState extends State<EditDialog> {
   final FocusNode _buildSpaceFocus = FocusNode();
   final FocusNode _documentNumberFocus = FocusNode();
   final FocusNode _minTimeFocus = FocusNode();
-  int _typeProperties ;
-  int category_id;
+  late int _typeProperties ;
+  late int category_id;
 
 
-  String district;
-  String city;
+  late String district;
+  late String city;
 
 
 
@@ -164,7 +164,7 @@ class _EditDialogState extends State<EditDialog> {
 
 
 
-  String _ageValue;
+  late String _ageValue;
 
   bool isButtonEnabled = false;
 
@@ -172,9 +172,9 @@ class _EditDialogState extends State<EditDialog> {
   _onSelected(int index) {
     setState(() => _selectedRoomIndex = index);
   }
-  String item;
-  List<String> images;
-   String initialValue;
+  late String item;
+  late List<String> images;
+   late String initialValue;
   _onSelectedBathrooms(int index) {
     setState(() => _selectedBathroomsIndex = index);
   }
@@ -183,9 +183,9 @@ class _EditDialogState extends State<EditDialog> {
   int _selectionTypeEstate = 1;
 
 
-  selectTypeEstate(int timeSelected) {
+  selectTypeEstate(int? timeSelected) {
     setState(() {
-      _selectionTypeEstate = timeSelected;
+      _selectionTypeEstate = timeSelected!;
     });
   }
 
@@ -205,16 +205,16 @@ class _EditDialogState extends State<EditDialog> {
     "الواجهة الشرقية",
     "الواجهة الغربية",
     "الواجهة الجنوبية",];
-  int east, west,north,south=0;
-  String east_st, west_st,north_st,south_st;
+  late int east, west,north,south=0;
+  late String east_st, west_st,north_st,south_st;
   final List<String> _selectedInterfaceistItems = [];
 
-  selectTime(int timeSelected) {
+  selectTime(int? timeSelected) {
     setState(() {
-      _selection = timeSelected;
+      _selection = timeSelected!;
     });
   }
-  String network_type;
+  late String network_type;
   @override
   void initState() {
     // TODO: implement initState
@@ -223,10 +223,10 @@ class _EditDialogState extends State<EditDialog> {
 
     _isLoggedIn = Get.find<AuthController>().isLoggedIn();
     Get.find<CategoryController>().getFacilitiesList(true);
-    Get.find<UserController>().getEstateByUser(1, false,widget.estate.userId );
+    Get.find<UserController>().getEstateByUser(1, false,widget.estate.userId ?? 0 );
     Get.find<CategoryController>().getAdvantages(true);
     _typeProperties= widget.estate.type_add=="for_rent"?1:0;
-    category_id=widget.estate.categoryId;
+    category_id=widget.estate.categoryId ?? 0;
 
 
    // widget.estate.priceNegotiation=="غير قابل للتفاوض"?   isSelected2.first=false: isSelected2.first=false;
@@ -258,10 +258,10 @@ class _EditDialogState extends State<EditDialog> {
       double.parse(widget.estate.latitude ?? '0'),
       double.parse(widget.estate.longitude ?? '0'),
     );
-    _selectedBathroomsIndex=int.parse(widget.estate.property[0].number);
-    _selectedRoomIndex=int.parse(widget.estate.property[1].number);
-    _selectedLounge=int.parse(widget.estate.property[2].number);
-    _selectedkitchen=int.parse(widget.estate.property[3].number);
+    _selectedBathroomsIndex=int.parse(widget.estate.property![0].number ?? "");
+    _selectedRoomIndex=int.parse(widget.estate.property![1].number ?? "");
+    _selectedLounge=int.parse(widget.estate.property![2].number ?? "");
+    _selectedkitchen=int.parse(widget.estate.property![3].number ?? "");
 
 
 
@@ -281,11 +281,11 @@ class _EditDialogState extends State<EditDialog> {
     // zone_id=widget.estate.zoneId;
    // widget.estate.priceNegotiation=="غير قابل للتفاوض"?   isSelected2.first=false: widget.estate.priceNegotiation=="قابل للتفاوض"? isSelected2.first=true:true;
 
-    Get.find<UserController>().getUserInfoByID(widget.estate.userId);
+    Get.find<UserController>().getUserInfoByID(widget.estate.userId ?? 0);
 
 
-    _firstNameController.text = widget.estate.users.name ?? '';
-    _phoneController.text = widget.estate.users.phone ?? '';
+    _firstNameController.text = widget.estate.users?.name ?? '';
+    _phoneController.text = widget.estate.users?.phone ?? '';
     _priceController.text = widget.estate.price ?? '';
     _buildSpaceController.text = widget.estate.buildSpace ?? '';
 
@@ -297,10 +297,10 @@ class _EditDialogState extends State<EditDialog> {
     _addNumberController.text =  widget.estate.adNumber.toString()?? '';
      _authorizedController.text=widget.estate.authorization_number?? '';
     _textEditingController.text =  widget.estate.arPath?? '';
-    images=widget.estate.images;
-    city=widget.estate.city;
+    images = widget.estate.images!;
+    city=widget.estate.city!;
 
-    district=widget.estate.districts;
+    district=widget.estate.districts!;
 
 
 
@@ -319,12 +319,12 @@ class _EditDialogState extends State<EditDialog> {
 
 
 
-  bool _isAlreadySelected(String advantageName) {
-    return widget.estate.otherAdvantages.contains(advantageName);
+  bool? _isAlreadySelected(String advantageName) {
+    return widget.estate.otherAdvantages?.contains(advantageName);
   }
 
   bool _isAnyAlreadySelected(List<String> advantageNames) {
-    return advantageNames.any((name) => widget.estate.otherAdvantages.contains(name));
+    return advantageNames.any((name) => widget.estate.otherAdvantages!.contains(name));
   }
 
 
@@ -363,7 +363,7 @@ class _EditDialogState extends State<EditDialog> {
     GetBuilder<EstateController>(builder: (restController) {
       void updateColorBack(int index) {
         setState(() {
-          categoryController.advanSelectedList[index] = !    Get.find<CategoryController>().advanSelectedList[index];
+          categoryController.advanSelectedList![index] = !    Get.find<CategoryController>().advanSelectedList![index];
         });
       }
              return (restController.isLoading==false)? Container(
@@ -407,7 +407,7 @@ class _EditDialogState extends State<EditDialog> {
                                    Radio(
                                      focusColor: Colors.white,
                                      groupValue: _selectionTypeEstate,
-                                     onChanged: selectTypeEstate,
+                                     onChanged: selectTypeEstate ,
                                      value: 1,
                                    ),
                                    Text(
@@ -467,19 +467,19 @@ class _EditDialogState extends State<EditDialog> {
                          padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
                          decoration: BoxDecoration(
                            color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                           boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
+                           boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
                          ),
                          child: DropdownButton<int>(
                            value: restController.categoryIndex,
                            items: restController.categoryIds.map((int value) {
                              return DropdownMenuItem<int>(
                                value: restController.categoryIds.indexOf(value),
-                               child: isArabic?Text(value != 0 ? restController.categoryList[(restController.categoryIds.indexOf(value)-1)].nameAr : 'Select'):Text(value != 0 ? restController.categoryList[(restController.categoryIds.indexOf(value)-1)].name   : 'Select'),
+                               child: isArabic?Text(value != 0 ? restController.categoryList![(restController.categoryIds.indexOf(value)-1)].nameAr : 'Select'):Text(value != 0 ? restController.categoryList![(restController.categoryIds.indexOf(value)-1)].name   : 'Select'),
                              );
                            }).toList(),
-                           onChanged: (int value) {
-                             restController.setCategoryIndex(value);
-                             category_id=restController.categoryList[value-1].id;
+                           onChanged: (int? value) {
+                             restController.setCategoryIndex(value!);
+                             category_id=restController.categoryList![value! -1].id;
                              //  restController.getSubCategoryList(value != 0 ? restController.categoryList[value-1].id : 0, null);
                            },
                            isExpanded: true,
@@ -736,25 +736,31 @@ class _EditDialogState extends State<EditDialog> {
                   padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                    boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
+                    boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
                   ),
                   child: DropdownButton<int>(
                     value: zone_id,
-                    items: locationController.zoneIds==null?Container():locationController.zoneIds.map((int value) {
+                    items: locationController.zoneIds == null
+                        ? []
+                        : locationController.zoneIds!.map<DropdownMenuItem<int>>((int value) {
                       return DropdownMenuItem<int>(
-                        value: locationController.zoneIds.indexOf(value),
-                        child: isArabic?Text(value != 0 ? locationController.categoryList[(locationController.zoneIds.indexOf(value)-1)].nameAr : 'حدد المنطقة'):Text(value != 0 ? locationController.categoryList[(locationController.zoneIds.indexOf(value)-1)].name   : 'select zone'),
+                        value: locationController.zoneIds!.indexOf(value),
+                        child: isArabic
+                            ? Text(value != 0
+                            ? locationController.categoryList![locationController.zoneIds!.indexOf(value) - 1].nameAr
+                            : 'حدد المنطقة')
+                            : Text(value != 0
+                            ? locationController.categoryList![locationController.zoneIds!.indexOf(value) - 1].name
+                            : 'select zone'),
                       );
                     }).toList(),
-                    onChanged: (int value) {
-                      // setState(() {
-                         zone_id = value;
-                      //   showCustomSnackBar(   locationController.categoryList[value-1].id.toString());
-                      //
-                      // });
-
-                     zone_value=locationController.categoryList[value-1].id;
-                      locationController.setCategoryIndex(value, true);
+                    onChanged: (int? value) {
+                      setState(() {
+                         zone_id = value!;
+                        showCustomSnackBar(   locationController.categoryList![value-1].id.toString());
+                      });
+                     zone_value=locationController.categoryList![value!-1].id;
+                      locationController.setCategoryIndex(value!, true);
                       //      restController.getSubCategoryList(value != 0 ? restController.categoryList[value-1].id : 0, null);
                     },
                     isExpanded: true,
@@ -784,8 +790,11 @@ class _EditDialogState extends State<EditDialog> {
                               Get.toNamed(
                                 RouteHelper.getPickMapRoute('add-address', false),
                                 arguments: PickMapScreen(
-                                  fromAddAddress: true, fromSignUp: false, googleMapController: locationController.mapController,
-                                  route: null, canRoute: false,
+                                  fromAddAddress: true,
+                                  fromSignUp: false,
+                                  googleMapController: locationController!.mapController!,
+                                  route: "",
+                                  canRoute: false,
                                 ),
                               );}
 
@@ -808,8 +817,8 @@ class _EditDialogState extends State<EditDialog> {
                               Get.toNamed(
                                 RouteHelper.getPickMapRoute('add-address', false),
                                 arguments: PickMapScreen(
-                                  fromAddAddress: true, fromSignUp: false, googleMapController: locationController.mapController,
-                                  route: null, canRoute: false,
+                                  fromAddAddress: true, fromSignUp: false, googleMapController: locationController.mapController!,
+                                  route: "", canRoute: false,
                                 ),
                               );}
 
@@ -846,8 +855,8 @@ class _EditDialogState extends State<EditDialog> {
                                 Get.toNamed(
                                   RouteHelper.getPickMapRoute('add-address', false),
                                   arguments: PickMapScreen(
-                                    fromAddAddress: true, fromSignUp: false, googleMapController: locationController.mapController,
-                                    route: null, canRoute: false,
+                                    fromAddAddress: true, fromSignUp: false, googleMapController: locationController.mapController!,
+                                    route: "", canRoute: false,
                                   ),
                                 );
                             }
@@ -1305,7 +1314,7 @@ class _EditDialogState extends State<EditDialog> {
                               boxShadow: [
                                 BoxShadow(color: Colors.grey[Get.isDarkMode
                                     ? 800
-                                    : 200],
+                                    : 200]!,
                                     spreadRadius: 2,
                                     blurRadius: 5,
                                     offset: Offset(0, 5))
@@ -1348,9 +1357,9 @@ class _EditDialogState extends State<EditDialog> {
                                     fontSize: Dimensions.fontSizeLarge,
                                     color: Colors.black),
                               ),
-                              onChanged: (String value) {
+                              onChanged: (String? value) {
                                 setState(() {
-                                  _ageValue = value;
+                                  _ageValue = value!;
                                 });
                               },
                             ),
@@ -1387,7 +1396,7 @@ class _EditDialogState extends State<EditDialog> {
                               padding: const EdgeInsets.all(5.0),
                               child: TextButton(
                                   style:  ButtonStyle(
-                                    backgroundColor: WidgetStateProperty.all<Color>(  _selectedInterfaceistItems.contains(item) ? Theme.of(context).primaryColor : null),
+                                    backgroundColor: WidgetStateProperty.all<Color>(  _selectedInterfaceistItems.contains(item) ? Theme.of(context).primaryColor  : Color(0)),
                                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
 
                                       RoundedRectangleBorder(
@@ -1503,7 +1512,7 @@ class _EditDialogState extends State<EditDialog> {
 
                       Container(
 
-                        child:     categoryController.facilitiesList.length!=null?    Column(
+                        child:     categoryController.facilitiesList!.length !=null?    Column(
                           children: [
                             ExpansionTile(
                               title: const Text("إضافة تغطية"), //add icon//children padding
@@ -1513,7 +1522,7 @@ class _EditDialogState extends State<EditDialog> {
                                   height: 50,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: widget.estate.networkType.length,
+                                    itemCount: widget.estate.networkType!.length,
                                     itemBuilder: (context, index) {
                                       return Padding(
                                         padding: const EdgeInsets.all(5.0),
@@ -1534,13 +1543,13 @@ class _EditDialogState extends State<EditDialog> {
                                             children: [
                                               // Add an Image widget for your icon
                                               CustomImage(
-                                                image: '${Get.find<SplashController>().configModel.baseUrls.categoryImageUrl}'
-                                                    '/${widget.estate.networkType[index].image}',
+                                                image: '${Get.find<SplashController>().configModel!.baseUrls!.categoryImageUrl}'
+                                                    '/${widget.estate.networkType![index].image}',
                                                 height: 20, width: 20,
                                               ),
                                               SizedBox(width: 8), // Add spacing between icon and text
                                               Text(
-                                                widget.estate.networkType[index].name,
+                                                widget.estate.networkType![index].name!,
                                                 style: TextStyle(color: Theme.of(context).cardColor, fontSize: 15.0),
                                               ),
                                             ],
@@ -1556,7 +1565,7 @@ class _EditDialogState extends State<EditDialog> {
                                     height: 240,
                                     child:GridView.builder(
                                       physics: BouncingScrollPhysics(),
-                                      itemCount: categoryController.facilitiesList.length,
+                                      itemCount: categoryController.facilitiesList!.length,
                                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 3 ,
                                         childAspectRatio: (1/0.50),
@@ -1570,27 +1579,27 @@ class _EditDialogState extends State<EditDialog> {
                                               vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL, horizontal: Dimensions.PADDING_SIZE_SMALL,
                                             ),
                                             decoration: BoxDecoration(
-                                              color: categoryController.interestSelectedList[index] ? Theme.of(context).primaryColor
+                                              color: categoryController.interestSelectedList![index] ? Theme.of(context).primaryColor
                                                   : Theme.of(context).cardColor,
                                               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], blurRadius: 5, spreadRadius: 1)],
+                                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, blurRadius: 5, spreadRadius: 1)],
                                             ),
                                             alignment: Alignment.center,
                                             child:   Row(
 
                                               children: [
                                                 CustomImage(
-                                                  image: '${Get.find<SplashController>().configModel.baseUrls.categoryImageUrl}'
-                                                      '/${categoryController.facilitiesList[index].image}',
+                                                  image: '${Get.find<SplashController>().configModel!.baseUrls!.categoryImageUrl}'
+                                                      '/${categoryController.facilitiesList![index].image}',
                                                   height: 30, width: 30,
                                                 ),
                                                 SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                                 Flexible(child: Text(
-                                                  categoryController.facilitiesList[index].name,
+                                                  categoryController.facilitiesList![index].name,
                                                   style: robotoMedium.copyWith(
                                                     fontSize: Dimensions.fontSizeExtraSmall,
-                                                    color: categoryController.interestSelectedList[index] ? Theme.of(context).cardColor
-                                                        : Theme.of(context).textTheme.bodyLarge.color,
+                                                    color: categoryController.interestSelectedList![index] ? Theme.of(context).cardColor
+                                                        : Theme.of(context).textTheme.bodyLarge!.color ?? Color(0),
                                                   ),
                                                   maxLines: 2, overflow: TextOverflow.ellipsis,
                                                 )),
@@ -1617,7 +1626,7 @@ class _EditDialogState extends State<EditDialog> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
 
-                          categoryController.advanList.length!=null?    Column(
+                          categoryController.advanList!.length!=null?    Column(
                             children: [
 
                               ExpansionTile(
@@ -1630,7 +1639,7 @@ class _EditDialogState extends State<EditDialog> {
                                         height: 50,
                                         child: ListView.builder(
                                           scrollDirection: Axis.horizontal,
-                                          itemCount:  widget.estate.otherAdvantages.length,
+                                          itemCount:  widget.estate.otherAdvantages!.length,
                                           itemBuilder: (context, index) {
 
 
@@ -1649,7 +1658,7 @@ class _EditDialogState extends State<EditDialog> {
                                                   onPressed: (){
 
                                                   },
-                                                  child: Text(widget.estate.otherAdvantages[index].name,style: TextStyle(color:Theme.of(context).cardColor,fontSize: 15.0),)
+                                                  child: Text(widget.estate.otherAdvantages![index].name! ,style: TextStyle(color:Theme.of(context).cardColor,fontSize: 15.0),)
                                               ),
                                             );
 
@@ -1663,7 +1672,7 @@ class _EditDialogState extends State<EditDialog> {
                                           height: 240,
                                           child: GridView.builder(
                                             physics: BouncingScrollPhysics(),
-                                            itemCount: categoryController.advanList.length,
+                                            itemCount: categoryController.advanList!.length ?? 40,
                                             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 3,
                                               childAspectRatio: (1 / 0.50),
@@ -1685,7 +1694,7 @@ class _EditDialogState extends State<EditDialog> {
                                                     horizontal: Dimensions.PADDING_SIZE_SMALL,
                                                   ),
                                                   decoration: BoxDecoration(
-                                                    color: categoryController.advanSelectedList[index]
+                                                    color: categoryController.advanSelectedList![index]
                                                         ? Theme.of(context).primaryColor
                                                         : Theme.of(context).cardColor,
 
@@ -1694,7 +1703,7 @@ class _EditDialogState extends State<EditDialog> {
                                                     borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                                                     boxShadow: [
                                                       BoxShadow(
-                                                        color: Colors.grey[Get.isDarkMode ? 800 : 200],
+                                                        color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
                                                         blurRadius: 5,
                                                         spreadRadius: 1,
                                                       ),
@@ -1705,12 +1714,12 @@ class _EditDialogState extends State<EditDialog> {
                                                     children: [
                                                       Flexible(
                                                         child: Text(
-                                                          categoryController.advanList[index].name,
+                                                          categoryController.advanList![index].name ?? "",
                                                           style: robotoMedium.copyWith(
                                                             fontSize: Dimensions.fontSizeSmall,
-                                                            color: categoryController.advanSelectedList[index]
+                                                            color: categoryController.advanSelectedList![index]
                                                                 ? Theme.of(context).cardColor
-                                                                : Theme.of(context).textTheme.bodyLarge.color,
+                                                                : Theme.of(context).textTheme.bodyLarge!.color ?? Color(0),
                                                           ),
                                                           maxLines: 2,
                                                           overflow: TextOverflow.ellipsis,
@@ -1761,7 +1770,7 @@ class _EditDialogState extends State<EditDialog> {
                                         .secondaryHeaderColor : Colors
                                         .transparent,
                                     border: Border.all(
-                                      width: 1, color: Colors.blue[500],),
+                                      width: 1, color: Colors.blue[500]!,),
                                     borderRadius: BorderRadius.circular(2,)
                                 ),
 
@@ -1788,7 +1797,7 @@ class _EditDialogState extends State<EditDialog> {
                                         .secondaryHeaderColor : Colors
                                         .transparent,
                                     border: Border.all(
-                                      width: 1, color: Colors.blue[500],),
+                                      width: 1, color: Colors.blue[500]!,),
                                     borderRadius: BorderRadius.circular(2,)
                                 ),
                                 height: 39,
@@ -1938,10 +1947,10 @@ class _EditDialogState extends State<EditDialog> {
 
 
                           List<Map<String, dynamic >> interests = [];
-                          for(int index=0; index<categoryController.facilitiesList.length; index++) {
-                            if(categoryController.interestSelectedList[index]) {
+                          for(int index=0; index<categoryController.facilitiesList!.length; index++) {
+                            if(categoryController.interestSelectedList![index]) {
 
-                              interests.add ({'"' "name" '"':'"${categoryController.facilitiesList[index].name}"','"' "image" '"':'"${categoryController.facilitiesList[index].image}"'});
+                              interests.add ({'"' "name" '"':'"${categoryController.facilitiesList![index].name}"','"' "image" '"':'"${categoryController.facilitiesList![index].image}"'});
                             }
                           }
 
@@ -1949,7 +1958,7 @@ class _EditDialogState extends State<EditDialog> {
 
 
 
-                          List<Map<String, dynamic>> serializedAdvantages = widget.estate.otherAdvantages.map((advantage) => advantage.toJson()).toList();
+                          List<Map<String, dynamic>> serializedAdvantages = widget.estate.otherAdvantages!.map((advantage) => advantage.toJson()).toList();
                           String newAdv = jsonEncode(serializedAdvantages);
 
 
@@ -1959,11 +1968,11 @@ class _EditDialogState extends State<EditDialog> {
 
 
                           List<Map<String, dynamic >> advan= [];
-                          for(int index=0; index<categoryController.advanList.length; index++) {
-                            if(categoryController.advanSelectedList[index]) {
+                          for(int index=0; index<categoryController.advanList!.length; index++) {
+                            if(categoryController.advanSelectedList![index]) {
 
                               //   showCustomSnackBar("${categoryController.advanList[index].name }");
-                              advan.add ({'"' "name" '"':'"${categoryController.advanList[index].name}"'});
+                              advan.add ({'"' "name" '"':'"${categoryController.advanList![index].name}"'});
                             }
                           }
 
@@ -2062,15 +2071,16 @@ class _EditDialogState extends State<EditDialog> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..loadRequest(Uri.parse(url));
+
         return AlertDialog(
           title: Text('Web View'),
           content: SizedBox(
             width: double.maxFinite,
             height: 300, // Adjust the height as needed
-            child: WebView(
-              initialUrl: url,
-              javascriptMode: JavascriptMode.unrestricted,
-            ),
+            child: WebViewWidget(controller: controller) ,
           ),
           actions: [
             TextButton(

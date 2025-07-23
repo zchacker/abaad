@@ -39,20 +39,27 @@ class MapScreen extends StatefulWidget {
   final bool fromAddAddress;
   final bool canRoute;
   final String route;
-  final GoogleMapController googleMapController;
-  MapScreen({Key key,required this.mainCategory,required this.fromSignUp, required this.fromAddAddress, required this.canRoute,
-    required this.route, this.googleMapController,}) : super(key: key);
+  final GoogleMapController? googleMapController;
+  MapScreen({
+    Key? key,
+    required this.mainCategory,
+    required this.fromSignUp,
+    required this.fromAddAddress,
+    required this.canRoute,
+    required this.route,
+    this.googleMapController
+  }) : super(key: key);
 
   @override
   State<MapScreen> createState() => _MapViewScreenState();
 }
 
 class _MapViewScreenState extends State<MapScreen> {
-  GoogleMapController _controller;
+  late GoogleMapController _controller;
   List<MarkerData> _customMarkers = [];
-  CameraPosition _cameraPosition;
+  late CameraPosition _cameraPosition;
   final ScrollController scrollController = ScrollController();
-  Uint8List imageDataBytes;
+  late Uint8List imageDataBytes;
   var markerIcon;
   // GlobalKey iconKey = GlobalKey();
   String selectedOption = 'بيع';
@@ -67,7 +74,7 @@ class _MapViewScreenState extends State<MapScreen> {
   bool radiusSlider = false;
   bool backProider= false;
 
-  LatLng _initialPosition;
+  late LatLng _initialPosition;
   var photoGalleryIndex = 0;
   final bool _ltr = Get.find<LocalizationController>().isLtr;
   MapType _currentMapType = MapType.satellite;
@@ -88,18 +95,18 @@ class _MapViewScreenState extends State<MapScreen> {
     });
   }
 
-  PageController _pageController;
+  late PageController _pageController;
   int prevPage = 0;
   bool showBlankCard = false;
   bool pressedNear = false;
 
   var radiusValue = 3000.0;
-  Timer _debounce;
+  late Timer _debounce;
   String tokenKey = '';
-  int index;
+  late int index;
   void _onScroll() {
-    if (_pageController.page.toInt() != prevPage) {
-      prevPage = _pageController.page.toInt();
+    if (_pageController.page!.toInt() != prevPage) {
+      prevPage = _pageController.page!.toInt();
       cardTapped = false;
       photoGalleryIndex = 1;
       showBlankCard = false;
@@ -111,7 +118,7 @@ class _MapViewScreenState extends State<MapScreen> {
   int selectedIndex = 0;
 
 
-  Estate estate;
+  late Estate estate;
   void _setCircle(LatLng point) async {
 
 
@@ -198,10 +205,10 @@ class _MapViewScreenState extends State<MapScreen> {
   get borderRadius => BorderRadius.circular(8.0);
 
   Future<void> getCustomMarkerIcon(GlobalKey iconKey) async {
-    RenderRepaintBoundary boundary = iconKey.currentContext.findRenderObject();
-    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    var pngBytes = byteData.buffer.asUint8List();
+    RenderRepaintBoundary? boundary = iconKey.currentContext!.findRenderObject() as RenderRepaintBoundary?;
+    ui.Image image = await boundary!.toImage(pixelRatio: 3.0);
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    var pngBytes = byteData!.buffer.asUint8List();
     setState(() {
       markerIcon = BitmapDescriptor.fromBytes(pngBytes);
     });
@@ -226,7 +233,7 @@ class _MapViewScreenState extends State<MapScreen> {
 
     return Scaffold(
         key: _key,
-        appBar: WebMenuBar(ontop:()=>     _key.currentState.openDrawer(),fromPage: "main"),
+        appBar: WebMenuBar(ontop:()=>     _key.currentState!.openDrawer(),fromPage: "main"),
         drawer: DrawerMenu(),
         body:
         GetBuilder<CategoryController>(builder: (categoryController) {
@@ -238,7 +245,7 @@ class _MapViewScreenState extends State<MapScreen> {
             if (categoryController.isSearching) {
 
             } else {
-              products.addAll(categoryController.categoryProductList);
+              products.addAll(categoryController.categoryProductList as Iterable<Estate>);
             }
           
 
@@ -361,7 +368,7 @@ class _MapViewScreenState extends State<MapScreen> {
                                             ),
                                           ),
                                           SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                                          Icon(Icons.search, size: 25, color: Theme.of(context).textTheme.bodyLarge.color),
+                                          Icon(Icons.search, size: 25, color: Theme.of(context).textTheme.bodyLarge!.color),
                                         ]),
                                       ),
                                     ),
@@ -419,7 +426,7 @@ class _MapViewScreenState extends State<MapScreen> {
                                         child:
                                         ListView.builder(
                                           scrollDirection: Axis.horizontal,
-                                          itemCount: categoryController.subCategoryList.length,
+                                          itemCount: categoryController.subCategoryList!.length,
                                           padding: EdgeInsets.only(left: Dimensions.PADDING_SIZE_SMALL),
                                           physics: BouncingScrollPhysics(),
                                           itemBuilder: (context, index) {
@@ -453,7 +460,7 @@ class _MapViewScreenState extends State<MapScreen> {
 
                                                   padding: EdgeInsets.only(
                                                     left: index == 0 ? Dimensions.PADDING_SIZE_LARGE : Dimensions.PADDING_SIZE_SMALL,
-                                                    right: index == categoryController.subCategoryList.length-1 ? Dimensions.PADDING_SIZE_LARGE : Dimensions.PADDING_SIZE_SMALL,
+                                                    right: index == categoryController.subCategoryList!.length-1 ? Dimensions.PADDING_SIZE_LARGE : Dimensions.PADDING_SIZE_SMALL,
                                                     //   top: Dimensions.PADDING_SIZE_SMALL,
                                                   ),
 
@@ -477,7 +484,7 @@ class _MapViewScreenState extends State<MapScreen> {
 
                                                   child: Row(children: [
                                                     Text(
-                                                     isArabic? categoryController.subCategoryList[index].nameAr:categoryController.subCategoryList[index].name ??"all",
+                                                     isArabic? categoryController.subCategoryList![index].nameAr:categoryController.subCategoryList![index].name ??"all",
                                                       style: index == categoryController.subCategoryIndex
                                                           ? robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor)
                                                           : robotoRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor),
@@ -486,7 +493,7 @@ class _MapViewScreenState extends State<MapScreen> {
                                                     SizedBox(width: 5),
                                                     index==0?Container():  CustomImage(
                                                         image:
-                                                        '${Get.find<SplashController>().configModel.baseUrls.categoryImageUrl}/${categoryController.subCategoryList[index].image}',
+                                                        '${Get.find<SplashController>().configModel!.baseUrls!.categoryImageUrl}/${categoryController.subCategoryList![index].image}',
                                                         height: 25,
                                                         width: 25,
                                                         colors:index ==
@@ -523,7 +530,7 @@ class _MapViewScreenState extends State<MapScreen> {
                                           child:  FloatingActionButton(
                                             mini: true, backgroundColor: Theme.of(context).cardColor,
                                             onPressed: () => _checkPermission(() {
-                                              Get.find<LocationController>().getCurrentLocation(false, mapController: _controller);
+                                              Get.find<LocationController>().getCurrentLocation(false, mapController: _controller, defaultLatLng: LatLng(0, 0));
                                             }),
                                             child: Icon(Icons.my_location, color: Theme.of(context).primaryColor),
                                           ),
@@ -802,7 +809,7 @@ class _MapViewScreenState extends State<MapScreen> {
                                             ),
                                           ),
                                           SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                                          Icon(Icons.search, size: 25, color: Theme.of(context).textTheme.bodyLarge.color),
+                                          Icon(Icons.search, size: 25, color: Theme.of(context).textTheme.bodyLarge!.color),
                                         ]),
                                       ),
                                     ),
@@ -852,19 +859,22 @@ class _MapViewScreenState extends State<MapScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     // زر بيع
-                                    RaisedButton(
+                                    ElevatedButton(
                                       onPressed: () {
                                         setState(() {
                                           selectedOption = 'بيع';
-
-                                          Get.find<CategoryController>().setFilterIndex(widget.mainCategory.id,0,"0","0",0,0,0,selectedOption);
+                                          Get.find<CategoryController>().setFilterIndex(
+                                            widget.mainCategory.id, 0, "0", "0", 0, 0, 0, selectedOption,
+                                          );
                                         });
                                       },
-                                      color: selectedOption == 'بيع' ? Colors.blue : Colors.white,
-                                      textColor: selectedOption == 'بيع' ? Colors.white : Colors.black,
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(color: Colors.blue),
-                                        borderRadius: BorderRadius.circular(8),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: selectedOption == 'بيع' ? Colors.blue : Colors.white,
+                                        foregroundColor: selectedOption == 'بيع' ? Colors.white : Colors.black,
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(color: Colors.blue),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
                                       ),
                                       child: Text('بيع'),
                                     ),
@@ -872,18 +882,22 @@ class _MapViewScreenState extends State<MapScreen> {
                                     SizedBox(width: 10),
 
                                     // زر إيجار
-                                    RaisedButton(
+                                    ElevatedButton(
                                       onPressed: () {
                                         setState(() {
                                           selectedOption = 'إيجار';
-                                          Get.find<CategoryController>().setFilterIndex(widget.mainCategory.id,0,"0","0",0,0,0,selectedOption);
+                                          Get.find<CategoryController>().setFilterIndex(
+                                            widget.mainCategory.id, 0, "0", "0", 0, 0, 0, selectedOption,
+                                          );
                                         });
                                       },
-                                      color: selectedOption == 'إيجار' ? Colors.blue : Colors.white,
-                                      textColor: selectedOption == 'إيجار' ? Colors.white : Colors.black,
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(color: Colors.blue),
-                                        borderRadius: BorderRadius.circular(8),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: selectedOption == 'إيجار' ? Colors.blue : Colors.white,
+                                        foregroundColor: selectedOption == 'إيجار' ? Colors.white : Colors.black,
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(color: Colors.blue),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
                                       ),
                                       child: Text('إيجار'),
                                     ),
@@ -900,7 +914,7 @@ class _MapViewScreenState extends State<MapScreen> {
                                         child:
                                         ListView.builder(
                                           scrollDirection: Axis.horizontal,
-                                          itemCount: categoryController.subCategoryList.length,
+                                          itemCount: categoryController.subCategoryList!.length,
                                           padding: EdgeInsets.only(left: Dimensions.PADDING_SIZE_SMALL),
                                           physics: BouncingScrollPhysics(),
                                           itemBuilder: (context, index) {
@@ -928,7 +942,7 @@ class _MapViewScreenState extends State<MapScreen> {
 
                                                   padding: EdgeInsets.only(
                                                     left: index == 0 ? Dimensions.PADDING_SIZE_LARGE : Dimensions.PADDING_SIZE_SMALL,
-                                                    right: index == categoryController.subCategoryList.length-1 ? Dimensions.PADDING_SIZE_LARGE : Dimensions.PADDING_SIZE_SMALL,
+                                                    right: index == categoryController.subCategoryList!.length-1 ? Dimensions.PADDING_SIZE_LARGE : Dimensions.PADDING_SIZE_SMALL,
                                                     //   top: Dimensions.PADDING_SIZE_SMALL,
                                                   ),
 
@@ -952,7 +966,7 @@ class _MapViewScreenState extends State<MapScreen> {
 
                                                   child: Row(children: [
                                                     Text(
-                                                      isArabic? categoryController.subCategoryList[index].nameAr:categoryController.subCategoryList[index].name??"all",
+                                                      isArabic? categoryController.subCategoryList![index].nameAr:categoryController.subCategoryList![index].name??"all",
                                                       style: index == categoryController.subCategoryIndex
                                                           ? robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor)
                                                           : robotoRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor),
@@ -961,7 +975,7 @@ class _MapViewScreenState extends State<MapScreen> {
                                                     SizedBox(width: 5),
                                                     index==0?Container():  CustomImage(
                                                         image:
-                                                        '${Get.find<SplashController>().configModel.baseUrls.categoryImageUrl}/${categoryController.subCategoryList[index].image}',
+                                                        '${Get.find<SplashController>().configModel!.baseUrls!.categoryImageUrl}/${categoryController.subCategoryList![index].image}',
                                                         height: 25,
                                                         width: 25,
                                                         colors:index ==
@@ -992,7 +1006,7 @@ class _MapViewScreenState extends State<MapScreen> {
                                           child:  FloatingActionButton(
                                             mini: true, backgroundColor: Theme.of(context).cardColor,
                                             onPressed: () => _checkPermission(() {
-                                              Get.find<LocationController>().getCurrentLocation(false, mapController: _controller);
+                                              Get.find<LocationController>().getCurrentLocation(false, mapController: _controller, defaultLatLng: LatLng(0, 0));
                                             }),
                                             child: Icon(Icons.my_location, color: Theme.of(context).primaryColor),
                                           ),
@@ -1203,7 +1217,7 @@ class _MapViewScreenState extends State<MapScreen> {
     ));
     for (int i = 0; i < estate.length; i++) {
       Estate currentCoordinate = estate[i];
-      LatLng latLng = LatLng(double.parse(currentCoordinate.latitude), double.parse(currentCoordinate.longitude));
+      LatLng latLng = LatLng(double.parse(currentCoordinate.latitude!), double.parse(currentCoordinate.longitude!));
       latLngs.add(latLng);
 
 
@@ -1253,14 +1267,14 @@ class _MapViewScreenState extends State<MapScreen> {
                       Text(
                         formatPrice(
                             currentCoordinate.categoryName == "ارض"
-                                ? currentCoordinate.totalPrice
-                                : currentCoordinate.price
+                                ? currentCoordinate.totalPrice!
+                                : currentCoordinate.price!
                         ),
                         style: robotoBlack.copyWith(fontSize: 9),
                       ),
 
 
-                      Image.asset(currentCoordinate.serviceOffers.isEmpty?Images.image:Images.vt_offer, height: 8, width: 8),
+                      Image.asset(currentCoordinate.serviceOffers!.isEmpty?Images.image:Images.vt_offer, height: 8, width: 8),
                     ],
 
                   ),
@@ -1269,16 +1283,16 @@ class _MapViewScreenState extends State<MapScreen> {
 
               selectedIndex==i?         Stack(
                 children: [
-                  Image.asset(Images.location_marker, height: 40, width: 40,color:currentCoordinate.serviceOffers.isEmpty?Colors.red:Colors.orange),
+                  Image.asset(Images.location_marker, height: 40, width: 40,color:currentCoordinate.serviceOffers!.isEmpty?Colors.red:Colors.orange),
                   Positioned(top: 3, left: 0, right: 0, child: Center(
-                    child: ClipOval(child: CustomImage(image:currentCoordinate.images.isNotEmpty?"${Get.find<SplashController>().configModel.baseUrls.estateImageUrl}/${currentCoordinate.images[0]}":Images.estate_type, placeholder: Images.placeholder, height: 20, width: 20, fit: BoxFit.cover)),
+                    child: ClipOval(child: CustomImage(image:currentCoordinate.images!.isNotEmpty?"${Get.find<SplashController>().configModel!.baseUrls!.estateImageUrl}/${currentCoordinate.images![0]}":Images.estate_type, placeholder: Images.placeholder, height: 20, width: 20, fit: BoxFit.cover)),
                   )),
                 ],
               ): Stack(
                 children: [
-                  Image.asset(Images.location_marker, height: 35, width: 35,color:currentCoordinate.serviceOffers.isEmpty?Theme.of(context).primaryColor:Colors.orange),
+                  Image.asset(Images.location_marker, height: 35, width: 35,color:currentCoordinate.serviceOffers!.isEmpty?Theme.of(context).primaryColor:Colors.orange),
                   Positioned(top: 3, left: 0, right: 0, child: Center(
-                    child: ClipOval(child: CustomImage(  image:currentCoordinate.images.isNotEmpty?"${Get.find<SplashController>().configModel.baseUrls.estateImageUrl}/${currentCoordinate.images[0]}":Images.estate_type, placeholder: Images.placeholder, height: 18, width: 18, fit: BoxFit.cover)),
+                    child: ClipOval(child: CustomImage(  image:currentCoordinate.images!.isNotEmpty?"${Get.find<SplashController>().configModel!.baseUrls!.estateImageUrl}/${currentCoordinate.images![0]}":Images.estate_type, placeholder: Images.placeholder, height: 18, width: 18, fit: BoxFit.cover)),
                   )),
                 ],
               ),
@@ -1394,15 +1408,15 @@ class _MapViewScreenState extends State<MapScreen> {
           selectedIndex = value;
           _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
               target: LatLng(
-                  double.parse( products[selectedIndex].latitude)??0  ,
-                  double.parse( products[selectedIndex].longitude)??0),
+                  double.parse( products[selectedIndex].latitude!)??0  ,
+                  double.parse( products[selectedIndex].longitude!)??0),
               zoom: 25.0,
               bearing: 45.0,
               tilt: 45.0)));
 
 
 
-          if(products[selectedIndex].serviceOffers.isNotEmpty){
+          if(products[selectedIndex].serviceOffers!.isNotEmpty){
            estate= products[selectedIndex];
           // _createTutorial();
             cardTapped=true;
@@ -1423,11 +1437,11 @@ class _MapViewScreenState extends State<MapScreen> {
           return AnimatedBuilder(
             animation: _pageController,
 
-            builder: (BuildContext context, Widget widget) {
+            builder: (BuildContext? context, Widget? widget) {
 
               double value = 1;
               if (_pageController.position.haveDimensions) {
-                value = (_pageController.page - index);
+                value = (_pageController.page! - index);
                 value = (1 - (value.abs() * 0.3) + 0.06).clamp(0.0, 1.0);
 
               }
@@ -1475,7 +1489,7 @@ if(cardTapped==true){
                   SizedBox(
 
                     width: context.width,
-                    child: products[index].serviceOffers.isNotEmpty? SizedBox(
+                    child: products[index].serviceOffers!.isNotEmpty? SizedBox(
                       height: 35,
 
                       child: Container(
@@ -1516,8 +1530,8 @@ if(cardTapped==true){
                                           alignment: Alignment.topRight,
                                           child: ClipOval(child: CustomImage(
 
-                                            image: '${Get.find<SplashController>().configModel.baseUrls.provider}'
-                                                '/${(products[index].serviceOffers[i].image!=null)? products[index].serviceOffers[i].image:Images.image}',
+                                            image: '${Get.find<SplashController>().configModel!.baseUrls!.provider}'
+                                                '/${(products[index].serviceOffers![i].image!=null)? products[index].serviceOffers![i].image:Images.image}',
                                             height: 27, width: 27, fit: BoxFit.cover,
                                           )),
                                         ),
@@ -1528,7 +1542,7 @@ if(cardTapped==true){
                                         ),
                                         child: Center(child: Padding(
                                           padding: const EdgeInsets.all(3.0),
-                                          child: (Text("${ products[index].serviceOffers.length}+")),
+                                          child: (Text("${ products[index].serviceOffers!.length}+")),
                                         ),),)
 
 
@@ -1549,8 +1563,8 @@ if(cardTapped==true){
                   ),
                   Center(
                     child:   EstateItem(estate: products[index],onPressed: (){
-                      Get.find<UserController>().getUserInfoByID(products[index].userId );
-                      Get.find<UserController>().getEstateByUser(1, false,products[index].userId );
+                      Get.find<UserController>().getUserInfoByID( products[index].userId! );
+                      Get.find<UserController>().getEstateByUser(1, false,products[index].userId! );
                       Get.dialog(DettailsDilog(estate:products[index]));
                       // Get.toNamed(RouteHelper.getDetailsRoute( _products[index].id,_products[index].userId));
                     },fav: false,isMyProfile: 0),
@@ -1566,9 +1580,9 @@ if(cardTapped==true){
 
 
   String formatPrice(String priceStr) {
-    final num price = num.tryParse(priceStr);
+    final num? price = num.tryParse(priceStr);
 
-    if (price >= 1000000) {
+    if (price! >= 1000000) {
       return "${(price / 1000000).toStringAsFixed(2)} مليون";
     } else if (price >= 1000) {
       return "${(price / 1000).toStringAsFixed(2)} ألف";

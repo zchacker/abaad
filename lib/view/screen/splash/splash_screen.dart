@@ -81,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen> {
           }else if(GetPlatform.isIOS) {
           //  _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionIos;
           }
-          if(AppConstants.APP_VERSION < minimumVersion || Get.find<SplashController>().configModel.maintenanceMode) {
+          if(AppConstants.APP_VERSION < minimumVersion || Get.find<SplashController>().configModel!.maintenanceMode ?? false) {
             Get.offNamed(RouteHelper.getUpdateRoute(AppConstants.APP_VERSION < minimumVersion));
           }else {
             if (widget.body.notificationType == NotificationType.order) {
@@ -154,22 +154,29 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
 
-  void initDynamicLinks() async{
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData dynamicLink)async{
-          final Uri deeplink = dynamicLink.link;
+  // void initDynamicLinks() async{
+  //   FirebaseDynamicLinks.instance.onLink(
+  //       onSuccess: (PendingDynamicLinkData dynamicLink)async{
+  //         final Uri deeplink = dynamicLink.link;
+  //
+  //         handleMyLink(deeplink);
+  //               },
+  //       onError: (OnLinkErrorException e)async{
+  //         print("We got error $e");
+  //
+  //       }
+  //
+  //   );
+  // }
 
-          handleMyLink(deeplink);
-                },
-        onError: (OnLinkErrorException e)async{
-          print("We got error $e");
-
-        }
-
-    );
+  void initDynamicLinks() {
+    FirebaseDynamicLinks.instance.onLink.listen((PendingDynamicLinkData dynamicLink) {
+      final Uri deepLink = dynamicLink.link;
+      handleMyLink(deepLink);
+    }).onError((error) {
+      print('We got error $error');
+    });
   }
-
-
 
   void handleMyLink(Uri url){
     List<String> sepeatedLink = [];

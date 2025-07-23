@@ -10,9 +10,9 @@ class OnBoardingCard extends StatelessWidget {
   const OnBoardingCard({
      super.key,
      key_local,
-     this.onboardingContent,
-     this.currentPage,
-     this.pageController,
+     required this.onboardingContent,
+     required this.currentPage,
+     required this.pageController,
   });
   //
   final int currentPage;

@@ -8,12 +8,12 @@ class ProfileButton extends StatelessWidget {
   final String title;
   final bool isButtonActive;
   final Function onTap;
-  const ProfileButton({super.key, required this.icon, required this.title, required this.onTap, this.isButtonActive});
+  const ProfileButton({super.key, required this.icon, required this.title, required this.onTap, required this.isButtonActive});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: onTap as GestureTapCallback?,
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: Dimensions.PADDING_SIZE_SMALL,
@@ -22,7 +22,7 @@ class ProfileButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-          boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5)],
+          boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
         ),
         child: Row(children: [
           Icon(icon, size: 25),

@@ -40,7 +40,7 @@ class _PlannedTabState extends State<PlannedTab> {
   void initState() {
     super.initState();
     print("--------------------------${widget.estate.id}");
-    _fetchExistingPlanned(widget.estate.id);
+    _fetchExistingPlanned(widget.estate.id ?? 0);
   }
 
   Future<void> _pickPlanned() async {
@@ -73,8 +73,8 @@ class _PlannedTabState extends State<PlannedTab> {
       if (response.statusCode == 200) {
         print('Images uploaded successfully');
         _plannedFiles.clear();
-        Get.find<UserController>().getEstateByUser(1, false,widget.estate.userId);
-        _fetchExistingPlanned(widget.estate.id);
+        Get.find<UserController>().getEstateByUser(1, false,widget.estate.userId ?? 0);
+        _fetchExistingPlanned(widget.estate.id ?? 0);
       } else {
         print('Image upload failed');
       }
@@ -115,7 +115,7 @@ class _PlannedTabState extends State<PlannedTab> {
         children: [
           SizedBox.expand(
             child: Image.network(
-              '${Get.find<SplashController>().configModel.baseUrls.estateImageUrl}/${Uri.encodeComponent(imageUrl)}',
+              '${Get.find<SplashController>().configModel!.baseUrls!.estateImageUrl}/${Uri.encodeComponent(imageUrl)}',
               fit: BoxFit.cover,
             ),
           ),
@@ -174,7 +174,7 @@ class _PlannedTabState extends State<PlannedTab> {
             width: double.infinity,
             color: Colors.transparent,
             child: OutlinedButton.icon(
-                onPressed:()=>_uploadPlanned(widget.estate.id),
+                onPressed:()=>_uploadPlanned(widget.estate.id ?? 0),
                 icon:Icon(Icons.drive_folder_upload,color:Theme.of(context).primaryColor ),
                 label:  Text("upload_images".tr)),
           ),
@@ -191,7 +191,7 @@ class _PlannedTabState extends State<PlannedTab> {
               itemCount: _existingPlannedUrls.length,
               itemBuilder: (context, index) {
                 final imageUrl = _existingPlannedUrls[index];
-                return _buildPlannedTile(imageUrl, widget.estate.id); // Replace 123 with the actual id
+                return _buildPlannedTile(imageUrl, widget.estate.id ?? 0); // Replace 123 with the actual id
               },
             ),
           )

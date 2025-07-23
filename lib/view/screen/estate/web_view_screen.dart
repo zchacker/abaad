@@ -22,6 +22,11 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse(widget.url));
+
     return Scaffold(
       body: Column(
         children: [
@@ -35,27 +40,28 @@ class _WebViewScreenState extends State<WebViewScreen> {
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   )
-                : WebView(
-                    initialUrl: widget.url ?? '', // Handle null URL gracefully.
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onProgress: (progress) {
-                      setState(() {
-                        _progress =
-                            progress / 100; // Normalize progress to 0-1.
-                      });
-                    },
-                    onPageFinished: (url) {
-                      setState(() {
-                        _progress =
-                            0.0; // Reset progress when the page is loaded.
-                      });
-                    },
-                    onWebResourceError: (error) {
-                      setState(() {
-                        _hasError = true;
-                      });
-                    },
-                  ),
+                : WebViewWidget(controller: controller,)
+            // WebView(
+            //         initialUrl: widget.url ?? '', // Handle null URL gracefully.
+            //         javascriptMode: JavascriptMode.unrestricted,
+            //         onProgress: (progress) {
+            //           setState(() {
+            //             _progress =
+            //                 progress / 100; // Normalize progress to 0-1.
+            //           });
+            //         },
+            //         onPageFinished: (url) {
+            //           setState(() {
+            //             _progress =
+            //                 0.0; // Reset progress when the page is loaded.
+            //           });
+            //         },
+            //         onWebResourceError: (error) {
+            //           setState(() {
+            //             _hasError = true;
+            //           });
+            //         },
+            //       ),
           ),
         ],
       ),

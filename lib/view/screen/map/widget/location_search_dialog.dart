@@ -23,52 +23,66 @@ class LocationSearchDialog extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: Material(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),
-        child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: TypeAheadField(
-          textFieldConfiguration: TextFieldConfiguration(
-            controller: controller,
-            textInputAction: TextInputAction.search,
-            autofocus: true,
-            textCapitalization: TextCapitalization.words,
-            keyboardType: TextInputType.streetAddress,
-            decoration: InputDecoration(
-              hintText: 'search_location'.tr,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(style: BorderStyle.none, width: 0),
-              ),
-              hintStyle: Theme.of(context).textTheme.displayMedium.copyWith(
-                fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor,
-              ),
-              filled: true, fillColor: Theme.of(context).cardColor,
-            ),
-            style: Theme.of(context).textTheme.displayMedium.copyWith(
-              color: Theme.of(context).textTheme.bodyLarge.color, fontSize: Dimensions.fontSizeLarge,
-            ),
-          ),
+        child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: TypeAheadField<PredictionModel>(
           suggestionsCallback: (pattern) async {
             return await Get.find<LocationController>().searchLocation(context, pattern);
-
           },
           itemBuilder: (context, PredictionModel suggestion) {
             return Padding(
               padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-              child: Row(children: [
-                Icon(Icons.location_on),
-                Expanded(
-                  child: Text(suggestion.description, maxLines: 1, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.displayMedium.copyWith(
-                    color: Theme.of(context).textTheme.bodyLarge.color, fontSize: Dimensions.fontSizeLarge,
-                  )),
-                ),
-              ]),
+              child: Row(
+                children: [
+                  Icon(Icons.location_on),
+                  Expanded(
+                    child: Text(
+                      suggestion.description,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                        color: Theme.of(context).textTheme.bodyLarge!.color,
+                        fontSize: Dimensions.fontSizeLarge,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           },
-          onSuggestionSelected: (PredictionModel suggestion) async {
-            Position position = await Get.find<LocationController>().setLocation(suggestion.placeId, suggestion.description, mapController);
+          onSelected: (PredictionModel suggestion) async {
+            Position position = await Get.find<LocationController>()
+                .setLocation(suggestion.placeId, suggestion.description, mapController);
             showCustomSnackBar("omeromer${suggestion.distanceMeters}");
             Get.back(result: position);
           },
+          builder: (context, controller, focusNode) {
+            return TextField(
+              controller: controller,
+              focusNode: focusNode,
+              textInputAction: TextInputAction.search,
+              autofocus: true,
+              textCapitalization: TextCapitalization.words,
+              keyboardType: TextInputType.streetAddress,
+              decoration: InputDecoration(
+                hintText: 'search_location'.tr,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(style: BorderStyle.none, width: 0),
+                ),
+                hintStyle: Theme.of(context).textTheme.displayMedium!.copyWith(
+                  fontSize: Dimensions.fontSizeDefault,
+                  color: Theme.of(context).disabledColor,
+                ),
+                filled: true,
+                fillColor: Theme.of(context).cardColor,
+              ),
+              style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                color: Theme.of(context).textTheme.bodyLarge!.color,
+                fontSize: Dimensions.fontSizeLarge,
+              ),
+            );
+          },
         )),
-      ),
+        ),
     );
   }
 }

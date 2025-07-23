@@ -1600,8 +1600,8 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                                         EstateController>(
                                                     builder: (wishController) {
                                                     return ReportWidget(
-                                                      estate_id:
-                                                          widget.estate?.id ?? 0,
+                                                      estate_id: widget.estate?.id ?? 0,
+                                                      key: null,
                                                     );
                                                   }))
                                                 : NotLoggedInScreen();

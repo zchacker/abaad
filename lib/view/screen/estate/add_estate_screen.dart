@@ -3061,7 +3061,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
           content: SizedBox(
             width: double.maxFinite,
             height: 300, // Adjust the height as needed
-            child:WebViewWidget(controller: controller,),
+            child: WebViewWidget(controller: controller,),
           ),
           actions: [
             TextButton(

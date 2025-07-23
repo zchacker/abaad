@@ -16,7 +16,7 @@ class WebViewDialog extends StatelessWidget {
     return Scaffold(
       appBar:  CustomAppBar(title: 'terms_conditions'.tr),
       body: Container(
-        child: buildTabContent(isArabic ?Get.find<SplashController>().configModel.termsConditionsAr:Get.find<SplashController>().configModel.termsConditions),
+        child: buildTabContent(isArabic ?Get.find<SplashController>().configModel!.termsConditionsAr:Get.find<SplashController>().configModel!.termsConditions),
       ),
     );
   }

@@ -1,6 +1,7 @@
 
 import 'package:abaad/controller/splash_controller.dart';
 import 'package:abaad/controller/wishlist_controller.dart';
+import 'package:abaad/data/model/response/estate_model.dart';
 import 'package:abaad/helper/responsive_helper.dart';
 import 'package:abaad/helper/route_helper.dart';
 import 'package:abaad/util/dimensions.dart';
@@ -45,7 +46,7 @@ class ProductBottomSheet extends StatefulWidget {
     this.isCampaign = false,
     //this.cart,
     this.cartIndex,
-    this.inRestaurantPage = false
+    this.inRestaurantPage = false, required Estate product
   });
 
   @override

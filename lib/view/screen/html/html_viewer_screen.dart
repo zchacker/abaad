@@ -1,3 +1,5 @@
+import 'dart:ui_web' as ui;
+
 import 'package:abaad/controller/splash_controller.dart';
 import 'package:abaad/util/dimensions.dart';
 import 'package:abaad/util/html_type.dart';
@@ -18,12 +20,12 @@ class HtmlViewerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentLocale = Get.locale;
     bool isArabic = currentLocale?.languageCode == 'ar';
-    String data = htmlType == HtmlType.TERMS_AND_CONDITION ? Get.find<SplashController>().configModel.termsAndConditions
-        : htmlType == HtmlType.ABOUT_US ? Get.find<SplashController>().configModel.aboutUs
-        : htmlType == HtmlType.PRIVACY_POLICY ? Get.find<SplashController>().configModel.privacyPolicy
+    String? data = htmlType == HtmlType.TERMS_AND_CONDITION ? Get.find<SplashController>().configModel!.termsAndConditions
+        : htmlType == HtmlType.ABOUT_US ? Get.find<SplashController>().configModel!.aboutUs
+        : htmlType == HtmlType.PRIVACY_POLICY ? Get.find<SplashController>().configModel!.privacyPolicy
         : null;
 
-    if(data.isNotEmpty) {
+    if(data!.isNotEmpty) {
       data = data.replaceAll('href=', 'target="_blank" href=');
     }
 
@@ -105,15 +107,15 @@ class HtmlViewerScreen extends StatelessWidget {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        buildTabContent(isArabic ?Get.find<SplashController>().configModel.termsConditionsAr:Get.find<SplashController>().configModel.termsConditions),
-                        buildTabContent(isArabic ?Get.find<SplashController>().configModel.termsConditionsAr:Get.find<SplashController>().configModel.termsConditions),
+                        buildTabContent(isArabic ?Get.find<SplashController>().configModel!.termsConditionsAr:Get.find<SplashController>().configModel!.termsConditions),
+                        buildTabContent(isArabic ?Get.find<SplashController>().configModel!.termsConditionsAr:Get.find<SplashController>().configModel!.termsConditions),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-          ):htmlType == HtmlType.ABOUT_US ?   buildTabContent(isArabic ?Get.find<SplashController>().configModel.aboutUsAr:Get.find<SplashController>().configModel.aboutUs) :buildTabContent(isArabic ?Get.find<SplashController>().configModel.privacyPolicyAr:Get.find<SplashController>().configModel.privacyPolicy),
+          ):htmlType == HtmlType.ABOUT_US ?   buildTabContent(isArabic ?Get.find<SplashController>().configModel!.aboutUsAr:Get.find<SplashController>().configModel!.aboutUs) :buildTabContent(isArabic ?Get.find<SplashController>().configModel!.privacyPolicyAr:Get.find<SplashController>().configModel!.privacyPolicy),
         ),
       ),
     );

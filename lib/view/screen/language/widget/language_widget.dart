@@ -29,7 +29,7 @@ class LanguageWidget extends StatelessWidget {
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
           border: Border.all(color:localizationController.selectedIndex == index ?  Theme.of(context).primaryColor:Colors.white, width: 1),
-          boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], blurRadius: 5, spreadRadius: 1)],
+          boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, blurRadius: 5, spreadRadius: 1)],
         ),
         child: Stack(children: [
 
@@ -47,7 +47,7 @@ class LanguageWidget extends StatelessWidget {
                 child: Image.asset(
                   languageModel.imageUrl, width: 20, height: 20,
                   color: languageModel.languageCode == 'en' || languageModel.languageCode == 'ar'
-                      ? Theme.of(context).textTheme.bodyLarge.color : null,
+                      ? Theme.of(context).textTheme.bodyLarge!.color : null,
                 ),
               ),
               SizedBox(height: Dimensions.PADDING_SIZE_LARGE),

@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ServiceProviderItem extends StatelessWidget {
   final Estate estate;
 
-  const ServiceProviderItem({Key key,this.estate}) : super(key: key);
+  const ServiceProviderItem({Key? key,required this.estate}) : super(key: key);
 
 
   @override
@@ -22,9 +22,9 @@ class ServiceProviderItem extends StatelessWidget {
     isNull = estate == null;
     if(!isNull) {
       print("---------------------------------------4${estate.id}");
-      length = estate.serviceOffers.length;
+      length = estate.serviceOffers!.length;
     return
-      !isNull ? length > 0 ?Container(
+      !isNull ? length > 0 ? Container(
       height: 270,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -42,7 +42,7 @@ class ServiceProviderItem extends StatelessWidget {
       ),
       child:  ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: estate.serviceOffers .length,
+        itemCount: estate.serviceOffers! .length,
         itemBuilder: (context, index) {
           return
             Container(
@@ -70,11 +70,11 @@ class ServiceProviderItem extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child:  GetBuilder<SplashController>(builder: (splashController) {
-                          String baseUrl = Get.find<SplashController>().configModel.baseUrls.provider;
+                          String baseUrl = Get.find<SplashController>().configModel!.baseUrls!.provider;
                           //   print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
                           return ClipOval(
                             child: CustomImage(
-                              image: '$baseUrl/${estate.serviceOffers[index].image}',
+                              image: '$baseUrl/${estate.serviceOffers![index].image}',
                               fit: BoxFit.cover,
                               height: 35,
                               width: 35,
@@ -92,14 +92,14 @@ class ServiceProviderItem extends StatelessWidget {
                         Container(
 
                           child:  Text(
-                            estate.serviceOffers[index].title,
+                            estate.serviceOffers![index].title ?? "",
                             style: robotoBlack.copyWith(fontSize: 11),
                           ),
                         ),
                         Container(
 
                           child:  Text(
-                            estate.serviceOffers[index].provider_name,
+                            estate.serviceOffers![index].provider_name ?? "",
                             style: robotoBlack.copyWith(fontSize: 11),
                           ),
                         ),
@@ -109,27 +109,27 @@ class ServiceProviderItem extends StatelessWidget {
                         const SizedBox(height: 3.0),
                         Row(
                           children: [
-                           estate.serviceOffers[index].servicePrice!=null?Text("price".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)):Text("discount".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                           estate.serviceOffers![index].servicePrice!=null?Text("price".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)):Text("discount".tr  , style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
                             SizedBox(width: 11.0),
-                           estate.serviceOffers[index].discount!=null?  SizedBox(
+                           estate.serviceOffers![index].discount!=null?  SizedBox(
                               height: 16,
                               width: 44,
                               child: CustomPaint(
                                 painter: PriceTagPaint(),
                                 child: Center(
                                   child: Text(
-                                      "${estate.serviceOffers[index].discount}%",
+                                      "${estate.serviceOffers![index].discount}%",
                                       style: robotoBlack.copyWith(fontSize: 10,color: Colors.white)
                                   ),
                                 ),
                               ),
-                            ):Text(" ${estate.serviceOffers[index].servicePrice} ريال "  ,style: robotoBlack.copyWith(fontSize: 11)),
+                            ):Text(" ${estate.serviceOffers![index].servicePrice} ريال "  ,style: robotoBlack.copyWith(fontSize: 11)),
 
                             const SizedBox(width: 8),
                             // أيقونة الاتصال
                             InkWell(
                               onTap: () async{
-                                final phoneNumber = estate.serviceOffers[index].phoneProvider;
+                                final phoneNumber = estate.serviceOffers![index].phoneProvider;
                                // print("----------${phoneNumber}");// رقم الهاتف بدون "+" وبصيغة دولية
                                 final estateId = estate.id; // تأكد أن الـ ID موجود لديك
                                 final estateUrl = 'https://abaad.com/estate/$estateId';
@@ -151,7 +151,7 @@ class ServiceProviderItem extends StatelessWidget {
                                   color: Colors.green.shade700,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(Icons.whatsapp, color: Colors.white, size: 12),
+                                child: const Icon(Icons.whatshot_rounded, color: Colors.white, size: 12),
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -159,7 +159,7 @@ class ServiceProviderItem extends StatelessWidget {
                             // أيقونة الواتساب
                             InkWell(
                               onTap: () async{
-                                final phoneNumber = estate.serviceOffers[index].phoneProvider;
+                                final phoneNumber = estate.serviceOffers![index].phoneProvider;
                                 final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
 
                                 if (await canLaunchUrl(phoneUri)) {
@@ -241,4 +241,6 @@ class ServiceProviderItem extends StatelessWidget {
       ),
     ):Text(""):Text("");
   }
+
+    return Text("No content");
 }}

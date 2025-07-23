@@ -32,15 +32,15 @@ class WebBannerView extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
             child: PageView.builder(
               controller: pageController,
-              itemCount: (bannerController.bannerImageList.length/2).ceil(),
+              itemCount: (bannerController.bannerImageList!.length/2).ceil(),
               itemBuilder: (context, index) {
                 int index1 = index * 2;
                 int index2 = (index * 2) + 1;
-                bool hasSecond = index2 < bannerController.bannerImageList.length;
-                String baseUrl1 = bannerController.bannerDataList[index1] is BasicCampaignModel ? Get.find<SplashController>()
-                    .configModel.baseUrls.banners : Get.find<SplashController>().configModel.baseUrls.banners;
-                String baseUrl2 = hasSecond ? bannerController.bannerDataList[index2] is BasicCampaignModel ? Get.find<SplashController>()
-                    .configModel.baseUrls.banners : Get.find<SplashController>().configModel.baseUrls.banners : '';
+                bool hasSecond = index2 < bannerController.bannerImageList!.length;
+                String baseUrl1 = bannerController.bannerDataList![index1] is BasicCampaignModel ? Get.find<SplashController>()
+                    .configModel!.baseUrls!.banners : Get.find<SplashController>().configModel!.baseUrls!.banners;
+                String baseUrl2 = hasSecond ? bannerController.bannerDataList![index2] is BasicCampaignModel ? Get.find<SplashController>()
+                    .configModel!.baseUrls!.banners : Get.find<SplashController>().configModel!.baseUrls!.banners : '';
                 return Row(children: [
 
                   Expanded(child: InkWell(
@@ -48,7 +48,7 @@ class WebBannerView extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                       child: CustomImage(
-                        image: '$baseUrl1/${bannerController.bannerImageList[index1]}', fit: BoxFit.cover, height: 220,
+                        image: '$baseUrl1/${bannerController.bannerImageList![index1]}', fit: BoxFit.cover, height: 220,
                       ),
                     ),
                   )),
@@ -60,7 +60,7 @@ class WebBannerView extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                       child: CustomImage(
-                        image: '$baseUrl2/${bannerController.bannerImageList[index2]}', fit: BoxFit.cover, height: 220,
+                        image: '$baseUrl2/${bannerController.bannerImageList![index2]}', fit: BoxFit.cover, height: 220,
                       ),
                     ),
                   ) : SizedBox()),
@@ -85,7 +85,7 @@ class WebBannerView extends StatelessWidget {
             ),
           ) : SizedBox(),
 
-          bannerController.currentIndex != ((bannerController.bannerImageList.length/2).ceil()-1) ? Positioned(
+          bannerController.currentIndex != ((bannerController.bannerImageList!.length/2).ceil()-1) ? Positioned(
             top: 0, bottom: 0, right: 0,
             child: InkWell(
               onTap: () => pageController.nextPage(duration: Duration(seconds: 1), curve: Curves.easeInOut),
@@ -105,22 +105,22 @@ class WebBannerView extends StatelessWidget {
   }
 
   void _onTap(int index, BuildContext context) {
-    if(bannerController.bannerDataList[index] is Estate) {
-      Estate product = bannerController.bannerDataList[index];
+    if(bannerController.bannerDataList![index] is Estate) {
+      Estate product = bannerController.bannerDataList![index];
       ResponsiveHelper.isMobile(context) ? showModalBottomSheet(
         context: context, isScrollControlled: true, backgroundColor: Colors.transparent,
         builder: (con) => ProductBottomSheet(product: product),
       ) : showDialog(context: context, builder: (con) => Dialog(
           child: ProductBottomSheet(product: product)),
       );
-    }else if(bannerController.bannerDataList[index] is Estate) {
-      Estate restaurant = bannerController.bannerDataList[index];
+    }else if(bannerController.bannerDataList![index] is Estate) {
+      Estate restaurant = bannerController.bannerDataList![index];
       // Get.toNamed(
       //   RouteHelper.getRestaurantRoute(_restaurant.id),
       //   arguments: RestaurantScreen(restaurant: _restaurant),
       // );
-    }else if(bannerController.bannerDataList[index] is BasicCampaignModel) {
-      BasicCampaignModel campaign = bannerController.bannerDataList[index];
+    }else if(bannerController.bannerDataList![index] is BasicCampaignModel) {
+      BasicCampaignModel campaign = bannerController.bannerDataList![index];
       // Get.toNamed(RouteHelper.getBasicCampaignRoute(_campaign));
     }
   }

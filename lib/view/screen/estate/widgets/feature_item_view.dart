@@ -263,9 +263,9 @@ class _FeatureScreenState extends State<FeatureScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                               child: GetBuilder<SplashController>(builder: (splashController) {
-                                String baseUrl = Get.find<SplashController>().configModel.baseUrls.estateImageUrl;
+                                String baseUrl = Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl ?? "";
                                 return CustomImage(
-                                  image: '$baseUrl/${estateController.estate.planned[index]}',
+                                  image: '$baseUrl/${estateController.estate?.planned?[index]}',
                                   fit: BoxFit.cover,
                                 );
                               },
@@ -301,12 +301,12 @@ class _FeatureScreenState extends State<FeatureScreen> {
                             ? NoDataScreen(
                           text: 'no_data_available',
                         ) // Display a message when the video path is null
-                            : _controller.value.isInitialized
+                            : _controller!.value.isInitialized
                             ? Transform.scale(
                           scale: scale,
                           child: AspectRatio(
-                            aspectRatio: _controller.value.aspectRatio,
-                            child: VideoPlayer(_controller),
+                            aspectRatio: _controller?.value?.aspectRatio  ?? 1,
+                            child: VideoPlayer(_controller!),
                           ),
                         )
                             : CircularProgressIndicator(),
@@ -349,10 +349,10 @@ class _FeatureScreenState extends State<FeatureScreen> {
                   ? NoDataScreen(
                 text: 'no_data_available'.tr,
               ) // Display a message when video path is null
-                  : _controller1.value.isInitialized
+                  : _controller1!.value.isInitialized
                   ? AspectRatio(
-                aspectRatio: _controller1.value.aspectRatio,
-                child: VideoPlayer(_controller1),
+                aspectRatio: _controller1!.value.aspectRatio,
+                child: VideoPlayer(_controller1!),
               )
                   : CircularProgressIndicator(),
             ),
@@ -368,25 +368,25 @@ class _FeatureScreenState extends State<FeatureScreen> {
             FloatingActionButton(
               onPressed: () {
                 setState(() {
-                  if (_controller.value.isPlaying) {
-                    _controller.pause();
+                  if (_controller!.value.isPlaying) {
+                    _controller!.pause();
                   } else {
-                    _controller.play();
+                    _controller!.play();
                   }
                 });
               },
               child: Icon(
-                _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                _controller!.value!.isPlaying ? Icons.pause : Icons.play_arrow,
               ),
             ),
             SizedBox(height: 16),
             FloatingActionButton(
               onPressed: () {
                 setState(() {
-                  if (_controller.value.isPlaying) {
-                    _controller.pause();
+                  if (_controller!.value!.isPlaying) {
+                    _controller!.pause();
                   }
-                  _controller.seekTo(Duration.zero);
+                  _controller!.seekTo(Duration.zero);
                 });
               },
               child: Icon(Icons.stop),
@@ -400,25 +400,25 @@ class _FeatureScreenState extends State<FeatureScreen> {
             FloatingActionButton(
               onPressed: () {
                 setState(() {
-                  if (_controller1.value.isPlaying) {
-                    _controller1.pause();
+                  if (_controller1!.value.isPlaying) {
+                    _controller1!.pause();
                   } else {
-                    _controller1.play();
+                    _controller1!.play();
                   }
                 });
               },
               child: Icon(
-                _controller1.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                _controller1!.value!.isPlaying ? Icons.pause : Icons.play_arrow,
               ),
             ),
             SizedBox(height: 16),
             FloatingActionButton(
               onPressed: () {
                 setState(() {
-                  if (_controller1.value.isPlaying) {
-                    _controller1.pause();
+                  if (_controller1!.value!.isPlaying) {
+                    _controller1!.pause();
                   }
-                  _controller1.seekTo(Duration.zero);
+                  _controller1!.seekTo(Duration.zero);
                 });
               },
               child: Icon(Icons.stop),

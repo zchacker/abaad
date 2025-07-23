@@ -29,7 +29,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool _isLoggedIn;
+  late bool _isLoggedIn;
   final int _rating = 0;
   @override
   void initState() {
@@ -62,8 +62,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   alignment: Alignment.topRight,
                   child: ClipOval(child: CustomImage(
-                    image: '${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}'
-                        '/${(_isLoggedIn) ? userController.userInfoModel.image : ''}',
+                    image: '${Get.find<SplashController>().configModel?.baseUrls?.customerImageUrl}'
+                        '/${(_isLoggedIn) ? userController.userInfoModel?.image : ''}',
                     height: 100, width: 100, fit: BoxFit.cover,
                   )),
                 ),
@@ -75,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
 
                     Text(
-                      _isLoggedIn ? userController.userInfoModel.name : 'guest'.tr,
+                      _isLoggedIn ?? false ? userController.userInfoModel?.name ?? "" : 'guest'.tr,
                       style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                     ),
 
@@ -128,8 +128,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               _isLoggedIn ? SizedBox(height: _isLoggedIn ? Dimensions.PADDING_SIZE_SMALL : 5):Container(),
               _isLoggedIn ? ProfileButton(icon: Icons.ads_click, title: 'my_ads'.tr, isButtonActive: Get.isDarkMode, onTap: ()async {
-                Get.find<UserController>().getUserInfoByID(userController.userInfoModel.id );
-                Get.toNamed(RouteHelper.getProfileAgentRoute(userController.userInfoModel.id ,1));
+                Get.find<UserController>().getUserInfoByID(userController.userInfoModel?.id ?? 0 );
+                Get.toNamed(RouteHelper.getProfileAgentRoute(userController.userInfoModel?.id ?? 0 ,1));
                 // Get.find<ThemeController>().toggleTheme();
               }):Container(),
 
@@ -158,7 +158,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     description: 'it_will_remove_your_all_information'.tr, isLogOut: true,
                     onYesPressed: () => userController.removeUser(),
                   ), useSafeArea: false);
-                },
+                }, isButtonActive: true,
               ) : SizedBox(),
               // SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
               // _isLoggedIn ? GetBuilder<AuthController>(builder: (authController) {

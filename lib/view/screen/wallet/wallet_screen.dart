@@ -103,7 +103,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                       SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
                                       Text(
-                                        PriceConverter.convertPrice(userController.userInfoModel!.walletBalance),
+                                        PriceConverter.convertPrice(userController.userInfoModel?.walletBalance ?? 0),
                                         style: robotoBold.copyWith(fontSize: Dimensions.fontSizeOverLarge, color: Theme.of(context).cardColor),
                                       ),
                                     ])

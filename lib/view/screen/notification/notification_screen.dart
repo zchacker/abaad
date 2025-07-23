@@ -39,14 +39,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
       body: Get.find<AuthController>().isLoggedIn() ? GetBuilder<NotificationController>(builder: (notificationController) {
        // notificationController.saveSeenNotificationCount(notificationController.notificationList.length);
               List<DateTime> dateTimeList = [];
-        return notificationController.notificationList != null ? notificationController.notificationList.isNotEmpty ? RefreshIndicator(
+        return notificationController.notificationList != null ? notificationController.notificationList!.isNotEmpty ? RefreshIndicator(
           onRefresh: () async {
             await notificationController.getNotificationList(true);
           },
           child: Scrollbar(child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             child: Center(child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: ListView.builder(
-              itemCount: notificationController.notificationList.length,
+              itemCount: notificationController.notificationList!.length,
               padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -56,7 +56,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                   addTitle ? Padding(
                     padding: EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                    child: Text(notificationController.notificationList[index].createdAt),
+                    child: Text(notificationController.notificationList![index].createdAt),
                   ) : SizedBox(),
                   Container(
 
@@ -87,11 +87,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           Column(
                             children: [
                                Text(
-                                 notificationController.notificationList[index].title,
+                                 notificationController.notificationList![index].title,
                                 style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                               ),
                               Text(
-                                notificationController.notificationList[index].description,
+                                notificationController.notificationList![index].description,
                                 style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                               ),
                             ],

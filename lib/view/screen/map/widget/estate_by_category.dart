@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 
 class BottomSheetWithSnackBar extends StatefulWidget {
-  const BottomSheetWithSnackBar({Key key}) : super(key: key);
+  const BottomSheetWithSnackBar({required Key key}) : super(key: key);
 
   @override
   _BottomSheetWithSnackBarState createState() =>
@@ -17,7 +17,7 @@ class BottomSheetWithSnackBar extends StatefulWidget {
 
 class _BottomSheetWithSnackBarState extends State<BottomSheetWithSnackBar> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  VoidCallback _showPersistentBottomSheetCallBack;
+  VoidCallback? _showPersistentBottomSheetCallBack;
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _BottomSheetWithSnackBarState extends State<BottomSheetWithSnackBar> {
       _showPersistentBottomSheetCallBack = null;
     });
 
-    _scaffoldKey.currentState
+    _scaffoldKey.currentState!
         .showBottomSheet(
           (context) {
         // EN: Here you set up your BottomSheet with the widgets you want, on it you'll use the SnackBar.

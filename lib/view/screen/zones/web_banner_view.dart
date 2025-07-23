@@ -38,16 +38,16 @@ class WebBannerView extends StatelessWidget {
                 int index2 = (index * 2) + 1;
                 bool hasSecond = index2 < bannerController.bannerImageList!.length;
                 String? baseUrl1 = bannerController.bannerDataList?[index1] is BasicCampaignModel ? Get.find<SplashController>()
-                    .configModel?.baseUrls.banners : Get.find<SplashController>().configModel?.baseUrls.banners;
+                    .configModel?.baseUrls?.banners : Get.find<SplashController>().configModel?.baseUrls?.banners;
                 String baseUrl2 = '';
 
                 if (hasSecond) {
                   final item = bannerController.bannerDataList?[index2];
 
                   if (item is BasicCampaignModel) {
-                    baseUrl2 = Get.find<SplashController>().configModel?.baseUrls.banners ?? '';
+                    baseUrl2 = Get.find<SplashController>().configModel?.baseUrls?.banners ?? '';
                   } else {
-                    baseUrl2 = Get.find<SplashController>().configModel?.baseUrls.banners ?? '';
+                    baseUrl2 = Get.find<SplashController>().configModel?.baseUrls?.banners ?? '';
                   }
                 }
                 return Row(children: [

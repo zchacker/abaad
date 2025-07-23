@@ -49,7 +49,7 @@ class PropertyCard extends StatelessWidget {
                   clipBehavior: Clip.none,
                   children: [
                     CustomImage(
-                      image:estate.images.isNotEmpty?"${Get.find<SplashController>().configModel?.baseUrls.estateImageUrl}/${estate.images[0]}":'',
+                      image:estate.images!.isNotEmpty?"${Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl}/${estate.images?[0]}":'',
                       fit:  BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
 
@@ -67,7 +67,7 @@ class PropertyCard extends StatelessWidget {
                           return InkWell(
                             onTap: () {
                               if(Get.find<AuthController>().isLoggedIn()) {
-                                wishController.wishRestIdList.contains(estate.id) ? wishController.removeFromWishList(estate.id)
+                                wishController.wishRestIdList.contains(estate.id) ? wishController.removeFromWishList(estate.id ?? 0)
                                     : wishController.addToWishList(estate, false);
                               }else {
                                 showCustomSnackBar('you_are_not_logged_in'.tr);
@@ -82,7 +82,7 @@ class PropertyCard extends StatelessWidget {
                         }),
                       ),
                     ),
-                    estate.serviceOffers.isNotEmpty?  Positioned(
+                    (estate.serviceOffers?.isNotEmpty ?? false) ?  Positioned(
                       top: 10.0,
                       left: 10.0,
                       child:        Container(
@@ -116,7 +116,7 @@ class PropertyCard extends StatelessWidget {
                               ),
                               alignment: Alignment.topRight,
                               child: ClipOval(child:
-                              Image.asset(estate.serviceOffers.isEmpty?Images.vt:Images.vt_offer, height: 20, width: 20),),
+                              Image.asset((estate.serviceOffers?.isEmpty ?? false) ?Images.vt:Images.vt_offer, height: 20, width: 20),),
                             ),
                             Container(
 
@@ -156,8 +156,8 @@ class PropertyCard extends StatelessWidget {
                             children: [
                               Text(
                                 estate.categoryName == "ارض"
-                                    ? formatPrice(estate.totalPrice)
-                                    : formatPrice(estate.price),
+                                    ? formatPrice(estate.totalPrice ?? "")
+                                    : formatPrice(estate.price ?? ""),
                                 style: robotoBlack.copyWith(fontSize: 14),
                               ),
                               SizedBox(width: 2.0),
@@ -195,7 +195,7 @@ class PropertyCard extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      estate.title,
+                      estate.title ?? "",
                         style: robotoRegular.copyWith(
                           fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).hintColor,
                         )
@@ -212,7 +212,7 @@ class PropertyCard extends StatelessWidget {
                           width: 5.0,
                         ),
                         Text(
-                          estate.title,
+                          estate.title ?? "",
                           style: robotoBlack.copyWith(fontSize: 12),
                         ),
                         SizedBox(
@@ -240,7 +240,7 @@ class PropertyCard extends StatelessWidget {
 
                     estate.category=="5"?     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(estate.shortDescription, style: robotoBlack.copyWith(fontSize: 12)),
+                      child: Text(estate.shortDescription ?? "", style: robotoBlack.copyWith(fontSize: 12)),
                     ):Container(),
                   ],
                 ),
@@ -251,12 +251,12 @@ class PropertyCard extends StatelessWidget {
 
                   child:ListView.builder(
                     physics: BouncingScrollPhysics(),
-                    itemCount:  estate.property.length,
+                    itemCount:  estate.property?.length ,
                     scrollDirection: Axis.horizontal,
                     // ignore: missing_return
                     itemBuilder: (context, index) {
 
-                      return  estate.property[index].name=="حمام"? Container(
+                      return  estate.property?[index].name=="حمام"? Container(
                         decoration: BoxDecoration(color: Theme
                             .of(context)
                             .cardColor,
@@ -287,12 +287,12 @@ class PropertyCard extends StatelessWidget {
                             ),
                             Container(
                               margin: const EdgeInsets.only(left: 5.0,right: 5.0),
-                              child: Text(" ${estate.property[index].number ?? ""} حمام  ", style: robotoRegular.copyWith(
+                              child: Text(" ${estate.property?[index].number ?? ""} حمام  ", style: robotoRegular.copyWith(
                                 fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor),
                             )),
                           ],
                         ),
-                      ): estate.property[index].name=="مطبخ"? Container(
+                      ): estate.property?[index].name=="مطبخ"? Container(
                         decoration: BoxDecoration(color: Theme
                             .of(context)
                             .cardColor,
@@ -323,12 +323,12 @@ class PropertyCard extends StatelessWidget {
                             ),
                             Container(
                                 margin: const EdgeInsets.only(left: 5.0,right: 5.0),
-                                child: Text(" ${estate.property[index].number ?? ""} مطبخ  ", style: robotoRegular.copyWith(
+                                child: Text(" ${estate.property?[index].number ?? ""} مطبخ  ", style: robotoRegular.copyWith(
                                     fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor),
                                 )),
                           ],
                         ),
-                      ):  estate.property[index].name=="مطلبخ"?Container(decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(2), boxShadow: const [
+                      ):  estate.property?[index].name=="مطلبخ"?Container(decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(2), boxShadow: const [
                             BoxShadow(
                               color: Colors.grey,
                               offset: Offset(0.0, 0.1), //(x,y)
@@ -354,13 +354,13 @@ class PropertyCard extends StatelessWidget {
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 8.0,right: 8.0),
-                              child: Text(" ${ estate.property[index].number ?? "  "} مطبخ ", style: robotoRegular.copyWith(
+                              child: Text(" ${ estate.property?[index].number ?? "  "} مطبخ ", style: robotoRegular.copyWith(
                                   fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor),
                               ),
                             )
                           ],
                         ),
-                      ):estate.property[index].name=="غرف نوم"?Container(decoration: BoxDecoration(color: Theme
+                      ):estate.property?[index].name=="غرف نوم"?Container(decoration: BoxDecoration(color: Theme
                           .of(context)
                           .cardColor,
                         borderRadius: BorderRadius.circular(
@@ -390,13 +390,13 @@ class PropertyCard extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(left: 7.0),
                             child: Text(" ${ estate
-                                .property[index]
+                                .property?[index]
                                 .number} غرف النوم ", style: robotoRegular.copyWith(
                                 fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor),
                             ),
                           )
                         ],
-                      ),):estate.property[index].name=="صلات"?Container(decoration: BoxDecoration(color: Theme
+                      ),):estate.property?[index].name=="صلات"?Container(decoration: BoxDecoration(color: Theme
                           .of(context)
                           .cardColor,
                         borderRadius: BorderRadius.circular(
@@ -426,9 +426,9 @@ class PropertyCard extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(left: 10.0),
                             child: estate
-                                .property[index]
+                                .property?[index]
                                 .number!=0?Text("${estate
-                                .property[index]
+                                .property?[index]
                                 .number} صالات ",style: robotoRegular.copyWith(
                                 fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor)):Text("الصالات 0",style: robotoBlack.copyWith(fontSize: 9,)),
                           )

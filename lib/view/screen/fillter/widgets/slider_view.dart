@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SliderView extends StatefulWidget {
-  const SliderView({Key key, this.onChangedistValue, this.distValue})
+  const SliderView({Key? key, this.onChangedistValue, this.distValue})
       : super(key: key);
 
-  final Function(double) onChangedistValue;
-  final double distValue;
+  final Function(double)? onChangedistValue;
+  final double? distValue;
 
   @override
   _SliderViewState createState() => _SliderViewState();
@@ -16,7 +16,7 @@ class _SliderViewState extends State<SliderView> {
 
   @override
   void initState() {
-    distValue = widget.distValue;
+    distValue = widget.distValue!;
     super.initState();
   }
 
@@ -54,7 +54,7 @@ class _SliderViewState extends State<SliderView> {
                   distValue = value;
                 });
                 try {
-                  widget.onChangedistValue(distValue);
+                  widget.onChangedistValue!(distValue);
                 } catch (_) {}
               },
               min: 0,
@@ -91,20 +91,20 @@ class CustomThumbShape extends SliderComponentShape {
   void paint(
     PaintingContext context,
     Offset thumbCenter, {
-    Animation<double> activationAnimation,
-    Animation<double> enableAnimation,
-    bool isDiscrete,
-    TextPainter labelPainter,
-    RenderBox parentBox,
-    Size sizeWithOverflow,
-    SliderThemeData sliderTheme,
+    required Animation<double> activationAnimation,
+    required Animation<double> enableAnimation,
+    required bool isDiscrete,
+    required TextPainter labelPainter,
+    required RenderBox parentBox,
+    required Size sizeWithOverflow,
+    SliderThemeData? sliderTheme,
     TextDirection textDirection = TextDirection.ltr,
-    double textScaleFactor,
-    double value,
+    required double textScaleFactor,
+    required double value,
   }) {
     final Canvas canvas = context.canvas;
     final ColorTween colorTween = ColorTween(
-      begin: sliderTheme.disabledThumbColor,
+      begin: sliderTheme!.disabledThumbColor,
       end: sliderTheme.thumbColor,
     );
     canvas.drawPath(
@@ -122,7 +122,7 @@ class CustomThumbShape extends SliderComponentShape {
     cPaint.color = Colors.white;
     cPaint.strokeWidth = 14 / 2;
     canvas.drawCircle(Offset(thumbCenter.dx, thumbCenter.dy), 12, cPaint);
-    cPaint.color = colorTween.evaluate(enableAnimation);
+    cPaint.color = colorTween.evaluate(enableAnimation)!;
     canvas.drawCircle(Offset(thumbCenter.dx, thumbCenter.dy), 10, cPaint);
   }
 

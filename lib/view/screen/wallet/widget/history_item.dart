@@ -39,7 +39,7 @@ class HistoryItem extends StatelessWidget {
           ),
 
           Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              Text(DateConverter.dateToDateAndTimeAm(data[index].createdAt),style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).disabledColor),
+              Text(DateConverter.dateToDateAndTimeAm(data[index].createdAt ?? DateTime.now()),style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).disabledColor),
                   maxLines: 1, overflow: TextOverflow.ellipsis),
               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
 

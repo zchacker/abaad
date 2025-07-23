@@ -4,7 +4,7 @@ class PopularFilterListData {
   PopularFilterListData({
     this.titleTxt = '',
     this.isSelected = false,
-    this.value
+    required this.value
   });
 
   String titleTxt;
@@ -15,7 +15,7 @@ class PopularFilterListData {
   static List<PopularFilterListData> accomodationList = [
     PopularFilterListData(
       titleTxt: 'all'.tr,
-      isSelected: false,
+      isSelected: false, value: 0,
 
     ),
     PopularFilterListData(
@@ -25,7 +25,7 @@ class PopularFilterListData {
     ),
     PopularFilterListData(
       titleTxt: 'virtual_ture'.tr,
-      isSelected: false
+      isSelected: false, value: 0
 
     ),
     // PopularFilterListData(

@@ -40,7 +40,7 @@ class _ImageTabState extends State<ImageTab> {
   void initState() {
     super.initState();
     print("--------------------------${widget.estate.id}");
-    _fetchExistingImages(widget.estate.id);
+    _fetchExistingImages(widget.estate.id ?? 0);
   }
 
   Future<void> _pickImages() async {
@@ -73,9 +73,9 @@ class _ImageTabState extends State<ImageTab> {
       if (response.statusCode == 200) {
         print('Images uploaded successfully');
         _imageFiles.clear();
-        Get.find<UserController>().getEstateByUser(1, false,widget.estate.userId);
-        _fetchExistingImages(widget.estate.id);
-        _fetchExistingImages(widget.estate.id);
+        Get.find<UserController>().getEstateByUser(1, false,widget.estate.userId ?? 0);
+        _fetchExistingImages(widget.estate.id ?? 0);
+        _fetchExistingImages(widget.estate.id ?? 0);
       } else {
         print('Image upload failed');
       }
@@ -134,7 +134,7 @@ class _ImageTabState extends State<ImageTab> {
         children: [
           SizedBox.expand(
             child: Image.network(
-              '${Get.find<SplashController>().configModel.baseUrls.estateImageUrl}/${Uri.encodeComponent(imageUrl)}',
+              '${Get.find<SplashController>().configModel!.baseUrls!.estateImageUrl}/${Uri.encodeComponent(imageUrl)}',
               fit: BoxFit.cover,
             ),
           ),
@@ -193,7 +193,7 @@ class _ImageTabState extends State<ImageTab> {
             width: double.infinity,
             color: Colors.transparent,
             child: OutlinedButton.icon(
-                onPressed:()=>_uploadImages(widget.estate.id),
+                onPressed:()=>_uploadImages(widget.estate.id ?? 0),
                 icon:Icon(Icons.drive_folder_upload,color:Theme.of(context).primaryColor ),
                 label:  Text("upload_images".tr)),
           ),
@@ -210,7 +210,7 @@ class _ImageTabState extends State<ImageTab> {
               itemCount: _existingImageUrls.length,
               itemBuilder: (context, index) {
                 final imageUrl = _existingImageUrls[index];
-                return _buildImageTile(imageUrl, widget.estate.id); // Replace 123 with the actual id
+                return _buildImageTile(imageUrl, widget.estate.id ?? 0); // Replace 123 with the actual id
               },
             ),
           )

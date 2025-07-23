@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 
 class ReportWidget extends StatefulWidget {
   final int estate_id;
-  const ReportWidget({Key key ,required this.estate_id}) : super(key: key);
+  const ReportWidget({required Key? key ,required this.estate_id}) : super(key: key);
 
   @override
   State<ReportWidget> createState() => _ReportWidgetState();
@@ -21,7 +21,7 @@ class _ReportWidgetState extends State<ReportWidget> {
   final TextEditingController _textEditingController = TextEditingController();
   final TextEditingController _longDescController = TextEditingController();
   final FocusNode _longDescFocus = FocusNode();
-  bool _isLoggedIn;
+  late bool _isLoggedIn;
   @override
   void initState() {
     // TODO: implement initState
@@ -38,7 +38,7 @@ class _ReportWidgetState extends State<ReportWidget> {
     }
   }
 
-  String _documentTypeValue;
+  late String _documentTypeValue;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<EstateController>(builder: (estateController) {
@@ -71,7 +71,7 @@ class _ReportWidgetState extends State<ReportWidget> {
               boxShadow: [
                 BoxShadow(color: Colors.grey[Get.isDarkMode
                     ? 800
-                    : 200],
+                    : 200]!,
                     spreadRadius: 2,
                     blurRadius: 5,
                     offset: Offset(0, 5))
@@ -104,9 +104,9 @@ class _ReportWidgetState extends State<ReportWidget> {
                     fontSize: Dimensions.fontSizeLarge,
                     color: Colors.black),
               ),
-              onChanged: (String value) {
+              onChanged: (String? value) {
                 setState(() {
-                  _documentTypeValue = value;
+                  _documentTypeValue = value!;
                 });
               },
             ),

@@ -15,7 +15,7 @@ class BannerView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return GetBuilder<BannerController>(builder: (bannerController) {
-      return (bannerController.bannerImageList != null && bannerController.bannerImageList.length == 0) ?
+      return (bannerController.bannerImageList != null && bannerController.bannerImageList!.length == 0) ?
       SizedBox() :
       Container(
         width: MediaQuery.of(context).size.width,
@@ -35,9 +35,9 @@ class BannerView extends StatelessWidget {
                     bannerController.setCurrentIndex(index, true);
                   },
                 ),
-                itemCount: bannerController.bannerImageList.length == 0 ? 1 : bannerController.bannerImageList.length,
+                itemCount: bannerController.bannerImageList!.length == 0 ? 1 : bannerController.bannerImageList!.length,
                 itemBuilder: (context, index, _) {
-                  String baseUrl = Get.find<SplashController>().configModel.baseUrls.banners;
+                  String baseUrl = Get.find<SplashController>().configModel!.baseUrls!.banners;
                   print("---------------anner----------$baseUrl");
                   return InkWell(
                     onTap: (){
@@ -48,13 +48,13 @@ class BannerView extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                        boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5)],
+                        boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                         child: GetBuilder<SplashController>(builder: (splashController) {
                           return CustomImage(
-                            image: '$baseUrl/${bannerController.bannerImageList[index]}',
+                            image: '$baseUrl/${bannerController.bannerImageList![index]}',
                             fit: BoxFit.cover,
                           );
                         },
@@ -69,8 +69,8 @@ class BannerView extends StatelessWidget {
             SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: bannerController.bannerImageList.map((bnr) {
-                int index = bannerController.bannerImageList.indexOf(bnr);
+              children: bannerController.bannerImageList!.map((bnr) {
+                int index = bannerController.bannerImageList!.indexOf(bnr);
                 return TabPageSelectorIndicator(
                   backgroundColor: index == bannerController.currentIndex ? Theme.of(context).primaryColor
                       : Theme.of(context).primaryColor.withOpacity(0.5),

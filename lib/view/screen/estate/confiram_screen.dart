@@ -110,7 +110,7 @@ class _AddEstateScreenState extends State<AddEstateScreenTow> {
                           height: 39,
                           decoration: BoxDecoration(
                               color: _value == 0 ? Theme.of(context).secondaryHeaderColor : Colors.transparent,
-                              border: Border.all(width: 1,color: Colors.blue[500],),
+                              border: Border.all(width: 1,color: Colors.blue[500]!,),
                               borderRadius: BorderRadius.circular(2,)
                           ),
 
@@ -129,7 +129,7 @@ class _AddEstateScreenState extends State<AddEstateScreenTow> {
                         child: Container(
                           decoration: BoxDecoration(
                               color:_value == 1 ? Theme.of(context).secondaryHeaderColor : Colors.transparent,
-                              border: Border.all(width: 1,color: Colors.blue[500],),
+                              border: Border.all(width: 1,color: Colors.blue[500]!,),
                               borderRadius: BorderRadius.circular(2,)
                           ),
                           height: 39,
@@ -236,9 +236,9 @@ class _AddEstateScreenState extends State<AddEstateScreenTow> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                 child: authController.pickedCover != null ? GetPlatform.isWeb ? Image.network(
-                  authController.pickedCover.path, width: context.width, height: 170, fit: BoxFit.cover,
+                  authController.pickedCover!.path, width: context.width, height: 170, fit: BoxFit.cover,
                 ) : Image.file(
-                  File(authController.pickedCover.path), width: context.width, height: 170, fit: BoxFit.cover,
+                  File(authController.pickedCover!.path), width: context.width, height: 170, fit: BoxFit.cover,
                 ) : Image.asset(
                   Images.placeholder, width: context.width, height: 170, fit: BoxFit.cover,
                 ),

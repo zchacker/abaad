@@ -53,7 +53,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final TextEditingController _websiteController = TextEditingController();
   final TextEditingController _tiktokController = TextEditingController();
   final TextEditingController _twitterController = TextEditingController();
-  bool _isLoggedIn;
+  late bool _isLoggedIn;
 
   @override
   void initState() {
@@ -73,18 +73,18 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       appBar: ResponsiveHelper.isDesktop(context) ? WebMenuBar() : null,
       body: GetBuilder<UserController>(builder: (userController) {
         if(_phoneController.text.isEmpty) {
-          _firstNameController.text = userController.userInfoModel.name ?? '';
-          _phoneController.text = userController.userInfoModel.phone ?? '';
-          _emailController.text = userController.userInfoModel.email ?? '';
-          _userTypeController.text = userController.userInfoModel.agent.membershipType ?? '';
+          _firstNameController.text = userController.userInfoModel?.name ?? '';
+          _phoneController.text = userController.userInfoModel?.phone ?? '';
+          _emailController.text = userController.userInfoModel?.email ?? '';
+          _userTypeController.text = userController.userInfoModel?.agent?.membershipType ?? '';
 
 
-          _youtubeController.text = userController.userInfoModel.youtube ?? '';
-          _snapchatController.text = userController.userInfoModel.snapchat ?? '';
-          _tiktokController.text = userController.userInfoModel.tiktok ?? '';
-          _twitterController.text = userController.userInfoModel.twitter?? '';
-          _websiteController.text = userController.userInfoModel.website ?? '';
-          _instagramController.text = userController.userInfoModel.instagram?? '';
+          _youtubeController.text = userController.userInfoModel?.youtube ?? '';
+          _snapchatController.text = userController.userInfoModel?.snapchat ?? '';
+          _tiktokController.text = userController.userInfoModel?.tiktok ?? '';
+          _twitterController.text = userController.userInfoModel?.twitter?? '';
+          _websiteController.text = userController.userInfoModel?.website ?? '';
+          _instagramController.text = userController.userInfoModel?.instagram?? '';
 
         }
 
@@ -92,11 +92,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           backButton: true,
           circularImage: Center(child: Stack(children: [
             ClipOval(child: userController.pickedFile != null ? GetPlatform.isWeb ? Image.network(
-              userController.pickedFile.path, width: 100, height: 100, fit: BoxFit.cover,
+              userController.pickedFile?.path ?? "", width: 100, height: 100, fit: BoxFit.cover,
             ) : Image.file(
-              File(userController.pickedFile.path), width: 100, height: 100, fit: BoxFit.cover,
+              File(userController.pickedFile?.path ?? ""), width: 100, height: 100, fit: BoxFit.cover,
             ) : CustomImage(
-              image: '${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}/${userController.userInfoModel.image}',
+              image: '${Get.find<SplashController>().configModel?.baseUrls?.customerImageUrl ?? ""}/${userController.userInfoModel?.image}',
               height: 100, width: 100, fit: BoxFit.cover,
             )),
             Positioned(
@@ -346,11 +346,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     String twitter = _twitterController.text.trim();
     String website = _websiteController.text.trim();
 
-    if (userController.userInfoModel.name == firstName && userController.userInfoModel.phone == phoneNumber &&
-        userController.userInfoModel.email == _emailController.text && userController.pickedFile == null
-        && userController.userInfoModel.snapchat == snapchat && userController.userInfoModel.youtube == youtube
-        && userController.userInfoModel.instagram == instagram&& userController.userInfoModel.tiktok == tiktok
-        && userController.userInfoModel.twitter == twitter && userController.userInfoModel.website == website) {
+    if (userController.userInfoModel?.name == firstName && userController.userInfoModel?.phone == phoneNumber &&
+        userController.userInfoModel?.email == _emailController.text && userController.pickedFile == null
+        && userController.userInfoModel?.snapchat == snapchat && userController.userInfoModel?.youtube == youtube
+        && userController.userInfoModel?.instagram == instagram&& userController.userInfoModel?.tiktok == tiktok
+        && userController.userInfoModel?.twitter == twitter && userController.userInfoModel?.website == website) {
       showCustomSnackBar('change_something_to_update'.tr);
     }else if (firstName.isEmpty) {
       showCustomSnackBar('enter_your_first_name'.tr);

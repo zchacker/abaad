@@ -28,11 +28,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
   final bool _ltr = Get.find<LocalizationController>().isLtr;
 
   List<PopularFilterListData> accomodationListData = PopularFilterListData.accomodationList;
-  String type_properties;
-  String ctiy_name;
-  String districts;
-  int zone_id;
-  String zone_name;
+  late String type_properties;
+  late String ctiy_name;
+  late String districts;
+  late int zone_id;
+  late String zone_name;
 
   final RangeValues _values = const RangeValues(100, 600);
   double distValue = 0;
@@ -53,7 +53,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     scrollController.addListener(() {
       if (scrollController.position.pixels == scrollController.position.maxScrollExtent
           && !Get.find<CategoryController>().isLoading) {
-        int pageSize = (Get.find<CategoryController>().pageSize / 10).ceil();
+        int pageSize = (Get.find<CategoryController>().pageSize! / 10).ceil();
         if (offset < pageSize) {
           offset++;
           print('end of the page');
@@ -101,44 +101,50 @@ class _FiltersScreenState extends State<FiltersScreen> {
                             Row(
                               children: [
                                 // زر البيع
-                                RaisedButton(
+                                ElevatedButton(
                                   onPressed: () {
                                     setState(() {
                                       selectedPropertyType = 'بيع';
                                       Get.find<CategoryController>().setFilterIndex(
-                                          0, 0, "0", "0", 0, 0, 0, selectedPropertyType
+                                        0, 0, "0", "0", 0, 0, 0, selectedPropertyType,
                                       );
                                     });
                                   },
-                                  color: selectedPropertyType == 'بيع' ? Colors.blue : Colors.white,
-                                  textColor: selectedPropertyType == 'بيع' ? Colors.white : Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(color: Colors.blue),
-                                    borderRadius: BorderRadius.circular(8),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: selectedPropertyType == 'بيع' ? Colors.blue : Colors.white,
+                                    foregroundColor: selectedPropertyType == 'بيع' ? Colors.white : Colors.black,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(color: Colors.blue),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
                                   ),
                                   child: Text('بيع'),
                                 ),
 
+
                                 SizedBox(width: 10),
 
                                 // زر الإيجار
-                                RaisedButton(
+                                ElevatedButton(
                                   onPressed: () {
                                     setState(() {
                                       selectedPropertyType = 'إيجار';
                                       Get.find<CategoryController>().setFilterIndex(
-                                          0, 0, "0", "0", 0, 0, 0, selectedPropertyType
+                                        0, 0, "0", "0", 0, 0, 0, selectedPropertyType,
                                       );
                                     });
                                   },
-                                  color: selectedPropertyType == 'إيجار' ? Colors.blue : Colors.white,
-                                  textColor: selectedPropertyType == 'إيجار' ? Colors.white : Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(color: Colors.blue),
-                                    borderRadius: BorderRadius.circular(8),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: selectedPropertyType == 'إيجار' ? Colors.blue : Colors.white,
+                                    foregroundColor: selectedPropertyType == 'إيجار' ? Colors.white : Colors.black,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(color: Colors.blue),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
                                   ),
                                   child: Text('إيجار'),
                                 ),
+
                               ],
                             ),
                             SizedBox(height: 7),
@@ -154,7 +160,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                     height: 40,
                                     child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: categoryController.categoryList
+                                        itemCount: categoryController.categoryList!
                                             .length,
                                         padding: EdgeInsets.only(
                                             left: Dimensions.PADDING_SIZE_SMALL),
@@ -162,8 +168,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                         itemBuilder: (context, index) {
                                           String baseUrl = Get
                                               .find<SplashController>()
-                                              .configModel
-                                              .baseUrls
+                                              .configModel!
+                                              .baseUrls!
                                               .categoryImageUrl;
                                           return Column(
                                             children: [
@@ -174,11 +180,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                                 child: InkWell(
                                                   onTap: () {
                                                     restController
-                                                        .setCategoryIndex(categoryController.categoryList[index].id);
+                                                        .setCategoryIndex(categoryController.categoryList![index].id);
                                                     restController
-                                                        .setCategoryPostion(int.parse(categoryController.categoryList[index].position));
+                                                        .setCategoryPostion(int.parse(categoryController.categoryList![index].position));
                                                     setState(() {
-                                                      type_properties=categoryController.categoryList[index].name;
+                                                      type_properties=categoryController.categoryList![index].name;
                                                     });
 
                                                   },
@@ -188,7 +194,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                                         left: 4.0, right: 4.0),
                                                     decoration: BoxDecoration(
                                                       border: Border.all(
-                                                          color: categoryController.categoryList[index].id ==
+                                                          color: categoryController.categoryList![index].id ==
                                                               restController
                                                                   .categoryIndex
                                                               ? Theme
@@ -207,8 +213,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                                           height: 26,
                                                           color: Colors.white,
                                                           child: Text(
-                                                            isArabic?  categoryController.categoryList[index].nameAr:categoryController.categoryList[index].name,
-                                                            style: categoryController.categoryList[index].id ==
+                                                            isArabic?  categoryController.categoryList![index].nameAr:categoryController.categoryList![index].name,
+                                                            style: categoryController.categoryList![index].id ==
                                                                 restController
                                                                     .categoryIndex
                                                                 ? robotoBlack
@@ -228,11 +234,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
                                                         CustomImage(
                                                             image: '$baseUrl/${categoryController
-                                                                .categoryList[index]
+                                                                .categoryList![index]
                                                                 .image}',
                                                             height: 25,
                                                             width: 25,
-                                                            colors: categoryController.categoryList[index].id ==
+                                                            colors: categoryController.categoryList![index].id ==
                                                                 restController
                                                                     .categoryIndex
                                                                 ? Theme
@@ -266,7 +272,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                             padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
                             decoration: BoxDecoration(
                               color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
+                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
                             ),
                             child: DropdownButton<int>(
                               value: _value1,
@@ -274,18 +280,18 @@ class _FiltersScreenState extends State<FiltersScreen> {
                               items: zoneController.zoneIds.map((int value) {
                                 return DropdownMenuItem<int>(
                                   value: zoneController.zoneIds.indexOf(value),
-                                  child: isArabic? Text(value != 0 ? zoneController.categoryList[(zoneController.zoneIds.indexOf(value)-1)].nameAr : 'اختر المنطقة'): Text(value != 0 ? zoneController.categoryList[(zoneController.zoneIds.indexOf(value)-1)].nameEn : 'select zone'),
+                                  child: isArabic? Text(value != 0 ? zoneController.categoryList![(zoneController.zoneIds.indexOf(value)-1)].nameAr : 'اختر المنطقة'): Text(value != 0 ? zoneController.categoryList![(zoneController.zoneIds.indexOf(value)-1)].nameEn : 'select zone'),
                                 );
                               }).toList(),
-                              onChanged: (int value) async {
+                              onChanged: (int? value) async {
                                 setState(() {
-                                  _value1 = value;
+                                  _value1 = value!;
                                   zone_id = value;
                                 });
 
-                                zoneController.setCategoryIndex(value, true);
+                                zoneController.setCategoryIndex(value!, true);
                                 zoneController.getSubCategoryList(
-                                    value != 0 ? zoneController.categoryList[value - 1].regionId : 0
+                                    value != 0 ? zoneController.categoryList![value - 1].regionId : 0
                                 );
 
                                 // حفظ الاسم والمعرف في SharedPreferences
@@ -293,9 +299,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
                                 if (value != 0) {
                                   String zoneName = isArabic
-                                      ? zoneController.categoryList[value - 1].nameAr
-                                      : zoneController.categoryList[value - 1].nameEn;
-                                  int zoneId = zoneController.categoryList[value - 1].regionId;
+                                      ? zoneController.categoryList![value - 1].nameAr
+                                      : zoneController.categoryList![value - 1].nameEn;
+                                  int zoneId = zoneController.categoryList![value - 1].regionId;
 
                                   await prefs.setString('zone_name', zoneName);
                                   await prefs.setInt('zone_id', zoneId);
@@ -303,11 +309,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                   await prefs.remove('zone_name');
                                   await prefs.remove('zone_id');
                                 }
-                                
-                                
+
+
                               //  HomeScreen.loadData(false);
                               },
-                              
+
 
                               isExpanded: true,
                               underline: SizedBox(),
@@ -329,20 +335,20 @@ class _FiltersScreenState extends State<FiltersScreen> {
                             padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
                             decoration: BoxDecoration(
                               color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
+                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
                             ),
                             child: DropdownButton<int>(
                               value: zoneController.subCategoryIndex,
                               items: zoneController.cityIds.map((int value) {
                                 return DropdownMenuItem<int>(
                                   value: zoneController.cityIds.indexOf(value),
-                                  child: isArabic? Text(value != 0 ? zoneController.subCategoryList[(zoneController.cityIds.indexOf(value)-1)].nameAr : 'اختر المدينة'):Text(value != 0 ? zoneController.subCategoryList[(zoneController.cityIds.indexOf(value)-1)].nameEn : 'select city'),
+                                  child: isArabic? Text(value != 0 ? zoneController.subCategoryList![(zoneController.cityIds.indexOf(value)-1)].nameAr : 'اختر المدينة'):Text(value != 0 ? zoneController.subCategoryList![(zoneController.cityIds.indexOf(value)-1)].nameEn : 'select city'),
                                 );
                               }).toList(),
-                              onChanged: (int value) {
-                                zoneController.setSubCategoryIndex(value, true);
-                                zoneController.getSubSubCategoryList(value != 0 ? zoneController.subCategoryList[value-1].cityId : 0);
-                                ctiy_name=zoneController.subCategoryList[value-1].nameAr ;
+                              onChanged: (int? value) {
+                                zoneController.setSubCategoryIndex(value!, true);
+                                zoneController.getSubSubCategoryList(value != 0 ? zoneController.subCategoryList![value-1].cityId : 0);
+                                ctiy_name=zoneController.subCategoryList![value-1].nameAr ;
                               },
                               isExpanded: true,
                               underline: SizedBox(),
@@ -368,19 +374,19 @@ class _FiltersScreenState extends State<FiltersScreen> {
                             padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
                             decoration: BoxDecoration(
                               color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
+                              boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
                             ),
                             child: DropdownButton<int>(
                               value: zoneController.subSubCategoryIndex,
                               items: zoneController.subSubCategoryIds.map((int value) {
                                 return DropdownMenuItem<int>(
                                   value: zoneController.subSubCategoryIds.indexOf(value),
-                                  child: isArabic? Text(value != 0 ? zoneController.subSubCategoryList[(zoneController.subSubCategoryIds.indexOf(value)-1)].nameAr : 'اختر الحي'):Text(value != 0 ? zoneController.subSubCategoryList[(zoneController.subSubCategoryIds.indexOf(value)-1)].nameEn : 'select district'),
+                                  child: isArabic? Text(value != 0 ? zoneController.subSubCategoryList![(zoneController.subSubCategoryIds.indexOf(value)-1)].nameAr : 'اختر الحي'):Text(value != 0 ? zoneController.subSubCategoryList![(zoneController.subSubCategoryIds.indexOf(value)-1)].nameEn : 'select district'),
                                 );
                               }).toList(),
-                              onChanged: (int value) {
-                                zoneController.setSubSubCategoryIndex(value, true);
-                                districts= zoneController.subSubCategoryList[value-1].nameAr ;
+                              onChanged: (int? value) {
+                                zoneController.setSubSubCategoryIndex(value!, true);
+                                districts= zoneController.subSubCategoryList![value-1].nameAr ;
                               },
                               isExpanded: true,
                               underline: SizedBox(),
@@ -468,9 +474,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
                        print("-----------------------------------------$zone_id");
                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                       int savedZoneId = prefs.getInt('zone_id');
+                       int? savedZoneId = prefs.getInt('zone_id');
 
-               categoryController.setFilterIndex(savedZoneId,restController.getCategoryIndex(),ctiy_name,districts,distValue~/10,selectedFilters.join(', ')=='virtual_ture'.tr?1:0,selectedFilters.join(', ')=='it_includes_offers'.tr?1:0,"");
+               categoryController.setFilterIndex(savedZoneId!,restController.getCategoryIndex(),ctiy_name,districts,distValue~/10,selectedFilters.join(', ')=='virtual_ture'.tr?1:0,selectedFilters.join(', ')=='it_includes_offers'.tr?1:0,"");
               Navigator.pop(context);
                        },
                       child: const Center(

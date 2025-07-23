@@ -34,15 +34,15 @@ class _FavouriteScreenState extends State<FavouriteScreen> with SingleTickerProv
           },
           child:ListView.builder(
             physics: BouncingScrollPhysics(),
-            itemCount:  wishController.wishRestList.length,
+            itemCount:  wishController.wishRestList?.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
               return  GetBuilder<WishListController>(builder: (wishController) {
-                return  EstateItem(estate: wishController.wishRestList[index],onPressed: (){
+                return  EstateItem(estate: wishController.wishRestList?[index],onPressed: (){
                   // Get.find<UserController>().getUserInfoByID(wishController.wishRestList[index].userId);
             //    Get.dialog(DettailsDilog(estate:wishController.wishRestList[index]));
                //   showCustomSnackBar("${wishController.wishRestList[index].estate_id}");
-              Get.toNamed(RouteHelper.getDetailsRoute( wishController.wishRestList[index].estate_id));
+              Get.toNamed(RouteHelper.getDetailsRoute( (wishController.wishRestList![index].estate_id ?? 0) ));
                 },fav: true,isMyProfile: 0);
               });
             },

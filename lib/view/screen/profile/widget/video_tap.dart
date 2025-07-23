@@ -22,12 +22,12 @@ class VideoTab extends StatefulWidget {
   State<VideoTab> createState() => _VideoTabState();
 }
 class _VideoTabState extends State<VideoTab> {
-    String videoUrl;
+    late String videoUrl;
   //  VideoPlayerController _controller;
   bool isPlaying = true; // Set to true to start video automatically
 
-   VideoPlayerController _videoController;
-   FilePickerResult _filePickerResult;
+   late VideoPlayerController _videoController;
+   late FilePickerResult _filePickerResult;
    double _uploadProgress = 0.0;
    bool _uploading = false;
 
@@ -53,7 +53,7 @@ class _VideoTabState extends State<VideoTab> {
   }
 
   Future<void> pickVideo() async {
-    final pickedFile = await ImagePicker().getVideo(source: ImageSource.gallery);
+    final pickedFile = await ImagePicker().pickVideo(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
@@ -76,11 +76,11 @@ class _VideoTabState extends State<VideoTab> {
 
    Future<void> pickAndPreviewVideo() async {
 
-     FilePickerResult result = await FilePicker.platform.pickFiles(type: FileType.video);
+     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.video);
 
      setState(() {
-       _filePickerResult = result;
-       _videoController = VideoPlayerController.file(File(result.files.single.path))
+       _filePickerResult = result!;
+       _videoController = VideoPlayerController.file(File(result.files.single.path ?? ""))
          ..initialize().then((_) {
            setState(() {});
          });
@@ -92,7 +92,7 @@ class _VideoTabState extends State<VideoTab> {
 
      SharedPreferences prefs = await SharedPreferences.getInstance();
 
-     String filePath = _filePickerResult.files.single.path;
+     String filePath = _filePickerResult.files.single.path ?? "";
      var request = http.MultipartRequest('POST', Uri.parse('${AppConstants.BASE_URL}/api/v1/estate/upload-video'));
      request.fields['id'] = id;
      request.files.add(await http.MultipartFile.fromPath('video', filePath));
@@ -105,7 +105,7 @@ class _VideoTabState extends State<VideoTab> {
      response.stream.listen((event) {
        setState(() {
          _uploadProgress = response.contentLength != null
-             ? event.length / response.contentLength
+             ? event.length / (response.contentLength ?? 0)
              : 0;
        });
      }).onDone(() {
@@ -134,7 +134,7 @@ class _VideoTabState extends State<VideoTab> {
          // Get.offNamed(RouteHelper.getInitialRoute());
        });
 
-       Get.find<UserController>().getEstateByUser(1, false,widget.estate.userId);
+       Get.find<UserController>().getEstateByUser(1, false, (widget.estate.userId ?? 0));
      } else {
        print('Failed to upload video');
      }
@@ -293,7 +293,7 @@ class VideoPlayerWidget extends StatefulWidget {
   VideoPlayerWidget({super.key, 
     required this.videoUrl,
     required this.controller,
-   @ required this.isPlaying,
+   required this.isPlaying,
   });
 
   @override

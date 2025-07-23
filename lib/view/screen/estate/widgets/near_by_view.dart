@@ -31,13 +31,13 @@ class _NearByViewState extends State<NearByView> {
   CustomInfoWindowController();
   final Completer<GoogleMapController> _controller = Completer();
   final List<Marker> _marker = [];
-  NearbyPlacesResponse nearbyPlacesResponse = NearbyPlacesResponse();
+  NearbyPlacesResponse nearbyPlacesResponse = NearbyPlacesResponse(nextPageToken: '', results: [], status: '');
   double currentLat = 0.0;
   double currentLng = 0.0;
   String type = 'restaurant';
-  String type_value;
+  String? type_value;
 
-  Uint8List imageDataBytes;
+  Uint8List? imageDataBytes;
   BitmapDescriptor sourceIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor hospitalIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor restlIcon = BitmapDescriptor.defaultMarker;
@@ -53,8 +53,8 @@ class _NearByViewState extends State<NearByView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    currentLat=double.parse(widget.esate.latitude);
-    currentLng=double.parse(widget.esate.longitude);
+    currentLat=double.parse(widget.esate.latitude ?? "" );
+    currentLng=double.parse(widget?.esate?.longitude ?? "");
     navigateToCurrentPosition();
     setCustomMarkerIcon();
     setHospitalMarkerIcon();
@@ -69,8 +69,8 @@ class _NearByViewState extends State<NearByView> {
             position: LatLng(
               // double.parse(Get.find<LocationController>().getUserAddress().latitude),
               // double.parse(Get.find<LocationController>().getUserAddress().longitude),
-              double.parse(widget.esate.latitude),
-              double.parse(widget.esate.longitude),
+              double.parse(widget.esate.latitude ?? ""),
+              double.parse(widget.esate.longitude ?? ""),
             ))
     );
     sampleData.add( RadioModel(false, 'restaurant'.tr, Images.restaurant));
@@ -100,7 +100,7 @@ class _NearByViewState extends State<NearByView> {
       icon: type=="restaurant"?restlIcon:type=="mosque"?mosqueIcon:type=="hospital"?hospitalIcon:type=="school"?schoolIcon:type=="pharmacy"?pharmacylIcon: sourceIcon ,
 
         position: LatLng(
-          results.geometry.location.lat, results.geometry.location.lng),
+          results.geometry!.location!.lat, results.geometry!.location!.lng),
     ));
 
     _marker.add(
@@ -109,8 +109,8 @@ class _NearByViewState extends State<NearByView> {
             position: LatLng(
               // double.parse(Get.find<LocationController>().getUserAddress().latitude),
               // double.parse(Get.find<LocationController>().getUserAddress().longitude),
-               double.parse(widget.esate.latitude),
-              double.parse(widget.esate.longitude),
+               double.parse(widget.esate.latitude ?? ""),
+               double.parse(widget.esate.longitude ?? ""),
             ))
     );
 
@@ -132,12 +132,12 @@ class _NearByViewState extends State<NearByView> {
   void navigateToCurrentPosition() {
 
       debugPrint('My current location');
-      debugPrint(widget.esate.latitude + widget.esate.longitude);
+      debugPrint(widget.esate.latitude! + (widget.esate.longitude ?? ""));
 
 
       _marker.add(Marker(
           markerId: MarkerId("yeiuwe87"),
-          position: LatLng(double.parse(widget.esate.latitude), double.parse(widget.esate.longitude)),
+          position: LatLng(double.parse((widget.esate.latitude ?? "")), double.parse((widget.esate.longitude ?? ""))),
           icon:  BitmapDescriptor.defaultMarker,
 
           infoWindow: InfoWindow(
@@ -147,8 +147,8 @@ class _NearByViewState extends State<NearByView> {
 
 
       setState(() {
-        currentLat =double.parse(widget.esate.latitude);
-        currentLng = double.parse(widget.esate.longitude);
+        currentLat =double.parse( (widget.esate.latitude ?? "") );
+        currentLng = double.parse( (widget.esate.longitude ?? "") );
         getNearbyPlaces(type);
       });
   }
@@ -164,8 +164,8 @@ class _NearByViewState extends State<NearByView> {
             initialCameraPosition:  CameraPosition(zoom: 14.4, target: LatLng(
               // double.parse(Get.find<LocationController>().getUserAddress().latitude),
               // double.parse(Get.find<LocationController>().getUserAddress().longitude),
-                double.parse(widget.esate.latitude),
-                double.parse(widget.esate.longitude)
+                double.parse( (widget.esate.latitude ?? "") ),
+                double.parse( (widget.esate.longitude ?? "") )
             )),
             myLocationEnabled: true,
 
@@ -241,10 +241,10 @@ class _NearByViewState extends State<NearByView> {
     );
   }
   Future<void> getCustomMarkerIcon(GlobalKey iconKey) async {
-    RenderRepaintBoundary boundary = iconKey.currentContext.findRenderObject();
-    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    var pngBytes = byteData.buffer.asUint8List();
+    RenderRepaintBoundary? boundary = iconKey.currentContext!.findRenderObject() as RenderRepaintBoundary?;
+    ui.Image image = await boundary!.toImage(pixelRatio: 3.0);
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    var pngBytes = byteData!.buffer.asUint8List();
     setState(() {
       markerIcon = BitmapDescriptor.fromBytes(pngBytes);
     });

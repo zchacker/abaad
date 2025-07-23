@@ -21,10 +21,13 @@ class PickMapScreen extends StatefulWidget {
   final bool fromAddAddress;
   final bool canRoute;
   final String route;
-  final GoogleMapController googleMapController;
+  final GoogleMapController? googleMapController;
   const PickMapScreen({super.key, 
-    required this.fromSignUp, required this.fromAddAddress, required this.canRoute,
-    required this.route, this.googleMapController,
+    required this.fromSignUp,
+    required this.fromAddAddress,
+    required this.canRoute,
+    required this.route,
+    this.googleMapController,
   });
 
   @override
@@ -32,9 +35,9 @@ class PickMapScreen extends StatefulWidget {
 }
 
 class _PickMapScreenState extends State<PickMapScreen> {
-  GoogleMapController _mapController;
-  CameraPosition _cameraPosition;
-  LatLng _initialPosition;
+  late GoogleMapController _mapController;
+  late CameraPosition _cameraPosition;
+  late LatLng _initialPosition;
 
   @override
   void initState() {
@@ -44,8 +47,8 @@ class _PickMapScreenState extends State<PickMapScreen> {
       Get.find<LocationController>().setPickData();
     }
     _initialPosition = LatLng(
-      double.parse(Get.find<SplashController>().configModel.defaultLocation.lat ?? '0'),
-      double.parse(Get.find<SplashController>().configModel.defaultLocation.lng ?? '0'),
+      double.parse(Get.find<SplashController>().configModel!.defaultLocation!.lat ?? '0'),
+      double.parse(Get.find<SplashController>().configModel!.defaultLocation!.lng ?? '0'),
     );
     Get.find<AuthController>().getZoneList();
   }
@@ -63,7 +66,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
 
          List<int> zoneIndexList = [];
          if(authController.zoneList != null) {
-           for(int index=0; index<locationController.categoryList.length; index++) {
+           for(int index=0; index<locationController.categoryList!.length; index++) {
              zoneIndexList.add(index);
            }
          }
@@ -76,8 +79,8 @@ class _PickMapScreenState extends State<PickMapScreen> {
             GoogleMap(
               initialCameraPosition: CameraPosition(
                 target: widget.fromAddAddress ? LatLng(
-                    double.parse(locationController.categoryList[locationController.categoryIndex-1] .latitude)??0,
-                    double.parse( locationController.categoryList[locationController.categoryIndex-1].longitude)??0)
+                    double.parse(locationController.categoryList![locationController.categoryIndex-1] .latitude)??0,
+                    double.parse( locationController.categoryList![locationController.categoryIndex-1].longitude)??0)
                     : _initialPosition,
                 zoom: 16,
               ),
@@ -85,7 +88,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
               onMapCreated: (GoogleMapController mapController) {
                 _mapController = mapController;
                 if(!widget.fromAddAddress) {
-                  Get.find<LocationController>().getCurrentLocation(false, mapController: mapController);
+                  Get.find<LocationController>().getCurrentLocation(false, mapController: mapController, defaultLatLng: LatLng(0, 0));
                 }
               },
               mapType: MapType.satellite,
@@ -122,7 +125,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
                       ),
                     ),
                     SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                    Icon(Icons.search, size: 25, color: Theme.of(context).textTheme.bodyLarge.color),
+                    Icon(Icons.search, size: 25, color: Theme.of(context).textTheme.bodyLarge!.color),
                   ]),
                 ),
               ),
@@ -133,7 +136,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
               child: FloatingActionButton(
                 mini: true, backgroundColor: Theme.of(context).cardColor,
                 onPressed: () => _checkPermission(() {
-                  Get.find<LocationController>().getCurrentLocation(false, mapController: _mapController);
+                  Get.find<LocationController>().getCurrentLocation(false, mapController: _mapController, defaultLatLng: LatLng(0, 0));
                 }),
                 child: Icon(Icons.my_location, color: Theme.of(context).primaryColor),
               ),
@@ -147,7 +150,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
                 onPressed: (locationController.buttonDisabled || locationController.loading) ? null : () {
                   if(locationController.pickPosition.latitude != 0 && locationController.pickAddress.isNotEmpty) {
                     if(widget.fromAddAddress) {
-                      widget.googleMapController.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(
+                      widget.googleMapController?.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(
                         locationController.pickPosition.latitude, locationController.pickPosition.longitude,
                       ), zoom: 17)));
                       locationController.setAddAddressData();

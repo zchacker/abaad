@@ -13,7 +13,7 @@ class ZoneSheet extends StatelessWidget {
 
     return GetBuilder<EstateController>(builder: (restaurantController) {
       return GetBuilder<SplashController>(builder: (splashController) {
-        Estate restaurant = restaurantController.estateModel.estates[splashController.nearestEstateIndex];
+        Estate restaurant = restaurantController.estateModel!.estates![splashController.nearestEstateIndex];
 
         return Column(
           children: [

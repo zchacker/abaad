@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class MapViewScreen extends StatefulWidget {
-  const MapViewScreen({Key key}) : super(key: key);
+  const MapViewScreen({ Key? key}) : super(key: key);
   static Future<void> loadData(bool reload) async {
     int offset = 1;
     Get.find<AuthController>().getZoneList();
@@ -27,7 +27,7 @@ class MapViewScreen extends StatefulWidget {
 }
 
 class _MapViewScreenState extends State<MapViewScreen> {
-  GoogleMapController _controller;
+  late GoogleMapController _controller;
 
   List<MarkerData>  _customMarkersZone = [];
   int _reload = 0;
@@ -100,7 +100,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
                   onTap: (position) => Get.find<SplashController>().setNearestEstateIndex(-1),
                   minMaxZoomPreference: const MinMaxZoomPreference(0, 16),
                   onMapCreated: (GoogleMapController controller) {
-                    _setMarkersZone(authController.zoneList);
+                    _setMarkersZone(authController.zoneList!);
 
                   },
                 ),
@@ -130,7 +130,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
                     if (authController.zoneList != null) {
                       // print("zonelist${authController.zoneList.length}");
 
-                      _setMarkersZone(authController.zoneList);
+                      _setMarkersZone(authController.zoneList!);
 
                       // _setPolygo(authController.zoneList);
                       //  _setMarkers(authController.estateModel.estates);

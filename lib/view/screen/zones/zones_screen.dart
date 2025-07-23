@@ -196,7 +196,7 @@ class _ZonesScreenState extends State<ZonesScreen> {
 
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('zone_name',  zone.nameAr);
+          await prefs.setString('zone_name',  zone!.nameAr);
           await prefs.setInt('zone_id',  zone.id);
           Get.find<CategoryController>().setFilterIndex( zone.id,0,"0","0",0,0,0,"");
         Get.to(() => HomeScreen(zoneId: zone.id)); // <-- انتقل مع المعرف

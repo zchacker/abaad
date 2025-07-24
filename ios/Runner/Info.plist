@@ -26,6 +26,18 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>يريد تطبيق أبعاد الوصول الكاميرا الخاص بك حتى تتمكن من مشاركة صورة العقار الخاص بك</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>يريد تطبيق أبعاد الوصول الى موقعك ليساعدك على الوصول لأقرب العقارات إليك</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>يريد تطبيق أبعاد الوصول الى موقعك ليساعدك على الوصول لأقرب العقارات إليك</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>يريد تطبيق أبعاد الوصول الى موقعك ليساعدك على الوصول لأقرب العقارات إليك</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>يريد تطبيق أبعاد الوصول استديو الصور الخاص بك حتى تتمكن من مشاركة صورة العقار الخاص بك</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>يريد تطبيق أبعاد الوصول استديو الصور الخاص بك حتى تتمكن من مشاركة صورة العقار الخاص بك</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -34,16 +46,16 @@
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

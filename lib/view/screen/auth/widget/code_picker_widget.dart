@@ -124,7 +124,9 @@ class CodePickerWidget extends StatefulWidget {
     List<CountryCode> elements =
     jsonList.map((json) => CountryCode.fromJson(json)).toList();
 
-    elements.sort(comparator);
+    if (comparator != null) {
+      elements.sort(comparator); // Safe to sort
+    }
   
     if ((countryFilter?.isNotEmpty ?? false)) {
       final uppercaseCustomList =

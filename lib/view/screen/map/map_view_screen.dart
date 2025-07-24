@@ -27,7 +27,7 @@ class MapViewScreen extends StatefulWidget {
 }
 
 class _MapViewScreenState extends State<MapViewScreen> {
-  late GoogleMapController _controller;
+  GoogleMapController? _controller;
 
   List<MarkerData>  _customMarkersZone = [];
   int _reload = 0;
@@ -47,7 +47,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _controller?.dispose();
   }
 
 

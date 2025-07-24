@@ -24,14 +24,14 @@ class NotificationBody {
      this.conversationId,
   });
 
-  NotificationBody.fromJson(Map<String, dynamic> json) {
-    notificationType = convertToEnum(json['order_notification']);
-    orderId = json['order_id'];
-    adminId = json['admin_id'];
-    deliverymanId = json['deliveryman_id'];
-    restaurantId = json['restaurant_id'];
-    type = json['type'];
-    conversationId = json['conversation_id'];
+  NotificationBody.fromJson(Map<String, dynamic>? json) {
+    notificationType = convertToEnum(json?['order_notification'] ?? "order");
+    orderId = json?['order_id'] ?? 0;
+    adminId = json?['admin_id'] ?? 0;
+    deliverymanId = json?['deliveryman_id'] ?? 0;
+    restaurantId = json?['restaurant_id'] ?? 0;
+    type = json?['type'] ?? "order";
+    conversationId = json?['conversation_id'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {

@@ -488,7 +488,7 @@ class EstateController extends GetxController implements GetxService {
       _isLoading = false;
       response.body.forEach((category) => _categoryList?.add(CategoryModel.fromJson(category)));
       for(int index=0; index<_categoryList!.length; index++) {
-        _categoryIds.add(_categoryList![index].id);
+        _categoryIds.add(_categoryList![index].id ?? 0);
       }
       setCategoryIndex(_categoryIds.indexOf(product.categoryId ?? 0));
     //  await getSubCategoryList(int.parse(product.categoryIds[0].id), product);

@@ -5,9 +5,6 @@ PODS:
     - SwiftProtobuf
   - camera_avfoundation (0.0.1):
     - Flutter
-  - connectivity (0.0.1):
-    - Flutter
-    - Reachability
   - connectivity_plus (0.0.1):
     - Flutter
     - ReachabilitySwift
@@ -53,14 +50,14 @@ PODS:
   - Firebase/Messaging (11.15.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 11.15.0)
-  - firebase_core (3.15.1):
+  - firebase_core (3.15.2):
     - Firebase/CoreOnly (= 11.15.0)
     - Flutter
-  - firebase_dynamic_links (6.1.9):
+  - firebase_dynamic_links (6.1.10):
     - Firebase/DynamicLinks (= 11.15.0)
     - firebase_core
     - Flutter
-  - firebase_messaging (15.2.9):
+  - firebase_messaging (15.2.10):
     - Firebase/Messaging (= 11.15.0)
     - firebase_core
     - Flutter
@@ -187,7 +184,6 @@ PODS:
   - pointer_interceptor_ios (0.0.1):
     - Flutter
   - PromisesObjC (2.4.0)
-  - Reachability (3.7.6)
   - ReachabilitySwift (5.2.4)
   - rive_common (0.0.1):
     - Flutter
@@ -221,7 +217,6 @@ PODS:
 DEPENDENCIES:
   - barcode_scan2 (from `.symlinks/plugins/barcode_scan2/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
-  - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -272,7 +267,6 @@ SPEC REPOS:
     - OrderedSet
     - PhoneNumberKit
     - PromisesObjC
-    - Reachability
     - ReachabilitySwift
     - SDWebImage
     - SDWebImageWebPCoder
@@ -284,8 +278,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/barcode_scan2/ios"
   camera_avfoundation:
     :path: ".symlinks/plugins/camera_avfoundation/ios"
-  connectivity:
-    :path: ".symlinks/plugins/connectivity/ios"
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   file_picker:
@@ -346,15 +338,14 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   barcode_scan2: 0af2bb63c81b4565aab6cd78278e4c0fa136dbb0
   camera_avfoundation: adb0207d868b2d873e895371d88448399ab78d87
-  connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   file_picker: b159e0c068aef54932bb15dc9fd1571818edaf49
   Firebase: d99ac19b909cd2c548339c2241ecd0d1599ab02e
-  firebase_core: cf4d42a8ac915e51c0c2dc103442f3036d941a2d
-  firebase_dynamic_links: 705ddf7700797f375b7ded2ec40b28cc4fc45ad7
-  firebase_messaging: fee490327c1aae28a0da1e65fca856547deca493
+  firebase_core: 99a37263b3c27536063a7b601d9e2a49400a433c
+  firebase_dynamic_links: c4fc0263d4b1aa863f3f4650315f3e4e221aa931
+  firebase_messaging: bf6697c61f31c7cc0f654131212ff04c0115c2c7
   FirebaseCore: efb3893e5b94f32b86e331e3bd6dadf18b66568e
   FirebaseCoreInternal: 9afa45b1159304c963da48addb78275ef701c6b4
   FirebaseDynamicLinks: 639fc743dc9c9f01709139bf74319536a674f012
@@ -386,7 +377,6 @@ SPEC CHECKSUMS:
   PhoneNumberKit: 5b1be7ee4955dfeeb855f51eecdd829ab24b3484
   pointer_interceptor_ios: 508241697ff0947f853c061945a8b822463947c1
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  Reachability: fd0ecd23705e2599e4cceeb943222ae02296cbc6
   ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
   rive_common: 4743dbfd2911c99066547a3c6454681e0fa907df
   SDWebImage: f29024626962457f3470184232766516dee8dfea

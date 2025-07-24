@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class AppConstants {
   static final myLocation = LatLng(51.5090214, -0.1982948);
   static const String APP_NAME = 'Baad';
-  static const double APP_VERSION = 1.0;
+  static const double APP_VERSION = 3.0;
   static const String LOGIN_URI = '/api/v1/auth/login';
     static const String  BASE_URL = 'https://app.abaadapp.sa';
   // static const String  BASE_URL = 'https://baad.arabengksa.com';

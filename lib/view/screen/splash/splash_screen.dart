@@ -12,7 +12,7 @@ import 'package:abaad/util/dimensions.dart';
 import 'package:abaad/util/images.dart';
 import 'package:abaad/util/styles.dart';
 import 'package:abaad/view/base/no_internet_screen.dart';
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,10 +35,15 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     bool firstTime = true;
-    _onConnectivityChanged = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      if(!firstTime) {
-        bool isNotConnected = result != ConnectivityResult.wifi && result != ConnectivityResult.mobile;
-        isNotConnected ? SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    _onConnectivityChanged = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (!firstTime) {
+        bool isNotConnected = result != ConnectivityResult.wifi &&
+            result != ConnectivityResult.mobile;
+        isNotConnected
+            ? SizedBox()
+            : ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: isNotConnected ? Colors.red : Colors.green,
           duration: Duration(seconds: isNotConnected ? 6000 : 3),
@@ -47,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
             textAlign: TextAlign.center,
           ),
         ));
-        if(!isNotConnected) {
+        if (!isNotConnected) {
           _route();
         }
       }
@@ -55,12 +60,11 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     Get.find<SplashController>().initSharedData();
-    if((Get.find<LocationController>().getUserAddress()?.zoneData == null)) {
+    if ((Get.find<LocationController>().getUserAddress()?.zoneData == null)) {
       Get.find<AuthController>().clearSharedAddress();
     }
-  // Get.find<CartController>().getCartData();
+    // Get.find<CartController>().getCartData();
     _route();
-
   }
 
   @override
@@ -70,31 +74,109 @@ class _SplashScreenState extends State<SplashScreen> {
     _onConnectivityChanged.cancel();
   }
 
+  /*
+  void _route() {
+    Get.find<SplashController>().getConfigData().then((isSuccess) {
+      if (isSuccess) {
+        Timer(Duration(seconds: 1), () async {
+          initDynamicLinks();
+          double? minimumVersion = 2.0;
+          if (GetPlatform.isAndroid) {
+              //minimumVersion = (Get.find<SplashController>().configModel?.appMinimumVersionAndroid ?? 2.0) as double?;
+          } else if (GetPlatform.isIOS) {
+             //minimumVersion = (Get.find<SplashController>().configModel?.appMinimumVersionIos ?? 2.0) as double?;
+          }
+          if (AppConstants.APP_VERSION < minimumVersion! || (Get.find<SplashController>().configModel!.maintenanceMode ?? false)) {
+            Get.offNamed(RouteHelper.getUpdateRoute( AppConstants.APP_VERSION < minimumVersion));
+          } else {
+            if (widget.body.notificationType == NotificationType.order) {
+
+            } else if (widget.body.notificationType == NotificationType.general) {
+              Get.offNamed(RouteHelper.getNotificationRoute());
+            } else {
+              Get.offNamed(RouteHelper.getChatRoute(
+                  notificationBody: widget.body,
+                  conversationID: widget.body.conversationId));
+            }
+          }
+        });
+      }
+    });
+  }
+  */
+
   void _route() {
     Get.find<SplashController>().getConfigData().then((isSuccess) {
       if(isSuccess) {
         Timer(Duration(seconds: 1), () async {
           initDynamicLinks();
-          double minimumVersion = 0;
+          double _minimumVersion = 2.0;
           if(GetPlatform.isAndroid) {
-         //   _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionAndroid;
+            //   _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionAndroid;
           }else if(GetPlatform.isIOS) {
-          //  _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionIos;
+            //  _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionIos;
           }
-          if(AppConstants.APP_VERSION < minimumVersion || Get.find<SplashController>().configModel!.maintenanceMode ?? false) {
-            Get.offNamed(RouteHelper.getUpdateRoute(AppConstants.APP_VERSION < minimumVersion));
+          if(AppConstants.APP_VERSION < _minimumVersion || (Get.find<SplashController>().configModel?.maintenanceMode ?? false)) {
+            Get.offNamed(RouteHelper.getUpdateRoute(AppConstants.APP_VERSION < _minimumVersion));
           }else {
-            if (widget.body.notificationType == NotificationType.order) {
-
-            }else if(widget.body.notificationType == NotificationType.general){
-              Get.offNamed(RouteHelper.getNotificationRoute());
+            if(widget.body != null) {
+              if (widget.body.notificationType == NotificationType.order) {
+                open_app();
+              }else if(widget.body.notificationType == NotificationType.general){
+                Get.offNamed(RouteHelper.getNotificationRoute());
+              }else {
+                Get.offNamed(RouteHelper.getChatRoute(notificationBody: widget.body, conversationID: widget.body.conversationId));
+              }
             }else {
-              Get.offNamed(RouteHelper.getChatRoute(notificationBody: widget.body, conversationID: widget.body.conversationId));
+              if (Get.find<AuthController>().isLoggedIn()) {
+                Get.find<AuthController>().updateToken();
+                //   await Get.find<WishListController>().getWishList();
+                if (Get.find<LocationController>().getUserAddress() != null) {
+                  Get.offNamed(RouteHelper.getInitialRoute());
+                } else {
+                  Get.offNamed(RouteHelper.getAccessLocationRoute('splash'));
+                }
+              } else {
+                if (Get.find<SplashController>().showIntro() ?? false) {
+                  if(AppConstants.languages.length > 1) {
+                    Get.offNamed(RouteHelper.getLanguageRoute('splash'));
+                  }else {
+                    Get.offNamed(RouteHelper.getOnBoardingRoute());
+                  }
+                } else {
+                  Get.offNamed(RouteHelper.getInitialRoute());
+                  // Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
+                }
+              }
             }
-                    }
+          }
         });
       }
     });
+  }
+
+
+  open_app(){
+    if (Get.find<AuthController>().isLoggedIn()) {
+      Get.find<AuthController>().updateToken();
+      //   await Get.find<WishListController>().getWishList();
+      if (Get.find<LocationController>().getUserAddress() != null) {
+        Get.offNamed(RouteHelper.getInitialRoute());
+      } else {
+        Get.offNamed(RouteHelper.getAccessLocationRoute('splash'));
+      }
+    } else {
+      if (Get.find<SplashController>().showIntro() ?? false) {
+        if(AppConstants.languages.length > 1) {
+          Get.offNamed(RouteHelper.getLanguageRoute('splash'));
+        }else {
+          Get.offNamed(RouteHelper.getOnBoardingRoute());
+        }
+      } else {
+        Get.offNamed(RouteHelper.getInitialRoute());
+        // Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
+      }
+    }
   }
 
   @override
@@ -102,57 +184,61 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       key: _globalKey,
       backgroundColor: Image.asset(Images.background).color,
-
       body: GetBuilder<SplashController>(builder: (splashController) {
         return Container(
-          decoration:  BoxDecoration(
-              image:  DecorationImage(
-                image:  AssetImage(Images.background),
-                fit: BoxFit.fill,
-              )
-          ),
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: AssetImage(Images.background),
+            fit: BoxFit.fill,
+          )),
           child: Center(
+            child: splashController.hasConnection
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(Images.logo_an, width: 150),
+                      SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
-            child: splashController.hasConnection ? Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(Images.logo_an, width: 150),
-                SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                      Text("abaad".tr,
+                          style: robotoMedium.copyWith(
+                              fontSize: 25,
+                              color: Theme.of(context).primaryColor)),
+                      Text("optimal_real_estate_marketing".tr,
+                          style: robotoMedium.copyWith(
+                              fontSize: 25,
+                              color: Theme.of(context).primaryColor)),
+                      // Container(
+                      //
+                      //   child: ColorizeAnimatedTextKit(
+                      //     onTap: () {
+                      //       print("Tap Event");
+                      //     },
+                      //     text:  [
+                      //       "abaad".tr,
+                      //       'optimal_real_estate_marketing'.tr,
+                      //     ],
+                      //     textStyle: const TextStyle(
+                      //         fontSize: 40.0,
+                      //         fontFamily: "Horizon",
+                      //     ),
+                      //     alignment: Alignment.center,
+                      //     colors: const [
+                      //       Colors.blueGrey,
+                      //       Colors.blue,
+                      //     ],
+                      //   ),
+                      // ),
 
-                Text("abaad".tr, style: robotoMedium.copyWith(fontSize: 25,color: Theme.of(context).primaryColor)),
-                Text("optimal_real_estate_marketing".tr, style: robotoMedium.copyWith(fontSize: 25,color: Theme.of(context).primaryColor)),
-                // Container(
-                //
-                //   child: ColorizeAnimatedTextKit(
-                //     onTap: () {
-                //       print("Tap Event");
-                //     },
-                //     text:  [
-                //       "abaad".tr,
-                //       'optimal_real_estate_marketing'.tr,
-                //     ],
-                //     textStyle: const TextStyle(
-                //         fontSize: 40.0,
-                //         fontFamily: "Horizon",
-                //     ),
-                //     alignment: Alignment.center,
-                //     colors: const [
-                //       Colors.blueGrey,
-                //       Colors.blue,
-                //     ],
-                //   ),
-                // ),
-
-                /*SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                      /*SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
               Text(AppConstants.APP_NAME, style: robotoMedium.copyWith(fontSize: 25)),*/
-              ],
-            ) : NoInternetScreen(child: SplashScreen(body: widget.body)),
+                    ],
+                  )
+                : NoInternetScreen(child: SplashScreen(body: widget.body)),
           ),
         );
       }),
     );
   }
-
 
   // void initDynamicLinks() async{
   //   FirebaseDynamicLinks.instance.onLink(
@@ -170,7 +256,8 @@ class _SplashScreenState extends State<SplashScreen> {
   // }
 
   void initDynamicLinks() {
-    FirebaseDynamicLinks.instance.onLink.listen((PendingDynamicLinkData dynamicLink) {
+    FirebaseDynamicLinks.instance.onLink
+        .listen((PendingDynamicLinkData dynamicLink) {
       final Uri deepLink = dynamicLink.link;
       handleMyLink(deepLink);
     }).onError((error) {
@@ -178,17 +265,15 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  void handleMyLink(Uri url){
+  void handleMyLink(Uri url) {
     List<String> sepeatedLink = [];
+
     /// osama.link.page/Hellow --> osama.link.page and Hellow
     sepeatedLink.addAll(url.path.split('/'));
 
     print("The Token that i'm interesed in is ${sepeatedLink[1]}");
-    Get.find<EstateController>().getEstateDetails(Estate(id:  int.parse(sepeatedLink[1])));
-    Get.toNamed(RouteHelper.getDetailsRoute(  int.parse(sepeatedLink[1])));
-
+    Get.find<EstateController>()
+        .getEstateDetails(Estate(id: int.parse(sepeatedLink[1])));
+    Get.toNamed(RouteHelper.getDetailsRoute(int.parse(sepeatedLink[1])));
   }
-
-
-
 }

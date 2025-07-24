@@ -38,7 +38,7 @@ class LocalizationController extends GetxController implements GetxService {
       addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!));
     }catch(_) {}
     apiClient.updateHeader(
-      sharedPreferences.getString(AppConstants.TOKEN)!, addressModel.zoneIds!,
+      sharedPreferences.getString(AppConstants.TOKEN) ?? "", addressModel.zoneIds ?? [],
       locale.languageCode,   "24.263867",
       "45.033284",
     );

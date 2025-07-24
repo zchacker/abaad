@@ -129,7 +129,8 @@ class LocationController extends GetxController implements GetxService {
         zoneIds.add(int.parse(zoneId.toString()));
       });
       List<ZoneData> zoneData = [];
-      response.body['zone_data'].forEach((zoneData) => zoneData.add(ZoneData.fromJson(zoneData)));
+      //response.body['zone_data'].forEach((zoneData) => zoneData.add(ZoneData.fromJson(zoneData)));
+      response.body['zone_data'].forEach((item) { zoneData.add(ZoneData.fromJson(item)); });
       responseModel = ZoneResponseModel(true, '' , zoneIds, zoneData);
       if(updateInAddress) {
         print('here problem');

@@ -97,7 +97,7 @@ dependencies:
   flutter_bloc: any
   flutter_typeahead: any
   #universal_ui: ^0.0.8
-  connectivity: any
+  #connectivity: any
   universal_platform: any
   modal_bottom_sheet: any  # Use latest version
 

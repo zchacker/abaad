@@ -1,44 +1,44 @@
 class ConfigModel {
-  String businessName = "";
-  String logo = "";
-  String address = "";
-  String phone = "";
-  String email = "";
+  String? businessName = "";
+  String? logo = "";
+  String? address = "";
+  String? phone = "";
+  String? email = "";
   BaseUrls? baseUrls;
 
 
-  String country = "";
+  String? country = "";
   DefaultLocation? defaultLocation;
-  String appUrlAndroid = "";
-  String appUrlIos = "";
-//  String appUrlAndroid;
-  bool customerVerification = false;
+  String? appUrlAndroid = "";
+  String? appUrlIos = "";
+//  String? appUrlAndroid;
+  bool? customerVerification = false;
 
-  double marketingCommission = 0;
-  int agentRegistration = 0;
-  String aboutUs = "";
-  String aboutUsAr = "";
-  String privacyPolicy = "";
-  String privacyPolicyAr = "";
-  String termsConditions = "";
-  String termsConditionsAr = "";
-  int appMinimumVersionAndroid = 0;
-  int appMinimumVersionIos= 0;
-  bool demo = false;
-  bool maintenanceMode = false;
-  bool phoneVerification = false;
-  int freeTrialPeriodStatus = 0;
-  int freeTrialPeriodDay = 0;
+  double? marketingCommission = 0;
+  int? agentRegistration = 0;
+  String? aboutUs = "";
+  String? aboutUsAr = "";
+  String? privacyPolicy = "";
+  String? privacyPolicyAr = "";
+  String? termsConditions = "";
+  String? termsConditionsAr = "";
+  int? appMinimumVersionAndroid = 0;
+  int? appMinimumVersionIos= 0;
+  bool? demo = false;
+  bool? maintenanceMode = false;
+  bool? phoneVerification = false;
+  int? freeTrialPeriodStatus = 0;
+  int? freeTrialPeriodDay = 0;
   BusinessPlan? businessPlan;
-  double adminCommission = 0;
-  String currencySymbolDirection = "";
-  int loyaltyPointExchangeRate = 0;
-  int minimumPointToTransfer = 0;
-  String currencySymbol  = "";
-  int digitAfterDecimalPoint = 0;
-  String termsAndConditions  = "";
-  String featureAr = "";
-  String feature = "";
+  double? adminCommission = 0;
+  String? currencySymbolDirection = "";
+  int? loyaltyPointExchangeRate = 0;
+  int? minimumPointToTransfer = 0;
+  String? currencySymbol  = "";
+  int? digitAfterDecimalPoint = 0;
+  String? termsAndConditions  = "";
+  String? featureAr = "";
+  String? feature = "";
 
 
 

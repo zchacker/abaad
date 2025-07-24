@@ -294,9 +294,9 @@ class RouteHelper {
   static getRoute(Widget navigateTo) {
     int minimumVersion = 0;
     if(GetPlatform.isAndroid) {
-      minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionAndroid;
+      minimumVersion = Get.find<SplashController>().configModel?.appMinimumVersionAndroid ?? 2;
     }else if(GetPlatform.isIOS) {
-      minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionIos;
+      minimumVersion = Get.find<SplashController>().configModel?.appMinimumVersionIos ?? 4;
     }
     // return AppConstants.APP_VERSION < _minimumVersion ? UpdateScreen(isUpdate: true)
     //     : Get.find<SplashController>().configModel.maintenanceMode ? UpdateScreen(isUpdate: false));

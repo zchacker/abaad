@@ -1,5 +1,3 @@
-// @dart=2.17.0
-
 import 'dart:async';
 import 'dart:io';
 import 'package:abaad/controller/auth_controller.dart';
@@ -50,23 +48,33 @@ Future<void> main() async {
   try {
     if (GetPlatform.isMobile) {
 
-      final RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
-      body = NotificationHelper.convertNotification(remoteMessage!.data , null);
-      await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
-      FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
+      // final RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
+      // body = NotificationHelper.convertNotification(remoteMessage!.data , null);
+      // await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
+      // FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
 
+        RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
+        if (remoteMessage != null) {
+          body = NotificationHelper.convertNotification(remoteMessage.data, null);
+        }
+        await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
+        FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
 
-    runApp(MyApp(languages: languages, body: body!));
+    //runApp(MyApp(languages: languages, body: body!));
+    // runApp outside try-catch so you always run app
+    runApp(MyApp(languages: languages, body: body ?? NotificationBody()));
 
-  }catch(e) {}
+  }catch(e) {
+    print("Dart Error: " + e.toString());
+  }
 
 
 }
 
 class MyApp extends StatelessWidget {
   final Map<String, Map<String, String>> languages;
-  final NotificationBody body;
+  final NotificationBody? body;
   const MyApp({super.key, required this.languages, required this.body});
 
   void _route() {
@@ -104,7 +112,7 @@ class MyApp extends StatelessWidget {
             locale: localizeController.locale,
             translations: Messages(languages: languages),
             fallbackLocale: Locale(AppConstants.languages[0].languageCode, AppConstants.languages[0].countryCode),
-            initialRoute: GetPlatform.isWeb ? RouteHelper.getInitialRoute() : RouteHelper.getSplashRoute(body),
+            initialRoute: GetPlatform.isWeb ? RouteHelper.getInitialRoute() : RouteHelper.getSplashRoute(body!),
             getPages: RouteHelper.routes,
             defaultTransition: Transition.topLevel,
             transitionDuration: Duration(milliseconds: 500),

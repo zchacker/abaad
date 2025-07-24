@@ -110,15 +110,15 @@ class HtmlViewerScreen extends StatelessWidget {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        buildTabContent(isArabic ?Get.find<SplashController>().configModel!.termsConditionsAr:Get.find<SplashController>().configModel!.termsConditions),
-                        buildTabContent(isArabic ?Get.find<SplashController>().configModel!.termsConditionsAr:Get.find<SplashController>().configModel!.termsConditions),
+                        buildTabContent(isArabic ? (Get.find<SplashController>().configModel?.termsConditionsAr ?? "") : (Get.find<SplashController>().configModel?.termsConditions ?? "")),
+                        buildTabContent(isArabic ? (Get.find<SplashController>().configModel?.termsConditionsAr ?? "") : (Get.find<SplashController>().configModel?.termsConditions ?? "")),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-          ):htmlType == HtmlType.ABOUT_US ?   buildTabContent(isArabic ?Get.find<SplashController>().configModel!.aboutUsAr:Get.find<SplashController>().configModel!.aboutUs) :buildTabContent(isArabic ?Get.find<SplashController>().configModel!.privacyPolicyAr:Get.find<SplashController>().configModel!.privacyPolicy),
+          ):htmlType == HtmlType.ABOUT_US ?   buildTabContent(isArabic ? (Get.find<SplashController>().configModel?.aboutUsAr ?? "") : (Get.find<SplashController>().configModel?.aboutUs ?? "")) :buildTabContent(isArabic ? (Get.find<SplashController>().configModel?.privacyPolicyAr ?? "") : (Get.find<SplashController>().configModel?.privacyPolicy ?? "")),
         ),
       ),
     );

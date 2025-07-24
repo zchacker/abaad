@@ -21,7 +21,7 @@ class ApiClient extends GetxService {
   Map<String, String>? _mainHeaders;
 
   ApiClient({required this.appBaseUrl, required this.sharedPreferences}) {
-    token = sharedPreferences?.getString(AppConstants.TOKEN)!;
+    token = sharedPreferences?.getString(AppConstants.TOKEN);
     debugPrint('Token: $token');
 
     try {

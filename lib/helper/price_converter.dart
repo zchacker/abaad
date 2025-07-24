@@ -11,7 +11,7 @@ class PriceConverter {
     }
       bool isRightSide = Get.find<SplashController>().configModel?.currencySymbolDirection == 'right';
     return '${isRightSide ? '' : '${Get.find<SplashController>().configModel?.currencySymbol} '}'
-        '${(price).toStringAsFixed(Get.find<SplashController>().configModel!.digitAfterDecimalPoint)
+        '${(price).toStringAsFixed(Get.find<SplashController>().configModel!.digitAfterDecimalPoint ?? 1)
         .replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}'
         '${isRightSide ? ' ${Get.find<SplashController>().configModel?.currencySymbol}' : ''}';
   }

@@ -41,8 +41,9 @@ import 'package:get/get.dart';
 Future<Map<String, Map<String, String>>> init() async {
   // Core
   final sharedPreferences = await SharedPreferences.getInstance();
-  Get.lazyPut(() => sharedPreferences);
-  Get.lazyPut(() => ApiClient(appBaseUrl: AppConstants.BASE_URL, sharedPreferences: Get.find()));
+  // Get.lazyPut(() => sharedPreferences);
+  Get.lazyPut<SharedPreferences>(() => sharedPreferences); // 👈 register properly
+  Get.lazyPut(() => ApiClient(appBaseUrl: AppConstants.BASE_URL, sharedPreferences: Get.find<SharedPreferences>()));
 
   // Repository
   Get.lazyPut(() => SplashRepo(sharedPreferences: Get.find(), apiClient: Get.find()));

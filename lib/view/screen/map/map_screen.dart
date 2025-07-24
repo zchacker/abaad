@@ -484,7 +484,7 @@ class _MapViewScreenState extends State<MapScreen> {
 
                                                   child: Row(children: [
                                                     Text(
-                                                     isArabic? categoryController.subCategoryList![index].nameAr:categoryController.subCategoryList![index].name ??"all",
+                                                     isArabic? categoryController.subCategoryList![index].nameAr ?? "":categoryController.subCategoryList![index].name ??"all",
                                                       style: index == categoryController.subCategoryIndex
                                                           ? robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor)
                                                           : robotoRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor),
@@ -966,7 +966,7 @@ class _MapViewScreenState extends State<MapScreen> {
 
                                                   child: Row(children: [
                                                     Text(
-                                                      isArabic? categoryController.subCategoryList![index].nameAr:categoryController.subCategoryList![index].name??"all",
+                                                      isArabic? categoryController.subCategoryList![index].nameAr ?? "" : categoryController.subCategoryList![index].name??"all",
                                                       style: index == categoryController.subCategoryIndex
                                                           ? robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).primaryColor)
                                                           : robotoRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor),

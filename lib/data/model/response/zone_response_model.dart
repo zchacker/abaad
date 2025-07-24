@@ -12,10 +12,10 @@ class ZoneResponseModel {
 }
 
 class ZoneData {
-  int id = 0;
-  int status = 0;
-  double minimumShippingCharge = 0;
-  double perKmShippingCharge = 0;
+  int? id = 0;
+  int? status = 0;
+  double? minimumShippingCharge = 0;
+  double? perKmShippingCharge = 0;
 
   ZoneData({
     required this.id,

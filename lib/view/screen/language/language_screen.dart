@@ -72,6 +72,8 @@ class ChooseLanguageScreen extends StatelessWidget {
 
             CustomButton(
               buttonText: 'save'.tr,
+              height: 40,
+              width: 100,
               margin: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
               onPressed: () {
                 if(localizationController.languages.isNotEmpty && localizationController.selectedIndex != -1) {

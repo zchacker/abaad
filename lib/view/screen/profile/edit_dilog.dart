@@ -474,12 +474,12 @@ class _EditDialogState extends State<EditDialog> {
                            items: restController.categoryIds.map((int value) {
                              return DropdownMenuItem<int>(
                                value: restController.categoryIds.indexOf(value),
-                               child: isArabic?Text(value != 0 ? restController.categoryList![(restController.categoryIds.indexOf(value)-1)].nameAr : 'Select'):Text(value != 0 ? restController.categoryList![(restController.categoryIds.indexOf(value)-1)].name   : 'Select'),
+                               child: isArabic?Text(value != 0 ? restController.categoryList![(restController.categoryIds.indexOf(value)-1)].nameAr ?? "" : 'Select'):Text(value != 0 ? restController.categoryList![(restController.categoryIds.indexOf(value)-1)].name ?? ""   : 'Select'),
                              );
                            }).toList(),
                            onChanged: (int? value) {
                              restController.setCategoryIndex(value!);
-                             category_id=restController.categoryList![value! -1].id;
+                             category_id=restController.categoryList![value! -1].id ?? 0;
                              //  restController.getSubCategoryList(value != 0 ? restController.categoryList[value-1].id : 0, null);
                            },
                            isExpanded: true,

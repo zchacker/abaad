@@ -324,7 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       ? categoryController
                                                           .subCategoryList![
                                                               index]
-                                                          .nameAr
+                                                          .nameAr ?? ""
                                                       : categoryController
                                                               .subCategoryList![
                                                                   index]

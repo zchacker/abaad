@@ -74,26 +74,24 @@ class _SplashScreenState extends State<SplashScreen> {
     _onConnectivityChanged.cancel();
   }
 
+  /*
   void _route() {
     Get.find<SplashController>().getConfigData().then((isSuccess) {
       if (isSuccess) {
         Timer(Duration(seconds: 1), () async {
           initDynamicLinks();
-          double minimumVersion = 0;
+          double? minimumVersion = 2.0;
           if (GetPlatform.isAndroid) {
-            //   _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionAndroid;
+              //minimumVersion = (Get.find<SplashController>().configModel?.appMinimumVersionAndroid ?? 2.0) as double?;
           } else if (GetPlatform.isIOS) {
-            //  _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionIos;
+             //minimumVersion = (Get.find<SplashController>().configModel?.appMinimumVersionIos ?? 2.0) as double?;
           }
-          if (AppConstants.APP_VERSION < minimumVersion ||
-              (Get.find<SplashController>().configModel!.maintenanceMode ??
-                  false)) {
-            Get.offNamed(RouteHelper.getUpdateRoute(
-                AppConstants.APP_VERSION < minimumVersion));
+          if (AppConstants.APP_VERSION < minimumVersion! || (Get.find<SplashController>().configModel!.maintenanceMode ?? false)) {
+            Get.offNamed(RouteHelper.getUpdateRoute( AppConstants.APP_VERSION < minimumVersion));
           } else {
             if (widget.body.notificationType == NotificationType.order) {
-            } else if (widget.body.notificationType ==
-                NotificationType.general) {
+
+            } else if (widget.body.notificationType == NotificationType.general) {
               Get.offNamed(RouteHelper.getNotificationRoute());
             } else {
               Get.offNamed(RouteHelper.getChatRoute(
@@ -104,6 +102,81 @@ class _SplashScreenState extends State<SplashScreen> {
         });
       }
     });
+  }
+  */
+
+  void _route() {
+    Get.find<SplashController>().getConfigData().then((isSuccess) {
+      if(isSuccess) {
+        Timer(Duration(seconds: 1), () async {
+          initDynamicLinks();
+          double _minimumVersion = 2.0;
+          if(GetPlatform.isAndroid) {
+            //   _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionAndroid;
+          }else if(GetPlatform.isIOS) {
+            //  _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionIos;
+          }
+          if(AppConstants.APP_VERSION < _minimumVersion || (Get.find<SplashController>().configModel?.maintenanceMode ?? false)) {
+            Get.offNamed(RouteHelper.getUpdateRoute(AppConstants.APP_VERSION < _minimumVersion));
+          }else {
+            if(widget.body != null) {
+              if (widget.body.notificationType == NotificationType.order) {
+                open_app();
+              }else if(widget.body.notificationType == NotificationType.general){
+                Get.offNamed(RouteHelper.getNotificationRoute());
+              }else {
+                Get.offNamed(RouteHelper.getChatRoute(notificationBody: widget.body, conversationID: widget.body.conversationId));
+              }
+            }else {
+              if (Get.find<AuthController>().isLoggedIn()) {
+                Get.find<AuthController>().updateToken();
+                //   await Get.find<WishListController>().getWishList();
+                if (Get.find<LocationController>().getUserAddress() != null) {
+                  Get.offNamed(RouteHelper.getInitialRoute());
+                } else {
+                  Get.offNamed(RouteHelper.getAccessLocationRoute('splash'));
+                }
+              } else {
+                if (Get.find<SplashController>().showIntro() ?? false) {
+                  if(AppConstants.languages.length > 1) {
+                    Get.offNamed(RouteHelper.getLanguageRoute('splash'));
+                  }else {
+                    Get.offNamed(RouteHelper.getOnBoardingRoute());
+                  }
+                } else {
+                  Get.offNamed(RouteHelper.getInitialRoute());
+                  // Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
+                }
+              }
+            }
+          }
+        });
+      }
+    });
+  }
+
+
+  open_app(){
+    if (Get.find<AuthController>().isLoggedIn()) {
+      Get.find<AuthController>().updateToken();
+      //   await Get.find<WishListController>().getWishList();
+      if (Get.find<LocationController>().getUserAddress() != null) {
+        Get.offNamed(RouteHelper.getInitialRoute());
+      } else {
+        Get.offNamed(RouteHelper.getAccessLocationRoute('splash'));
+      }
+    } else {
+      if (Get.find<SplashController>().showIntro() ?? false) {
+        if(AppConstants.languages.length > 1) {
+          Get.offNamed(RouteHelper.getLanguageRoute('splash'));
+        }else {
+          Get.offNamed(RouteHelper.getOnBoardingRoute());
+        }
+      } else {
+        Get.offNamed(RouteHelper.getInitialRoute());
+        // Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
+      }
+    }
   }
 
   @override

@@ -1,20 +1,20 @@
 class CategoryModel {
-  int id = 0;
-  String name = "";
-  String nameAr = "";
-  String slug = "";
-  String position = "";
-  String statusHome = "";
-  String image = "";
-  String createdAt = "";
-  String updatedAt = "";
+  int? id = 0;
+  String? name = "";
+  String? nameAr = "";
+  String? slug = "";
+  String? position;
+  String? statusHome = "";
+  String? image = "";
+  String? createdAt = "";
+  String? updatedAt = "";
 
   CategoryModel({
     required this.id,
     required this.name,
     required this.nameAr,
     required this.slug,
-    required this.position,
+    this.position ,
     required this.statusHome,
     required this.image,
     required this.createdAt,
@@ -26,7 +26,7 @@ class CategoryModel {
     name = json['name'];
     nameAr=json['name_ar'];
     slug = json['slug'];
-    position = json['position'];
+    position = json['position'] ?? "";
     statusHome = json['status_home'];
     image = json['image'];
     createdAt = json['created_at'];

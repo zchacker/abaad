@@ -2,14 +2,14 @@
 
 import 'package:abaad/data/model/response/service_provider.dart';
 class BasicCampaignModel {
-  int id = 0;
-  String title = "";
-  String image = "";
-  String description = "";
-  String availableDateStarts = "";
-  String availableDateEnds = "";
-  String startTime = "";
-  String endTime = "";
+  int? id = 0;
+  String? title = "";
+  String? image = "";
+  String? description = "";
+  String? availableDateStarts = "";
+  String? availableDateEnds = "";
+  String? startTime = "";
+  String? endTime = "";
   List<ServiceProvider>? restaurants;
 
   BasicCampaignModel({

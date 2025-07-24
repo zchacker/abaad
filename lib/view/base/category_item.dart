@@ -26,9 +26,9 @@ class CategoryItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 5),
           child: InkWell(
             onTap: () {
-              restController.setCategoryIndex(category.id);
+              restController.setCategoryIndex(category.id ?? 0);
               restController.setCategoryPostion(
-                int.tryParse(category.position) ?? 0,
+                int.tryParse(category.position ?? "0") ?? 0,
               );
             },
             child: Container(
@@ -51,7 +51,7 @@ class CategoryItem extends StatelessWidget {
                     color: Colors.white,
                     alignment: Alignment.center,
                     child: Text(
-                      category.name,
+                      category.name ?? "",
                       style: isSelected
                           ? robotoBlack.copyWith(fontSize: 17)
                           : robotoRegular.copyWith(

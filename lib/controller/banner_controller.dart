@@ -4,8 +4,8 @@ import 'package:abaad/data/repository/banner_repo.dart';
 import 'package:get/get.dart';
 
 class BannerController extends GetxController implements GetxService {
-  final BannerRepo? bannerRepo;
-  BannerController({ this.bannerRepo});
+  final BannerRepo bannerRepo;
+  BannerController({required this.bannerRepo});
 
   List<String>? _bannerImageList;
   List<dynamic>? _bannerDataList;
@@ -23,7 +23,7 @@ class BannerController extends GetxController implements GetxService {
         _bannerDataList = [];
         BannerModel bannerModel = BannerModel.fromJson(response.body);
         for (var campaign in bannerModel.campaigns!) {
-          _bannerImageList?.add(campaign.image);
+          _bannerImageList?.add(campaign.image ?? "");
           _bannerDataList?.add(campaign);
         }
         print("-------------------------bnners${response.body}");

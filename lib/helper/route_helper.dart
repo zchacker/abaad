@@ -102,9 +102,9 @@ class RouteHelper {
   static String getPickMapRoute(String page, bool canRoute) => '$pickMap?page=$page&route=${canRoute.toString()}';
   static String getSupportRoute() => support;
   static String getSuccess() => success;
-  static String getSplashRoute(NotificationBody body) {
+  static String getSplashRoute(NotificationBody? body) {
     String data = 'null';
-    List<int> encoded = utf8.encode(jsonEncode(body.toJson()));
+    List<int> encoded = utf8.encode(jsonEncode(body?.toJson()));
     data = base64Encode(encoded);
       return '$splash?data=$data';
   }

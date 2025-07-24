@@ -180,11 +180,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                                 child: InkWell(
                                                   onTap: () {
                                                     restController
-                                                        .setCategoryIndex(categoryController.categoryList![index].id);
+                                                        .setCategoryIndex(categoryController.categoryList![index].id ?? 0);
                                                     restController
-                                                        .setCategoryPostion(int.parse(categoryController.categoryList![index].position));
+                                                        .setCategoryPostion(int.parse(categoryController.categoryList?[index].position ?? "0"));
                                                     setState(() {
-                                                      type_properties=categoryController.categoryList![index].name;
+                                                      type_properties=categoryController.categoryList![index].name ?? "";
                                                     });
 
                                                   },
@@ -213,7 +213,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                                           height: 26,
                                                           color: Colors.white,
                                                           child: Text(
-                                                            isArabic?  categoryController.categoryList![index].nameAr:categoryController.categoryList![index].name,
+                                                            isArabic?  categoryController.categoryList![index].nameAr ?? "": categoryController.categoryList![index].name ?? "",
                                                             style: categoryController.categoryList![index].id ==
                                                                 restController
                                                                     .categoryIndex

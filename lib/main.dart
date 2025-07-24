@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:abaad/controller/auth_controller.dart';
 import 'package:abaad/controller/localization_controller.dart';
+import 'package:abaad/controller/location_controller.dart';
 import 'package:abaad/controller/splash_controller.dart';
 import 'package:abaad/controller/theme_controller.dart';
 import 'package:abaad/controller/wishlist_controller.dart';
@@ -26,7 +27,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterL
 
 Future<void> main() async {
   if(ResponsiveHelper.isMobilePhone()) {
-    HttpOverrides.global = MyHttpOverrides();
+    HttpOverrides.global = new MyHttpOverrides();
   }
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,31 +43,24 @@ Future<void> main() async {
     await Firebase.initializeApp();
   }
 
-  Map<String, Map<String, String>> languages = await di.init();
+  Map<String, Map<String, String>> _languages = await di.init();
 
-  NotificationBody? body;
+  NotificationBody? _body;
+
   try {
     if (GetPlatform.isMobile) {
-
-      // final RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
-      // body = NotificationHelper.convertNotification(remoteMessage!.data , null);
-      // await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
-      // FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
-
-        RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
-        if (remoteMessage != null) {
-          body = NotificationHelper.convertNotification(remoteMessage.data, null);
-        }
-        await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
-        FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
+      final RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
+      if (remoteMessage != null) {
+        _body = NotificationHelper.convertNotification(remoteMessage.data , null);
+      }
+      await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
+      FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
 
-    //runApp(MyApp(languages: languages, body: body!));
-    // runApp outside try-catch so you always run app
-    runApp(MyApp(languages: languages, body: body ?? NotificationBody()));
+    runApp(MyApp(languages: _languages, body: _body ?? NotificationBody(notificationType: NotificationType.order)));
 
   }catch(e) {
-    print("Dart Error: " + e.toString());
+    print(e);
   }
 
 
@@ -75,7 +69,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   final Map<String, Map<String, String>> languages;
   final NotificationBody? body;
-  const MyApp({super.key, required this.languages, required this.body});
+  MyApp({required this.languages, required this.body});
 
   void _route() {
     Get.find<SplashController>().getConfigData().then((bool isSuccess) async {
@@ -112,7 +106,7 @@ class MyApp extends StatelessWidget {
             locale: localizeController.locale,
             translations: Messages(languages: languages),
             fallbackLocale: Locale(AppConstants.languages[0].languageCode, AppConstants.languages[0].countryCode),
-            initialRoute: GetPlatform.isWeb ? RouteHelper.getInitialRoute() : RouteHelper.getSplashRoute(body!),
+            initialRoute: GetPlatform.isWeb ? RouteHelper.getInitialRoute() : RouteHelper.getSplashRoute(body ),
             getPages: RouteHelper.routes,
             defaultTransition: Transition.topLevel,
             transitionDuration: Duration(milliseconds: 500),

@@ -42,7 +42,7 @@ class PermissionDialog extends StatelessWidget {
                 ),
               ),
               SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-              Expanded(child: CustomButton(buttonText: 'settings'.tr, onPressed: () async {
+              Expanded(child: CustomButton(height: 40, width: 100, buttonText: 'settings'.tr, onPressed: () async {
                 await Geolocator.openAppSettings();
                 Navigator.pop(context);
               })),

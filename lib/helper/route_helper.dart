@@ -210,7 +210,7 @@ class RouteHelper {
     GetPage(name: updateProfile, page: () => UpdateProfileScreen()),
     GetPage(name: conversation, page: () => ConversationScreen()),
     GetPage(name: categories, page: () {
-      MapScreen? pickMapScreen = Get.arguments;
+      MapScreen pickMapScreen = Get.arguments;
       bool fromAddress = Get.parameters['page'] == 'add-address';
 
       // final args = Get.arguments;

@@ -64,6 +64,8 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
           GetBuilder<WalletController>(
             builder: (walletController) {
               return !walletController.isLoading ? CustomButton(
+                width: 100,
+                  height: 40,
                   buttonText: 'convert'.tr,
                   onPressed: () {
                     if(_amountController.text.isEmpty) {

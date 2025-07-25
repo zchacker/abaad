@@ -1941,6 +1941,8 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                   ),
                                 ),
                                 CustomButton(
+                                  height: 40,
+                                  width: 100,
                                   onPressed: () {
                                     showDialog(
                                       context: context,

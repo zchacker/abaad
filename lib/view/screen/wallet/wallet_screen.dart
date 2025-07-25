@@ -43,7 +43,7 @@ class _WalletScreenState extends State<WalletScreen> {
           int pageSize = (Get.find<WalletController>().popularPageSize! / 10).ceil();
           if (Get.find<WalletController>().offset < pageSize) {
             Get.find<WalletController>().setOffset(Get.find<WalletController>().offset + 1);
-            print('end of the page');
+            //print('end of the page');
             Get.find<WalletController>().showBottomLoader();
             Get.find<WalletController>().getWalletTransactionList(Get.find<WalletController>().offset.toString(), false, widget.fromWallet);
           }
@@ -110,7 +110,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                       : Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, children: [
 
                                         Text(
-                                          userController.userInfoModel?.loyaltyPoint == null ? '0' : userController.userInfoModel!.loyaltyPoint.toString(),
+                                          userController.userInfoModel?.loyaltyPoint == null ? '0' : userController.userInfoModel?.loyaltyPoint?.toString() ?? "",
                                           style: robotoBold.copyWith(fontSize: Dimensions.fontSizeOverLarge, color: Theme.of(context).textTheme.bodyLarge?.color),
                                         ),
                                         Text(

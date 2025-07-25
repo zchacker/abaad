@@ -49,7 +49,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
 
-    print('-------------------------------estate_id${widget.estate_id}');
+    //print('-------------------------------estate_id${widget.estate_id}');
 
     initCall();
 

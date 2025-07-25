@@ -62,10 +62,10 @@ class _AdvantagesListState extends State<AdvantagesList> {
           allAdvantages = data.map((item) => Advantage.fromJson(item)).toList();
         });
       } else {
-        print('Failed to load advantages. Status code: ${response.statusCode}');
+        //print('Failed to load advantages. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching advantages: $e');
+      //print('Error fetching advantages: $e');
     } finally {
       setState(() {
         isLoading = false;
@@ -84,10 +84,10 @@ class _AdvantagesListState extends State<AdvantagesList> {
           alreadySelectedAdvantages = data.map<String>((item) => item['name']).toList();
         });
       } else {
-        print('Failed to load already selected advantages. Status code: ${response.statusCode}');
+        //print('Failed to load already selected advantages. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching already selected advantages: $e');
+      //print('Error fetching already selected advantages: $e');
     }
   }
 

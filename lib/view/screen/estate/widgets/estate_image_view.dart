@@ -28,7 +28,7 @@ class _EstateImageViewState extends State<EstateImageView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print("--------------estate_id${widget.estate_id}");
+    //print("--------------estate_id${widget.estate_id}");
 
     Get.find<EstateController>().getEstateDetails(Estate(id:widget.estate_id));
 
@@ -63,7 +63,7 @@ class _EstateImageViewState extends State<EstateImageView> {
               itemCount: (estateController.estate?.images?.isEmpty ?? false) ? 1 :  estateController.estate?.images?.length,
               itemBuilder: (context, index, _) {
                 String? baseUrl = Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl;
-                print("---------------anner----------$baseUrl");
+                //print("---------------anner----------$baseUrl");
                 return GestureDetector(
                   onTap: (){
 

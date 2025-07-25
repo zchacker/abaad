@@ -49,7 +49,7 @@ class ZoneController extends GetxController implements GetxService {
 
     if (response.statusCode == 200) {
     {
-      print("land response ............${response.body}");
+      //print("land response ............${response.body}");
         _estateModel = LandModel.fromJson(response.body);
 
 

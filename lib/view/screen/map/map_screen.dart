@@ -160,7 +160,7 @@ class _MapViewScreenState extends State<MapScreen> {
     //     int pageSize = (Get.find<CategoryController>().pageSize / 10).ceil();
     //     if (offset < pageSize) {
     //       offset++;
-    //       print('end of the page');
+    //       //print('end of the page');
     //       Get.find<CategoryController>().showBottomLoader();
     //       //      Get.find<CategoryController>().getCategoryProductList("${widget.mainCategory.id}", 0,'0',"0","0","0", offset.toString());
     //     }
@@ -245,7 +245,10 @@ class _MapViewScreenState extends State<MapScreen> {
             if (categoryController.isSearching) {
 
             } else {
-              products.addAll(categoryController.categoryProductList as Iterable<Estate>);
+              //products.addAll(categoryController.categoryProductList as Iterable<Estate>);
+              if (categoryController.categoryProductList != null) {
+                products.addAll(categoryController.categoryProductList!);
+              }
             }
           
 
@@ -697,7 +700,7 @@ class _MapViewScreenState extends State<MapScreen> {
                         child: GetBuilder<SplashController>(builder: (splashController) {
                           for (int i = 0; i < products.length; i++) {
                             Estate currentCoordinate = products[i];
-                            print('Coordinate ${i+1}: (${currentCoordinate.id}, ${currentCoordinate.title})');
+                            //print('Coordinate ${i+1}: (${currentCoordinate.id}, ${currentCoordinate.title})');
                             selectedIndex = i;
 
                           }
@@ -1164,7 +1167,7 @@ class _MapViewScreenState extends State<MapScreen> {
                         child: GetBuilder<SplashController>(builder: (splashController) {
                           for (int i = 0; i < products.length; i++) {
                             Estate currentCoordinate = products[i];
-                            print('Coordinate ${i+1}: (${currentCoordinate.id}, ${currentCoordinate.title})');
+                            //print('Coordinate ${i+1}: (${currentCoordinate.id}, ${currentCoordinate.title})');
                             selectedIndex = i;
 
                           }
@@ -1237,7 +1240,7 @@ class _MapViewScreenState extends State<MapScreen> {
 
 
             // _pageController.animateToPage(i, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut,);
-            print("-----------------------------------------omeromer----");
+            //print("-----------------------------------------omeromer----");
 
             _pageController.animateToPage(selectedIndex, duration: const Duration(milliseconds: 800), curve: Curves.easeInOut,);
 
@@ -1390,10 +1393,10 @@ class _MapViewScreenState extends State<MapScreen> {
 
   Future<Position> getUserCurrentLocation() async {
     await Geolocator.requestPermission().then((value) {
-      print(value);
+      //print(value);
     }).onError((error, stackTrace) async {
       await Geolocator.requestPermission();
-      print("ERROR$error");
+      //print("ERROR$error");
     });
     return await Geolocator.getCurrentPosition();
   }

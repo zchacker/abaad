@@ -39,7 +39,7 @@ class _ImageTabState extends State<ImageTab> {
   @override
   void initState() {
     super.initState();
-    print("--------------------------${widget.estate.id}");
+    //print("--------------------------${widget.estate.id}");
     _fetchExistingImages(widget.estate.id ?? 0);
   }
 
@@ -71,13 +71,13 @@ class _ImageTabState extends State<ImageTab> {
 
       var response = await request.send();
       if (response.statusCode == 200) {
-        print('Images uploaded successfully');
+        //print('Images uploaded successfully');
         _imageFiles.clear();
         Get.find<UserController>().getEstateByUser(1, false,widget.estate.userId ?? 0);
         _fetchExistingImages(widget.estate.id ?? 0);
         _fetchExistingImages(widget.estate.id ?? 0);
       } else {
-        print('Image upload failed');
+        //print('Image upload failed');
       }
     } catch (e) {
       // Handle error
@@ -109,7 +109,7 @@ class _ImageTabState extends State<ImageTab> {
   Widget _buildTabButton(String title, int index) {
     return GestureDetector(
       onTap: () {
-        print('Tab tapped: $index');
+        //print('Tab tapped: $index');
         setState(() {
           _currentIndex = index;
         });
@@ -160,7 +160,7 @@ class _ImageTabState extends State<ImageTab> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('Tab tapped: ${widget.index}');
+        //print('Tab tapped: ${widget.index}');
       },
       child: Center(child:Column(
         children: [

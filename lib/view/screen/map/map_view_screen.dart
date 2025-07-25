@@ -72,7 +72,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
 
         // List<int> _zoneIndexList = [];
         // if (authController.zoneList != null) {
-        //   //  print("zone_list${authController.zoneModel.name}");
+        //   //  //print("zone_list${authController.zoneModel.name}");
         //   for (int index = 0; index < authController.zoneList.length; index++) {
         //     _zoneIndexList.add(index);
         //   }
@@ -128,7 +128,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
                   onMapCreated: (GoogleMapController controller) {
                     _controller = controller;
                     if (authController.zoneList != null) {
-                      // print("zonelist${authController.zoneList.length}");
+                      // //print("zonelist${authController.zoneList.length}");
 
                       _setMarkersZone(authController.zoneList!);
 

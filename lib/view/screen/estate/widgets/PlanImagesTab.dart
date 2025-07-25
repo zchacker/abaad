@@ -39,7 +39,7 @@ class _PlanImagesTabState extends State<PlanImagesTab> {
   @override
   void initState() {
     super.initState();
-    print("--------------------------${widget.estateId}");
+    //print("--------------------------${widget.estateId}");
     _fetchExistingPlanned(widget.estateId);
   }
 
@@ -71,13 +71,13 @@ class _PlanImagesTabState extends State<PlanImagesTab> {
 
       var response = await request.send();
       if (response.statusCode == 200) {
-        print('Images uploaded successfully');
+        //print('Images uploaded successfully');
         _plannedFiles.clear();
         // Get.find<UserController>().getEstateByUser(1, false,widget.estate.userId);
         Get.find<UserController>().getEstateByUser(1, false,widget.estateId);
         _fetchExistingPlanned(widget.estateId);
       } else {
-        print('Image upload failed');
+        //print('Image upload failed');
       }
     } catch (e) {
       // Handle error
@@ -143,7 +143,7 @@ class _PlanImagesTabState extends State<PlanImagesTab> {
 
     return    GestureDetector(
       onTap: () {
-        print('Tab tapped: ${widget.estateId}');
+        //print('Tab tapped: ${widget.estateId}');
       },
       child: Center(child:Column(
         children: [

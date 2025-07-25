@@ -146,7 +146,7 @@ class EstateController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       if (offset == 1) {
         _estateModel = EstateModel.fromJson(response.body);
-        // print("estate response ...............${response.body}");
+        // //print("estate response ...............${response.body}");
       } else {
         _estateModel?.totalSize = EstateModel.fromJson(response.body).totalSize;
         _estateModel?.offset = EstateModel.fromJson(response.body).offset;
@@ -330,7 +330,7 @@ class EstateController extends GetxController implements GetxService {
   //     //   Get.offAllNamed(RouteHelper.getSuccess());
   //   } else {
   //     ApiChecker.checkApi(response, showToaster: true);
-  //     print("error estate---------------------------------------------------${response.body}");
+  //     //print("error estate---------------------------------------------------${response.body}");
   //   }
   //   _isLoading = false;
   //   update();
@@ -371,10 +371,10 @@ class EstateController extends GetxController implements GetxService {
    //   Get.offAllNamed(RouteHelper.getSuccess());
     } else {
       ApiChecker.checkApi(response, showToaster: true);
-            // print("🔴 Error: Status Code: ${response.body["message"].toString()}");
-      print("🔴 Error Body: ${response.statusText}");
-      print("🔴 Error Body2: ${response.statusCode}");
-   //   print("error estate---------------------------------------------------${response}");
+            // //print("🔴 Error: Status Code: ${response.body["message"].toString()}");
+      //print("🔴 Error Body: ${response.statusText}");
+      //print("🔴 Error Body2: ${response.statusCode}");
+   //   //print("error estate---------------------------------------------------${response}");
     }
     _isLoading = false;
     update();
@@ -403,7 +403,7 @@ class EstateController extends GetxController implements GetxService {
   //
   //   } else {
   //     ApiChecker.checkApi(response, showToaster: true);
-  //     print("error estate---------------------------------------------------${response.body}");
+  //     //print("error estate---------------------------------------------------${response.body}");
   //   }
   //   _isLoading = false;
   //   update();
@@ -433,7 +433,7 @@ class EstateController extends GetxController implements GetxService {
 
     } else {
       ApiChecker.checkApi(response, showToaster: true);
-      print("error estate---------------------------------------------------${response.body}");
+      //print("error estate---------------------------------------------------${response.body}");
     }
     _isLoading = false;
     update();
@@ -534,7 +534,7 @@ class EstateController extends GetxController implements GetxService {
       // Handle response here
 
     } catch (error) {
-      print("--------------------------------$error");
+      //print("--------------------------------$error");
     } finally {
       _isLoading = false;
     }
@@ -554,18 +554,18 @@ class EstateController extends GetxController implements GetxService {
       final response = await estateRepo.verifyLicense(licenseNumber, advertiserNumber, type);
 
       if (response.statusCode == 200) {
-        print("📦 Raw API response body:");
-        print(jsonEncode(response.body)); // هذا يطبع كل شيء كـ JSON
+        //print("📦 Raw API response body:");
+        ////print(jsonEncode(response.body)); // هذا يطبع كل شيء كـ JSON
 
         if (response.body['success'] == true) {
           // طباعة البيانات المتداخلة بشكل منسق
-          print("✅ Success: License verified");
+          //print("✅ Success: License verified");
 
           // طباعة كل المفاتيح مع القيم
-          print("🔍 Full parsed response:");
+          //print("🔍 Full parsed response:");
           Map<String, dynamic> fullResponse = response.body;
           fullResponse.forEach((key, value) {
-            print("------------------------------------------------------------------------------------------$key: ${jsonEncode(value)}");
+            //print("------------------------------------------------------------------------------------------$key: ${jsonEncode(value)}");
           });
 
           licenseData = response.body['data'];
@@ -587,20 +587,20 @@ class EstateController extends GetxController implements GetxService {
           String data3Json = jsonEncode(response.body['data3']);
           await prefs.setString('license_data3', data3Json);
 
-          print('✅ Stored data2: $data2Json');
-          print('✅ Stored data3: $data3Json');
+          ////print('✅ Stored data2: $data2Json');
+          ////print('✅ Stored data3: $data3Json');
 
           return true;
         } else {
-          print('❌ Error: ${response.body['message']}');
+          ////print('❌ Error: ${response.body['message']}');
           return false;
         }
       } else {
-        print('❌ API error: ${response.statusCode} - ${response.statusText}');
+        ////print('❌ API error: ${response.statusCode} - ${response.statusText}');
         return false;
       }
     } catch (e) {
-      print('⚠️ Exception: $e');
+      //print('⚠️ Exception: $e');
       return false;
     }
   }

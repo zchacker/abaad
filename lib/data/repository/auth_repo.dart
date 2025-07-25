@@ -60,7 +60,7 @@ class AuthRepo {
         deviceToken = await FirebaseMessaging.instance.getToken();
       }catch(e) {}
     }
-    print('--------Device Token---------- $deviceToken');
+    //print('--------Device Token---------- $deviceToken');
       return deviceToken;
   }
 

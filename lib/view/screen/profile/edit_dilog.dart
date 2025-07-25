@@ -275,9 +275,9 @@ class _EditDialogState extends State<EditDialog> {
     // north_st=widget.estate.interface[0].name;
     // west_st=widget.estate.interface[1].name;
 
-    // input.split('').forEach((ch) => print(ch));
+    // input.split('').forEach((ch) => //print(ch));
 
-    print("----------------------------categore${widget.estate.authorization_number}");
+    //print("----------------------------categore${widget.estate.authorization_number}");
     // zone_id=widget.estate.zoneId;
    // widget.estate.priceNegotiation=="غير قابل للتفاوض"?   isSelected2.first=false: widget.estate.priceNegotiation=="قابل للتفاوض"? isSelected2.first=true:true;
 
@@ -1861,7 +1861,7 @@ class _EditDialogState extends State<EditDialog> {
                                 _showWebViewDialog(context, url);
                               } else {
                                 // Handle empty URL input
-                                print('URL is empty');
+                                //print('URL is empty');
                               }
                             }
                                 : null,

@@ -36,7 +36,7 @@ class _EstateScreenState extends State<EstateScreen> {
     super.initState();
      _isLoggedIn = Get.find<AuthController>().isLoggedIn();
 
-     print("userInfo${widget.userInfo.id}");
+     //print("userInfo${widget.userInfo.id}");
     if(_isLoggedIn && Get.find<UserController>().agentInfoModel == null) {
       Get.find<UserController>().getUserInfoByID(widget.userInfo.id ?? 0);
     }

@@ -24,7 +24,7 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.fromWallet);
+    //print(widget.fromWallet);
 
     int? exchangePointRate = Get.find<SplashController>().configModel?.loyaltyPointExchangeRate;
     int? minimumExchangePoint = Get.find<SplashController>().configModel?.minimumPointToTransfer;
@@ -64,13 +64,15 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
           GetBuilder<WalletController>(
             builder: (walletController) {
               return !walletController.isLoading ? CustomButton(
+                width: 100,
+                  height: 40,
                   buttonText: 'convert'.tr,
                   onPressed: () {
                     if(_amountController.text.isEmpty) {
                       showCustomSnackBar('input_field_is_empty'.tr);
                     }else{
                       int amount = int.parse(_amountController.text.trim());
-                      print(amount);
+                      //print(amount);
 
                       if(amount <minimumExchangePoint!){
                         showCustomSnackBar('${'please_exchange_more_then'.tr} $minimumExchangePoint ${'points'.tr}');

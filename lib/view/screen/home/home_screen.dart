@@ -43,7 +43,7 @@ class HomeScreen extends StatefulWidget {
     //     int pageSize = (Get.find<CategoryController>().pageSize / 10).ceil();
     //     if (offset < pageSize) {
     //       offset++;
-    //       print('end of the page');
+    //       //print('end of the page');
     //       Get.find<CategoryController>().showBottomLoader();
     //       Get.find<CategoryController>().getCategoryProductList(0,"0", 0,'0',"0","0","0", offset.toString());
     //     }
@@ -53,7 +53,7 @@ class HomeScreen extends StatefulWidget {
     int pageSize = (Get.find<CategoryController>().pageSize! / 10).ceil();
     if (offset < pageSize) {
       offset++;
-      print('end of the page');
+      //print('end of the page');
       Get.find<CategoryController>().showBottomLoader();
       Get.find<CategoryController>().getCategoryProductList(
           0, "0", 0, '0', "0", "0", "0", offset.toString(), 0, 0, "");
@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadSavedZone();
   }
 
-  late String selectedZoneName;
+  String? selectedZoneName = null;
 
   void _loadSavedZone() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -124,8 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
           products = [];
           if (categoryController.isSearching) {
           } else {
-            products.addAll(
-                categoryController.categoryProductList as Iterable<Estate>);
+            products.addAll((categoryController.categoryProductList ?? []) as Iterable<Estate>);
           }
 
           isNull = products == null;
@@ -382,7 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      selectedZoneName,
+                                      selectedZoneName ?? "KSA",
                                       style: TextStyle(
                                           color: Colors.blue,
                                           fontWeight: FontWeight.bold),

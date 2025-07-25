@@ -1806,7 +1806,7 @@ class _DettailsDilogState extends State<DettailsDilog> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    print("-------------------------------");
+                                    //print("-------------------------------");
                                     Get.toNamed(
                                         RouteHelper.getProfileAgentRoute(
                                             widget.estate?.users?.id ?? 0, 0));
@@ -1941,6 +1941,8 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                   ),
                                 ),
                                 CustomButton(
+                                  height: 40,
+                                  width: 100,
                                   onPressed: () {
                                     showDialog(
                                       context: context,
@@ -2027,7 +2029,7 @@ class _DettailsDilogState extends State<DettailsDilog> {
                               .configModel!
                               .baseUrls!
                               .provider;
-                          //   print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
+                          //   //print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
                           return const ClipOval(
                             child: Icon(
                               Icons.phone,
@@ -2113,7 +2115,7 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                 .configModel!
                                 .baseUrls!
                                 .provider;
-                            //   print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
+                            //   //print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
                             return ClipOval(
                               child: Icon(
                                 Icons.whatshot_rounded,
@@ -2234,7 +2236,7 @@ class _DettailsDilogState extends State<DettailsDilog> {
                             link: desc,
                           ));
                         } catch (e) {
-                          print("Error building short dynamic link: $e");
+                          //print("Error building short dynamic link: $e");
                           // Handle the error as needed, e.g., show an error message to the user.
                         }
                       },
@@ -2244,7 +2246,7 @@ class _DettailsDilogState extends State<DettailsDilog> {
                               .configModel!
                               .baseUrls!
                               .provider!;
-                          //   print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
+                          //   //print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
                           return const ClipOval(
                             child: Icon(
                               Icons.chat,
@@ -2595,6 +2597,6 @@ openDialPad(String phoneNumber) async {
   if (await canLaunchUrl(url)) {
     await launchUrl(url);
   } else {
-    print("Can't open dial pad.");
+    //print("Can't open dial pad.");
   }
 }

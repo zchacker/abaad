@@ -46,7 +46,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ChatController>(builder: (chatController) {
-      ConversationsModel conversation = chatController.searchConversationModel!;
+      ConversationsModel conversation = chatController.searchConversationModel ?? ConversationsModel(totalSize: 0);
       //conversation = chatController.searchConversationModel;
     
       return Scaffold(
@@ -134,7 +134,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                           onTap: () {
 
 
-                            print("-------------------------------------${ conversation.conversations![index].receiver!.name}");
+                            //print("-------------------------------------${ conversation.conversations![index].receiver!.name}");
                             Get.toNamed(RouteHelper.getChatRoute(
                               notificationBody: NotificationBody(
                                 type: conversation.conversations?[index].senderType,
@@ -170,7 +170,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                   SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                   Text(
                                     DateConverter.localDateToIsoStringAMPM(DateConverter.dateTimeStringToDate(
-                                        conversation.conversations![index].lastMessageTime)),
+                                        conversation.conversations?[index].lastMessageTime ?? "now")),
                                     style: robotoRegular.copyWith(color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeExtraSmall),
                                   ),
                                   // Text(
@@ -191,8 +191,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
                             // ),
 
                             GetBuilder<UserController>(builder: (userController) {
-                              return (conversation.conversations![index].lastMessage!.senderId != userController.userInfoModel!.agent!.id
-                                  && conversation.conversations![index].unreadMessageCount > 0) ? Positioned(right: 5,top: 5,
+                              return (conversation.conversations![index].lastMessage!.senderId != userController.userInfoModel?.agent!.id
+                                  && (conversation.conversations![index].unreadMessageCount ?? 0) > 0) ? Positioned(right: 5,top: 5,
                                 child: Container(
                                   padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                   decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle),

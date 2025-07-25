@@ -43,7 +43,7 @@ class UpdateScreen extends StatelessWidget {
             ),
             SizedBox(height: isUpdate ? MediaQuery.of(context).size.height*0.04 : 0),
 
-            isUpdate ? CustomButton(buttonText: 'update_now'.tr, onPressed: () async {
+            isUpdate ? CustomButton(height:40 , width:100, buttonText: 'update_now'.tr, onPressed: () async {
               String? appUrl = 'https://google.com';
               if(GetPlatform.isAndroid) {
                 appUrl = Get.find<SplashController>().configModel?.appUrlAndroid;

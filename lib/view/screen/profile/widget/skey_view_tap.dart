@@ -136,7 +136,7 @@ class _SkyViewState extends State<SkyView> {
 
        Get.find<UserController>().getEstateByUser(1, false, widget.estate.userId ?? 0);
      } else {
-       print('Failed to upload video');
+       //print('Failed to upload video');
      }
       }
 

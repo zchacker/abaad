@@ -44,10 +44,10 @@ class UserController extends GetxController implements GetxService {
     _pickedFile = null;
     ResponseModel responseModel;
     Response? response = await userRepo?.getUserInfo();
-   print("user respone =====================>${response?.body}");
+   //print("user respone =====================>${response?.body}");
     if (response?.statusCode == 200) {
       _userInfoModel = UserInfoModel.fromJson(response?.body);
-      print('---------------------------body${response?.body}');
+      //print('---------------------------body${response?.body}');
       responseModel = ResponseModel(true, 'successful');
     } else {
       responseModel = ResponseModel(false, response!.statusText);
@@ -62,11 +62,11 @@ class UserController extends GetxController implements GetxService {
 
 
   Future<ResponseModel> getUserInfoByID(int id) async {
-    print("mohammed  =====================>");
+    //print("mohammed  =====================>");
     _pickedFile = null;
     ResponseModel responseModel;
     Response? response = await userRepo?.getUserInfoById(id);
-    print("mohammed  =====================>${response?.body}");
+    //print("mohammed  =====================>${response?.body}");
     if (response?.statusCode == 200) {
       _agentInfoModel = UserInfoModel.fromJson(response?.body);
       responseModel = ResponseModel(true, 'successful');
@@ -91,7 +91,7 @@ class UserController extends GetxController implements GetxService {
       _responseModel = ResponseModel(true, message);
     } else {
       _responseModel = ResponseModel(false, response.statusText);
-      print('${response.statusCode} ${response.statusText}');
+      //print('${response.statusCode} ${response.statusText}');
     }
     update();
     return _responseModel;
@@ -108,10 +108,10 @@ class UserController extends GetxController implements GetxService {
       responseModel = ResponseModel(true, response!.bodyString ?? "");
       _pickedFile = null;
       getUserInfo();
-      print(response.bodyString);
+      //print(response.bodyString);
     } else {
       responseModel = ResponseModel(false, response!.statusText ?? "");
-      print(response.statusText);
+      //print(response.statusText);
     }
     update();
     return responseModel;
@@ -198,10 +198,10 @@ class UserController extends GetxController implements GetxService {
         Geolocator.getPositionStream().listen((Position position) {
           latitude.value = '${position.latitude}';
           longitude.value = '${position.longitude}';
-          print("addressssssssssss");
+          //print("addressssssssssss");
           // getAddressFromLatLang(position);
         });
-    print("addressssssssssss");
+    //print("addressssssssssss");
   }
 
   // Future<void> getAddressFromLatLang(Position position) async {
@@ -209,7 +209,7 @@ class UserController extends GetxController implements GetxService {
   //   await placemarkFromCoordinates(position.latitude, position.longitude);
   //   Placemark place = placemark[0];
   //   address.value = ' ${place.subLocality}, ${place.locality},${place.country}';
-  //   print("adress-------------------------------------${place.locality},${place.country}");
+  //   //print("adress-------------------------------------${place.locality},${place.country}");
   // }
 
 
@@ -222,7 +222,7 @@ class UserController extends GetxController implements GetxService {
     if (response?.statusCode == 200) {
       if (offset == 1) {
         _estateModel = EstateModel.fromJson(response?.body);
-        print("estate response ...............${response?.body}");
+        //print("estate response ...............${response?.body}");
       } else {
         _estateModel?.totalSize = EstateModel
             .fromJson(response?.body)
@@ -260,8 +260,8 @@ class UserController extends GetxController implements GetxService {
         transId = response?.body['transId'];
         random.value = response?.body['random'];
         // Handle the successful response
-        print("----------$transId");
-        print("----------${random.value}");
+        //print("----------$transId");
+        //print("----------${random.value}");
 
 
         AwesomeDialog(
@@ -293,7 +293,7 @@ class UserController extends GetxController implements GetxService {
           desc: 'click_on_confirm_the_authentication_process'.tr,
           showCloseIcon: true,
           btnOkOnPress: () {
-            print("--------------------------------------------idNumber-${idNumber}random  $random transId$transId ");
+            //print("--------------------------------------------idNumber-${idNumber}random  $random transId$transId ");
             checkRequestStatus(idNumber,transId!,random.toString());
           },
         ).show();
@@ -323,8 +323,8 @@ class UserController extends GetxController implements GetxService {
       final errorMessage = response?.body['message']['message'].toString();
     //  Get.snackbar('Error', errorMessage);
       showCustomSnackBar(errorMessage!);
-      print("=============================================$errorMessage");
-      print("=============================================${response?.body}");
+      //print("=============================================$errorMessage");
+      //print("=============================================${response?.body}");
       //throw Exception('Failed to check status: ${response.body}');
     }
     return null;

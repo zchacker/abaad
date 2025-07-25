@@ -144,7 +144,7 @@ class CategoryController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
 
       // _propertiesRestList.add(Property.fromJson(response.body));
-      // print("musa abdalll ${response.body}");
+      // //print("musa abdalll ${response.body}");
       // _isLoading = false;
 
 
@@ -261,7 +261,7 @@ class CategoryController extends GetxController implements GetxService {
     }
     Response response = await categoryRepo.getCategoryProductList(zoneId,categoryID,userId,city,districts,space,typeAdd, offset,arPath,sv,type);
 
-    print("-----------------------------------tt$type");
+    //print("-----------------------------------tt$type");
     if (response.statusCode == 200) {
       if (offset == '1') {
         _categoryProductList = [];

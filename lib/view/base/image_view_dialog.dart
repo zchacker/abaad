@@ -41,7 +41,7 @@ class ImageViewDiloag extends StatelessWidget {
               itemCount:estate?.planned?.isEmpty ?? false ? 1 :  estate?.planned?.length,
               itemBuilder: (context, index, _) {
                 String baseUrl = Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl ?? "";
-                print("---------------anner----------$baseUrl");
+                //print("---------------anner----------$baseUrl");
                 return GestureDetector(
                   onTap: (){
 

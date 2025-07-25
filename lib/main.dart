@@ -60,7 +60,7 @@ Future<void> main() async {
     runApp(MyApp(languages: _languages, body: _body ?? NotificationBody(notificationType: NotificationType.order)));
 
   }catch(e) {
-    print(e);
+    //print(e);
   }
 
 

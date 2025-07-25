@@ -22,12 +22,12 @@ class ApiClient extends GetxService {
 
   ApiClient({required this.appBaseUrl, required this.sharedPreferences}) {
     token = sharedPreferences?.getString(AppConstants.TOKEN);
-    debugPrint('Token: $token');
+    //debugPrint('Token: $token');
 
     try {
       AddressModel addressModel;
       addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences!.getString(AppConstants.userAddress)!));
-      print( addressModel.toJson());
+      //print( addressModel.toJson());
 
       updateHeader(
           token!, addressModel.zoneIds!,
@@ -52,7 +52,7 @@ class ApiClient extends GetxService {
 
   Future<Response> getData(String uri, {required Map<String, dynamic> query, required Map<String, String> headers}) async {
     try {
-      debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
+      //debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
       Http.Response response = await Http.get(
         Uri.parse(appBaseUrl!+uri),
         headers: headers ?? _mainHeaders,
@@ -66,7 +66,7 @@ class ApiClient extends GetxService {
   Future<Response> postData(String uri, dynamic body, {required Map<String, String> headers}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
-      debugPrint('====> API Body: $body');
+      //debugPrint('====> API Body: $body');
       Http.Response response = await Http.post(
         Uri.parse(appBaseUrl!+uri),
         body: jsonEncode(body),
@@ -81,7 +81,7 @@ class ApiClient extends GetxService {
   Future<Response> postMultipartData(String uri, Map<String, String> body, List<MultipartBody> multipartBody, {required Map<String, String> headers}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
-      debugPrint('====> API Body: $body with ${multipartBody.length} files');
+      //debugPrint('====> API Body: $body with ${multipartBody.length} files');
       Http.MultipartRequest request = Http.MultipartRequest('POST', Uri.parse(appBaseUrl!+uri));
       request.headers.addAll(headers ?? _mainHeaders!);
       for(MultipartBody multipart in multipartBody) {
@@ -102,7 +102,7 @@ class ApiClient extends GetxService {
   Future<Response> putData(String uri, dynamic body, {required Map<String, String> headers}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
-      debugPrint('====> API Body: $body');
+      //debugPrint('====> API Body: $body');
       Http.Response response = await Http.put(
         Uri.parse(appBaseUrl!+uri),
         body: jsonEncode(body),
@@ -147,7 +147,7 @@ class ApiClient extends GetxService {
     }else if(response0.statusCode != 200 && response0.body == null) {
       response0 = Response(statusCode: 0, statusText: noInternetMessage!);
     }
-    debugPrint('====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
+    //debugPrint('====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
     return response0;
   }
 }

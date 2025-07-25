@@ -122,7 +122,7 @@ class _NearByViewState extends State<NearByView> {
         .then((value) {})
         .onError((error, stackTrace) {
       debugPrint('error in getting current location');
-      debugPrint(error.toString());
+      //debugPrint(error.toString());
     });
 
     return await Geolocator.getCurrentPosition(
@@ -132,7 +132,7 @@ class _NearByViewState extends State<NearByView> {
   void navigateToCurrentPosition() {
 
       debugPrint('My current location');
-      debugPrint(widget.esate.latitude! + (widget.esate.longitude ?? ""));
+      //debugPrint(widget.esate.latitude! + (widget.esate.longitude ?? ""));
 
 
       _marker.add(Marker(
@@ -257,12 +257,12 @@ class _NearByViewState extends State<NearByView> {
 
     var response = await http.post(url);
 
-    print("printing latlng");
-    print(jsonDecode(response.body));
+    //print("printing latlng");
+    //print(jsonDecode(response.body));
     nearbyPlacesResponse =
         NearbyPlacesResponse.fromJson(jsonDecode(response.body));
-    print("printing latlng");
-    print(jsonDecode(response.body));
+    //print("printing latlng");
+    //print(jsonDecode(response.body));
 
     loadData();
     setState(() {});

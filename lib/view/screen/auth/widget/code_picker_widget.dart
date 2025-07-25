@@ -346,6 +346,8 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
     }
 
   void _onInit(CountryCode e) {
-    widget.onInit!(e);
+    if(widget?.onInit != null) {
+      widget.onInit!(e);
     }
+  }
 }

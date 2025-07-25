@@ -31,7 +31,7 @@ class _SuccessScreenState extends State<SuccessScreen2> {
     super.initState();
 
 
-    print("---------------------------------------${widget.estate_id}");
+    //print("---------------------------------------${widget.estate_id}");
 
 
   }
@@ -115,7 +115,7 @@ class _SuccessScreenState extends State<SuccessScreen2> {
         // Get.offNamed(RouteHelper.getInitialRoute());
       });
     } else {
-      print('Failed to upload video');
+      //print('Failed to upload video');
     }
     }
 

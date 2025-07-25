@@ -37,7 +37,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
     s=true;
 
 
-    print("---------------------------------------${widget.estate_id}");
+    //print("---------------------------------------${widget.estate_id}");
 
 
   }

@@ -113,6 +113,8 @@ class _MapDetailsViewState extends State<MapDetailsView> {
 
          SizedBox(height: 10),
             !widget.fromView ? CustomButton(
+              height: 40,
+              width: 100,
               buttonText: 'back'.tr,
               onPressed: () {
                 Get.back();

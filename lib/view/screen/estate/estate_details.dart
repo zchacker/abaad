@@ -2400,6 +2400,6 @@ openDialPad(String phoneNumber) async {
   if (await canLaunchUrl(url)) {
     await launchUrl(url);
   } else {
-    print("Can't open dial pad.");
+    //print("Can't open dial pad.");
   }
 }

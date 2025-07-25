@@ -70,7 +70,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
              zoneIndexList.add(index);
            }
          }
-          // print('--------------${'${locationController.pickPlaceMark.name ?? ''} '
+          // //print('--------------${'${locationController.pickPlaceMark.name ?? ''} '
           //     '${locationController.address. ?? ''} '
           //     '${locationController.pickPlaceMark.postalCode ?? ''} ${locationController.pickPlaceMark.country ?? ''}'}');
 

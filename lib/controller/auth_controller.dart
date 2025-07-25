@@ -131,7 +131,7 @@ class AuthController extends GetxController implements GetxService {
       if( (Get.find<SplashController>().configModel!.customerVerification ?? false) && response.body['is_phone_verified'] == 0) {
 
       }else {
-        print('-----------------------token${response.body['token']}');
+        //print('-----------------------token${response.body['token']}');
         authRepo.saveUserToken(response.body['token']);
         await authRepo.updateToken();
       }
@@ -417,7 +417,7 @@ class AuthController extends GetxController implements GetxService {
 
   Future<void> submitBusinessPlan({required int estateId})async {
     String businessPlan;
-    print("ahmed ahemd$businessIndex");
+    //print("ahmed ahemd$businessIndex");
     if(businessIndex == 0){
       businessPlan = 'commission';
       setUpBusinessPlan(BusinessPlanBody(businessPlan: businessPlan, estateId: estateId.toString(), packageId: '', payment: ''));

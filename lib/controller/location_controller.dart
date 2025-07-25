@@ -115,7 +115,7 @@ class LocationController extends GetxController implements GetxService {
     }else {
       _isLoading = true;
     }
-    print('problem start');
+    //print('problem start');
     if(!updateInAddress){
       update();
     }
@@ -133,7 +133,7 @@ class LocationController extends GetxController implements GetxService {
       response.body['zone_data'].forEach((item) { zoneData.add(ZoneData.fromJson(item)); });
       responseModel = ZoneResponseModel(true, '' , zoneIds, zoneData);
       if(updateInAddress) {
-        print('here problem');
+        //print('here problem');
         AddressModel? address = getUserAddress();
         address?.zoneData = zoneData;
         saveUserAddress(address!);
@@ -252,7 +252,7 @@ class LocationController extends GetxController implements GetxService {
   AddressModel? getUserAddress() {
     AddressModel? addressModel;
     try {
-      addressModel = AddressModel.fromJson(jsonDecode(locationRepo.getUserAddress()!));
+      addressModel = AddressModel.fromJson(jsonDecode(locationRepo.getUserAddress() ?? ""));
     }catch(e) {}
     return addressModel;
   }
@@ -475,7 +475,7 @@ class LocationController extends GetxController implements GetxService {
         district.value = "District Not Found";
       }
     } catch (e) {
-      print("Error fetching location data: $e");
+      //print("Error fetching location data: $e");
       city.value = "Error";
       district.value = "Error";
     }

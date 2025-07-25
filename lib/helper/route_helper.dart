@@ -210,8 +210,14 @@ class RouteHelper {
     GetPage(name: updateProfile, page: () => UpdateProfileScreen()),
     GetPage(name: conversation, page: () => ConversationScreen()),
     GetPage(name: categories, page: () {
-      MapScreen pickMapScreen = Get.arguments;
+      MapScreen? pickMapScreen = Get.arguments;
       bool fromAddress = Get.parameters['page'] == 'add-address';
+
+      // final args = Get.arguments;
+      // final MapScreen? pickMapScreen = args is MapScreen ? args : null;
+      //
+      // final bool fromAddress = Get.parameters['page'] == 'add-address';
+
       return (fromAddress && pickMapScreen == null) ? NotFound() : pickMapScreen ?? MapScreen(
         mainCategory:ZoneModel(id: int.parse(Get.parameters['id']!),
             latitude:Get.parameters['latitude']!,
@@ -224,7 +230,9 @@ class RouteHelper {
             updatedAt: '',
             image: ''
         ) ,
-         fromSignUp: Get.parameters['page'] == signUp, fromAddAddress: fromAddress, route: Get.parameters['page']!,
+        fromSignUp: Get.parameters['page'] == signUp,
+        fromAddAddress: fromAddress,
+        route: Get.parameters['page'] ?? estate,
         canRoute: Get.parameters['route'] == 'true',
       );
     }),

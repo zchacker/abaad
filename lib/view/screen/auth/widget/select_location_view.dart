@@ -46,14 +46,14 @@ class _SelectLocationViewState extends State<SelectLocationView> {
   }
 
   Future<void> getAddressFromLatLang(double lat, double log) async {
-    print("omeromer");
+    //print("omeromer");
     List<Placemark> placemark =
     await placemarkFromCoordinates(lat, log);
     Placemark place = placemark[0];
     String  address= 'Address : ${place.locality},${place.country}';
 
     showCustomSnackBar("message${place.subLocality}");
-    print("adress-------------------------------------${place.locality},${place.country}");
+    //print("adress-------------------------------------${place.locality},${place.country}");
   }
   @override
   Widget build(BuildContext context) {

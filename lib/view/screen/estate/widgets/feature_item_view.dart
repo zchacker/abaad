@@ -59,7 +59,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
     Get.find<EstateController>().getEstateDetails(Estate(id:widget.estate.id));
    // selectedUrl = '${AppConstants.BASE_URL}/payment-mobile/pyment?order_id=${widget.orderModel.id}&customer_id=${widget.orderModel.userId}';
 
-     print("-------------------------------${widget.featureId}");
+     //print("-------------------------------${widget.featureId}");
 
 
     if(widget.featureId=="6"){
@@ -85,7 +85,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
 
 
 
-    print("--------------------------+---${widget.estate.latitude}");
+    //print("--------------------------+---${widget.estate.latitude}");
 
 
 
@@ -105,7 +105,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
         AndroidServiceWorkerController serviceWorkerController = AndroidServiceWorkerController.instance();
         await serviceWorkerController.setServiceWorkerClient(AndroidServiceWorkerClient(
           shouldInterceptRequest: (request) async {
-            print(request);
+            //print(request);
             return null;
           },
         ));

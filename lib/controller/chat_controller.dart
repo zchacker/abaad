@@ -220,7 +220,7 @@ class ChatController extends GetxController implements GetxService {
 
   Future<Response> sendMessage({required String message, required NotificationBody notificationBody,
     required int conversationID, required int index,required String  estate_id}) async {
-    print("omeromeromer");
+    //print("omeromeromer");
     Response response;
     _isLoading = true;
     update();
@@ -236,7 +236,7 @@ class ChatController extends GetxController implements GetxService {
       _chatRawImage = [];
       _isSendButtonActive = false;
       _isLoading = false;
-      print("---------------------------------${response.body}");
+      ////print("---------------------------------${response.body}");
       _messageModel = MessageModel.fromJson(response.body);
       _searchConversationModel!.conversations?[index].lastMessageTime = DateConverter.isoStringToLocalString(_messageModel!.messages![0].createdAt);
           if(!_hasAdmin && (_messageModel?.conversation?.senderType == UserType.admin.name || _messageModel?.conversation?.receiverType == UserType.admin.name)) {
@@ -318,8 +318,8 @@ class ChatController extends GetxController implements GetxService {
     );
     final ImageFile output = await compressor.compress(ImageFileConfiguration(input: input, config: config));
     if(kDebugMode) {
-      print('Input size : ${input.sizeInBytes / 1048576}');
-      print('Output size : ${output.sizeInBytes / 1048576}');
+      //print('Input size : ${input.sizeInBytes / 1048576}');
+      //print('Output size : ${output.sizeInBytes / 1048576}');
     }
     return XFile.fromData(output.rawBytes);
   }

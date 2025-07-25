@@ -21,7 +21,7 @@ class ServiceProviderItem extends StatelessWidget {
 
     isNull = estate == null;
     if(!isNull) {
-      print("---------------------------------------4${estate.id}");
+      //print("---------------------------------------4${estate.id}");
       length = estate.serviceOffers!.length;
     return
       !isNull ? length > 0 ? Container(
@@ -71,7 +71,7 @@ class ServiceProviderItem extends StatelessWidget {
                         ),
                         child:  GetBuilder<SplashController>(builder: (splashController) {
                           String baseUrl = Get.find<SplashController>().configModel!.baseUrls!.provider;
-                          //   print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
+                          //   //print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
                           return ClipOval(
                             child: CustomImage(
                               image: '$baseUrl/${estate.serviceOffers![index].image}',
@@ -130,7 +130,7 @@ class ServiceProviderItem extends StatelessWidget {
                             InkWell(
                               onTap: () async{
                                 final phoneNumber = estate.serviceOffers![index].phoneProvider;
-                               // print("----------${phoneNumber}");// رقم الهاتف بدون "+" وبصيغة دولية
+                               // //print("----------${phoneNumber}");// رقم الهاتف بدون "+" وبصيغة دولية
                                 final estateId = estate.id; // تأكد أن الـ ID موجود لديك
                                 final estateUrl = 'https://abaad.com/estate/$estateId';
                                 final message = Uri.encodeComponent(
@@ -141,7 +141,7 @@ class ServiceProviderItem extends StatelessWidget {
                                 if (await canLaunchUrl(Uri.parse(url))) {
                                 await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
                                 } else {
-                                print("لا يمكن فتح واتساب");
+                                //print("لا يمكن فتح واتساب");
                                 }
 
                               },
@@ -165,7 +165,7 @@ class ServiceProviderItem extends StatelessWidget {
                                 if (await canLaunchUrl(phoneUri)) {
                                 await launchUrl(phoneUri);
                                 } else {
-                                print("لا يمكن فتح الاتصال");
+                                //print("لا يمكن فتح الاتصال");
                                 }
                               },
                               child: Container(

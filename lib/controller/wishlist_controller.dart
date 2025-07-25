@@ -5,7 +5,7 @@ import 'package:abaad/view/base/custom_snackbar.dart';
 import 'package:get/get.dart';
 
 class WishListController extends GetxController implements GetxService {
-  final WishListRepo? wishListRepo;
+  final WishListRepo wishListRepo;
   WishListController({required this.wishListRepo});
 
 
@@ -53,14 +53,14 @@ class WishListController extends GetxController implements GetxService {
     _wishRestList = [];
     _wishRestIdList = [];
     Response? response = await wishListRepo?.getWishList();
-   // print("omeromeromeromeomromer${response.body["estate"]}");
+   // //print("omeromeromeromeomromer${response.body["estate"]}");
     if (response?.statusCode == 200) {
       update();
 
 
       response?.body['estate'].forEach((restaurant) async {
         //Estate restaurant = Estate();
-        print("omeromeromeromeomromer${response.body['estate']}");
+        //print("omeromeromeromeomromer${response.body['estate']}");
         try{
           restaurant = Estate.fromJson(restaurant);
         }catch(e){

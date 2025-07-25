@@ -52,7 +52,7 @@ class _OfferListState extends State<OfferList> {
                   // Add an image widget to display an image
               GetBuilder<SplashController>(builder: (splashController) {
                 String baseUrl = Get.find<SplashController>().configModel?.baseUrls?.provider ?? "";
-                //   print("------------${'$_baseUrl/${estateController.estate?.serviceOffers[index].imageCover}'}");
+                //   //print("------------${'$_baseUrl/${estateController.estate?.serviceOffers[index].imageCover}'}");
                 return ClipOval(
                   child: CustomImage(
                     image: '$baseUrl/${widget.estate?.serviceOffers?[index].image}',
@@ -288,7 +288,7 @@ class _OfferListState extends State<OfferList> {
               ),
               child:  GetBuilder<SplashController>(builder: (splashController) {
                 String baseUrl = Get.find<SplashController>().configModel?.baseUrls?.provider ?? "";
-                //   print("------------${'$_baseUrl/${estateController.estate?.serviceOffers[index].imageCover}'}");
+                //   //print("------------${'$_baseUrl/${estateController.estate?.serviceOffers[index].imageCover}'}");
                 return ClipOval(
                   child: CustomImage(
                     image: '$baseUrl/${widget.estate!.serviceOffers?[index].image}',
@@ -538,7 +538,7 @@ openDialPad(String phoneNumber) async {
   if (await canLaunchUrl(url)) {
     await launchUrl(url);
   } else {
-    print("Can't open dial pad.");
+    //print("Can't open dial pad.");
   }
 }
 

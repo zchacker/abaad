@@ -26,7 +26,7 @@ class EstateItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentLocale = Get.locale;
     bool isArabic = currentLocale?.languageCode == 'ar';
-    print("-------------------------------------------$isMyProfile");
+    //print("-------------------------------------------$isMyProfile");
     return  InkWell(
       onTap:onPressed,
       child: Container(
@@ -172,7 +172,7 @@ class EstateItem extends StatelessWidget {
                                                 onTap: () {
                                                   if(Get.find<AuthController>().isLoggedIn()) {
 
-                                                    print("removed id ------------------omer-------${estate?.id}");
+                                                    //print("removed id ------------------omer-------${estate?.id}");
                                                     isWished ? wishController.removeFromWishList(estate?.estate_id ?? 0) : wishController.addToWishList(estate!, true);
                                                   }else {
                                                     showCustomSnackBar('you_are_not_logged_in'.tr);

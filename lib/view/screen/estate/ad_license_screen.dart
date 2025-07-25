@@ -43,7 +43,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
         child: Center(child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: GetBuilder<AuthController>(builder: (authController) {
           return  GetBuilder<UserController>(builder: (userController) {
             if(_idNumberController.text.isEmpty) {
-              _idNumberController.text = userController.userInfoModel!.agent!.identity ?? '';
+              _idNumberController.text = userController.userInfoModel?.agent!.identity ?? '';
 
             }
           return   GetBuilder<EstateController>(builder: (estateController) {
@@ -126,7 +126,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
 
               String advertiserNumber = _idNumberController.text.trim();
               final advertiserType = estateController.advertiserType;
-              print(advertiserType); // يطبع 1 أو 2 بناءً على اختيار المستخدم
+              //print(advertiserType); // يطبع 1 أو 2 بناءً على اختيار المستخدم
 
               if (numberLicense.isEmpty) {
               showCustomSnackBar('ادخل رقم الترخيص');

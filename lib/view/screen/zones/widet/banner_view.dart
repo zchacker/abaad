@@ -38,7 +38,7 @@ class BannerView extends StatelessWidget {
                 itemCount: bannerController.bannerImageList?.length == 0 ? 1 : bannerController.bannerImageList?.length,
                 itemBuilder: (context, index, _) {
                   String? baseUrl = Get.find<SplashController>().configModel?.baseUrls?.banners;
-                  print("---------------anner----------$baseUrl");
+                  //print("---------------anner----------$baseUrl");
                   return InkWell(
                     onTap: (){
 
@@ -48,7 +48,7 @@ class BannerView extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                        boxShadow: [BoxShadow(color: Colors!.grey[Get.isDarkMode ? 800 : 200 ] , spreadRadius: 1, blurRadius: 5)],
+                        boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200 ]! , spreadRadius: 1, blurRadius: 5)],
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),

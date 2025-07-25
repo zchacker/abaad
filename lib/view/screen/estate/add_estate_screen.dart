@@ -270,7 +270,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
   late String city;
 
   Future<void> getAddressFromLatLang(double lat, double log) async {
-    print("omeromer");
+    //print("omeromer");
     List<Placemark> placemark = await placemarkFromCoordinates(lat, log);
     Placemark place = placemark[0];
     String address = 'Address : ${place.locality},${place.country}';
@@ -431,7 +431,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
     _westController.text =
         '${data2['westLimitName'] ?? ''} ${data2['westLimitDescription'] ?? ''} ${data2['westLimitLengthChar'] ?? ''}';
 
-    print("-------------------------------$data2String");
+    //print("-------------------------------$data2String");
   }
 
   void loadSavedLicenseData() async {
@@ -473,9 +473,9 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                         builder: (userController) {
                       if (_phoneController.text.isEmpty) {
                         _firstNameController.text =
-                            userController.userInfoModel!.name ?? '';
+                            userController.userInfoModel?.name ?? '';
                         _phoneController.text =
-                            userController.userInfoModel!.phone ?? '';
+                            userController.userInfoModel?.phone ?? '';
                         //    _userTypeController.text = userController.userInfoModel.userType ?? '';
                       }
 
@@ -2343,7 +2343,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                                                 _showWebViewDialog(context, url);
                                                                               } else {
                                                                                 // Handle empty URL input
-                                                                                print('URL is empty');
+                                                                                //print('URL is empty');
                                                                               }
                                                                             }
                                                                           : null,
@@ -2723,7 +2723,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                 _spaceController.text.trim();
                                             adNumber = _addNumberController.text
                                                 .trim();
-                                            //   print("----------------------lat${authController.estateLocation}");
+                                            //   //print("----------------------lat${authController.estateLocation}");
                                             //    showCustomSnackBar("----------------------lat${authController.estateLocation.longitude}");
 
                                             //     String property = '{"room": "44", "bathroom": 30}';
@@ -2877,7 +2877,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                     .toString(),
                                                 nationalAddress: "234234",
                                                 user_id: userController
-                                                    .userInfoModel!.id
+                                                    .userInfoModel?.id
                                                     .toString(),
                                                 city: _cityController.text
                                                     .toString(),

@@ -37,40 +37,39 @@ class ConversationsModel {
 }
 
 class Conversation {
-  int id = 0;
-  int senderId = 0;
-  String senderType = "";
-  int receiverId = 0;
-  String receiverType = "";
+  int? id = 0;
+  int? senderId = 0;
+  String? senderType = "";
+  int? receiverId = 0;
+  String? receiverType = "";
   int unreadMessageCount = 0;
-  int lastMessageId = 0;
-  String lastMessageTime = "";
-  String createdAt = "";
-  String updatedAt = "";
-  int estate_id = 0;
+  int? lastMessageId = 0;
+  String? lastMessageTime = "";
+  String? createdAt = "";
+  String? updatedAt = "";
+  int? estate_id = 0;
   Userinfo? sender;
   Userinfo? receiver;
   Estate? estate;
   Message? lastMessage;
 
-  Conversation(
-      {required this.id,
-        required this.senderId,
-        required this.senderType,
-        required this.receiverId,
-        required this.receiverType,
-        required this.unreadMessageCount,
-        required this.lastMessageId,
-        required this.lastMessageTime,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.sender,
-        required this.receiver,
-        required this.lastMessage,
-        required this.estate_id,
-        required this.estate
-
-      });
+  Conversation({
+    required this.id,
+    required this.senderId,
+    required this.senderType,
+    required this.receiverId,
+    required this.receiverType,
+    required this.unreadMessageCount,
+    required this.lastMessageId,
+    required this.lastMessageTime,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.sender,
+    required this.receiver,
+    required this.lastMessage,
+    required this.estate_id,
+    required this.estate
+  });
 
   Conversation.fromJson(Map<String, dynamic> json) {
     id = json['id'];

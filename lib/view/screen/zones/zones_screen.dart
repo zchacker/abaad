@@ -39,7 +39,7 @@ class ZonesScreen extends StatefulWidget {
     //     int pageSize = (Get.find<CategoryController>().pageSize / 10).ceil();
     //     if (offset < pageSize) {
     //       offset++;
-    //       print('end of the page');
+    //       //print('end of the page');
     //       Get.find<CategoryController>().showBottomLoader();
     //       Get.find<CategoryController>().getCategoryProductList(0,"0", 0,'0',"0","0","0", offset.toString());
     //     }
@@ -50,7 +50,7 @@ class ZonesScreen extends StatefulWidget {
     int pageSize = (Get.find<CategoryController>().pageSize! / 10).ceil();
     if (offset < pageSize) {
       offset++;
-      print('end of the page');
+      //print('end of the page');
       Get.find<CategoryController>().showBottomLoader();
       Get.find<CategoryController>().getCategoryProductList(0,"0", 0,'0',"0","0","0", offset.toString(),0,0,"");
   }}
@@ -77,7 +77,7 @@ class _ZonesScreenState extends State<ZonesScreen> {
   void _loadSavedZone() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      selectedZoneName = prefs.getString('zone_name')!;
+      selectedZoneName = prefs.getString('zone_name') ?? "";
     });
   }
   static const _locale = 'en';

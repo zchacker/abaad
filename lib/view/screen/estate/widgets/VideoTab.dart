@@ -36,7 +36,7 @@ class _VideoTabState extends State<VideoTab> {
     s=true;
 
 
-    print("---------------------------------------${widget.estateId}");
+    //print("---------------------------------------${widget.estateId}");
 
 
   }
@@ -154,7 +154,7 @@ class _VideoTabState extends State<VideoTab> {
   Future<void> uploadSkyVideo() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String  indexValue = prefs.getString('estate_id')!;
+    String  indexValue = prefs.getString('estate_id') ?? "";
     String filePath = _fileSkyPickerResult.files.single.path!;
     var request = http.MultipartRequest('POST', Uri.parse('${AppConstants.BASE_URL}/api/v1/estate/upload-sky-view'));
     request.fields['id'] = indexValue;

@@ -141,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(height: _isLoggedIn ? Dimensions.PADDING_SIZE_SMALL : 5),
               ProfileButton(icon: Icons.share, title: 'share_app'.tr, isButtonActive: Get.isDarkMode, onTap: () {
                 if (Platform.isIOS) {
-                  // print('is a IOS');
+                  // //print('is a IOS');
                   Share.share('https://play.google.com/store/apps/details?id=sa.pdm.abaad.abaad', subject: 'Look what I made!');
 
                 } else if (Platform.isAndroid) {

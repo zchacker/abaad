@@ -83,7 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         int pageSize = (Get.find<CategoryController>().pageSize! / 10).ceil();
         if (offset < pageSize) {
           offset++;
-          print('end of the page');
+          //print('end of the page');
           Get.find<CategoryController>().showBottomLoader();
        //   Get.find<CategoryController>().getCategoryProductList(0,"0", 0,'0',"0","0","0", offset.toString());
         }
@@ -176,7 +176,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               elevation: 0,
               onPressed: () {
 
-                if (userController.userInfoModel!.accountVerification != "0") {
+                if (userController.userInfoModel?.accountVerification != "0") {
                   Get.toNamed(RouteHelper.getAddLicenseRoute());
                   // Get.toNamed(RouteHelper.getAddEstateRoute());
                 } else {
@@ -256,10 +256,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     final PendingDynamicLinkData? data =
     await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri deepLink = data!.link;
+    final Uri? deepLink = data?.link;
 
-    // final code = deepLink.path.split('/')[1];
-    handleMyLink(deepLink);
+      // final code = deepLink.path.split('/')[1];
+      if(deepLink != null) {
+        handleMyLink(deepLink);
+      }
     }
 
 
@@ -377,7 +379,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     /// osama.link.page/Hellow --> osama.link.page and Hellow
     sepeatedLink.addAll(url.path.split('/'));
 
-    print("The Token that i'm interesed in is ${sepeatedLink[1]}");
+    ////print("The Token that i'm interesed in is ${sepeatedLink[1]}");
     // Get.to(()=>EstateDetails(estate: ,));
 
     // Get.dialog(DettailsDilog(estate:_products[index]));

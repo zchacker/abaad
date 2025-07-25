@@ -26,7 +26,7 @@ class BannerController extends GetxController implements GetxService {
           _bannerImageList?.add(campaign.image ?? "");
           _bannerDataList?.add(campaign);
         }
-        print("-------------------------bnners${response.body}");
+        ////print("-------------------------bnners${response.body}");
         for (var banner in bannerModel.banners!) {
           _bannerImageList?.add(banner.image);
 

@@ -122,7 +122,7 @@ class CustomThumbShape extends SliderComponentShape {
     cPaint.color = Colors.white;
     cPaint.strokeWidth = 14 / 2;
     canvas.drawCircle(Offset(thumbCenter.dx, thumbCenter.dy), 12, cPaint);
-    cPaint.color = colorTween.evaluate(enableAnimation)!;
+    cPaint.color = colorTween.evaluate(enableAnimation) ?? Color(0);
     canvas.drawCircle(Offset(thumbCenter.dx, thumbCenter.dy), 10, cPaint);
   }
 

@@ -56,7 +56,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         int pageSize = (Get.find<CategoryController>().pageSize! / 10).ceil();
         if (offset < pageSize) {
           offset++;
-          print('end of the page');
+          //print('end of the page');
           Get.find<CategoryController>().showBottomLoader();
           Get.find<CategoryController>().getCategoryProductList(0,"0", 0,'0',"0","0","0", offset.toString(),0,0,"");
         }
@@ -472,7 +472,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         showCustomSnackBar(selectedFilters.join(', '));
 
 
-                       print("-----------------------------------------$zone_id");
+                       ////print("-----------------------------------------$zone_id");
                        SharedPreferences prefs = await SharedPreferences.getInstance();
                        int? savedZoneId = prefs.getInt('zone_id');
 

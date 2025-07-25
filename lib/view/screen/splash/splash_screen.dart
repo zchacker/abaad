@@ -211,7 +211,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       //
                       //   child: ColorizeAnimatedTextKit(
                       //     onTap: () {
-                      //       print("Tap Event");
+                      //       //print("Tap Event");
                       //     },
                       //     text:  [
                       //       "abaad".tr,
@@ -248,7 +248,7 @@ class _SplashScreenState extends State<SplashScreen> {
   //         handleMyLink(deeplink);
   //               },
   //       onError: (OnLinkErrorException e)async{
-  //         print("We got error $e");
+  //         //print("We got error $e");
   //
   //       }
   //
@@ -261,7 +261,7 @@ class _SplashScreenState extends State<SplashScreen> {
       final Uri deepLink = dynamicLink.link;
       handleMyLink(deepLink);
     }).onError((error) {
-      print('We got error $error');
+      //print('We got error $error');
     });
   }
 
@@ -271,7 +271,7 @@ class _SplashScreenState extends State<SplashScreen> {
     /// osama.link.page/Hellow --> osama.link.page and Hellow
     sepeatedLink.addAll(url.path.split('/'));
 
-    print("The Token that i'm interesed in is ${sepeatedLink[1]}");
+    //print("The Token that i'm interesed in is ${sepeatedLink[1]}");
     Get.find<EstateController>()
         .getEstateDetails(Estate(id: int.parse(sepeatedLink[1])));
     Get.toNamed(RouteHelper.getDetailsRoute(int.parse(sepeatedLink[1])));

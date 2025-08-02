@@ -1,5 +1,5 @@
 
-import 'package:abaad/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
 import 'package:get/get.dart';
 
 class PriceConverter {

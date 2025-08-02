@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/chat_controller.dart';
-import 'package:abaad/controller/notification_controller.dart';
-import 'package:abaad/data/model/body/notification_body.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/helper/user_type.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/chat_controller.dart';
+import 'package:abaad_flutter/controller/notification_controller.dart';
+import 'package:abaad_flutter/data/model/body/notification_body.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/helper/user_type.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:get/get.dart';
@@ -29,7 +29,7 @@ class NotificationHelper {
           if (notificationPayload.notificationType == NotificationType.order) {
             // Navigate to order details
           } else if (notificationPayload.notificationType == NotificationType.general) {
-            Get.toNamed(RouteHelper.getNotificationRoute());
+           // Get.toNamed(RouteHelper.getNotificationRoute());
           } else {
             Get.toNamed(RouteHelper.getChatRoute(
                 notificationBody: notificationPayload,
@@ -47,114 +47,114 @@ class NotificationHelper {
       return;
     });
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      //print("onMessage: \${message.notification?.title}/\${message.notification?.body}/\${message.data}");
-      if (message.data['type'] == 'message' && Get.currentRoute.startsWith(RouteHelper.messages)) {
-        if (Get.find<AuthController>().isLoggedIn()) {
-          Get.find<ChatController>().getConversationList(1);
-          if (Get.find<ChatController>().messageModel?.conversation?.id.toString() == message.data['conversation_id'].toString()) {
-            Get.find<ChatController>().getMessages(
-              1,
-              NotificationBody(
-                notificationType: NotificationType.message,
-                adminId: message.data['sender_null'] == UserType.adnullname ? 0 : null,
-                orderId: null,
-                deliverymanId : null,
-                restaurantId: null,
-                type: '',
-                conversationId: null,
-              ),
-              null,
-              int.parse(message.data['conversation_id'].toString()),
-            );
-          } else {
-            NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
-          }
-        }
-      } else if (message.data['type'] == 'message' && Get.currentRoute.startsWith(RouteHelper.conversation)) {
-        if (Get.find<AuthController>().isLoggedIn()) {
-          Get.find<ChatController>().getConversationList(1);
-        }
-        NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
-      } else {
-        NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
-        if (Get.find<AuthController>().isLoggedIn()) {
-          Get.find<NotificationController>().getNotificationList(true);
-        }
-      }
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      //print("onOpenApp: \${message.notification?.title}/\${message.notification?.body}/\${message.notification?.titleLocKey}");
-      try {
-        if (message.data.isNotEmpty) {
-          NotificationBody notificationBody = convertNotification(message.data , null);
-          if (notificationBody.notificationType == NotificationType.order) {
-            // Navigate to order details
-          } else if (notificationBody.notificationType == NotificationType.general) {
-            Get.toNamed(RouteHelper.getNotificationRoute());
-          } else {
-            Get.toNamed(RouteHelper.getChatRoute(
-                notificationBody: notificationBody,
-                conversationID: notificationBody.conversationId!,
-                user: null,
-                index: 0,
-                estate_id: 0,
-                link: '',
-                estate: null,
-            ));
-          }
-        }
-      } catch (e) {}
-    });
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   //print("onMessage: \${message.notification?.title}/\${message.notification?.body}/\${message.data}");
+    //   if (message.data['type'] == 'message' && Get.currentRoute.startsWith(RouteHelper.messages)) {
+    //     if (Get.find<AuthController>().isLoggedIn()) {
+    //       Get.find<ChatController>().getConversationList(1);
+    //       if (Get.find<ChatController>().messageModel?.conversation?.id.toString() == message.data['conversation_id'].toString()) {
+    //         Get.find<ChatController>().getMessages(
+    //           1,
+    //           NotificationBody(
+    //             notificationType: NotificationType.message,
+    //             adminId: message.data['sender_null'] == UserType.adnullname ? 0 : null,
+    //             orderId: null,
+    //             deliverymanId : null,
+    //             restaurantId: null,
+    //             type: '',
+    //             conversationId: null,
+    //           ),
+    //           null,
+    //           int.parse(message.data['conversation_id'].toString()),
+    //         );
+    //       } else {
+    //         NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
+    //       }
+    //     }
+    //   } else if (message.data['type'] == 'message' && Get.currentRoute.startsWith(RouteHelper.conversation)) {
+    //     if (Get.find<AuthController>().isLoggedIn()) {
+    //       Get.find<ChatController>().getConversationList(1);
+    //     }
+    //     NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
+    //   } else {
+    //     NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
+    //     if (Get.find<AuthController>().isLoggedIn()) {
+    //       Get.find<NotificationController>().getNotificationList(true);
+    //     }
+    //   }
+    // });
+    //
+    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    //   //print("onOpenApp: \${message.notification?.title}/\${message.notification?.body}/\${message.notification?.titleLocKey}");
+    //   try {
+    //     if (message.data.isNotEmpty) {
+    //       NotificationBody notificationBody = convertNotification(message.data , null);
+    //       if (notificationBody.notificationType == NotificationType.order) {
+    //         // Navigate to order details
+    //       } else if (notificationBody.notificationType == NotificationType.general) {
+    //         Get.toNamed(RouteHelper.getNotificationRoute());
+    //       } else {
+    //         Get.toNamed(RouteHelper.getChatRoute(
+    //             notificationBody: notificationBody,
+    //             conversationID: notificationBody.conversationId!,
+    //             user: null,
+    //             index: 0,
+    //             estate_id: 0,
+    //             link: '',
+    //             estate: null,
+    //         ));
+    //       }
+    //     }
+    //   } catch (e) {}
+    // });
   }
 
-  static Future<void> showNotification(RemoteMessage message, FlutterLocalNotificationsPlugin fln, bool data) async {
-    if (!GetPlatform.isIOS) {
-      String? title;
-      String? body;
-      String? orderID;
-      String? image;
-      NotificationBody notificationBody = convertNotification(message.data , null);
-      if (data) {
-        title = message.data['title'];
-        body = message.data['body'];
-        orderID = message.data['order_id'];
-        image = message.data['image'] != null && message.data['image'].isNotEmpty
-            ? message.data['image'].startsWith('http')
-            ? message.data['image']
-            : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.data['image']}'
-            : null;
-      } else {
-        title = message.notification?.title;
-        body = message.notification?.body;
-        orderID = message.notification?.titleLocKey;
-        if (GetPlatform.isAndroid) {
-          image = message.notification?.android?.imageUrl != null && message.notification!.android!.imageUrl!.isNotEmpty
-              ? message.notification!.android!.imageUrl!.startsWith('http')
-              ? message.notification!.android!.imageUrl!
-              : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.notification!.android!.imageUrl!}'
-              : null;
-        } else if (GetPlatform.isIOS) {
-          image = message.notification?.apple?.imageUrl != null && message.notification!.apple!.imageUrl!.isNotEmpty
-              ? message.notification!.apple!.imageUrl!.startsWith('http')
-              ? message.notification!.apple!.imageUrl!
-              : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.notification!.apple!.imageUrl!}'
-              : null;
-        }
-      }
-
-      if (image != null && image.isNotEmpty) {
-        try {
-          await showBigPictureNotificationHiddenLargeIcon(title!, body!, orderID, notificationBody, image, fln);
-        } catch (e) {
-          await showBigTextNotification(title!, body!, orderID, notificationBody, fln);
-        }
-      } else {
-        await showBigTextNotification(title!, body!, orderID, notificationBody, fln);
-      }
-    }
-  }
+  // static Future<void> showNotification(RemoteMessage message, FlutterLocalNotificationsPlugin fln, bool data) async {
+  //   if (!GetPlatform.isIOS) {
+  //     String? title;
+  //     String? body;
+  //     String? orderID;
+  //     String? image;
+  //     NotificationBody notificationBody = convertNotification(message.data , null);
+  //     if (data) {
+  //       title = message.data['title'];
+  //       body = message.data['body'];
+  //       orderID = message.data['order_id'];
+  //       image = message.data['image'] != null && message.data['image'].isNotEmpty
+  //           ? message.data['image'].startsWith('http')
+  //           ? message.data['image']
+  //           : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.data['image']}'
+  //           : null;
+  //     } else {
+  //       title = message.notification?.title;
+  //       body = message.notification?.body;
+  //       orderID = message.notification?.titleLocKey;
+  //       if (GetPlatform.isAndroid) {
+  //         image = message.notification?.android?.imageUrl != null && message.notification!.android!.imageUrl!.isNotEmpty
+  //             ? message.notification!.android!.imageUrl!.startsWith('http')
+  //             ? message.notification!.android!.imageUrl!
+  //             : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.notification!.android!.imageUrl!}'
+  //             : null;
+  //       } else if (GetPlatform.isIOS) {
+  //         image = message.notification?.apple?.imageUrl != null && message.notification!.apple!.imageUrl!.isNotEmpty
+  //             ? message.notification!.apple!.imageUrl!.startsWith('http')
+  //             ? message.notification!.apple!.imageUrl!
+  //             : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.notification!.apple!.imageUrl!}'
+  //             : null;
+  //       }
+  //     }
+  //
+  //     if (image != null && image.isNotEmpty) {
+  //       try {
+  //         await showBigPictureNotificationHiddenLargeIcon(title!, body!, orderID, notificationBody, image, fln);
+  //       } catch (e) {
+  //         await showBigTextNotification(title!, body!, orderID, notificationBody, fln);
+  //       }
+  //     } else {
+  //       await showBigTextNotification(title!, body!, orderID, notificationBody, fln);
+  //     }
+  //   }
+  // }
 
   static Future<void> showTextNotification(String title, String body, String? orderID, NotificationBody? notificationBody, FlutterLocalNotificationsPlugin fln) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
@@ -248,12 +248,12 @@ class NotificationHelper {
   }
 }
 
-Future<dynamic> myBackgroundMessageHandler(RemoteMessage message) async {
-  //print("onBackground: \${message.notification?.title}/\${message.notification?.body}/\${message.notification?.titleLocKey}");
-  var androidInitialize = const AndroidInitializationSettings('notification_icon');
-  var iOSInitialize = const IOSInitializationSettings();
-  var initializationsSettings = InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  flutterLocalNotificationsPlugin.initialize(initializationsSettings);
-  NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, true);
-}
+// Future<dynamic> myBackgroundMessageHandler(RemoteMessage message) async {
+//   //print("onBackground: \${message.notification?.title}/\${message.notification?.body}/\${message.notification?.titleLocKey}");
+//   var androidInitialize = const AndroidInitializationSettings('notification_icon');
+//   var iOSInitialize = const IOSInitializationSettings();
+//   var initializationsSettings = InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
+//   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+//   flutterLocalNotificationsPlugin.initialize(initializationsSettings);
+//   NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, true);
+// }

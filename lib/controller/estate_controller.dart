@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:abaad/controller/category_controller.dart';
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/api/api_client.dart';
-import 'package:abaad/data/model/body/estate_body.dart';
-import 'package:abaad/data/model/response/category_model.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/data/repository/estate_repo.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/app_constants.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/controller/category_controller.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/api/api_client.dart';
+import 'package:abaad_flutter/data/model/body/estate_body.dart';
+import 'package:abaad_flutter/data/model/response/category_model.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/data/repository/estate_repo.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -232,9 +232,32 @@ class EstateController extends GetxController implements GetxService {
     update();
   }
 
-  Future<EstateModel?> getEstateDetails(Estate estate) async {
-    _estate = estate;
-      return _estateModel;
+  // Future<EstateModel?> getEstateDetails(Estate estate) async {
+  //   _estate = estate;
+  //
+  //   //print("--------------------${_estateModel!.estates!.length}");
+  //     return _estateModel;
+  // }
+
+
+
+  Future<EstateModel> getEstateDetails(Estate estate) async {
+    if (estate.shortDescription != null) {
+      _estate = estate;
+    } else {
+      _isLoading = true;
+      _estate = null;
+      Response response = await estateRepo.getEstateDetails(estate.id.toString());
+      if (response.statusCode == 200) {
+        _estate = Estate.fromJson(response.body);
+      } else {
+        // ApiChecker.checkApi(response);
+        ApiChecker.checkApi(response, showToaster: true);
+      }
+      _isLoading = false;
+      update();
+    }
+    return _estateModel!;
   }
 
 
@@ -340,19 +363,19 @@ class EstateController extends GetxController implements GetxService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _isLoading = true;
     update();
-    List<MultipartBody> multiParts = [];
-    multiParts.add(MultipartBody('image', _pickedImage!));
-    for (XFile file in _pickedIdentities) {
-      multiParts.add(MultipartBody('identity_image[]', file));
-    }
-
-    multiParts.add(MultipartBody('image', _pickedPlanedImage!));
-    for (XFile file in _pickPlaned) {
-      multiParts.add(MultipartBody('planed_image[]', file));
-    }
+    // List<MultipartBody> multiParts = [];
+    // multiParts.add(MultipartBody('image', _pickedImage!));
+    // for (XFile file in _pickedIdentities) {
+    //   multiParts.add(MultipartBody('identity_image[]', file));
+    // }
+    //
+    // multiParts.add(MultipartBody('image', _pickedPlanedImage!));
+    // for (XFile file in _pickPlaned) {
+    //   multiParts.add(MultipartBody('planed_image[]', file));
+    // }
 
     Response response = await estateRepo.addEstate(
-        estateBody,multiParts);
+        estateBody);
   prefs.setString('estate_id', response.body["estate_id"].toString());
     _pickPlaned.clear();
     if (response.statusCode == 200) {

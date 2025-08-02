@@ -1,6 +1,6 @@
 class NearbyPlacesResponse {
-  String nextPageToken = "";
-  List<Results> results = [];
+  String? nextPageToken = "";
+  List<Results>? results = [];
   String status = "";
 
   NearbyPlacesResponse({ required  this.nextPageToken, required  this.results, required  this.status});
@@ -11,7 +11,7 @@ class NearbyPlacesResponse {
     if (json['results'] != null) {
       results = <Results>[];
       json['results'].forEach((v) {
-        results.add(Results.fromJson(v));
+        results!.add(Results.fromJson(v));
       });
     }
     status = json['status'];
@@ -21,7 +21,7 @@ class NearbyPlacesResponse {
     final Map<String, dynamic> data = <String, dynamic>{};
 
     data['next_page_token'] = nextPageToken;
-    data['results'] = results.map((v) => v.toJson()).toList();
+    data['results'] = results!.map((v) => v.toJson()).toList();
       data['status'] = status;
     return data;
   }
@@ -42,9 +42,9 @@ class Results {
   String businessStatus  = "";
   OpeningHours? openingHours;
   dynamic? rating;
-  int userRatingsTotal = 0;
+  int? userRatingsTotal = 0;
   PlusCode? plusCode;
-  int priceLevel = 0;
+  int ?priceLevel = 0;
 
   Results({
     required this.geometry,

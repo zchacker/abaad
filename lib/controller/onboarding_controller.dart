@@ -1,6 +1,6 @@
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/model/response/onboarding_model.dart';
-import 'package:abaad/data/repository/onboarding_repo.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/model/response/onboarding_model.dart';
+import 'package:abaad_flutter/data/repository/onboarding_repo.dart';
 import 'package:get/get.dart';
 
 class OnBoardingController extends GetxController implements GetxService {

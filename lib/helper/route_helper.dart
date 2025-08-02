@@ -1,44 +1,44 @@
 
 import 'dart:convert';
 
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/data/model/body/notification_body.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/data/model/response/zone_model.dart';
-import 'package:abaad/util/html_type.dart';
-import 'package:abaad/view/base/custom_dialog_box.dart';
-import 'package:abaad/view/base/not_found.dart';
-import 'package:abaad/view/screen/agent/agent_profile_screen.dart';
-import 'package:abaad/view/screen/auth/agent_registration_screen.dart';
-import 'package:abaad/view/screen/auth/sign_in_screen.dart';
-import 'package:abaad/view/screen/auth/sign_up_screen.dart';
-import 'package:abaad/view/screen/auth/verification_screen.dart';
-import 'package:abaad/view/screen/chat/chat_screen.dart';
-import 'package:abaad/view/screen/chat/conversation_screen.dart';
-import 'package:abaad/view/screen/estate/UploadScreen.dart';
-import 'package:abaad/view/screen/estate/ad_license_screen.dart';
-import 'package:abaad/view/screen/estate/add_estate_screen.dart';
-import 'package:abaad/view/screen/estate/confiram_screen.dart';
-import 'package:abaad/view/screen/estate/business_plan/business_plan.dart';
-import 'package:abaad/view/screen/estate/estate_details.dart';
-import 'package:abaad/view/screen/estate/success_screen2.dart';
-import 'package:abaad/view/screen/estate/web_view_screen.dart';
-import 'package:abaad/view/screen/estate/widgets/feature_item_view.dart';
-import 'package:abaad/view/screen/html/html_viewer_screen.dart';
-import 'package:abaad/view/screen/language/language_screen.dart';
-import 'package:abaad/view/screen/dashboard/dashboard_screen.dart';
-import 'package:abaad/view/screen/map/map_screen.dart';
-import 'package:abaad/view/screen/map/pick_map_screen.dart';
-import 'package:abaad/view/screen/notification/notification_screen.dart';
-import 'package:abaad/view/screen/onboard/on_boarding_page.dart';
-import 'package:abaad/view/screen/profile/edit_dilog.dart';
-import 'package:abaad/view/screen/profile/profile_screen.dart';
-import 'package:abaad/view/screen/profile/update_profile_screen.dart';
-import 'package:abaad/view/screen/splash/splash_screen.dart';
-import 'package:abaad/view/screen/support/support_screen.dart';
-import 'package:abaad/view/screen/update/update_screen.dart';
-import 'package:abaad/view/screen/wallet/wallet_screen.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/data/model/body/notification_body.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/data/model/response/zone_model.dart';
+import 'package:abaad_flutter/util/html_type.dart';
+import 'package:abaad_flutter/view/base/custom_dialog_box.dart';
+import 'package:abaad_flutter/view/base/not_found.dart';
+import 'package:abaad_flutter/view/screen/agent/agent_profile_screen.dart';
+import 'package:abaad_flutter/view/screen/auth/agent_registration_screen.dart';
+import 'package:abaad_flutter/view/screen/auth/sign_in_screen.dart';
+import 'package:abaad_flutter/view/screen/auth/sign_up_screen.dart';
+import 'package:abaad_flutter/view/screen/auth/verification_screen.dart';
+import 'package:abaad_flutter/view/screen/chat/chat_screen.dart';
+import 'package:abaad_flutter/view/screen/chat/conversation_screen.dart';
+import 'package:abaad_flutter/view/screen/estate/UploadScreen.dart';
+import 'package:abaad_flutter/view/screen/estate/ad_license_screen.dart';
+import 'package:abaad_flutter/view/screen/estate/add_estate_screen.dart';
+import 'package:abaad_flutter/view/screen/estate/confiram_screen.dart';
+import 'package:abaad_flutter/view/screen/estate/business_plan/business_plan.dart';
+import 'package:abaad_flutter/view/screen/estate/estate_details.dart';
+import 'package:abaad_flutter/view/screen/estate/success_screen2.dart';
+import 'package:abaad_flutter/view/screen/estate/web_view_screen.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/feature_item_view.dart';
+import 'package:abaad_flutter/view/screen/html/html_viewer_screen.dart';
+import 'package:abaad_flutter/view/screen/language/language_screen.dart';
+import 'package:abaad_flutter/view/screen/dashboard/dashboard_screen.dart';
+import 'package:abaad_flutter/view/screen/map/map_screen.dart';
+import 'package:abaad_flutter/view/screen/map/pick_map_screen.dart';
+import 'package:abaad_flutter/view/screen/notification/notification_screen.dart';
+import 'package:abaad_flutter/view/screen/onboard/on_boarding_page.dart';
+import 'package:abaad_flutter/view/screen/profile/edit_dilog.dart';
+import 'package:abaad_flutter/view/screen/profile/profile_screen.dart';
+import 'package:abaad_flutter/view/screen/profile/update_profile_screen.dart';
+import 'package:abaad_flutter/view/screen/splash/splash_screen.dart';
+import 'package:abaad_flutter/view/screen/support/support_screen.dart';
+import 'package:abaad_flutter/view/screen/update/update_screen.dart';
+import 'package:abaad_flutter/view/screen/wallet/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -210,13 +210,13 @@ class RouteHelper {
     GetPage(name: updateProfile, page: () => UpdateProfileScreen()),
     GetPage(name: conversation, page: () => ConversationScreen()),
     GetPage(name: categories, page: () {
-      MapScreen pickMapScreen = Get.arguments;
-      bool fromAddress = Get.parameters['page'] == 'add-address';
+      // MapScreen pickMapScreen = Get.arguments;
+      // bool fromAddress = Get.parameters['page'] == 'add-address';
 
-      // final args = Get.arguments;
-      // final MapScreen? pickMapScreen = args is MapScreen ? args : null;
-      //
-      // final bool fromAddress = Get.parameters['page'] == 'add-address';
+      final args = Get.arguments;
+      final MapScreen? pickMapScreen = args is MapScreen ? args : null;
+
+      final bool fromAddress = Get.parameters['page'] == 'add-address';
 
       return (fromAddress && pickMapScreen == null) ? NotFound() : pickMapScreen ?? MapScreen(
         mainCategory:ZoneModel(id: int.parse(Get.parameters['id']!),

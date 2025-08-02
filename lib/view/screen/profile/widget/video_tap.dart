@@ -1,9 +1,9 @@
 
 import 'dart:io';
 
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/util/app_constants.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

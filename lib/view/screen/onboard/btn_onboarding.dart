@@ -1,6 +1,6 @@
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/view/base/app_button.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/view/base/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class BtnOnBoarding extends StatelessWidget {

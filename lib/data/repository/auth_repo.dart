@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:abaad/controller/location_controller.dart';
-import 'package:abaad/data/api/api_client.dart';
-import 'package:abaad/data/model/body/business_plan_body.dart';
-import 'package:abaad/data/model/body/signup_body.dart';
-import 'package:abaad/data/model/response/address_model.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/util/app_constants.dart';
+import 'package:abaad_flutter/controller/location_controller.dart';
+import 'package:abaad_flutter/data/api/api_client.dart';
+import 'package:abaad_flutter/data/model/body/business_plan_body.dart';
+import 'package:abaad_flutter/data/model/body/signup_body.dart';
+import 'package:abaad_flutter/data/model/response/address_model.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+///import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,18 +18,37 @@ class AuthRepo {
   final SharedPreferences sharedPreferences;
   AuthRepo({required this.apiClient, required this.sharedPreferences});
 
-  Future<Response> registration(SignUpBody signUpBody) async {
-    return await apiClient.postData(AppConstants.REGISTER_URI, signUpBody.toJson(), headers: {});
+
+  // Future<Response> login({String? phone, String ?password }) async {
+  //
+  //   return await apiClient.postData(AppConstants.LOGIN_URI, {"phone": phone, "password": password}, headers: {});
+  // }
+
+
+  // Future<Response> login({String? phone, String ?password }) async {
+  //   print("LOGIN PAYLOAD: phone = $phone, password = $password"); // اضف هذا
+  //   return await apiClient.postData(AppConstants.LOGIN_URI, {
+  //     "phone": "+966504199508",
+  //     "password": password
+  //   }, headers: {});
+  // }
+
+
+  Future<Response> login({String? phone, String? password}) async {
+    return await apiClient.postData(AppConstants.LOGIN_URI, {"phone": phone, "password": password});
   }
 
-  Future<Response> login({String phone = "", String password = ""}) async {
-    return await apiClient.postData(AppConstants.LOGIN_URI, {"phone": phone, "password": password}, headers: {});
+  Future<Response> registration(SignUpBody signUpBody) async {
+    return await apiClient.postData(AppConstants.REGISTER_URI, signUpBody.toJson());
+ //   return await apiClient.postData(AppConstants.REGISTER_URI, signUpBody.toJson(), headers: {});
   }
+
+
 
 
 
   Future<Response> getZoneList() async {
-    return await apiClient.getData(AppConstants.ZONE_ALL, query: {}, headers: {});
+    return await apiClient.getData(AppConstants.ZONE_ALL);
   }
 
 
@@ -48,7 +68,7 @@ class AuthRepo {
       deviceToken = await _saveDeviceToken();
     }
     if(!GetPlatform.isWeb) {
-      FirebaseMessaging.instance.subscribeToTopic(AppConstants.TOPIC);
+     FirebaseMessaging.instance.subscribeToTopic(AppConstants.TOPIC);
     }
     return await apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "cm_firebase_token": deviceToken}, headers: {});
   }
@@ -60,7 +80,7 @@ class AuthRepo {
         deviceToken = await FirebaseMessaging.instance.getToken();
       }catch(e) {}
     }
-    //print('--------Device Token---------- $deviceToken');
+    print('--------Device Token---------- $deviceToken');
       return deviceToken;
   }
 
@@ -77,9 +97,28 @@ class AuthRepo {
     return await apiClient.getData(AppConstants.UPDATE_ZONE_URL, query: {}, headers: {});
   }
 
+
+  // Future<bool> saveUserToken(String token, {bool alreadyInApp = false}) async {
+  //   apiClient.token = token;
+  //   if(alreadyInApp && sharedPreferences.getString(AppConstants.userAddress) != null){
+  //     AddressModel? addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!));
+  //     apiClient.updateHeader(
+  //       token, addressModel.zoneIds, sharedPreferences.getString(AppConstants.languageCode),
+  //       addressModel.latitude, addressModel.longitude,
+  //     );
+  //   }else{
+  //     apiClient.updateHeader(token, null, sharedPreferences.getString(AppConstants.languageCode),null, null);
+  //   }
+  //
+  //   return await sharedPreferences.setString(AppConstants.token, token);
+  // }
   // for  user token
   Future<bool> saveUserToken(String token, {bool alreadyInApp = false}) async {
     apiClient.token = token;
+
+
+    print("header ------------------$token");
+
     if(alreadyInApp){
       AddressModel addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!));
       apiClient.updateHeader(
@@ -113,7 +152,7 @@ class AuthRepo {
 
   bool clearSharedData() {
     if(!GetPlatform.isWeb) {
-      FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
+      //FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
       apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "cm_firebase_token": '@'}, headers: {});
     }
     sharedPreferences.remove(AppConstants.TOKEN);
@@ -155,10 +194,10 @@ class AuthRepo {
       updateToken();
     }else {
       if(!GetPlatform.isWeb) {
-        FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
-        if(isLoggedIn()) {
-          FirebaseMessaging.instance.unsubscribeFromTopic('zone_${Get.find<LocationController>().getUserAddress()?.zoneId}_customer');
-        }
+        // FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
+        // if(isLoggedIn()) {
+        //   FirebaseMessaging.instance.unsubscribeFromTopic('zone_${Get.find<LocationController>().getUserAddress()?.zoneId}_customer');
+        // }
       }
     }
     sharedPreferences.setBool(AppConstants.NOTIFICATION, isActive);
@@ -174,13 +213,15 @@ class AuthRepo {
     sharedPreferences.remove(AppConstants.userAddress);
     return true;
   }
-
-
-
-
-  Future<Response> verifyPhone(String phone, String otp) async {
-    return await apiClient.postData(AppConstants.VERIFY_PHONE_URI, {"phone": phone, "otp": otp}, headers: {});
+  Future<Response> verifyPhone(String? phone, String otp) async {
+    return await apiClient.postData(AppConstants.VERIFY_PHONE_URI, {"phone": phone, "otp": otp});
   }
+
+
+
+  // Future<Response> verifyPhone(String? phone, String? otp) async {
+  //   return await apiClient.postData(AppConstants.VERIFY_PHONE_URI, {"phone": phone, "otp": otp}, headers: {});
+  // }
 
 
 

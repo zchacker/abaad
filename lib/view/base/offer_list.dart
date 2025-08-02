@@ -1,12 +1,12 @@
 
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/screen/map/widget/service_offer.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/screen/map/widget/service_offer.dart';
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -118,7 +118,7 @@ class _OfferListState extends State<OfferList> {
                                                       child:GestureDetector(
 
                                                         onTap:(){
-                                                          buildDynamicLinks(widget.estate?.title ?? "", "${Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl ?? ""}/${widget.estate?.images?[0] ?? ""}", (widget.estate?.id ?? 0).toString(),widget.estate?.serviceOffers?[index].phoneProvider ?? "");
+                                                          //buildDynamicLinks(widget.estate?.title ?? "", "${Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl ?? ""}/${widget.estate?.images?[0] ?? ""}", (widget.estate?.id ?? 0).toString(),widget.estate?.serviceOffers?[index].phoneProvider ?? "");
                                                         },
                                                         child: Container(
                                                           padding: const EdgeInsets.symmetric(
@@ -362,7 +362,7 @@ flex: 1,
                                       child:GestureDetector(
 
                                         onTap:(){
-                                          buildDynamicLinks(widget.estate?.title ?? "", "${Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl}/${widget.estate!.images?[0]}", widget.estate!.id.toString(),widget.estate?.serviceOffers?[index].phoneProvider ?? "");
+                                         // buildDynamicLinks(widget.estate?.title ?? "", "${Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl}/${widget.estate!.images?[0]}", widget.estate!.id.toString(),widget.estate?.serviceOffers?[index].phoneProvider ?? "");
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
@@ -472,52 +472,52 @@ flex: 1,
   }
 
 
-  buildDynamicLinks(String title,String image,String docId,String phone) async {
-    String url = "https://abaad.page.link";
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: url,
-      link: Uri.parse('$url/$docId'),
-      androidParameters: AndroidParameters(
-        packageName: "sa.pdm.abaad.abaad",
-        minimumVersion: 0,
-      ),
-      iosParameters: IOSParameters(
-        bundleId: "Bundle-ID",
-        minimumVersion: '0',
-      ),
-      socialMetaTagParameters: SocialMetaTagParameters(
-          description: '',
-          imageUrl:
-          Uri.parse(image),
-          title: title),
-    );
-    // 1. Get FirebaseDynamicLinks instance
-    final dynamicLinks = FirebaseDynamicLinks.instance;
-
-    // 2. Build short link
-    final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
-      parameters,  // Your DynamicLinkParameters object
-    );
-
-    // 3. Get the URL
-    final dynamicUrl = shortLink.shortUrl;
-
-    String desc = dynamicUrl.toString();
-
-    var whatsapp = phone;
-    var whatsappAndroid =Uri.parse("whatsapp://send?phone=$whatsapp&text=$desc \n مرحبا لديك عرض في  تطبيق ابعاد ");
-    if (await canLaunchUrl(whatsappAndroid)) {
-      await launchUrl(whatsappAndroid);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("WhatsApp is not installed on the device"),
-        ),
-      );
-    }
-   // await Share.share(desc, subject: title,);
-
-  }
+  // buildDynamicLinks(String title,String image,String docId,String phone) async {
+  //   String url = "https://abaad.page.link";
+  //   final DynamicLinkParameters parameters = DynamicLinkParameters(
+  //     uriPrefix: url,
+  //     link: Uri.parse('$url/$docId'),
+  //     androidParameters: AndroidParameters(
+  //       packageName: "sa.pdm.abaad.abaad",
+  //       minimumVersion: 0,
+  //     ),
+  //     iosParameters: IOSParameters(
+  //       bundleId: "Bundle-ID",
+  //       minimumVersion: '0',
+  //     ),
+  //     socialMetaTagParameters: SocialMetaTagParameters(
+  //         description: '',
+  //         imageUrl:
+  //         Uri.parse(image),
+  //         title: title),
+  //   );
+  //   // 1. Get FirebaseDynamicLinks instance
+  //   final dynamicLinks = FirebaseDynamicLinks.instance;
+  //
+  //   // 2. Build short link
+  //   final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
+  //     parameters,  // Your DynamicLinkParameters object
+  //   );
+  //
+  //   // 3. Get the URL
+  //   final dynamicUrl = shortLink.shortUrl;
+  //
+  //   String desc = dynamicUrl.toString();
+  //
+  //   var whatsapp = phone;
+  //   var whatsappAndroid =Uri.parse("whatsapp://send?phone=$whatsapp&text=$desc \n مرحبا لديك عرض في  تطبيق ابعاد ");
+  //   if (await canLaunchUrl(whatsappAndroid)) {
+  //     await launchUrl(whatsappAndroid);
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text("WhatsApp is not installed on the device"),
+  //       ),
+  //     );
+  //   }
+  //  // await Share.share(desc, subject: title,);
+  //
+  // }
   __launchWhatsapp(String  number) async {
     var whatsapp = number;
     var whatsappAndroid =Uri.parse("whatsapp://send?phone=$whatsapp&text=مرحبا  لديك عرض  في تطبيق ابعاد");

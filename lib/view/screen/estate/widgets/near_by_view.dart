@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/util/app_constants.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:abaad/data/repository/nearbyplacesmodel.dart';
+import 'package:abaad_flutter/data/repository/nearbyplacesmodel.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:ui' as ui;
@@ -31,7 +31,7 @@ class _NearByViewState extends State<NearByView> {
   CustomInfoWindowController();
   final Completer<GoogleMapController> _controller = Completer();
   final List<Marker> _marker = [];
-  NearbyPlacesResponse nearbyPlacesResponse = NearbyPlacesResponse(nextPageToken: '', results: [], status: '');
+  NearbyPlacesResponse ?nearbyPlacesResponse = NearbyPlacesResponse(nextPageToken: '', results: [], status: '');
   double currentLat = 0.0;
   double currentLng = 0.0;
   String type = 'restaurant';
@@ -83,8 +83,8 @@ class _NearByViewState extends State<NearByView> {
   }
 
   loadData() {
-    for (int i = 0; i < nearbyPlacesResponse.results.length; i++) {
-      addMarkers(nearbyPlacesResponse.results[i], i);
+    for (int i = 0; i < nearbyPlacesResponse!.results!.length; i++) {
+      addMarkers(nearbyPlacesResponse!.results![i], i);
     }
     }
 

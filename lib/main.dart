@@ -1,21 +1,23 @@
+
+import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/localization_controller.dart';
-import 'package:abaad/controller/location_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/theme_controller.dart';
-import 'package:abaad/controller/wishlist_controller.dart';
-import 'package:abaad/data/model/body/notification_body.dart';
-import 'package:abaad/helper/notification_helper.dart';
-import 'package:abaad/helper/responsive_helper.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/theme/dark_theme.dart';
-import 'package:abaad/theme/light_theme.dart';
-import 'package:abaad/util/app_constants.dart';
-import 'package:abaad/util/messages.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/localization_controller.dart';
+import 'package:abaad_flutter/controller/location_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/theme_controller.dart';
+import 'package:abaad_flutter/controller/wishlist_controller.dart';
+import 'package:abaad_flutter/data/model/body/notification_body.dart';
+import 'package:abaad_flutter/helper/notification_helper.dart';
+import 'package:abaad_flutter/helper/responsive_helper.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/theme/dark_theme.dart';
+import 'package:abaad_flutter/theme/light_theme.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
+import 'package:abaad_flutter/util/messages.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -33,14 +35,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if(GetPlatform.isWeb) {
 
-    await Firebase.initializeApp(options: FirebaseOptions(
-      apiKey: 'AIzaSyCeaw_gVN0iQwFHyuF8pQ6PbVDmSVQw8AY',
-      appId: '1:1049699819506:web:a4b5e3bedc729aab89956b',
-      messagingSenderId: '1049699819506',
-      projectId: 'stackfood-bd3ee',
-    ));
+    // await Firebase.initializeApp(options: FirebaseOptions(
+    //   apiKey: 'AIzaSyCeaw_gVN0iQwFHyuF8pQ6PbVDmSVQw8AY',
+    //   appId: '1:1049699819506:web:a4b5e3bedc729aab89956b',
+    //   messagingSenderId: '1049699819506',
+    //   projectId: 'stackfood-bd3ee',
+    // ));
   }else {
-    await Firebase.initializeApp();
+    // await Firebase.initializeApp();
   }
 
   Map<String, Map<String, String>> _languages = await di.init();
@@ -49,12 +51,13 @@ Future<void> main() async {
 
   try {
     if (GetPlatform.isMobile) {
-      final RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
-      if (remoteMessage != null) {
-        _body = NotificationHelper.convertNotification(remoteMessage.data , null);
-      }
+
+      // final RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
+      // if (remoteMessage != null) {
+      //   _body = NotificationHelper.convertNotification(remoteMessage.data , null);
+      // }
       await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
-      FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
+      //FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
 
     runApp(MyApp(languages: _languages, body: _body ?? NotificationBody(notificationType: NotificationType.order)));
@@ -75,7 +78,7 @@ class MyApp extends StatelessWidget {
     Get.find<SplashController>().getConfigData().then((bool isSuccess) async {
       if (isSuccess) {
         if (Get.find<AuthController>().isLoggedIn()) {
-          Get.find<AuthController>().updateToken();
+          //Get.find<AuthController>().updateToken();
           await Get.find<WishListController>().getWishList();
         }
       }

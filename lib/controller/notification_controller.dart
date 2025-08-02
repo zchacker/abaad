@@ -1,7 +1,7 @@
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/model/response/notification_model.dart';
-import 'package:abaad/data/repository/notification_repo.dart';
-import 'package:abaad/helper/date_converter.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/model/response/notification_model.dart';
+import 'package:abaad_flutter/data/repository/notification_repo.dart';
+import 'package:abaad_flutter/helper/date_converter.dart';
 import 'package:get/get.dart';
 
 class NotificationController extends GetxController implements GetxService {

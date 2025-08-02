@@ -1,7 +1,7 @@
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/api/api_client.dart';
-import 'package:abaad/data/model/response/config_model.dart';
-import 'package:abaad/data/model/response/splash_repo.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/api/api_client.dart';
+import 'package:abaad_flutter/data/model/response/config_model.dart';
+import 'package:abaad_flutter/data/model/response/splash_repo.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController implements GetxService {

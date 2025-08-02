@@ -1,9 +1,9 @@
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/model/body/filter_body.dart';
-import 'package:abaad/data/model/response/category_model.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/data/model/response/facilities_model.dart';
-import 'package:abaad/data/repository/category_repo.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/model/body/filter_body.dart';
+import 'package:abaad_flutter/data/model/response/category_model.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/data/model/response/facilities_model.dart';
+import 'package:abaad_flutter/data/repository/category_repo.dart';
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController implements GetxService {
@@ -203,7 +203,7 @@ class CategoryController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       _isLoading = false;
       _subCategoryList= [];
-      _subCategoryList?.add(CategoryModel(id: int.parse(categoryID),nameAr: 'الكل', name: '', slug: '', position: '', statusHome: '', image: '', createdAt: '', updatedAt: ''));
+      _subCategoryList?.add(CategoryModel(id: int.parse(categoryID),nameAr: 'الكل'.tr , name: 'all ', slug: '', position: '', statusHome: '', image: '', createdAt: '', updatedAt: ''));
       _isLoading=false;
       response.body.forEach((category) => _subCategoryList?.add(CategoryModel.fromJson(category)));
       getCategoryProductList(0,categoryID, 0 ,'0',"0","0","0","1",0,0,"");

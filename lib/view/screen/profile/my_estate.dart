@@ -1,17 +1,18 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/estate_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/data/model/body/notification_body.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/app_constants.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/base/estate_item.dart';
-import 'package:abaad/view/base/rating_bar.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/data/model/body/notification_body.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/estate_item.dart';
+import 'package:abaad_flutter/view/base/rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -189,11 +190,12 @@ RatingBar(rating: 4, ratingCount: 4)     ,
                                   backgroundColor: WidgetStateProperty.all(Colors.blue),
                                 ),
                                 onPressed: ()async{
-                                  await Get.toNamed(RouteHelper.getChatRoute(
-                                      notificationBody: NotificationBody(orderId: 1 ,restaurantId:userController.agentInfoModel?.id ),
-                                      user: Userinfo(id: userController.agentInfoModel?.id ?? 0, name: userController.agentInfoModel?.name,  image: userController.agentInfoModel?.image,),estate_id: 0
-
-                                  ));
+                                  showCustomSnackBar("غير متاحة حاليا");
+                                  // await Get.toNamed(RouteHelper.getChatRoute(
+                                  //     notificationBody: NotificationBody(orderId: 1 ,restaurantId:userController.agentInfoModel?.id ),
+                                  //     user: Userinfo(id: userController.agentInfoModel?.id ?? 0, name: userController.agentInfoModel?.name,  image: userController.agentInfoModel?.image,),estate_id: 0
+                                  //
+                                  // ));
                                 }, icon: Icon(Icons.chat), label: Text("محادثة")),
                           ),
                            SizedBox(width:5),

@@ -1,9 +1,9 @@
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
-import 'package:abaad/view/screen/profile/widget/image_tap.dart';
-import 'package:abaad/view/screen/profile/widget/planned_tap.dart';
-import 'package:abaad/view/screen/profile/widget/skey_view_tap.dart';
-import 'package:abaad/view/screen/profile/widget/video_tap.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/view/screen/profile/widget/image_tap.dart';
+import 'package:abaad_flutter/view/screen/profile/widget/planned_tap.dart';
+import 'package:abaad_flutter/view/screen/profile/widget/skey_view_tap.dart';
+import 'package:abaad_flutter/view/screen/profile/widget/video_tap.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

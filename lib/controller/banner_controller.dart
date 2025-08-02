@@ -1,6 +1,6 @@
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/model/response/banner_model.dart';
-import 'package:abaad/data/repository/banner_repo.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/model/response/banner_model.dart';
+import 'package:abaad_flutter/data/repository/banner_repo.dart';
 import 'package:get/get.dart';
 
 class BannerController extends GetxController implements GetxService {

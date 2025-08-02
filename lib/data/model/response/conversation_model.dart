@@ -1,8 +1,8 @@
 
 
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/data/model/response/message_model.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/data/model/response/message_model.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
 
 class ConversationsModel {
   int? totalSize = 0;

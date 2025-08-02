@@ -1,21 +1,21 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/chat_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/data/model/body/notification_body.dart';
-import 'package:abaad/data/model/response/conversation_model.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/helper/date_converter.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/helper/user_type.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/base/custom_ink_well.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/not_logged_in_screen.dart';
-import 'package:abaad/view/base/paginated_list_view.dart';
-import 'package:abaad/view/screen/search/widget/search_field.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/chat_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/data/model/body/notification_body.dart';
+import 'package:abaad_flutter/data/model/response/conversation_model.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/helper/date_converter.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/helper/user_type.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_ink_well.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/not_logged_in_screen.dart';
+import 'package:abaad_flutter/view/base/paginated_list_view.dart';
+import 'package:abaad_flutter/view/screen/search/widget/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -79,11 +79,15 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 chatController.removeSearchMode();
                             },
             ))) : SizedBox(),
-            SizedBox(height: (Get.find<AuthController>().isLoggedIn()
-                && (chatController.conversationModel?.conversations?.isNotEmpty ?? false)) ? Dimensions.PADDING_SIZE_SMALL : 0),
+            // SizedBox(height: (Get.find<AuthController>().isLoggedIn()
+            //     && (chatController.conversationModel?.conversations?.isNotEmpty ?? false)) ? Dimensions.PADDING_SIZE_SMALL : 0),
 
-            Expanded(child: Get.find<AuthController>().isLoggedIn() ? (conversation.conversations != null)
-            ? conversation.conversations!.isNotEmpty ? RefreshIndicator(
+
+            SizedBox(height: (Get.find<AuthController>().isLoggedIn() && conversation != null && conversation.conversations != null
+                && chatController.conversationModel!.conversations!.isNotEmpty) ? Dimensions.paddingSizeSmall : 0),
+
+            Expanded(child: Get.find<AuthController>().isLoggedIn() ? (conversation != null && conversation.conversations != null)
+                ? conversation.conversations!.isNotEmpty ? RefreshIndicator(
               onRefresh: () async {
                 await Get.find<ChatController>().getConversationList(1);
               },

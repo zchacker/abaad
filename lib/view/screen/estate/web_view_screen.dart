@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:abaad/view/base/custom_loader.dart';
+import 'package:abaad_flutter/view/base/custom_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -23,9 +23,18 @@ class _WebViewScreenState extends State<WebViewScreen> {
   @override
   Widget build(BuildContext context) {
 
+    // final controller = WebViewController()
+    //   ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    //   ..loadRequest(Uri.parse(widget.url));
+
+    final correctedUrl = widget.url.startsWith('http')
+        ? widget.url
+        : 'https://${widget.url}';
+
     final controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse(widget.url));
+      ..loadRequest(Uri.parse(correctedUrl));
+
 
     return Scaffold(
       body: Column(

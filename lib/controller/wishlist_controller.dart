@@ -1,7 +1,7 @@
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/data/repository/wishlist_repo.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/data/repository/wishlist_repo.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
 import 'package:get/get.dart';
 
 class WishListController extends GetxController implements GetxService {

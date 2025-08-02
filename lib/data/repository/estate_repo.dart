@@ -1,6 +1,6 @@
-import 'package:abaad/data/api/api_client.dart';
-import 'package:abaad/data/model/body/estate_body.dart';
-import 'package:abaad/util/app_constants.dart';
+import 'package:abaad_flutter/data/api/api_client.dart';
+import 'package:abaad_flutter/data/model/body/estate_body.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 
 class EstateRepo {
@@ -8,28 +8,29 @@ class EstateRepo {
   EstateRepo({ required this.apiClient});
 
   Future<Response>  getEstateList(int offset, String filterBy,int userId,categoryId) async {
-    return await apiClient.getData('${AppConstants.CATEGORY_ESTATEURI}/all?category_id=$categoryId&offset=$offset&user_id=$userId', query: {}, headers: {});
+    return await apiClient.getData('${AppConstants.CATEGORY_ESTATEURI}/all?category_id=$categoryId&offset=$offset&user_id=$userId');
   }
 
 
   Future<Response> getLatestEstateList(String type) async {
-    return await apiClient.getData('${AppConstants.CATEGORY_ESTATEURI}?type=$type', query: {}, headers: {});
+    return await apiClient.getData('${AppConstants.CATEGORY_ESTATEURI}?type=$type');
   }
 
 
   Future<Response> getCategorisEstateList( int offset, int categoryID, String type) async {
     return await apiClient.getData(
-      '${AppConstants.CATEGORY_ESTATEURI}/all?category_id=$categoryID&offset=$offset&limit=10&type=$type', query: {}, headers: {},
+      '${AppConstants.CATEGORY_ESTATEURI}/all?category_id=$categoryID&offset=$offset&limit=10&type=$type',
     );
   }
 
 
   Future<Response> getEstateDetails(String estateID) async {
-    return await apiClient.getData('${AppConstants.ESTATE_DETAILS_URI}$estateID', query: {}, headers: {});
+    return await apiClient.getData('${AppConstants.ESTATE_DETAILS_URI}$estateID');
   }
 
 
   Future<Response> createEstate(EstateBody estate,List<MultipartBody> multiParts) async {
+    List<MultipartBody> multipartBody;
     Map<String, String> body = {};
     body.addAll(<String, String>{
       'address': estate.address ?? "",
@@ -69,7 +70,7 @@ class EstateRepo {
 
 
     });
-    return apiClient.postMultipartData(AppConstants.CREATE_ESATE_URI, body,multiParts, headers: {});
+    return apiClient.postMultipartData(AppConstants.CREATE_ESATE_URI, body,multiParts);
     // return apiClient.postMultipartData(AppConstants.CREATE_ESATE_URI, _body,multiParts);
   }
 
@@ -113,12 +114,12 @@ class EstateRepo {
 
     });
 
-    return apiClient.postData(AppConstants.UPDATE_ESATE_URI, body, headers: {});
+    return apiClient.postData(AppConstants.UPDATE_ESATE_URI, body);
   }
 
 
 
-  Future<Response> addEstate(EstateBody estate,List<MultipartBody> multiParts) async {
+  Future<Response> addEstate(EstateBody estate) async {
     Map<String, String> body = {};
     body.addAll(<String, String>{
       'id':estate.id ?? "",
@@ -172,7 +173,7 @@ class EstateRepo {
 
     });
 
-    return await apiClient.postData(AppConstants.CREATE_ESATE_URI, body, headers: {});
+    return await apiClient.postData(AppConstants.CREATE_ESATE_URI, body);
    // return apiClient.postMultipartData(AppConstants.CREATE_ESATE_URI, _body,multiParts);
 
   }
@@ -212,21 +213,21 @@ class EstateRepo {
 
     });
 
-    return apiClient.postData(AppConstants.UPDATE_ESATE_URI, body, headers: {});
+    return apiClient.postData(AppConstants.UPDATE_ESATE_URI, body,);
   }
 
   Future<Response> getZoneList() async {
-    return await apiClient.getData(AppConstants.ZONE_ALL, query: {}, headers: {});
+    return await apiClient.getData(AppConstants.ZONE_ALL);
   }
 
 
 
 
   Future<Response> deleteEstate(int id) async {
-    return await apiClient.deleteData('${AppConstants.DELETE_ESTATE_URI}?id=$id', headers: {});
+    return await apiClient.deleteData('${AppConstants.DELETE_ESTATE_URI}?id=$id');
   }
   Future<Response> getCategoryList() async {
-    return await apiClient.getData(AppConstants.CATEGORIES, query: {}, headers: {});
+    return await apiClient.getData(AppConstants.CATEGORIES);
   }
 
 
@@ -239,7 +240,7 @@ class EstateRepo {
         'advertiserId': advertiserId,
         'entityType': entityType
 
-      }, headers: {}, // البيانات المرسلة
+      }, // البيانات المرسلة
     );
   }
 
@@ -248,7 +249,7 @@ class EstateRepo {
 
 
   Future<Response> addWishList(int id, bool isRestaurant) async {
-    return await apiClient.postData('${AppConstants.ADD_WISH_LIST_URI}estate_id=$id', null, headers: {});
+    return await apiClient.postData('${AppConstants.ADD_WISH_LIST_URI}estate_id=$id', null);
   }
 
 

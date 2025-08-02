@@ -23,7 +23,7 @@ class Packages {
   String packageName = "";
   double price = 0;
   int validity = 0;
-  String maxOrder = "";
+  String ?maxOrder = "";
   String maxProduct = "";
   int pos = 0;
   int mobileApp = 0;

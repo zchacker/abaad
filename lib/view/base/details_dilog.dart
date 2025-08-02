@@ -1,29 +1,31 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/estate_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/data/model/body/notification_body.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/map_details_view.dart';
-import 'package:abaad/view/base/not_logged_in_screen.dart';
-import 'package:abaad/view/base/offer_list.dart';
-import 'package:abaad/view/screen/estate/widgets/estate_view.dart';
-import 'package:abaad/view/screen/estate/widgets/interface.dart';
-import 'package:abaad/view/screen/estate/widgets/near_by_view.dart';
-import 'package:abaad/view/screen/estate/widgets/network_type.dart';
-import 'package:abaad/view/screen/estate/widgets/report_widget.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/data/model/body/notification_body.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/map_details_view.dart';
+import 'package:abaad_flutter/view/base/not_logged_in_screen.dart';
+import 'package:abaad_flutter/view/base/offer_list.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/estate_view.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/interface.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/near_by_view.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/network_type.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/report_widget.dart';
 import 'package:clipboard/clipboard.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DettailsDilog extends StatefulWidget {
@@ -50,8 +52,15 @@ class _DettailsDilogState extends State<DettailsDilog> {
     Get.find<UserController>().getUserInfoByID(widget.estate!.userId!);
   }
 
+
   @override
   Widget build(BuildContext context) {
+    final lat = double.tryParse(widget. estate?.latitude ?? '');
+    final lng = double.tryParse(widget. estate?.longitude ?? '');
+
+    if (lat == null || lng == null) {
+      return Center(child: Text("الموقع غير متوفر"));
+    }
     bool isLoggedIn = Get.find<AuthController>().isLoggedIn();
     final currentLocale = Get.locale;
     bool isArabic = currentLocale?.languageCode == 'ar';
@@ -909,18 +918,18 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                   )
                                 : Container(),
 
-                            widget.estate?.guaranteesAndTheirDuration != null
+                            widget.estate?.guaranteesAndTheirDuration != ""
                                 ? buildInfoRow(
                                     context,
                                     "الضمانات ",
                                     widget.estate?.guaranteesAndTheirDuration ??
                                         "")
                                 : SizedBox(),
-
+                            widget.estate?.mainLandUseTypeName  != null?
                             buildInfoTile(context,
                                 label: "استخدام العقار".tr,
                                 value:
-                                    widget.estate?.mainLandUseTypeName ?? ""),
+                                    widget.estate?.mainLandUseTypeName ?? ""):Container(),
 
                             widget.estate?.landNumber != null
                                 ? buildInfoRow(context, "رقم القطعة",
@@ -932,7 +941,7 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                     widget.estate?.numberOfRooms ?? "")
                                 : SizedBox(),
 
-                            widget.estate?.obligationsOnTheProperty != null
+                            widget.estate?.obligationsOnTheProperty != null&&widget.estate?.obligationsOnTheProperty != "-"
                                 ? buildInfoRow(
                                     context,
                                     "الالتزامات ",
@@ -984,9 +993,9 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                 label: "property_face".tr,
                                 value: widget.estate?.propertyFace ?? ""),
 
-                            buildInfoTile(context,
-                                label: "street_width".tr,
-                                value: widget.estate!.streetWidth.toString()),
+                            // buildInfoTile(context,
+                            //     label: "street_width".tr,
+                            //     value: widget.estate!.streetWidth.toString()),
 
                             widget.estate?.propertyUtilities != null
                                 ? Container(
@@ -1499,11 +1508,72 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                     estate: widget.estate!,
                                     restaurants: widget.estate!.interface!)
                                 : Container(),
-                            const MapDetailsView(fromView: true),
+                           // const MapDetailsView(fromView: true),
+
+                            Container(
+                              height: 300,
+                              margin: EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    blurRadius: 8,
+                                    offset: Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              clipBehavior: Clip.antiAlias,
+                              child: Builder(
+                                builder: (context) {
+                                  final lat = double.tryParse(widget.estate?.latitude ?? '');
+                                  final lng = double.tryParse(widget.estate?.longitude ?? '');
+
+                                  if (lat == null || lng == null) {
+                                    return Center(
+                                      child: Text(
+                                        'خطأ في إحداثيات الموقع',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    );
+                                  }
+
+                                  return ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: GoogleMap(
+                                      initialCameraPosition: CameraPosition(
+                                        target: LatLng(lat, lng),
+                                        zoom: 16,
+                                      ),
+                                      markers: {
+                                        Marker(
+                                          markerId: MarkerId("estate_location"),
+                                          position: LatLng(lat, lng),
+                                          icon: BitmapDescriptor.defaultMarker,
+                                        ),
+                                      },
+                                      minMaxZoomPreference: MinMaxZoomPreference(5, 20),
+                                      zoomControlsEnabled: true,
+                                      compassEnabled: true,
+                                      indoorViewEnabled: false,
+                                      mapToolbarEnabled: true,
+                                      myLocationEnabled: true,
+                                      myLocationButtonEnabled: true,
+                                      zoomGesturesEnabled: true,
+                                      scrollGesturesEnabled: true,
+                                      tiltGesturesEnabled: true,
+                                      rotateGesturesEnabled: true,
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+
+,
 
                             widget.estate?.otherAdvantages == null ||
                                     widget.estate!.otherAdvantages!.isEmpty
-                                ? SizedBox.shrink()
+                                ? Container()
                                 : SizedBox(
                                     height: 120,
                                     child: GridView.builder(
@@ -2001,91 +2071,115 @@ class _DettailsDilogState extends State<DettailsDilog> {
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(3),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 5,
-                  blurRadius: 3,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: GetBuilder<SplashController>(
-                        builder: (splashController) {
-                          String baseUrl = Get.find<SplashController>()
-                              .configModel!
-                              .baseUrls!
-                              .provider;
-                          //   //print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
-                          return const ClipOval(
-                            child: Icon(
-                              Icons.phone,
-                              size: 40,
-                              color: Colors.green,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 4.0),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Text(
-                              'call_the_advertiser'.tr,
-                              style: robotoBlack.copyWith(fontSize: 11),
-                            ),
-                          ),
-                          const SizedBox(height: 3.0),
-                          // const RatingStars(
-                          //   value: 3* 1.0,
-                          //   starCount: 5,
-                          //   starSize: 7,
-                          //   valueLabelColor: Color(0xff9b9b9b),
-                          //   valueLabelTextStyle: TextStyle(
-                          //       color: Colors.white,
-                          //       fontFamily: 'WorkSans',
-                          //       fontWeight: FontWeight.w400,
-                          //       fontStyle: FontStyle.normal,
-                          //       fontSize: 9.0),
-                          //   valueLabelRadius: 7,
-                          //   maxValue: 5,
-                          //   starSpacing: 2,
-                          //   maxValueVisibility: false,
-                          //   valueLabelVisibility: true,
-                          //   animationDuration: Duration(milliseconds: 1000),
-                          //   valueLabelPadding:
-                          //   EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-                          //   valueLabelMargin: EdgeInsets.only(right: 4),
-                          //   starOffColor: Color(0xffe7e8ea),
-                          //   starColor: Colors.yellow,
-                          // )
-                        ])
-                  ],
-                ),
+          GestureDetector(
+             onTap: () async{
+               final advertiserPhone = phone ;// رقم المعلن بدون "+" وبصيغة دولية
 
-                // Divider(color: Colors.grey.shade600, height: 1.0)
-              ],
+               final Uri callUri = Uri(scheme: 'tel', path: advertiserPhone);
+
+               if (await canLaunchUrl(callUri)) {
+               await launchUrl(callUri);
+               } else {
+               showCustomSnackBar("لا يمكن إجراء المكالمة");
+               }
+
+    },
+            child: Container(
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 5,
+                    blurRadius: 3,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      GestureDetector(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: GetBuilder<SplashController>(
+                            builder: (splashController) {
+                              String baseUrl = Get.find<SplashController>()
+                                  .configModel!
+                                  .baseUrls!
+                                  .provider;
+                              //   //print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
+                              return const ClipOval(
+                                child: Icon(
+                                  Icons.phone,
+                                  size: 40,
+                                  color: Colors.green,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 4.0),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: Text(
+                                'call_the_advertiser'.tr,
+                                style: robotoBlack.copyWith(fontSize: 11),
+                              ),
+                            ),
+                            const SizedBox(height: 3.0),
+                            // const RatingStars(
+                            //   value: 3* 1.0,
+                            //   starCount: 5,
+                            //   starSize: 7,
+                            //   valueLabelColor: Color(0xff9b9b9b),
+                            //   valueLabelTextStyle: TextStyle(
+                            //       color: Colors.white,
+                            //       fontFamily: 'WorkSans',
+                            //       fontWeight: FontWeight.w400,
+                            //       fontStyle: FontStyle.normal,
+                            //       fontSize: 9.0),
+                            //   valueLabelRadius: 7,
+                            //   maxValue: 5,
+                            //   starSpacing: 2,
+                            //   maxValueVisibility: false,
+                            //   valueLabelVisibility: true,
+                            //   animationDuration: Duration(milliseconds: 1000),
+                            //   valueLabelPadding:
+                            //   EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+                            //   valueLabelMargin: EdgeInsets.only(right: 4),
+                            //   starOffColor: Color(0xffe7e8ea),
+                            //   starColor: Colors.yellow,
+                            // )
+                          ])
+                    ],
+                  ),
+
+                  // Divider(color: Colors.grey.shade600, height: 1.0)
+                ],
+              ),
             ),
           ),
           SizedBox(height: 12),
           GestureDetector(
             onTap: () {
-              buildDynamicLinks(title, image, disc, phone);
+              final estateId = widget.estate!.id; // اجلبه من model
+              final advertiserPhone = widget.estate!.users!.phone; // اجلب رقم المعلن الحقيقي بدون "+" وبالدولة
+              final estateUrl = "https://app.abaadapp.sa/details/$estateId";
+              final message = "السلام عليكم، أرغب في الاستفسار عن هذا العقار:\n$estateUrl";
+
+              final whatsappUrl = "https://wa.me/$advertiserPhone?text=${Uri.encodeComponent(message)}";
+
+              launchUrl(Uri.parse(whatsappUrl), mode: LaunchMode.externalApplication);
+
             },
             child: Container(
               padding: const EdgeInsets.all(10.0),
@@ -2170,135 +2264,135 @@ class _DettailsDilogState extends State<DettailsDilog> {
             ),
           ),
           SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(3),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 5,
-                  blurRadius: 3,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        try {
-                          String url = "https://abaadapp.page.link";
-                          final DynamicLinkParameters parameters =
-                              DynamicLinkParameters(
-                            uriPrefix: url,
-                            link: Uri.parse(
-                                '$url/${widget.estate?.id.toString()}'),
-                            androidParameters: AndroidParameters(
-                              packageName: "sa.pdm.abaad.abaad",
-                              minimumVersion: 0,
-                            ),
-                            iosParameters: IOSParameters(
-                              bundleId: "Bundle-ID",
-                              minimumVersion: '0',
-                            ),
-                          );
-
-                          // final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
-
-                          // 1. Get FirebaseDynamicLinks instance
-                          final dynamicLinks = FirebaseDynamicLinks.instance;
-
-                          // 2. Build short link
-                          final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
-                            parameters,  // Your DynamicLinkParameters object
-                          );
-
-                          // 3. Get the URL
-                          final dynamicUrl = shortLink.shortUrl;
-
-                          String desc = dynamicUrl.toString();
-
-                          await Get.toNamed(RouteHelper.getChatRoute(
-                            notificationBody: NotificationBody(
-                              orderId: widget.estate?.id,
-                              restaurantId: widget.estate?.userId,
-                            ),
-                            user: Userinfo(
-                              id: widget.estate?.userId,
-                              name: widget.estate?.users?.name ?? "",
-                              image: widget.estate?.users?.image ?? "",
-                            ),
-                            estate_id: widget.estate?.id,
-                            link: desc,
-                          ));
-                        } catch (e) {
-                          //print("Error building short dynamic link: $e");
-                          // Handle the error as needed, e.g., show an error message to the user.
-                        }
-                      },
-                      child: GetBuilder<SplashController>(
-                        builder: (splashController) {
-                          String baseUrl = Get.find<SplashController>()
-                              .configModel!
-                              .baseUrls!
-                              .provider!;
-                          //   //print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
-                          return const ClipOval(
-                            child: Icon(
-                              Icons.chat,
-                              size: 35,
-                              color: Colors.green,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 4.0),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Text(
-                              'Chat_inside_the_app'.tr,
-                              style: robotoBlack.copyWith(fontSize: 11),
-                            ),
-                          ),
-                          const SizedBox(height: 3.0),
-                          // const RatingStars(
-                          //   value: 3* 1.0,
-                          //   starCount: 5,
-                          //   starSize: 7,
-                          //   valueLabelColor: Color(0xff9b9b9b),
-                          //   valueLabelTextStyle: TextStyle(
-                          //       color: Colors.white,
-                          //       fontFamily: 'WorkSans',
-                          //       fontWeight: FontWeight.w400,
-                          //       fontStyle: FontStyle.normal,
-                          //       fontSize: 9.0),
-                          //   valueLabelRadius: 7,
-                          //   maxValue: 5,
-                          //   starSpacing: 2,
-                          //   maxValueVisibility: false,
-                          //   valueLabelVisibility: true,
-                          //   animationDuration: Duration(milliseconds: 1000),
-                          //   valueLabelPadding:
-                          //   EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-                          //   valueLabelMargin: EdgeInsets.only(right: 4),
-                          //   starOffColor: Color(0xffe7e8ea),
-                          //   starColor: Colors.yellow,
-                          // )
-                        ])
-                  ],
-                ),
-
-                // Divider(color: Colors.grey.shade600, height: 1.0)
-              ],
-            ),
-          ),
+          // Container(
+          //   padding: const EdgeInsets.all(10.0),
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(3),
+          //     color: Colors.white,
+          //     boxShadow: [
+          //       BoxShadow(
+          //         color: Colors.grey.withOpacity(0.2),
+          //         spreadRadius: 5,
+          //         blurRadius: 3,
+          //         offset: Offset(0, 2),
+          //       ),
+          //     ],
+          //   ),
+          //   child: Column(
+          //     children: [
+          //       Row(
+          //         children: [
+          //           GestureDetector(
+          //             onTap: () async {
+          //               try {
+          //                 String url = "https://abaadapp.page.link";
+          //                 // final DynamicLinkParameters parameters =
+          //                 //     DynamicLinkParameters(
+          //                 //   uriPrefix: url,
+          //                 //   link: Uri.parse(
+          //                 //       '$url/${widget.estate?.id.toString()}'),
+          //                 //   androidParameters: AndroidParameters(
+          //                 //     packageName: "sa.pdm.abaad.abaad",
+          //                 //     minimumVersion: 0,
+          //                 //   ),
+          //                 //   iosParameters: IOSParameters(
+          //                 //     bundleId: "Bundle-ID",
+          //                 //     minimumVersion: '0',
+          //                 //   ),
+          //                 // );
+          //                 //
+          //                 // // final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
+          //                 //
+          //                 // // 1. Get FirebaseDynamicLinks instance
+          //                 // final dynamicLinks = FirebaseDynamicLinks.instance;
+          //                 //
+          //                 // // 2. Build short link
+          //                 // final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
+          //                 //   parameters,  // Your DynamicLinkParameters object
+          //                 // );
+          //
+          //                 // 3. Get the URL
+          //                 final dynamicUrl = "";
+          //
+          //                 String desc = dynamicUrl.toString();
+          //
+          //                 await Get.toNamed(RouteHelper.getChatRoute(
+          //                   notificationBody: NotificationBody(
+          //                     orderId: widget.estate?.id,
+          //                     restaurantId: widget.estate?.userId,
+          //                   ),
+          //                   user: Userinfo(
+          //                     id: widget.estate?.userId,
+          //                     name: widget.estate?.users?.name ?? "",
+          //                     image: widget.estate?.users?.image ?? "",
+          //                   ),
+          //                   estate_id: widget.estate?.id,
+          //                   link: desc,
+          //                 ));
+          //               } catch (e) {
+          //                 //print("Error building short dynamic link: $e");
+          //                 // Handle the error as needed, e.g., show an error message to the user.
+          //               }
+          //             },
+          //             child: GetBuilder<SplashController>(
+          //               builder: (splashController) {
+          //                 String baseUrl = Get.find<SplashController>()
+          //                     .configModel!
+          //                     .baseUrls!
+          //                     .provider!;
+          //                 //   //print("------------${'$_baseUrl/${estateController.estate.serviceOffers[index].imageCover}'}");
+          //                 return const ClipOval(
+          //                   child: Icon(
+          //                     Icons.chat,
+          //                     size: 35,
+          //                     color: Colors.green,
+          //                   ),
+          //                 );
+          //               },
+          //             ),
+          //           ),
+          //           const SizedBox(width: 4.0),
+          //           Column(
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: [
+          //                 Container(
+          //                   child: Text(
+          //                     'Chat_inside_the_app'.tr,
+          //                     style: robotoBlack.copyWith(fontSize: 11),
+          //                   ),
+          //                 ),
+          //                 const SizedBox(height: 3.0),
+          //                 // const RatingStars(
+          //                 //   value: 3* 1.0,
+          //                 //   starCount: 5,
+          //                 //   starSize: 7,
+          //                 //   valueLabelColor: Color(0xff9b9b9b),
+          //                 //   valueLabelTextStyle: TextStyle(
+          //                 //       color: Colors.white,
+          //                 //       fontFamily: 'WorkSans',
+          //                 //       fontWeight: FontWeight.w400,
+          //                 //       fontStyle: FontStyle.normal,
+          //                 //       fontSize: 9.0),
+          //                 //   valueLabelRadius: 7,
+          //                 //   maxValue: 5,
+          //                 //   starSpacing: 2,
+          //                 //   maxValueVisibility: false,
+          //                 //   valueLabelVisibility: true,
+          //                 //   animationDuration: Duration(milliseconds: 1000),
+          //                 //   valueLabelPadding:
+          //                 //   EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+          //                 //   valueLabelMargin: EdgeInsets.only(right: 4),
+          //                 //   starOffColor: Color(0xffe7e8ea),
+          //                 //   starColor: Colors.yellow,
+          //                 // )
+          //               ])
+          //         ],
+          //       ),
+          //
+          //       // Divider(color: Colors.grey.shade600, height: 1.0)
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -2493,51 +2587,51 @@ class _DettailsDilogState extends State<DettailsDilog> {
     );
   }
 
-  buildDynamicLinks(
-      String title, String image, String docId, String phone) async {
-    String url = "https://abaadapp.page.link";
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: url,
-      link: Uri.parse('$url/$docId'),
-      androidParameters: AndroidParameters(
-        packageName: "sa.pdm.abaad.abaad",
-        minimumVersion: 0,
-      ),
-      iosParameters: IOSParameters(
-        bundleId: "Bundle-ID",
-        minimumVersion: '0',
-      ),
-      socialMetaTagParameters: SocialMetaTagParameters(
-          description: '', imageUrl: Uri.parse(image), title: title),
-    );
-
-    // 1. Get FirebaseDynamicLinks instance
-    final dynamicLinks = FirebaseDynamicLinks.instance;
-
-    // 2. Build short link
-    final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
-      parameters,  // Your DynamicLinkParameters object
-    );
-
-    // 3. Get the URL
-    final dynamicUrl = shortLink.shortUrl;
-
-    String desc = dynamicUrl.toString();
-
-    var whatsapp = phone;
-    var whatsappAndroid = Uri.parse(
-        "whatsapp://send?phone=$whatsapp&text=$desc \n مرحبا لديك عرض في  تطبيق ابعاد ");
-    if (await canLaunchUrl(whatsappAndroid)) {
-      await launchUrl(whatsappAndroid);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("WhatsApp is not installed on the device"),
-        ),
-      );
-    }
-    // await Share.share(desc, subject: title,);
-  }
+  // buildDynamicLinks(
+  //     String title, String image, String docId, String phone) async {
+  //   String url = "https://abaadapp.page.link";
+  //   final DynamicLinkParameters parameters = DynamicLinkParameters(
+  //     uriPrefix: url,
+  //     link: Uri.parse('$url/$docId'),
+  //     androidParameters: AndroidParameters(
+  //       packageName: "sa.pdm.abaad.abaad",
+  //       minimumVersion: 0,
+  //     ),
+  //     iosParameters: IOSParameters(
+  //       bundleId: "Bundle-ID",
+  //       minimumVersion: '0',
+  //     ),
+  //     socialMetaTagParameters: SocialMetaTagParameters(
+  //         description: '', imageUrl: Uri.parse(image), title: title),
+  //   );
+  //
+  //   // 1. Get FirebaseDynamicLinks instance
+  //   final dynamicLinks = FirebaseDynamicLinks.instance;
+  //
+  //   // 2. Build short link
+  //   final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
+  //     parameters,  // Your DynamicLinkParameters object
+  //   );
+  //
+  //   // 3. Get the URL
+  //   final dynamicUrl = shortLink.shortUrl;
+  //
+  //   String desc = dynamicUrl.toString();
+  //
+  //   var whatsapp = phone;
+  //   var whatsappAndroid = Uri.parse(
+  //       "whatsapp://send?phone=$whatsapp&text=$desc \n مرحبا لديك عرض في  تطبيق ابعاد ");
+  //   if (await canLaunchUrl(whatsappAndroid)) {
+  //     await launchUrl(whatsappAndroid);
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text("WhatsApp is not installed on the device"),
+  //       ),
+  //     );
+  //   }
+  //   // await Share.share(desc, subject: title,);
+  // }
 }
 
 Widget buildInfoRow(BuildContext context, String label, String value) {

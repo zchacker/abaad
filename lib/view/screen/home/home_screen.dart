@@ -1,23 +1,25 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/banner_controller.dart';
-import 'package:abaad/controller/category_controller.dart';
-import 'package:abaad/controller/localization_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/zone_controller.dart';
-import 'package:abaad/data/model/response/config_model.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/no_data_screen.dart';
-import 'package:abaad/view/screen/fillter/fillter_estate_sheet.dart';
-import 'package:abaad/view/screen/home/widet/estate_card.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/banner_controller.dart';
+import 'package:abaad_flutter/controller/category_controller.dart';
+import 'package:abaad_flutter/controller/localization_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/zone_controller.dart';
+import 'package:abaad_flutter/data/model/response/config_model.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/no_data_screen.dart';
+import 'package:abaad_flutter/view/screen/fillter/fillter_estate_sheet.dart';
+import 'package:abaad_flutter/view/screen/home/widet/estate_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:barcode_scan2/barcode_scan2.dart';
+// import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../base/web_menu_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   int zoneId;
@@ -84,24 +86,24 @@ class _HomeScreenState extends State<HomeScreen> {
   String result = "Scan a QR Code"; // Initialize with a default message
   bool isFlashOn = false;
 
-  Future<void> scanQRCode() async {
-    try {
-      final ScanResult scanResult = await BarcodeScanner.scan(
-        options: ScanOptions(
-          useCamera: -1, // Use the back camera by default
-          autoEnableFlash: isFlashOn,
-        ),
-      );
-      setState(() {
-        result = scanResult.rawContent;
-        Get.toNamed(RouteHelper.getDetailsRoute(162));
-      });
-    } catch (e) {
-      setState(() {
-        result = "Error: $e";
-      });
-    }
-  }
+  // Future<void> scanQRCode() async {
+  //   try {
+  //     final ScanResult scanResult = await BarcodeScanner.scan(
+  //       options: ScanOptions(
+  //         useCamera: -1, // Use the back camera by default
+  //         autoEnableFlash: isFlashOn,
+  //       ),
+  //     );
+  //     setState(() {
+  //       result = scanResult.rawContent;
+  //       Get.toNamed(RouteHelper.getDetailsRoute(162));
+  //     });
+  //   } catch (e) {
+  //     setState(() {
+  //       result = "Error: $e";
+  //     });
+  //   }
+  // }
 
   void toggleFlash() {
     setState(() {
@@ -117,7 +119,49 @@ class _HomeScreenState extends State<HomeScreen> {
     int length = 0;
 
     var width = MediaQuery.of(context).size.width;
+    final GlobalKey<ScaffoldState> _key = GlobalKey();
+
     return Scaffold(
+      key: _key,
+
+        appBar:
+
+        PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0, // نلغي الظل لأنه سنضيف بوردر يدوي
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            title: Row(
+              children: [
+                const SizedBox(width: 12),
+                Text(
+                  "قائمة في منطقه ${ selectedZoneName}",
+                  style: const TextStyle(
+
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1.0),
+              child: Container(
+                color: Colors.grey.shade300,
+                height: 1.0,
+              ),
+            ),
+          ),
+        ),
+
+
+
         backgroundColor: Theme.of(context).cardColor,
         body: GetBuilder<CategoryController>(builder: (categoryController) {
           List<Estate> products;
@@ -145,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Align(
                                 alignment: Alignment.topCenter,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(top: 7.0),
+                                  padding: const EdgeInsets.only(top: 3.0),
                                   child: Container(
                                     margin: const EdgeInsets.only(
                                         left: 2.0, right: 2.0),
@@ -176,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               width: 3,
                                             ),
                                             GestureDetector(
-                                              onTap: scanQRCode,
+                                              // onTap: scanQRCode,
                                               child: Container(
                                                 // margin: const EdgeInsets.only(
                                                 //     left: 4.0, right: 4.0),
@@ -250,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         //   child: BannerView(),
                         // ),
 
-                        SizedBox(height: 8),
+
                         (categoryController.subCategoryList != null)
                             ? Center(
                                 child: SizedBox(
@@ -366,7 +410,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       },
                                     )))
                             : SizedBox(),
-                        SizedBox(height: 6),
+                        SizedBox(height: 2),
                         selectedZoneName != null
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 6),

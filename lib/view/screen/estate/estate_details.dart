@@ -1,27 +1,27 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/category_controller.dart';
-import 'package:abaad/controller/estate_controller.dart';
-import 'package:abaad/controller/localization_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/data/model/body/notification_body.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/map_details_view.dart';
-import 'package:abaad/view/base/not_logged_in_screen.dart';
-import 'package:abaad/view/base/offer_list.dart';
-import 'package:abaad/view/screen/estate/widgets/interface.dart';
-import 'package:abaad/view/screen/estate/widgets/near_by_view.dart';
-import 'package:abaad/view/screen/estate/widgets/network_type.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/category_controller.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
+import 'package:abaad_flutter/controller/localization_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/data/model/body/notification_body.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/map_details_view.dart';
+import 'package:abaad_flutter/view/base/not_logged_in_screen.dart';
+import 'package:abaad_flutter/view/base/offer_list.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/interface.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/near_by_view.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/network_type.dart';
 import 'package:clipboard/clipboard.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import 'package:flutter/material.dart';
 
@@ -50,6 +50,7 @@ class _EstateDetailsState extends State<EstateDetails> {
     super.initState();
 
     _isLoggedIn = Get.find<AuthController>().isLoggedIn();
+
     Get.find<EstateController>().getEstateDetails(Estate(id: widget.estate.id));
   }
 
@@ -359,13 +360,14 @@ class _EstateDetailsState extends State<EstateDetails> {
                                       ),
                                       estateController.estate!.category != "5"
                                           ? Center(
-                                              child: SizedBox(
+                                              child: estate!.property!=null?SizedBox(
                                                 height: 35,
-                                                child: ListView.builder(
+                                                child:
+                                                    estate!.property!.length>0?  ListView.builder(
                                                   physics:
                                                       BouncingScrollPhysics(),
                                                   itemCount: estateController
-                                                      .estate!.property!.length,
+                                                      .estate!.property!.length??0,
                                                   scrollDirection:
                                                       Axis.horizontal,
                                                   // ignore: missing_return
@@ -668,8 +670,8 @@ class _EstateDetailsState extends State<EstateDetails> {
                                                                                 : Container()
                                                         : Container();
                                                   },
-                                                ),
-                                              ),
+                                                ):Container(),
+                                              ):Container(),
                                             )
                                           : Container(),
                                       Divider(
@@ -1179,26 +1181,28 @@ class _EstateDetailsState extends State<EstateDetails> {
                                           buildInfoTile(context,
                                               label: "ad_license_number".tr,
                                               value: widget
-                                                  .estate.adLicenseNumber!),
+                                                  .estate.adLicenseNumber??""),
 
                                           // // تاريخ الإنشاء
                                           // if (widget.estate.creationDate != null)
                                           //   buildInfoTile(context, label: "creation_date".tr, value: widget.estate.creationDate),
 
                                           // تاريخ الانتهاء
-                                          buildInfoTile(context,
+                                          widget.estate.endDate==null?Container(
+
+                                          ) :  buildInfoTile(context,
                                               label: "end_date".tr,
-                                              value: widget.estate!.endDate!),
+                                              value: widget.estate.endDate!??""),
 
                                           //   buildInfoTile(context, label: "end_date".tr, value: widget.estate.endDate),
-                                          buildInfoTile(
+                                    estate!.zoneNameAr==null?Container():   buildInfoTile(
                                             context,
                                             label: "المنطقة",
                                             value: categoryController
-                                                .estate!.zoneNameAr!,
+                                                .estate!.zoneNameAr??"",
                                           ),
 
-                                          buildInfoTile(
+                                    estate.city==null?Container(): buildInfoTile(
                                             context,
                                             label: "المدينة",
                                             value: categoryController
@@ -1206,15 +1210,15 @@ class _EstateDetailsState extends State<EstateDetails> {
                                           ),
                                           buildInfoTile(context,
                                               label: "الحي",
-                                              value: categoryController
-                                                  .estate!.districts!),
+                                              value: widget
+                                                  .estate.districts??""),
 
                                           buildColoredInfoRow(
                                             context,
                                             label: "تاريخ الانتهاء",
-                                            value: widget.estate!.endDate!,
+                                            value: widget.estate.endDate??"",
                                             isExpired: DateTime.tryParse(
-                                                        widget.estate!.endDate!)
+                                                        widget.estate.endDate??"")
                                                     ?.isBefore(
                                                         DateTime.now()) ??
                                                 false,
@@ -1223,9 +1227,9 @@ class _EstateDetailsState extends State<EstateDetails> {
                                           buildEndDateWithStatusBadge(
                                             context,
                                             label: "تاريخ الانتهاء",
-                                            value: widget.estate!.endDate!,
+                                            value: widget.estate.endDate??"",
                                             isExpired: DateTime.tryParse(
-                                                        widget.estate!.endDate!)
+                                                        widget.estate.endDate??"")
                                                     ?.isBefore(
                                                         DateTime.now()) ??
                                                 false,
@@ -1235,21 +1239,21 @@ class _EstateDetailsState extends State<EstateDetails> {
                                           buildInfoTile(context,
                                               label: "ad_license_number".tr,
                                               value: widget
-                                                  .estate!.adLicenseNumber!),
+                                                  .estate.adLicenseNumber??""),
 
                                           // رقم ترخيص الوساطة والتسويق
                                           buildInfoTile(context,
                                               label:
                                                   "brokerage_marketing_license"
                                                       .tr,
-                                              value: widget.estate!
-                                                  .brokerageAndMarketingLicenseNumber!),
+                                              value: widget.estate
+                                                  .brokerageAndMarketingLicenseNumber??""),
 
                                           // نوع الصك
                                           buildInfoTile(context,
                                               label: "title_deed_type_name".tr,
                                               value: widget
-                                                  .estate!.titleDeedTypeName!),
+                                                  .estate.titleDeedTypeName??""),
 
                                           // الحد الشمالي
                                           // if (widget.estate.northLimit != null)
@@ -1281,17 +1285,17 @@ class _EstateDetailsState extends State<EstateDetails> {
                                           buildInfoTile(context,
                                               label: "رقم رخصة فال".tr,
                                               value: widget
-                                                  .estate!.licenseNumber!),
+                                                  .estate.licenseNumber??""),
 
                                           // رقم المخطط
                                           buildInfoTile(context,
                                               label: "plan_number".tr,
                                               value:
-                                                  widget.estate!.planNumber!),
+                                                  widget.estate.planNumber??""),
 
                                           buildInfoTile(context,
                                               label: "تاريح إنشاء الإعلان",
-                                              value: widget.estate!.createdAt!),
+                                              value: widget.estate.createdAt??""),
 
                                           // estateController
 
@@ -1396,7 +1400,7 @@ class _EstateDetailsState extends State<EstateDetails> {
                                               : Container(),
                                         ],
                                       ),
-                                      estateController.estate!.deedNumber! !=
+                                      estateController.estate!.deedNumber !=
                                               null
                                           ? Container(
                                               height: 50,
@@ -1461,7 +1465,7 @@ class _EstateDetailsState extends State<EstateDetails> {
                                           buildInfoTile(context,
                                               label: "ad_license_number".tr,
                                               value: estateController
-                                                  .estate!.adLicenseNumber!),
+                                                  .estate!.adLicenseNumber??""),
 
                                           // رقم الصك
 
@@ -1471,7 +1475,7 @@ class _EstateDetailsState extends State<EstateDetails> {
                                                   "brokerage_marketing_license"
                                                       .tr,
                                               value: estateController.estate!
-                                                  .brokerageAndMarketingLicenseNumber!),
+                                                  .brokerageAndMarketingLicenseNumber??""),
 
                                           SizedBox(
                                               height: 10), // مسافة بين العنوان
@@ -1508,617 +1512,617 @@ class _EstateDetailsState extends State<EstateDetails> {
                                           buildInfoTile(context,
                                               label: "title_deed_type_name".tr,
                                               value: estateController
-                                                  .estate!.titleDeedTypeName!),
+                                                  .estate!.titleDeedTypeName??""),
 
                                           // الحد الشمالي
                                           buildInfoTile(context,
                                               label: "north_limit".tr,
                                               value: estateController
-                                                  .estate!.northLimit!),
+                                                  .estate!.northLimit??""),
 
                                           // الحد الشرقي
                                           buildInfoTile(context,
                                               label: "east_limit".tr,
                                               value: estateController
-                                                  .estate!.eastLimit!),
+                                                  .estate!.eastLimit??""),
 
                                           // الحد الغربي
                                           buildInfoTile(context,
                                               label: "west_limit".tr,
                                               value: estateController
-                                                  .estate!.westLimit!),
+                                                  .estate!.westLimit??""),
 
                                           // الحد الجنوبي
                                           buildInfoTile(context,
                                               label: "south_limit".tr,
                                               value: estateController
-                                                  .estate!.southLimit!),
+                                                  .estate!.southLimit??""),
 
                                           // عرض الشارع
                                           buildInfoTile(context,
                                               label: "street_width".tr,
                                               value: estateController
-                                                  .estate!.streetWidth!
+                                                  .estate!.streetWidth??""
                                                   .toString()),
 
                                           // الواجهة
                                           buildInfoTile(context,
                                               label: "property_face".tr,
                                               value: estateController
-                                                  .estate!.propertyFace!),
+                                                  .estate!.propertyFace??""),
 
                                           // نوع الإعلان
                                           buildInfoTile(context,
                                               label: "advertisement_type".tr,
                                               value: estateController
-                                                  .estate!.advertisementType!),
+                                                  .estate!.advertisementType??""),
 
                                           // رقم الترخيص
                                           buildInfoTile(context,
                                               label: "license_number".tr,
                                               value: estateController
-                                                  .estate!.licenseNumber!),
+                                                  .estate!.licenseNumber??""),
 
                                           // رقم المخطط
                                           buildInfoTile(context,
                                               label: "plan_number".tr,
                                               value: estateController
-                                                  .estate!.planNumber!),
+                                                  .estate!.planNumber??""),
                                         ],
                                       ),
 
-                                      estateController.estate!.networkType!
-                                                  .isNotEmpty &&
-                                              estateController
-                                                      .estate!.networkType ==
-                                                  null
-                                          ? NetworkTypeItem(
-                                              estate: estateController.estate!,
-                                              restaurants: estateController
-                                                  .estate!.networkType!)
-                                          : Container(),
-                                      estateController.estate!.interface! !=
-                                              null
-                                          ? InterfaceItem(
-                                              estate: estateController.estate,
-                                              restaurants: estateController
-                                                  .estate!.interface)
-                                          : Container(),
-                                      const MapDetailsView(fromView: true),
-                                      estateController.isLoading! &&  estateController.estate!.otherAdvantages! ==  null
-                                          ? Container() :
-                                      SizedBox(
-                                              height: estateController.estate!.otherAdvantages! ==
-                                                      null
-                                                  ? 0
-                                                  : 120,
-                                              child: GridView.builder(
-                                                physics:
-                                                    BouncingScrollPhysics(),
-                                                itemCount: estateController
-                                                    .estate!
-                                                    .otherAdvantages!
-                                                    .length,
-                                                gridDelegate:
-                                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount: 3,
-                                                  childAspectRatio: (1 / 0.50),
-                                                ),
-                                                itemBuilder: (context, index) {
-                                                  return InkWell(
-                                                    child: Container(
-                                                      margin: const EdgeInsets
-                                                          .all(Dimensions
-                                                              .PADDING_SIZE_EXTRA_SMALL),
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                        vertical: Dimensions
-                                                            .PADDING_SIZE_EXTRA_SMALL,
-                                                        horizontal: Dimensions
-                                                            .PADDING_SIZE_SMALL,
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                        color: Theme.of(context)
-                                                            .cardColor,
-                                                        borderRadius: BorderRadius
-                                                            .circular(Dimensions
-                                                                .RADIUS_SMALL),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              color: Colors
-                                                                      .grey[
-                                                                  Get.isDarkMode
-                                                                      ? 800
-                                                                      : 200]!,
-                                                              blurRadius: 5,
-                                                              spreadRadius: 1)
-                                                        ],
-                                                      ),
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Row(
-                                                        children: [
-                                                          SizedBox(
-                                                              width: Dimensions
-                                                                  .PADDING_SIZE_EXTRA_SMALL),
-                                                          Flexible(
-                                                              flex: 1,
-                                                              child: Text(
-                                                                estateController
-                                                                    .estate!
-                                                                    .otherAdvantages![index]!
-                                                                    .name!,
-                                                                style:
-                                                                    robotoMedium
-                                                                        .copyWith(
-                                                                  fontSize:
-                                                                      Dimensions
-                                                                          .fontSizeLarge,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .textTheme
-                                                                      .bodyLarge!
-                                                                      .color,
-                                                                ),
-                                                                maxLines: 2,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                              )),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              )),
-
-                                      Divider(
-                                        height: 1,
-                                      ),
-                                      Text("other_information".tr,
-                                          style: robotoBlack.copyWith(
-                                              fontSize: 14)),
-                                      Container(
-                                        padding: EdgeInsets.all(10),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: <Widget>[
-                                              GestureDetector(
-                                                onTap: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return Get.find<
-                                                                  AuthController>()
-                                                              .isLoggedIn()
-                                                          ? Container(child: GetBuilder<
-                                                                  EstateController>(
-                                                              builder:
-                                                                  (wishController) {
-                                                              return ReportWidget(key: null, estate_id: estate!.id ?? 0);
-                                                            }))
-                                                          : NotLoggedInScreen();
-                                                    },
-                                                  );
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(10),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Theme.of(context)
-                                                            .primaryColor,
-                                                        spreadRadius: 1,
-                                                        blurRadius: 2,
-                                                        offset: Offset(0,
-                                                            0.5), // changes position of shadow
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child:
-                                                      Column(children: <Widget>[
-                                                    Image.asset(
-                                                      Images.space,
-                                                      height: 70,
-                                                      width: 70,
-                                                    ),
-                                                    Text('report_the_ad'.tr,
-                                                        style: robotoBlack
-                                                            .copyWith(
-                                                                fontSize: 12)),
-                                                  ]),
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Get.dialog(NearByView(
-                                                    esate: estate,
-                                                  ));
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(8),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Theme.of(context)
-                                                            .primaryColor,
-                                                        spreadRadius: 1,
-                                                        blurRadius: 2,
-                                                        offset: Offset(0,
-                                                            0.5), // changes position of shadow
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child:
-                                                      Column(children: <Widget>[
-                                                    Image.asset(
-                                                      Images.estate_type,
-                                                      height: 70,
-                                                      width: 70,
-                                                    ),
-                                                    Text('near_by'.tr,
-                                                        style: robotoBlack
-                                                            .copyWith(
-                                                                fontSize: 13)),
-                                                  ]),
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Get.dialog(OfferList(
-                                                      estate: estateController
-                                                          .estate));
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(10),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Theme.of(context)
-                                                            .primaryColor,
-                                                        spreadRadius: 1,
-                                                        blurRadius: 2,
-                                                        offset: Offset(0,
-                                                            0.5), // changes position of shadow
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child:
-                                                      Column(children: <Widget>[
-                                                    Image.asset(
-                                                      Images.space,
-                                                      height: 70,
-                                                      width: 70,
-                                                    ),
-                                                    Text(
-                                                        'deals_with_the_property'
-                                                            .tr,
-                                                        style: robotoBlack
-                                                            .copyWith(
-                                                                fontSize: 12)),
-                                                  ]),
-                                                ),
-                                              )
-                                            ]),
-                                      ),
-
-                                      SizedBox(height: 10),
-                                      Divider(
-                                        height: 1,
-                                      ),
-                                      SizedBox(height: 6),
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            right: 20, left: 20),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(4.0),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .surface,
-                                              spreadRadius: 1,
-                                              blurRadius: 2,
-                                              offset: Offset(0,
-                                                  0.5), // changes position of shadow
-                                            ),
-                                          ],
-                                        ),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Text('رقم رخصة الإعلان'.tr),
-                                              SizedBox(width: 20),
-                                              Text(estateController
-                                                  .estate!.adLicenseNumber
-                                                  .toString()),
-                                              IconButton(
-                                                  onPressed: () {
-                                                    FlutterClipboard.copy(
-                                                            estateController
-                                                                .estate!
-                                                                .adLicenseNumber
-                                                                .toString())
-                                                        .then((value) {
-                                                      showCustomSnackBar(
-                                                          'copied'.tr,
-                                                          isError: false);
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.copy,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                  )),
-                                            ]),
-                                      ),
-
-                                      SizedBox(height: 6),
-                                      Divider(
-                                        height: 1,
-                                      ),
-
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            right: 20, left: 20),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(4.0),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .surface,
-                                              spreadRadius: 1,
-                                              blurRadius: 2,
-                                              offset: Offset(0,
-                                                  0.5), // changes position of shadow
-                                            ),
-                                          ],
-                                        ),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Text('رقم وثيقة الملكية'.tr),
-                                              Text(estateController
-                                                  .estate!.deedNumber!),
-                                              IconButton(
-                                                  onPressed: () {
-                                                    FlutterClipboard.copy(
-                                                            estateController
-                                                                .estate!
-                                                                .deedNumber!)
-                                                        .then((value) {
-                                                      showCustomSnackBar(
-                                                          'copied'.tr,
-                                                          isError: false);
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.copy,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                  )),
-                                            ]),
-                                      ),
-
-                                      SizedBox(height: 6),
-                                      Divider(
-                                        height: 1,
-                                      ),
-                                      SizedBox(height: 6),
-                                      GestureDetector(
-                                        onTap: () async {
-                                          await Get.toNamed(
-                                              RouteHelper.getProfileAgentRoute(
-                                                  estateController
-                                                      .estate!.userId!,
-                                                  0));
-                                        },
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                              bottom: Dimensions
-                                                  .PADDING_SIZE_SMALL),
-                                          padding: EdgeInsets.all(
-                                              Dimensions.PADDING_SIZE_SMALL),
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context).cardColor,
-                                            borderRadius: BorderRadius.circular(
-                                                Dimensions.RADIUS_SMALL),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.grey[
-                                                      Get.isDarkMode
-                                                          ? 700
-                                                          : 300]!,
-                                                  spreadRadius: 1,
-                                                  blurRadius: 5)
-                                            ],
-                                          ),
-                                          child: Row(children: [
-                                            ClipOval(
-                                                child: CustomImage(
-                                              image:
-                                                  '${Get.find<SplashController>().configModel!.baseUrls!.customerImageUrl}'
-                                                  '/${(isLoggedIn) ? userController.agentInfoModel!.image : ''}',
-                                              height: 100,
-                                              width: 100,
-                                              fit: BoxFit.cover,
-                                            )),
-                                            SizedBox(
-                                                width: Dimensions
-                                                    .PADDING_SIZE_SMALL),
-                                            Expanded(
-                                                flex: 1,
-                                                child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      //  Text("${ _isLoggedIn ? '${userController.agentInfoModel.name}' : 'guest'.tr}", style: robotoMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
-                                                      Text(
-                                                        estateController
-                                                            .estate!.users!.name!,
-                                                        style: robotoMedium.copyWith(
-                                                            fontSize: Dimensions
-                                                                .fontSizeDefault),
-                                                      ),
-                                                      SizedBox(
-                                                          height: Dimensions
-                                                              .PADDING_SIZE_EXTRA_SMALL),
-
-                                                      Row(children: [
-                                                        Container(
-                                                          height: 25,
-                                                          alignment:
-                                                              Alignment.center,
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  right: 4,
-                                                                  left: 4),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .primaryColor,
-                                                            borderRadius:
-                                                                BorderRadius.circular(
-                                                                    Dimensions
-                                                                        .RADIUS_SMALL),
-                                                          ),
-                                                          child: Center(
-                                                            child: Text(
-                                                                estateController
-                                                                    .estate!
-                                                                    .users!
-                                                                    .membershipType!,
-                                                                style: robotoBold
-                                                                    .copyWith(
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .cardColor,
-                                                                  fontSize:
-                                                                      Dimensions
-                                                                          .fontSizeDefault,
-                                                                )),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                            flex: 1,
-                                                            child: SizedBox()),
-                                                      ]),
-                                                      SizedBox(height: 4),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            "advertiser_no".tr,
-                                                            style: robotoRegular.copyWith(
-                                                                fontSize: Dimensions
-                                                                    .fontSizeLarge,
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .disabledColor),
-                                                          ),
-                                                          SizedBox(width: 20),
-                                                          Text(
-                                                            estateController
-                                                                .estate!
-                                                                .users!
-                                                                .phone!,
-                                                            style: robotoRegular.copyWith(
-                                                                fontSize: Dimensions
-                                                                    .fontSizeLarge,
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .disabledColor),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            "date_of_publication"
-                                                                .tr,
-                                                            style: robotoRegular.copyWith(
-                                                                fontSize: Dimensions
-                                                                    .fontSizeLarge,
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .disabledColor),
-                                                          ),
-                                                          SizedBox(width: 20),
-                                                          Text(
-                                                            estateController
-                                                                    .estate!
-                                                                    .createdAt ??
-                                                                "",
-                                                            style: robotoRegular.copyWith(
-                                                                fontSize: Dimensions
-                                                                    .fontSizeDefault,
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .disabledColor),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ])),
-                                          ]),
-                                        ),
-                                      ),
-                                      !userController.isLoading
-                                          ? CustomButton(
-                                              onPressed: () async {
-                                                await Get.toNamed(
-                                                    RouteHelper.getChatRoute(
-                                                        notificationBody:
-                                                            NotificationBody(
-                                                                orderId:
-                                                                    estateController
-                                                                        .estate!
-                                                                        .id,
-                                                                restaurantId:
-                                                                    estateController
-                                                                        .estate!
-                                                                        .userId),
-                                                        user: Userinfo(
-                                                          id: estateController
-                                                              .estate!.userId,
-                                                          name: userController
-                                                              .agentInfoModel!
-                                                              .name,
-                                                          image: userController
-                                                              .agentInfoModel!
-                                                              .image,
-                                                        ),
-                                                        estate_id:
-                                                            widget.estate.id));
-                                              },
-                                              buttonText:
-                                                  'contact_the_advertiser'.tr,
-                                            )
-                                          : Center(child: Container()),
+                                      // estateController.estate!.networkType!
+                                      //             .isNotEmpty &&
+                                      //         estateController
+                                      //                 .estate!.networkType ==
+                                      //             null
+                                      //     ? NetworkTypeItem(
+                                      //         estate: estateController.estate!,
+                                      //         restaurants: estateController
+                                      //             .estate!.networkType!)
+                                      //     : Container(),
+                                      // estateController.estate!.interface! !=
+                                      //         null
+                                      //     ? InterfaceItem(
+                                      //         estate: estateController.estate,
+                                      //         restaurants: estateController
+                                      //             .estate!.interface)
+                                      //     : Container(),
+                                      // const MapDetailsView(fromView: true),
+                                      // estateController.isLoading! &&  estateController.estate!.otherAdvantages! ==  null
+                                      //     ? Container() :
+                                      // SizedBox(
+                                      //         height: estateController.estate!.otherAdvantages! ==
+                                      //                 null
+                                      //             ? 0
+                                      //             : 120,
+                                      //         child: GridView.builder(
+                                      //           physics:
+                                      //               BouncingScrollPhysics(),
+                                      //           itemCount: estateController
+                                      //               .estate!
+                                      //               .otherAdvantages!
+                                      //               .length,
+                                      //           gridDelegate:
+                                      //               SliverGridDelegateWithFixedCrossAxisCount(
+                                      //             crossAxisCount: 3,
+                                      //             childAspectRatio: (1 / 0.50),
+                                      //           ),
+                                      //           itemBuilder: (context, index) {
+                                      //             return InkWell(
+                                      //               child: Container(
+                                      //                 margin: const EdgeInsets
+                                      //                     .all(Dimensions
+                                      //                         .PADDING_SIZE_EXTRA_SMALL),
+                                      //                 padding: const EdgeInsets
+                                      //                     .symmetric(
+                                      //                   vertical: Dimensions
+                                      //                       .PADDING_SIZE_EXTRA_SMALL,
+                                      //                   horizontal: Dimensions
+                                      //                       .PADDING_SIZE_SMALL,
+                                      //                 ),
+                                      //                 decoration: BoxDecoration(
+                                      //                   color: Theme.of(context)
+                                      //                       .cardColor,
+                                      //                   borderRadius: BorderRadius
+                                      //                       .circular(Dimensions
+                                      //                           .RADIUS_SMALL),
+                                      //                   boxShadow: [
+                                      //                     BoxShadow(
+                                      //                         color: Colors
+                                      //                                 .grey[
+                                      //                             Get.isDarkMode
+                                      //                                 ? 800
+                                      //                                 : 200]!,
+                                      //                         blurRadius: 5,
+                                      //                         spreadRadius: 1)
+                                      //                   ],
+                                      //                 ),
+                                      //                 alignment:
+                                      //                     Alignment.center,
+                                      //                 child: Row(
+                                      //                   children: [
+                                      //                     SizedBox(
+                                      //                         width: Dimensions
+                                      //                             .PADDING_SIZE_EXTRA_SMALL),
+                                      //                     Flexible(
+                                      //                         flex: 1,
+                                      //                         child: Text(
+                                      //                           estateController
+                                      //                               .estate!
+                                      //                               .otherAdvantages![index]!
+                                      //                               .name!,
+                                      //                           style:
+                                      //                               robotoMedium
+                                      //                                   .copyWith(
+                                      //                             fontSize:
+                                      //                                 Dimensions
+                                      //                                     .fontSizeLarge,
+                                      //                             color: Theme.of(
+                                      //                                     context)
+                                      //                                 .textTheme
+                                      //                                 .bodyLarge!
+                                      //                                 .color,
+                                      //                           ),
+                                      //                           maxLines: 2,
+                                      //                           overflow:
+                                      //                               TextOverflow
+                                      //                                   .ellipsis,
+                                      //                         )),
+                                      //                   ],
+                                      //                 ),
+                                      //               ),
+                                      //             );
+                                      //           },
+                                      //         )),
+                                      //
+                                      // Divider(
+                                      //   height: 1,
+                                      // ),
+                                      // Text("other_information".tr,
+                                      //     style: robotoBlack.copyWith(
+                                      //         fontSize: 14)),
+                                      // Container(
+                                      //   padding: EdgeInsets.all(10),
+                                      //   child: Row(
+                                      //       mainAxisAlignment:
+                                      //           MainAxisAlignment.spaceAround,
+                                      //       children: <Widget>[
+                                      //         GestureDetector(
+                                      //           onTap: () {
+                                      //             showDialog(
+                                      //               context: context,
+                                      //               builder:
+                                      //                   (BuildContext context) {
+                                      //                 return Get.find<
+                                      //                             AuthController>()
+                                      //                         .isLoggedIn()
+                                      //                     ? Container(child: GetBuilder<
+                                      //                             EstateController>(
+                                      //                         builder:
+                                      //                             (wishController) {
+                                      //                         return ReportWidget(key: null, estate_id: estate!.id ?? 0);
+                                      //                       }))
+                                      //                     : NotLoggedInScreen();
+                                      //               },
+                                      //             );
+                                      //           },
+                                      //           child: Container(
+                                      //             padding: EdgeInsets.all(10),
+                                      //             decoration: BoxDecoration(
+                                      //               color: Colors.white,
+                                      //               borderRadius:
+                                      //                   BorderRadius.circular(
+                                      //                       10.0),
+                                      //               boxShadow: [
+                                      //                 BoxShadow(
+                                      //                   color: Theme.of(context)
+                                      //                       .primaryColor,
+                                      //                   spreadRadius: 1,
+                                      //                   blurRadius: 2,
+                                      //                   offset: Offset(0,
+                                      //                       0.5), // changes position of shadow
+                                      //                 ),
+                                      //               ],
+                                      //             ),
+                                      //             child:
+                                      //                 Column(children: <Widget>[
+                                      //               Image.asset(
+                                      //                 Images.space,
+                                      //                 height: 70,
+                                      //                 width: 70,
+                                      //               ),
+                                      //               Text('report_the_ad'.tr,
+                                      //                   style: robotoBlack
+                                      //                       .copyWith(
+                                      //                           fontSize: 12)),
+                                      //             ]),
+                                      //           ),
+                                      //         ),
+                                      //         GestureDetector(
+                                      //           onTap: () {
+                                      //             Get.dialog(NearByView(
+                                      //               esate: estate,
+                                      //             ));
+                                      //           },
+                                      //           child: Container(
+                                      //             padding: EdgeInsets.all(8),
+                                      //             decoration: BoxDecoration(
+                                      //               color: Colors.white,
+                                      //               borderRadius:
+                                      //                   BorderRadius.circular(
+                                      //                       10.0),
+                                      //               boxShadow: [
+                                      //                 BoxShadow(
+                                      //                   color: Theme.of(context)
+                                      //                       .primaryColor,
+                                      //                   spreadRadius: 1,
+                                      //                   blurRadius: 2,
+                                      //                   offset: Offset(0,
+                                      //                       0.5), // changes position of shadow
+                                      //                 ),
+                                      //               ],
+                                      //             ),
+                                      //             child:
+                                      //                 Column(children: <Widget>[
+                                      //               Image.asset(
+                                      //                 Images.estate_type,
+                                      //                 height: 70,
+                                      //                 width: 70,
+                                      //               ),
+                                      //               Text('near_by'.tr,
+                                      //                   style: robotoBlack
+                                      //                       .copyWith(
+                                      //                           fontSize: 13)),
+                                      //             ]),
+                                      //           ),
+                                      //         ),
+                                      //         GestureDetector(
+                                      //           onTap: () {
+                                      //             Get.dialog(OfferList(
+                                      //                 estate: estateController
+                                      //                     .estate));
+                                      //           },
+                                      //           child: Container(
+                                      //             padding: EdgeInsets.all(10),
+                                      //             decoration: BoxDecoration(
+                                      //               color: Colors.white,
+                                      //               borderRadius:
+                                      //                   BorderRadius.circular(
+                                      //                       10.0),
+                                      //               boxShadow: [
+                                      //                 BoxShadow(
+                                      //                   color: Theme.of(context)
+                                      //                       .primaryColor,
+                                      //                   spreadRadius: 1,
+                                      //                   blurRadius: 2,
+                                      //                   offset: Offset(0,
+                                      //                       0.5), // changes position of shadow
+                                      //                 ),
+                                      //               ],
+                                      //             ),
+                                      //             child:
+                                      //                 Column(children: <Widget>[
+                                      //               Image.asset(
+                                      //                 Images.space,
+                                      //                 height: 70,
+                                      //                 width: 70,
+                                      //               ),
+                                      //               Text(
+                                      //                   'deals_with_the_property'
+                                      //                       .tr,
+                                      //                   style: robotoBlack
+                                      //                       .copyWith(
+                                      //                           fontSize: 12)),
+                                      //             ]),
+                                      //           ),
+                                      //         )
+                                      //       ]),
+                                      // ),
+                                      //
+                                      // SizedBox(height: 10),
+                                      // Divider(
+                                      //   height: 1,
+                                      // ),
+                                      // SizedBox(height: 6),
+                                      // Container(
+                                      //   padding: EdgeInsets.only(
+                                      //       right: 20, left: 20),
+                                      //   decoration: BoxDecoration(
+                                      //     color: Colors.white,
+                                      //     borderRadius:
+                                      //         BorderRadius.circular(4.0),
+                                      //     boxShadow: [
+                                      //       BoxShadow(
+                                      //         color: Theme.of(context)
+                                      //             .colorScheme
+                                      //             .surface,
+                                      //         spreadRadius: 1,
+                                      //         blurRadius: 2,
+                                      //         offset: Offset(0,
+                                      //             0.5), // changes position of shadow
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      //   child: Row(
+                                      //       mainAxisAlignment:
+                                      //           MainAxisAlignment.spaceBetween,
+                                      //       children: <Widget>[
+                                      //         Text('رقم رخصة الإعلان'.tr),
+                                      //         SizedBox(width: 20),
+                                      //         Text(estateController
+                                      //             .estate!.adLicenseNumber
+                                      //             .toString()),
+                                      //         IconButton(
+                                      //             onPressed: () {
+                                      //               FlutterClipboard.copy(
+                                      //                       estateController
+                                      //                           .estate!
+                                      //                           .adLicenseNumber
+                                      //                           .toString())
+                                      //                   .then((value) {
+                                      //                 showCustomSnackBar(
+                                      //                     'copied'.tr,
+                                      //                     isError: false);
+                                      //               });
+                                      //             },
+                                      //             icon: Icon(
+                                      //               Icons.copy,
+                                      //               color: Theme.of(context)
+                                      //                   .primaryColor,
+                                      //             )),
+                                      //       ]),
+                                      // ),
+                                      //
+                                      // SizedBox(height: 6),
+                                      // Divider(
+                                      //   height: 1,
+                                      // ),
+                                      //
+                                      // Container(
+                                      //   padding: EdgeInsets.only(
+                                      //       right: 20, left: 20),
+                                      //   decoration: BoxDecoration(
+                                      //     color: Colors.white,
+                                      //     borderRadius:
+                                      //         BorderRadius.circular(4.0),
+                                      //     boxShadow: [
+                                      //       BoxShadow(
+                                      //         color: Theme.of(context)
+                                      //             .colorScheme
+                                      //             .surface,
+                                      //         spreadRadius: 1,
+                                      //         blurRadius: 2,
+                                      //         offset: Offset(0,
+                                      //             0.5), // changes position of shadow
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      //   child: Row(
+                                      //       mainAxisAlignment:
+                                      //           MainAxisAlignment.spaceBetween,
+                                      //       children: <Widget>[
+                                      //         Text('رقم وثيقة الملكية'.tr),
+                                      //         Text(estateController
+                                      //             .estate!.deedNumber!),
+                                      //         IconButton(
+                                      //             onPressed: () {
+                                      //               FlutterClipboard.copy(
+                                      //                       estateController
+                                      //                           .estate!
+                                      //                           .deedNumber!)
+                                      //                   .then((value) {
+                                      //                 showCustomSnackBar(
+                                      //                     'copied'.tr,
+                                      //                     isError: false);
+                                      //               });
+                                      //             },
+                                      //             icon: Icon(
+                                      //               Icons.copy,
+                                      //               color: Theme.of(context)
+                                      //                   .primaryColor,
+                                      //             )),
+                                      //       ]),
+                                      // ),
+                                      //
+                                      // SizedBox(height: 6),
+                                      // Divider(
+                                      //   height: 1,
+                                      // ),
+                                      // SizedBox(height: 6),
+                                      // GestureDetector(
+                                      //   onTap: () async {
+                                      //     await Get.toNamed(
+                                      //         RouteHelper.getProfileAgentRoute(
+                                      //             estateController
+                                      //                 .estate!.userId!,
+                                      //             0));
+                                      //   },
+                                      //   child: Container(
+                                      //     margin: EdgeInsets.only(
+                                      //         bottom: Dimensions
+                                      //             .PADDING_SIZE_SMALL),
+                                      //     padding: EdgeInsets.all(
+                                      //         Dimensions.PADDING_SIZE_SMALL),
+                                      //     decoration: BoxDecoration(
+                                      //       color: Theme.of(context).cardColor,
+                                      //       borderRadius: BorderRadius.circular(
+                                      //           Dimensions.RADIUS_SMALL),
+                                      //       boxShadow: [
+                                      //         BoxShadow(
+                                      //             color: Colors.grey[
+                                      //                 Get.isDarkMode
+                                      //                     ? 700
+                                      //                     : 300]!,
+                                      //             spreadRadius: 1,
+                                      //             blurRadius: 5)
+                                      //       ],
+                                      //     ),
+                                      //     child: Row(children: [
+                                      //       ClipOval(
+                                      //           child: CustomImage(
+                                      //         image:
+                                      //             '${Get.find<SplashController>().configModel!.baseUrls!.customerImageUrl}'
+                                      //             '/${(isLoggedIn) ? userController.agentInfoModel!.image : ''}',
+                                      //         height: 100,
+                                      //         width: 100,
+                                      //         fit: BoxFit.cover,
+                                      //       )),
+                                      //       SizedBox(
+                                      //           width: Dimensions
+                                      //               .PADDING_SIZE_SMALL),
+                                      //       Expanded(
+                                      //           flex: 1,
+                                      //           child: Column(
+                                      //               crossAxisAlignment:
+                                      //                   CrossAxisAlignment
+                                      //                       .start,
+                                      //               mainAxisAlignment:
+                                      //                   MainAxisAlignment
+                                      //                       .center,
+                                      //               children: [
+                                      //                 //  Text("${ _isLoggedIn ? '${userController.agentInfoModel.name}' : 'guest'.tr}", style: robotoMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                      //                 Text(
+                                      //                   estateController
+                                      //                       .estate!.users!.name!,
+                                      //                   style: robotoMedium.copyWith(
+                                      //                       fontSize: Dimensions
+                                      //                           .fontSizeDefault),
+                                      //                 ),
+                                      //                 SizedBox(
+                                      //                     height: Dimensions
+                                      //                         .PADDING_SIZE_EXTRA_SMALL),
+                                      //
+                                      //                 Row(children: [
+                                      //                   Container(
+                                      //                     height: 25,
+                                      //                     alignment:
+                                      //                         Alignment.center,
+                                      //                     padding:
+                                      //                         EdgeInsets.only(
+                                      //                             right: 4,
+                                      //                             left: 4),
+                                      //                     decoration:
+                                      //                         BoxDecoration(
+                                      //                       color: Theme.of(
+                                      //                               context)
+                                      //                           .primaryColor,
+                                      //                       borderRadius:
+                                      //                           BorderRadius.circular(
+                                      //                               Dimensions
+                                      //                                   .RADIUS_SMALL),
+                                      //                     ),
+                                      //                     child: Center(
+                                      //                       child: Text(
+                                      //                           estateController
+                                      //                               .estate!
+                                      //                               .users!
+                                      //                               .membershipType!,
+                                      //                           style: robotoBold
+                                      //                               .copyWith(
+                                      //                             color: Theme.of(
+                                      //                                     context)
+                                      //                                 .cardColor,
+                                      //                             fontSize:
+                                      //                                 Dimensions
+                                      //                                     .fontSizeDefault,
+                                      //                           )),
+                                      //                     ),
+                                      //                   ),
+                                      //                   Expanded(
+                                      //                       flex: 1,
+                                      //                       child: SizedBox()),
+                                      //                 ]),
+                                      //                 SizedBox(height: 4),
+                                      //                 Row(
+                                      //                   children: [
+                                      //                     Text(
+                                      //                       "advertiser_no".tr,
+                                      //                       style: robotoRegular.copyWith(
+                                      //                           fontSize: Dimensions
+                                      //                               .fontSizeLarge,
+                                      //                           color: Theme.of(
+                                      //                                   context)
+                                      //                               .disabledColor),
+                                      //                     ),
+                                      //                     SizedBox(width: 20),
+                                      //                     Text(
+                                      //                       estateController
+                                      //                           .estate!
+                                      //                           .users!
+                                      //                           .phone!,
+                                      //                       style: robotoRegular.copyWith(
+                                      //                           fontSize: Dimensions
+                                      //                               .fontSizeLarge,
+                                      //                           color: Theme.of(
+                                      //                                   context)
+                                      //                               .disabledColor),
+                                      //                     ),
+                                      //                   ],
+                                      //                 ),
+                                      //                 Row(
+                                      //                   children: [
+                                      //                     Text(
+                                      //                       "date_of_publication"
+                                      //                           .tr,
+                                      //                       style: robotoRegular.copyWith(
+                                      //                           fontSize: Dimensions
+                                      //                               .fontSizeLarge,
+                                      //                           color: Theme.of(
+                                      //                                   context)
+                                      //                               .disabledColor),
+                                      //                     ),
+                                      //                     SizedBox(width: 20),
+                                      //                     Text(
+                                      //                       estateController
+                                      //                               .estate!
+                                      //                               .createdAt ??
+                                      //                           "",
+                                      //                       style: robotoRegular.copyWith(
+                                      //                           fontSize: Dimensions
+                                      //                               .fontSizeDefault,
+                                      //                           color: Theme.of(
+                                      //                                   context)
+                                      //                               .disabledColor),
+                                      //                     ),
+                                      //                   ],
+                                      //                 ),
+                                      //               ])),
+                                      //     ]),
+                                      //   ),
+                                      // ),
+                                      // !userController.isLoading
+                                      //     ? CustomButton(
+                                      //         onPressed: () async {
+                                      //           await Get.toNamed(
+                                      //               RouteHelper.getChatRoute(
+                                      //                   notificationBody:
+                                      //                       NotificationBody(
+                                      //                           orderId:
+                                      //                               estateController
+                                      //                                   .estate!
+                                      //                                   .id,
+                                      //                           restaurantId:
+                                      //                               estateController
+                                      //                                   .estate!
+                                      //                                   .userId),
+                                      //                   user: Userinfo(
+                                      //                     id: estateController
+                                      //                         .estate!.userId,
+                                      //                     name: userController
+                                      //                         .agentInfoModel!
+                                      //                         .name,
+                                      //                     image: userController
+                                      //                         .agentInfoModel!
+                                      //                         .image,
+                                      //                   ),
+                                      //                   estate_id:
+                                      //                       widget.estate.id));
+                                      //         },
+                                      //         buttonText:
+                                      //             'contact_the_advertiser'.tr,
+                                      //       )
+                                      //     : Center(child: Container()),
                                     ],
                                   ))
                             ],
@@ -2131,52 +2135,52 @@ class _EstateDetailsState extends State<EstateDetails> {
     );
   }
 
-  buildDynamicLinks(
-      String title, String image, String docId, String phone) async {
-    String url = "https://abaad.page.link";
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: url,
-      link: Uri.parse('$url/$docId'),
-      androidParameters: AndroidParameters(
-        packageName: "sa.pdm.abaad.abaad",
-        minimumVersion: 0,
-      ),
-      iosParameters: IOSParameters(
-        bundleId: "Bundle-ID",
-        minimumVersion: '0',
-      ),
-      socialMetaTagParameters: SocialMetaTagParameters(
-          description: '', imageUrl: Uri.parse(image), title: title),
-    );
-    // final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
-
-    // 1. Get FirebaseDynamicLinks instance
-    final dynamicLinks = FirebaseDynamicLinks.instance;
-
-    // 2. Build short link
-    final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
-      parameters,  // Your DynamicLinkParameters object
-    );
-
-    // 3. Get the URL
-    final dynamicUrl = shortLink.shortUrl;
-
-    String desc = dynamicUrl.toString();
-
-    var whatsapp = phone;
-    var whatsappAndroid = Uri.parse(
-        "whatsapp://send?phone=$whatsapp&text=$desc \n مرحبا لديك عرض في  تطبيق ابعاد ");
-    if (await canLaunchUrl(whatsappAndroid)) {
-      await launchUrl(whatsappAndroid);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("WhatsApp is not installed on the device"),
-        ),
-      );
-    }
-    // await Share.share(desc, subject: title,);
-  }
+  // buildDynamicLinks(
+  //     String title, String image, String docId, String phone) async {
+  //   String url = "https://abaad.page.link";
+  //   final DynamicLinkParameters parameters = DynamicLinkParameters(
+  //     uriPrefix: url,
+  //     link: Uri.parse('$url/$docId'),
+  //     androidParameters: AndroidParameters(
+  //       packageName: "sa.pdm.abaad.abaad",
+  //       minimumVersion: 0,
+  //     ),
+  //     iosParameters: IOSParameters(
+  //       bundleId: "Bundle-ID",
+  //       minimumVersion: '0',
+  //     ),
+  //     socialMetaTagParameters: SocialMetaTagParameters(
+  //         description: '', imageUrl: Uri.parse(image), title: title),
+  //   );
+  //   // final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
+  //
+  //   // 1. Get FirebaseDynamicLinks instance
+  //   final dynamicLinks = FirebaseDynamicLinks.instance;
+  //
+  //   // 2. Build short link
+  //   final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
+  //     parameters,  // Your DynamicLinkParameters object
+  //   );
+  //
+  //   // 3. Get the URL
+  //   final dynamicUrl = shortLink.shortUrl;
+  //
+  //   String desc = dynamicUrl.toString();
+  //
+  //   var whatsapp = phone;
+  //   var whatsappAndroid = Uri.parse(
+  //       "whatsapp://send?phone=$whatsapp&text=$desc \n مرحبا لديك عرض في  تطبيق ابعاد ");
+  //   if (await canLaunchUrl(whatsappAndroid)) {
+  //     await launchUrl(whatsappAndroid);
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text("WhatsApp is not installed on the device"),
+  //       ),
+  //     );
+  //   }
+  //   // await Share.share(desc, subject: title,);
+  // }
 
   __launchWhatsapp(String number) async {
     var whatsapp = number;

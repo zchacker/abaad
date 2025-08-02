@@ -1,4 +1,4 @@
-name: abaad
+name: abaad_flutter
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -16,10 +16,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 2.0.6+15
+version: 2.0.6+16
 
 environment:
-  sdk: ">=2.17.0 <4.0.0" # ^3.8.1  # Keep null safety compatible but loose
+  sdk: ">=2.17.0 <4.0.0" # ^3.8.1
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -37,7 +37,11 @@ dependencies:
   get: ^4.1.4
   shared_preferences: any
   connectivity_plus: any
-  firebase_messaging: any
+  #  firebase_core: ^3.12.0
+  #  firebase_core: ^3.15.0
+  #  firebase_messaging: ^15.1.0
+  #  firebase_analytics: ^11.7.0
+
   flutter_local_notifications: any
   url_strategy: any
   #http: ^1.0.0
@@ -48,9 +52,10 @@ dependencies:
   country_code_picker: any
   geolocator: any
   google_maps_flutter: any
-  google_maps_flutter_web: any
+#
+  modal_bottom_sheet: ^3.0.0
   pin_code_fields: any
-  firebase_core: any
+  #  firebase_core: any
   custom_map_markers: any
   flutter_hex_color: any
   cached_network_image: any
@@ -81,7 +86,7 @@ dependencies:
   universal_html: any
   flutter_widget_from_html_core: any
   share_plus: any
-  firebase_dynamic_links: any
+  #  firebase_dynamic_links: any
   marker_icon: any
   #custom_marker: ^1.0.0      # Alternative 1
   launch_review: any
@@ -89,7 +94,7 @@ dependencies:
   tutorial_coach_mark: any
   webview_flutter: any
   progress_dialog_null_safe: any
-  barcode_scan2: any
+#  barcode_scan2: any
   camera: any
   multi_select_flutter: any
   flutter_polyline_points: any
@@ -99,17 +104,24 @@ dependencies:
   #universal_ui: ^0.0.8
   #connectivity: any
   universal_platform: any
-  modal_bottom_sheet: any  # Use latest version
+#  //modal_bottom_sheet: any  # Use latest version
 
   file_picker: any
   html: any
   collection: any
+#  firebase_messaging: ^15.1.5
+#  firebase_core: ^3.8.0
+
+  firebase_messaging: any # 14.7.0
+  firebase_core: any # 2.27.0
+
+
   #efood_multivendor: any
 
   camera_web: any
   connectivity_for_web: any
-  firebase_core_web: any
-  firebase_messaging_web: any
+  #  firebase_core_web: any
+  #  firebase_messaging_web: any
   flutter_keyboard_visibility_web: any
   geolocator_web: any
   image_picker_for_web: any
@@ -119,6 +131,7 @@ dependencies:
   url_launcher_web: any
   video_player_web: any
   share: any
+
 
 
 dev_dependencies:
@@ -173,9 +186,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
   assets:
     - assets/image/
     - assets/language/
+    - assets/map/
 
   fonts:
     - family: Roboto

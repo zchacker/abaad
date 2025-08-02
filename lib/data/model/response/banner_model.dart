@@ -1,5 +1,5 @@
-import 'package:abaad/data/model/response/basic_campaign_model.dart';
-import 'package:abaad/data/model/response/service_provider.dart';
+import 'package:abaad_flutter/data/model/response/basic_campaign_model.dart';
+import 'package:abaad_flutter/data/model/response/service_provider.dart';
 
 class BannerModel {
   List<BasicCampaignModel>? campaigns;

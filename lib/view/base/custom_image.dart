@@ -1,4 +1,4 @@
-import 'package:abaad/util/images.dart';
+import 'package:abaad_flutter/util/images.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

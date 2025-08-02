@@ -1,7 +1,7 @@
-// import 'package:abaad/controller/search_controller.dart';
-// import 'package:abaad/util/dimensions.dart';
-// import 'package:abaad/util/styles.dart';
-// import 'package:abaad/view/screen/search/widget/item_view.dart';
+// import 'package:abaad_flutter/controller/search_controller.dart';
+// import 'package:abaad_flutter/util/dimensions.dart';
+// import 'package:abaad_flutter/util/styles.dart';
+// import 'package:abaad_flutter/view/screen/search/widget/item_view.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 //

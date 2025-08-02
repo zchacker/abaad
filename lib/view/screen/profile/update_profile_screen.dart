@@ -1,22 +1,23 @@
 import 'dart:io';
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/data/model/response/response_model.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/helper/responsive_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/my_text_field.dart';
-import 'package:abaad/view/base/not_logged_in_screen.dart';
-import 'package:abaad/view/base/web_menu_bar.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/data/model/response/response_model.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/helper/responsive_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/my_text_field.dart';
+import 'package:abaad_flutter/view/base/not_logged_in_screen.dart';
+import 'package:abaad_flutter/view/base/web_menu_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../base/custom_app_bar.dart';
 import 'widget/profile_bg_widget_update.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -70,7 +71,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).cardColor,
-      appBar: ResponsiveHelper.isDesktop(context) ? WebMenuBar() : null,
+      appBar:  CustomAppBar(title: 'profile'.tr),
       body: GetBuilder<UserController>(builder: (userController) {
         if(_phoneController.text.isEmpty) {
           _firstNameController.text = userController.userInfoModel?.name ?? '';

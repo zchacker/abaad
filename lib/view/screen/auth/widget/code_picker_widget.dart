@@ -127,7 +127,7 @@ class CodePickerWidget extends StatefulWidget {
     if (comparator != null) {
       elements.sort(comparator); // Safe to sort
     }
-  
+
     if ((countryFilter?.isNotEmpty ?? false)) {
       final uppercaseCustomList =
       countryFilter?.map((c) => c.toUpperCase()).toList();
@@ -245,7 +245,7 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
             (e.dialCode == widget.initialSelection) ||
             (e.name?.toUpperCase() == widget.initialSelection?.toUpperCase()),
         orElse: () => elements[0]);
-  
+
     favoriteElements = elements
         .where((e) =>
     widget.favorite?.firstWhereOrNull((f) =>

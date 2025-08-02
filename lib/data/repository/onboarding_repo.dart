@@ -1,5 +1,5 @@
-import 'package:abaad/data/model/response/onboarding_model.dart';
-import 'package:abaad/util/images.dart';
+import 'package:abaad_flutter/data/model/response/onboarding_model.dart';
+import 'package:abaad_flutter/util/images.dart';
 
 import 'package:get/get.dart';
 

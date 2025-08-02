@@ -1,5 +1,5 @@
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/util/styles.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/util/styles.dart';
 
 import 'package:flutter/material.dart';
 

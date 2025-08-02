@@ -1,6 +1,6 @@
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/data/repository/search_repo.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/data/repository/search_repo.dart';
 import 'package:get/get.dart';
 
 class SearchController extends GetxController implements GetxService {

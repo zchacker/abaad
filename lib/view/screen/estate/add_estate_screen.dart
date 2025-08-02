@@ -1,34 +1,34 @@
 import 'dart:convert';
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/category_controller.dart';
-import 'package:abaad/controller/estate_controller.dart';
-import 'package:abaad/controller/location_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/data/model/body/estate_body.dart';
-import 'package:abaad/data/model/response/package_model.dart';
-import 'package:abaad/helper/color_coverter.dart';
-import 'package:abaad/helper/responsive_helper.dart';
-import 'package:abaad/helper/route_helper.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/category_controller.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
+import 'package:abaad_flutter/controller/location_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/data/model/body/estate_body.dart';
+import 'package:abaad_flutter/data/model/response/package_model.dart';
+import 'package:abaad_flutter/helper/color_coverter.dart';
+import 'package:abaad_flutter/helper/responsive_helper.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
 
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/data_view.dart';
-import 'package:abaad/view/base/header_widget.dart';
-import 'package:abaad/view/base/my_text_field.dart';
-import 'package:abaad/view/base/not_logged_in_screen.dart';
-import 'package:abaad/view/base/stepper.dart';
-import 'package:abaad/view/screen/estate/business_plan/widgets/subscription_card.dart';
-import 'package:abaad/view/screen/estate/business_plan/widgets/success_widget.dart';
-import 'package:abaad/view/screen/estate/widgets/confiram_location_view.dart';
-import 'package:abaad/view/screen/estate/widgets/estate_bg_widget.dart';
-import 'package:abaad/view/screen/map/pick_map_screen.dart';
-import 'package:abaad/view/screen/map/widget/permission_dialog.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/data_view.dart';
+import 'package:abaad_flutter/view/base/header_widget.dart';
+import 'package:abaad_flutter/view/base/my_text_field.dart';
+import 'package:abaad_flutter/view/base/not_logged_in_screen.dart';
+import 'package:abaad_flutter/view/base/stepper.dart';
+import 'package:abaad_flutter/view/screen/estate/business_plan/widgets/subscription_card.dart';
+import 'package:abaad_flutter/view/screen/estate/business_plan/widgets/success_widget.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/confiram_location_view.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/estate_bg_widget.dart';
+import 'package:abaad_flutter/view/screen/map/pick_map_screen.dart';
+import 'package:abaad_flutter/view/screen/map/widget/permission_dialog.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
@@ -55,8 +55,8 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
   int stepLength = 5;
   late bool complete;
   late bool _isLoggedIn;
-  late String type_properties;
-  late String network_type;
+  late String? type_properties;
+  late String ?network_type;
   bool isCheckBoxChecked = false;
 
   next() {
@@ -232,7 +232,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
     "الواجهة الغربية",
     "الواجهة الجنوبية",
   ];
-  late int east, west, north, south = 0;
+  late int? east, west, north, south = 0;
   final List<String> _selectedInterfaceistItems = [];
   final int _value1 = 0;
 
@@ -279,9 +279,9 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
   }
 
   late GoogleMapController mapController;
-  late LatLng location; // الإحداثيات
-  late double latitude;
-  late double longitude;
+   LatLng? location; // الإحداثيات
+   double ?latitude;
+   double? longitude;
 
   Future<void> loadCachedLocation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -327,6 +327,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
     loadLocationDataFromCache();
 
     loadSavedLicenseData();
+    network_type = 'default_value'; // أو حسب بياناتك
   }
 
   Future getCachedLicenseData() async {
@@ -991,7 +992,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                           GoogleMap(
                                                             initialCameraPosition:
                                                                 CameraPosition(
-                                                              target: location,
+                                                              target: location!,
                                                               zoom: 16.0,
                                                             ),
                                                             markers: {
@@ -1000,7 +1001,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                                     const MarkerId(
                                                                         "propertyLocation"),
                                                                 position:
-                                                                    location,
+                                                                    location!,
                                                                 infoWindow:
                                                                     const InfoWindow(
                                                                         title:
@@ -1645,159 +1646,159 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                                       SizedBox(
                                                                           height:
                                                                               Dimensions.PADDING_SIZE_LARGE),
-                                                                      Text(
-                                                                        " الواجهة"
-                                                                            .tr,
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          fontSize:
-                                                                              13,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            50,
-                                                                        child: ListView
-                                                                            .builder(
-                                                                          scrollDirection:
-                                                                              Axis.horizontal,
-                                                                          itemCount:
-                                                                              _interfaceist.length,
-                                                                          itemBuilder:
-                                                                              (context, index) {
-                                                                            final item =
-                                                                                _interfaceist[index];
-
-                                                                            return Padding(
-                                                                              padding: const EdgeInsets.all(5.0),
-                                                                              child: TextButton(
-                                                                                  style: ButtonStyle(
-                                                                                    backgroundColor: WidgetStateProperty.all<Color>(_selectedInterfaceistItems!.contains(item) ? Theme.of(context).primaryColor : Color(0))!,
-                                                                                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                                                                                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(4), side: BorderSide(color: Theme.of(context).primaryColor)),
-                                                                                    ),
-                                                                                  ),
-                                                                                  onPressed: () {
-                                                                                    setState(() {
-                                                                                      if (_selectedInterfaceistItems.contains(item)) {
-                                                                                        _selectedInterfaceistItems.remove(item);
-                                                                                        if (item == "الواجهة الشمالية") {
-                                                                                          north = 0;
-                                                                                          _northController.clear();
-                                                                                        } else if (item == "الواجهة الشرقية") {
-                                                                                          east = 0;
-                                                                                          _eastController.clear();
-                                                                                        } else if (item == "الواجهة الغربية") {
-                                                                                          west = 0;
-                                                                                          _westController.clear();
-                                                                                        } else if (item == "الواجهة الجنوبية") {
-                                                                                          south = 0;
-                                                                                          _southController.clear();
-                                                                                        }
-                                                                                      } else {
-                                                                                        _selectedInterfaceistItems.add(item);
-                                                                                        if (item == "الواجهة الشمالية") {
-                                                                                          north = 1;
-                                                                                        } else if (item == "الواجهة الشرقية") {
-                                                                                          east = 1;
-                                                                                        } else if (item == "الواجهة الغربية") {
-                                                                                          west = 1;
-                                                                                        } else if (item == "الواجهة الجنوبية") {
-                                                                                          south = 1;
-                                                                                        }
-                                                                                      }
-                                                                                    });
-                                                                                  },
-                                                                                  child: Text(
-                                                                                    item,
-                                                                                    style: TextStyle(color: _selectedInterfaceistItems.contains(item) ? Theme.of(context).cardColor : Theme.of(context).primaryColor, fontSize: 15.0),
-                                                                                  )),
-                                                                            );
-                                                                          },
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                          height:
-                                                                              Dimensions.PADDING_SIZE_LARGE),
-                                                                      Row(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        children: [
-                                                                          north == 1
-                                                                              ? Expanded(
-                                                                                  // Place `Expanded` inside `Row`
-                                                                                  child: MyTextField(
-                                                                                    hintText: 'ادخل عرض الشارع بالمتر'.tr,
-                                                                                    controller: _northController,
-                                                                                    focusNode: _northFocus,
-                                                                                    maxLines: 1,
-                                                                                    inputType: TextInputType.number,
-                                                                                    capitalization: TextCapitalization.sentences,
-                                                                                    showBorder: true,
-                                                                                  ),
-                                                                                )
-                                                                              : SizedBox(),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                3,
-                                                                          ),
-                                                                          east == 1
-                                                                              ? Expanded(
-                                                                                  // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
-                                                                                  child: MyTextField(
-                                                                                    hintText: 'ادخل عرض الشارع بالمتر'.tr,
-                                                                                    controller: _eastController,
-                                                                                    focusNode: _eastFocus,
-                                                                                    nextFocus: _westDesFocus,
-                                                                                    maxLines: 1,
-                                                                                    inputType: TextInputType.number,
-                                                                                    capitalization: TextCapitalization.sentences,
-                                                                                    showBorder: true,
-                                                                                  ),
-                                                                                )
-                                                                              : SizedBox(),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                3,
-                                                                          ),
-                                                                          west == 1
-                                                                              ? Expanded(
-                                                                                  // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
-                                                                                  child: MyTextField(
-                                                                                    hintText: 'ادخل عرض الشارع بالمتر'.tr,
-                                                                                    controller: _westController,
-                                                                                    focusNode: _westDesFocus,
-                                                                                    nextFocus: _southFocus,
-                                                                                    maxLines: 1,
-                                                                                    inputType: TextInputType.number,
-                                                                                    capitalization: TextCapitalization.sentences,
-                                                                                    showBorder: true,
-                                                                                  ),
-                                                                                )
-                                                                              : SizedBox(),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                3,
-                                                                          ),
-                                                                          south == 1
-                                                                              ? Expanded(
-                                                                                  // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
-                                                                                  child: MyTextField(
-                                                                                    hintText: 'ادخل عرض الشارع بالمتر'.tr,
-                                                                                    controller: _southController,
-                                                                                    focusNode: _southFocus,
-                                                                                    nextFocus: _vatFocus,
-                                                                                    maxLines: 1,
-                                                                                    inputType: TextInputType.number,
-                                                                                    capitalization: TextCapitalization.sentences,
-                                                                                    showBorder: true,
-                                                                                  ),
-                                                                                )
-                                                                              : SizedBox(),
-                                                                        ],
-                                                                      ),
+                                                                      // Text(
+                                                                      //   " الواجهة"
+                                                                      //       .tr,
+                                                                      //   style:
+                                                                      //       const TextStyle(
+                                                                      //     fontSize:
+                                                                      //         13,
+                                                                      //     fontWeight:
+                                                                      //         FontWeight.bold,
+                                                                      //   ),
+                                                                      // ),
+                                                                      // SizedBox(
+                                                                      //   height:
+                                                                      //       50,
+                                                                      //   child: ListView
+                                                                      //       .builder(
+                                                                      //     scrollDirection:
+                                                                      //         Axis.horizontal,
+                                                                      //     itemCount:
+                                                                      //         _interfaceist.length,
+                                                                      //     itemBuilder:
+                                                                      //         (context, index) {
+                                                                      //       final item =
+                                                                      //           _interfaceist[index];
+                                                                      //
+                                                                      //       return Padding(
+                                                                      //         padding: const EdgeInsets.all(5.0),
+                                                                      //         child: TextButton(
+                                                                      //             style: ButtonStyle(
+                                                                      //               backgroundColor: WidgetStateProperty.all<Color>(_selectedInterfaceistItems!.contains(item) ? Theme.of(context).primaryColor : Color(0))!,
+                                                                      //               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                                                                      //                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(4), side: BorderSide(color: Theme.of(context).primaryColor)),
+                                                                      //               ),
+                                                                      //             ),
+                                                                      //             onPressed: () {
+                                                                      //               setState(() {
+                                                                      //                 if (_selectedInterfaceistItems.contains(item)) {
+                                                                      //                   _selectedInterfaceistItems.remove(item);
+                                                                      //                   if (item == "الواجهة الشمالية") {
+                                                                      //                     north = 0;
+                                                                      //                     _northController.clear();
+                                                                      //                   } else if (item == "الواجهة الشرقية") {
+                                                                      //                     east = 0;
+                                                                      //                     _eastController.clear();
+                                                                      //                   } else if (item == "الواجهة الغربية") {
+                                                                      //                     west = 0;
+                                                                      //                     _westController.clear();
+                                                                      //                   } else if (item == "الواجهة الجنوبية") {
+                                                                      //                     south = 0;
+                                                                      //                     _southController.clear();
+                                                                      //                   }
+                                                                      //                 } else {
+                                                                      //                   _selectedInterfaceistItems.add(item);
+                                                                      //                   if (item == "الواجهة الشمالية") {
+                                                                      //                     north = 1;
+                                                                      //                   } else if (item == "الواجهة الشرقية") {
+                                                                      //                     east = 1;
+                                                                      //                   } else if (item == "الواجهة الغربية") {
+                                                                      //                     west = 1;
+                                                                      //                   } else if (item == "الواجهة الجنوبية") {
+                                                                      //                     south = 1;
+                                                                      //                   }
+                                                                      //                 }
+                                                                      //               });
+                                                                      //             },
+                                                                      //             child: Text(
+                                                                      //               item,
+                                                                      //               style: TextStyle(color: _selectedInterfaceistItems.contains(item) ? Theme.of(context).cardColor : Theme.of(context).primaryColor, fontSize: 15.0),
+                                                                      //             )),
+                                                                      //       );
+                                                                      //     },
+                                                                      //   ),
+                                                                      // ),
+                                                                      // SizedBox(
+                                                                      //     height:
+                                                                      //         Dimensions.PADDING_SIZE_LARGE),
+                                                                      // Row(
+                                                                      //   mainAxisSize:
+                                                                      //       MainAxisSize.max,
+                                                                      //   children: [
+                                                                      //     north == 1
+                                                                      //         ? Expanded(
+                                                                      //             // Place `Expanded` inside `Row`
+                                                                      //             child: MyTextField(
+                                                                      //               hintText: 'ادخل عرض الشارع بالمتر'.tr,
+                                                                      //               controller: _northController,
+                                                                      //               focusNode: _northFocus,
+                                                                      //               maxLines: 1,
+                                                                      //               inputType: TextInputType.number,
+                                                                      //               capitalization: TextCapitalization.sentences,
+                                                                      //               showBorder: true,
+                                                                      //             ),
+                                                                      //           )
+                                                                      //         : SizedBox(),
+                                                                      //     SizedBox(
+                                                                      //       width:
+                                                                      //           3,
+                                                                      //     ),
+                                                                      //     east == 1
+                                                                      //         ? Expanded(
+                                                                      //             // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
+                                                                      //             child: MyTextField(
+                                                                      //               hintText: 'ادخل عرض الشارع بالمتر'.tr,
+                                                                      //               controller: _eastController,
+                                                                      //               focusNode: _eastFocus,
+                                                                      //               nextFocus: _westDesFocus,
+                                                                      //               maxLines: 1,
+                                                                      //               inputType: TextInputType.number,
+                                                                      //               capitalization: TextCapitalization.sentences,
+                                                                      //               showBorder: true,
+                                                                      //             ),
+                                                                      //           )
+                                                                      //         : SizedBox(),
+                                                                      //     SizedBox(
+                                                                      //       width:
+                                                                      //           3,
+                                                                      //     ),
+                                                                      //     west == 1
+                                                                      //         ? Expanded(
+                                                                      //             // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
+                                                                      //             child: MyTextField(
+                                                                      //               hintText: 'ادخل عرض الشارع بالمتر'.tr,
+                                                                      //               controller: _westController,
+                                                                      //               focusNode: _westDesFocus,
+                                                                      //               nextFocus: _southFocus,
+                                                                      //               maxLines: 1,
+                                                                      //               inputType: TextInputType.number,
+                                                                      //               capitalization: TextCapitalization.sentences,
+                                                                      //               showBorder: true,
+                                                                      //             ),
+                                                                      //           )
+                                                                      //         : SizedBox(),
+                                                                      //     SizedBox(
+                                                                      //       width:
+                                                                      //           3,
+                                                                      //     ),
+                                                                      //     south == 1
+                                                                      //         ? Expanded(
+                                                                      //             // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
+                                                                      //             child: MyTextField(
+                                                                      //               hintText: 'ادخل عرض الشارع بالمتر'.tr,
+                                                                      //               controller: _southController,
+                                                                      //               focusNode: _southFocus,
+                                                                      //               nextFocus: _vatFocus,
+                                                                      //               maxLines: 1,
+                                                                      //               inputType: TextInputType.number,
+                                                                      //               capitalization: TextCapitalization.sentences,
+                                                                      //               showBorder: true,
+                                                                      //             ),
+                                                                      //           )
+                                                                      //         : SizedBox(),
+                                                                      //   ],
+                                                                      // ),
                                                                       const SizedBox(
                                                                           height:
                                                                               Dimensions.PADDING_SIZE_EXTRA_SMALL),
@@ -2533,16 +2534,15 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                                       SizedBox(
                                                                           height:
                                                                               Dimensions.PADDING_SIZE_SMALL),
-                                                                      type_properties !=
-                                                                              null
-                                                                          ? Padding(
-                                                                              padding: const EdgeInsets.only(right: 10, left: 10),
-                                                                              child: DataView(
-                                                                                title: 'type_property'.tr,
-                                                                                value: type_properties,
-                                                                              ),
-                                                                            )
-                                                                          : Container(),
+                                                                      // type_properties != null
+                                                                      //     ? Padding(
+                                                                      //         padding: const EdgeInsets.only(right: 10, left: 10),
+                                                                      //         child: DataView(
+                                                                      //           title: 'type_property'.tr,
+                                                                      //           value: type_properties,
+                                                                      //         ),
+                                                                      //       )
+                                                                      //     : Container(),
                                                                       SizedBox(
                                                                           height:
                                                                               Dimensions.PADDING_SIZE_SMALL),
@@ -2901,10 +2901,10 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                 adNumber: _addNumberController
                                                     .text
                                                     .toString(),
-                                                priceNegotiation:
-                                                    negotiation == true
-                                                        ? "غير قابل للتفاوض"
-                                                        : "قابل للتفاوض",
+                                                // priceNegotiation:
+                                                //     negotiation == true
+                                                //         ? "غير قابل للتفاوض"
+                                                //         : "قابل للتفاوض",
                                                 authorization_number:
                                                     _authorizedController.text
                                                         .toString(),

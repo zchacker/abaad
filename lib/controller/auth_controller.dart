@@ -1,18 +1,18 @@
-import 'package:abaad/controller/location_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/model/body/business_plan_body.dart';
-import 'package:abaad/data/model/body/signup_body.dart';
-import 'package:abaad/data/model/response/package_model.dart';
-import 'package:abaad/data/model/response/response_model.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/data/model/response/zone_model.dart';
-import 'package:abaad/data/model/response/zone_response_model.dart';
-import 'package:abaad/data/repository/auth_repo.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/view/base/confirmation_dialog.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/controller/location_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/model/body/business_plan_body.dart';
+import 'package:abaad_flutter/data/model/body/signup_body.dart';
+import 'package:abaad_flutter/data/model/response/package_model.dart';
+import 'package:abaad_flutter/data/model/response/response_model.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/data/model/response/zone_model.dart';
+import 'package:abaad_flutter/data/model/response/zone_response_model.dart';
+import 'package:abaad_flutter/data/repository/auth_repo.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/view/base/confirmation_dialog.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -115,34 +115,60 @@ class AuthController extends GetxController implements GetxService {
       }
       responseModel = ResponseModel(true, response.body["token"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText);
+      responseModel = ResponseModel(false, response.statusText.toString());
     }
     _isLoading = false;
     update();
     return responseModel;
   }
 
-  Future<ResponseModel> login(String phone, String password) async {
+
+
+
+  Future<ResponseModel> login(String? phone, String password, {bool alreadyInApp = false}) async {
     _isLoading = true;
     update();
     Response response = await authRepo.login(phone: phone, password: password);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
-      if( (Get.find<SplashController>().configModel!.customerVerification ?? false) && response.body['is_phone_verified'] == 0) {
-
+      if(Get.find<SplashController>().configModel!.customerVerification! && response.body['is_phone_verified'] == 0) {
+        print("--------------------token jwot${response.body['token']}");
+        authRepo.saveUserToken(response.body['token'], alreadyInApp: alreadyInApp);
       }else {
-        //print('-----------------------token${response.body['token']}');
-        authRepo.saveUserToken(response.body['token']);
-        await authRepo.updateToken();
+        print("--------------------token jwot${response.body['token']}");
+       authRepo.saveUserToken(response.body['token'], alreadyInApp: alreadyInApp);
+      //  await authRepo.updateToken();
       }
       responseModel = ResponseModel(true, '${response.body['is_phone_verified']}${response.body['token']}');
     } else {
-      responseModel = ResponseModel(false, response.statusText);
+      responseModel = ResponseModel(false, response.statusText.toString());
     }
     _isLoading = false;
     update();
     return responseModel;
   }
+
+  // Future<ResponseModel> login(String phone, String password) async {
+  //   _isLoading = true;
+  //   update();
+  //   Response response = await authRepo.login(phone: "+966${phone}", password: password);
+  //   ResponseModel responseModel;
+  //   if (response.statusCode == 200) {
+  //     if( (Get.find<SplashController>().configModel!.customerVerification ?? false) && response.body['is_phone_verified'] == 0) {
+  //
+  //     }else {
+  //       //print('-----------------------token${response.body['token']}');
+  //       authRepo.saveUserToken(response.body['token']);
+  //       await authRepo.updateToken();
+  //     }
+  //     responseModel = ResponseModel(true, '${response.body['is_phone_verified']}${response.body['token']}');
+  //   } else {
+  //     responseModel = ResponseModel(false, response.statusText.toString());
+  //   }
+  //   _isLoading = false;
+  //   update();
+  //   return responseModel;
+  // }
 
 
 
@@ -160,7 +186,7 @@ class AuthController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText);
+      responseModel = ResponseModel(false, response.statusText.toString());
     }
     _isLoading = false;
     update();
@@ -375,11 +401,13 @@ class AuthController extends GetxController implements GetxService {
     Response response = await authRepo.verifyPhone(phone, _verificationCode);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
+      print("--------------------token jwot${token}");
       authRepo.saveUserToken(token);
-      await authRepo.updateToken();
+
+      //await authRepo.updateToken();
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText);
+      responseModel = ResponseModel(false, response.statusText.toString());
     }
     _isLoading = false;
     update();
@@ -459,7 +487,7 @@ class AuthController extends GetxController implements GetxService {
       responseModel = ResponseModel(true, response.body.toString());
       Future.delayed(Duration(seconds: 2),()=> Get.offAllNamed(RouteHelper.getInitialRoute()));
     } else {
-      responseModel = ResponseModel(false, response.statusText);
+      responseModel = ResponseModel(false, response!.statusText.toString());
     }
     _isLoading = false;
     update();

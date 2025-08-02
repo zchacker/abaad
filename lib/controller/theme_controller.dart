@@ -1,4 +1,4 @@
-import 'package:abaad/util/app_constants.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

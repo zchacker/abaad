@@ -1,8 +1,8 @@
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/location_controller.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
-import 'package:abaad/view/base/custom_loader.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/location_controller.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/view/base/custom_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

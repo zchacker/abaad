@@ -111,7 +111,7 @@ class AuthController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       if(!(Get.find<SplashController>().configModel!.customerVerification ?? false)) {
         authRepo.saveUserToken(response.body["token"]);
-        await authRepo.updateToken();
+       // await authRepo.updateToken();
       }
       responseModel = ResponseModel(true, response.body["token"]);
     } else {
@@ -136,7 +136,7 @@ class AuthController extends GetxController implements GetxService {
         authRepo.saveUserToken(response.body['token'], alreadyInApp: alreadyInApp);
       }else {
         print("--------------------token jwot${response.body['token']}");
-       authRepo.saveUserToken(response.body['token'], alreadyInApp: alreadyInApp);
+        authRepo .saveUserToken(response.body['token'], alreadyInApp: alreadyInApp);
       //  await authRepo.updateToken();
       }
       responseModel = ResponseModel(true, '${response.body['is_phone_verified']}${response.body['token']}');
@@ -174,9 +174,9 @@ class AuthController extends GetxController implements GetxService {
 
 
 
-  Future<void> updateToken() async {
-    await authRepo.updateToken();
-  }
+  // Future<void> updateToken() async {
+  //   await authRepo.updateToken();
+  // }
 
   Future<ResponseModel> verifyToken(String email) async {
     _isLoading = true;
@@ -401,10 +401,12 @@ class AuthController extends GetxController implements GetxService {
     Response response = await authRepo.verifyPhone(phone, _verificationCode);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
+
+
       print("--------------------token jwot${token}");
       authRepo.saveUserToken(token);
 
-      //await authRepo.updateToken();
+     // await authRepo.updateToken();
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
       responseModel = ResponseModel(false, response.statusText.toString());

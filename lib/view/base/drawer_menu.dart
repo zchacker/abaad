@@ -123,7 +123,9 @@ class DrawerMenu extends StatelessWidget {
                     // Get.find<WishListController>().removeWishes();
                     Get.offAllNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
                   }), useSafeArea: false);
-                }else {
+                }
+                else {
+                  Get.find<AuthController>().clearSharedData();
                   //   Get.find<WishListController>().removeWishes();
                   Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
                 }

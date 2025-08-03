@@ -918,12 +918,12 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                   )
                                 : Container(),
 
-                            widget.estate?.guaranteesAndTheirDuration != ""
+                            widget.estate?.guaranteesAndTheirDuration != null
                                 ? buildInfoRow(
                                     context,
                                     "الضمانات ",
                                     widget.estate?.guaranteesAndTheirDuration ??
-                                        "")
+                                        "لا يوجد")
                                 : SizedBox(),
                             widget.estate?.mainLandUseTypeName  != null?
                             buildInfoTile(context,
@@ -1364,11 +1364,11 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                 //   buildInfoTile(context, label: "end_date".tr, value: widget.estate.endDate),
 
                                 // رقم ترخيص الوساطة والتسويق
-                                buildInfoTile(context,
-                                    label: "brokerage_marketing_license".tr,
-                                    value: widget.estate
-                                            ?.brokerageAndMarketingLicenseNumber ??
-                                        ""),
+                                // buildInfoTile(context,
+                                //     label: "brokerage_marketing_license".tr,
+                                //     value: widget.estate
+                                //             ?.brokerageAndMarketingLicenseNumber ??
+                                //         ""),
 
                                 // نوع الصك
 

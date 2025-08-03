@@ -192,7 +192,7 @@ class ApiClient extends GetxService {
   late Map<String, String> _mainHeaders;
 
   ApiClient({required this.appBaseUrl, required this.sharedPreferences}) {
-    token = sharedPreferences.getString(AppConstants.token);
+    token = sharedPreferences.getString(AppConstants.TOKEN);
     if(kDebugMode) {
       debugPrint('Token: $token');
     }
@@ -216,7 +216,7 @@ class ApiClient extends GetxService {
       AppConstants.localizationKey: languageCode ?? AppConstants.languages[0].languageCode!,
       AppConstants.latitude: latitude != null ? jsonEncode(latitude) : '',
       AppConstants.longitude: longitude != null ? jsonEncode(longitude) : '',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMTU3YWNlZDU0YTcwNjM4MzQ1ZjY1NzJiNjkyZWU1N2M4ZjRhY2RlNTlhNGM1MTRkNWQ2YzI0NGY5NTBiY2JkZTFjYzA2OGUzOGE0MWJkYTAiLCJpYXQiOjE3NTM4NjQ0MzEuMDM5NDU1LCJuYmYiOjE3NTM4NjQ0MzEuMDM5NDU2LCJleHAiOjE3ODU0MDA0MzEuMDM3NDI5LCJzdWIiOiIyMzEiLCJzY29wZXMiOltdfQ.Tg9OacClBRTbooWtOXOO52GL0KtwlC62airxYxSmz64hMOP9ZOKZYfYY5dBTrA8kSx25YHzMaLutp7GTguWuL2aRmLxFW6alGZ1_VPmNkzSJBL8kyIGZaGyou90wy85sW_4jt3tlSb7RWIBf-2F7TYUcYlZN3dO5vKWX8vpNvGemYQfwMh7N2BwnFk4EcHktklIo4Fw46YA-0cNkSqI6o12WZ97UexemGCQoNqh6Oth2hvqToSl3VupAcq01UhTH2G65HjHR-EcCDSTIGVAKyqKd9oDozJ4_CKb9rxGUItrmgOgu1EIGvUFqCmOM2D4Zdm0jJTwieVcVBtGyKesYzZ_IiZGesHjfEQYTJizuZ8mDF8YEWTsRzoXEksTOHSFkEqkzjcK11F4y23kemZynPNBvFYqfo70V30xaf4j4GzXL5-8L1_-qaJ6RIwppJSXxh2ffI2HPLV0FEgoQV1gzxBPGI10ipclRBhiZGh3_9lKfQVcpdwyPrS-zKVK9QBIP4YQ44vQIPKEhwE3WtYdcGr4eGVWYzaEHyYK3ybcyK2HnUfmefNtQEF8VBOlCH38ekhAsGIlRAqTzeHB0x6w5n8yCC5hVN40wEtmojO9q173ssZajuFXmLLk8FXblh0I6a7lZ3Wh-ZkH1I6B0ZcZrJh79DndHLErw22L1OpoOMfw'
+      'Authorization': 'Bearer $token'
     });
     if(setHeader) {
       _mainHeaders = header;
@@ -227,6 +227,7 @@ class ApiClient extends GetxService {
   Map<String, String> getHeader() => _mainHeaders;
 
   Future<Response> getData(String uri, {Map<String, dynamic>? query, Map<String, String>? headers, bool handleError = true, bool showToaster = false}) async {
+
     try {
       if(kDebugMode) {
         debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');

@@ -272,9 +272,14 @@ class _SignInScreenState extends State<SignInScreen> {
           }
           String token = status.message.substring(1, status.message.length);
 
-          print("is login $token");
+
             List<int> encoded = utf8.encode("1234567");
             String data = base64Encode(encoded);
+            
+            
+
+            
+            // showCustomSnackBar(data.)
             Get.toNamed(RouteHelper.getVerificationRoute("+966${phone}", token, RouteHelper.signUp, data));
 
         }else {

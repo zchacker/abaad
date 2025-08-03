@@ -25,14 +25,6 @@ class AuthRepo {
   // }
 
 
-  // Future<Response> login({String? phone, String ?password }) async {
-  //   print("LOGIN PAYLOAD: phone = $phone, password = $password"); // اضف هذا
-  //   return await apiClient.postData(AppConstants.LOGIN_URI, {
-  //     "phone": "+966504199508",
-  //     "password": password
-  //   }, headers: {});
-  // }
-
 
   Future<Response> login({String? phone, String? password}) async {
     return await apiClient.postData(AppConstants.LOGIN_URI, {"phone": phone, "password": password});
@@ -53,40 +45,40 @@ class AuthRepo {
 
 
 
-  Future<Response> updateToken() async {
-    String? deviceToken = "";
-    if (GetPlatform.isIOS && !GetPlatform.isWeb) {
-      FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
-      NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
-        alert: true, announcement: false, badge: true, carPlay: false,
-        criticalAlert: false, provisional: false, sound: true,
-      );
-      if(settings.authorizationStatus == AuthorizationStatus.authorized) {
-        deviceToken = await _saveDeviceToken();
-      }
-    }else {
-      deviceToken = await _saveDeviceToken();
-    }
-    if(!GetPlatform.isWeb) {
-     FirebaseMessaging.instance.subscribeToTopic(AppConstants.TOPIC);
-    }
-    return await apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "cm_firebase_token": deviceToken}, headers: {});
-  }
-
-  Future<String?> _saveDeviceToken() async {
-    String? deviceToken = '@';
-    if(!GetPlatform.isWeb) {
-      try {
-        deviceToken = await FirebaseMessaging.instance.getToken();
-      }catch(e) {}
-    }
-    print('--------Device Token---------- $deviceToken');
-      return deviceToken;
-  }
-
+  // Future<Response> updateToken() async {
+  //   String? deviceToken = "";
+  //   if (GetPlatform.isIOS && !GetPlatform.isWeb) {
+  //     FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
+  //     NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
+  //       alert: true, announcement: false, badge: true, carPlay: false,
+  //       criticalAlert: false, provisional: false, sound: true,
+  //     );
+  //     if(settings.authorizationStatus == AuthorizationStatus.authorized) {
+  //       deviceToken = await _saveDeviceToken();
+  //     }
+  //   }else {
+  //     deviceToken = await _saveDeviceToken();
+  //   }
+  //   if(!GetPlatform.isWeb) {
+  //    FirebaseMessaging.instance.subscribeToTopic(AppConstants.TOPIC);
+  //   }
+  //   return await apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "cm_firebase_token": deviceToken});
+  // }
+  //
+  // Future<String?> _saveDeviceToken() async {
+  //   String? deviceToken = '@';
+  //   if(!GetPlatform.isWeb) {
+  //     try {
+  //       deviceToken = await FirebaseMessaging.instance.getToken();
+  //     }catch(e) {}
+  //   }
+  //   print('--------Device Token---------- $deviceToken');
+  //     return deviceToken;
+  // }
+  //
 
   Future<Response> verifyToken(String phone, String token) async {
-    return await apiClient.postData(AppConstants.VERIFY_TOKEN_URI, {"phone": phone, "reset_token": token}, headers: {});
+    return await apiClient.postData(AppConstants.VERIFY_TOKEN_URI, {"phone": phone, "reset_token": token},);
   }
 
 
@@ -94,12 +86,13 @@ class AuthRepo {
 
 
   Future<Response> updateZone() async {
-    return await apiClient.getData(AppConstants.UPDATE_ZONE_URL, query: {}, headers: {});
+    return await apiClient.getData(AppConstants.UPDATE_ZONE_URL, query: {});
   }
 
 
   // Future<bool> saveUserToken(String token, {bool alreadyInApp = false}) async {
   //   apiClient.token = token;
+  //
   //   if(alreadyInApp && sharedPreferences.getString(AppConstants.userAddress) != null){
   //     AddressModel? addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!));
   //     apiClient.updateHeader(
@@ -110,14 +103,17 @@ class AuthRepo {
   //     apiClient.updateHeader(token, null, sharedPreferences.getString(AppConstants.languageCode),null, null);
   //   }
   //
-  //   return await sharedPreferences.setString(AppConstants.token, token);
+  //
+  //   sharedPreferences.setString('token', token);
+  //
+  //   // return await sharedPreferences.setString(AppConstants.TOKEN, token);
   // }
-  // for  user token
+
   Future<bool> saveUserToken(String token, {bool alreadyInApp = false}) async {
     apiClient.token = token;
 
 
-    print("header ------------------$token");
+    //print("header ------------------$token");
 
     if(alreadyInApp){
       AddressModel addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!));
@@ -191,7 +187,7 @@ class AuthRepo {
 
   void setNotificationActive(bool isActive) {
     if(isActive) {
-      updateToken();
+      //updateToken();
     }else {
       if(!GetPlatform.isWeb) {
         // FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);

@@ -34,7 +34,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   @override
   void initState() {
     super.initState();
-    print("-------fromlogin${widget.token}");
+   print("-------------------phone");
 
     _number = widget.number.startsWith('+') ? widget.number : '+${widget.number.substring(1, widget.number.length)}';
     _startTimer();

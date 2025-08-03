@@ -327,7 +327,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
     loadLocationDataFromCache();
 
     loadSavedLicenseData();
-    network_type = 'default_value'; // أو حسب بياناتك
+    network_type = ''; // أو حسب بياناتك
   }
 
   Future getCachedLicenseData() async {
@@ -2317,7 +2317,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                                         showBorder:
                                                                             true,
                                                                         isEnabled:
-                                                                            false,
+                                                                        true,
                                                                         capitalization:
                                                                             TextCapitalization.words,
                                                                       ),

@@ -52,7 +52,7 @@ class UserController extends GetxController implements GetxService {
       responseModel = ResponseModel(true, 'successful');
     } else {
       responseModel = ResponseModel(false, response.statusText.toString());
-      ApiChecker.checkApi(response, showToaster: true);
+  //    ApiChecker.checkApi(response, showToaster: true);
     }
     update();
     return responseModel;
@@ -73,7 +73,7 @@ class UserController extends GetxController implements GetxService {
       responseModel = ResponseModel(true, 'successful');
     } else {
       responseModel = ResponseModel(false, response!.statusText.toString());
-      ApiChecker.checkApi(response, showToaster: true);
+     // ApiChecker.checkApi(response, showToaster: true);
     }
     update();
     return responseModel;

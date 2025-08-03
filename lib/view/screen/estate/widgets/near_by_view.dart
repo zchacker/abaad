@@ -240,15 +240,16 @@ class _NearByViewState extends State<NearByView> {
 
     );
   }
-  Future<void> getCustomMarkerIcon(GlobalKey iconKey) async {
-    RenderRepaintBoundary? boundary = iconKey.currentContext!.findRenderObject() as RenderRepaintBoundary?;
-    ui.Image image = await boundary!.toImage(pixelRatio: 3.0);
-    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    var pngBytes = byteData!.buffer.asUint8List();
-    setState(() {
-      markerIcon = BitmapDescriptor.fromBytes(pngBytes);
-    });
-  }
+  // Future<void> getCustomMarkerIcon(GlobalKey iconKey) async {
+  //   RenderRepaintBoundary? boundary = iconKey.currentContext!.findRenderObject() as RenderRepaintBoundary?;
+  //
+  //   ui.Image image = await boundary!.toImage(pixelRatio: 3.0);
+  //   ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+  //   var pngBytes = byteData!.buffer.asUint8List();
+  //   setState(() {
+  //     markerIcon = BitmapDescriptor.fromBytes(pngBytes);
+  //   });
+  // }
 
   void getNearbyPlaces(String type) async {
     _marker.clear();
@@ -312,13 +313,15 @@ class _NearByViewState extends State<NearByView> {
 
   void setSchoolMarkerIcon() {
     BitmapDescriptor.fromAssetImage(
-        ImageConfiguration.empty, Images.mark_school)
-        .then(
-          (icon) {
+      const ImageConfiguration(size: Size(8, 24)), // هذا مجرد تلميح، وليس له تأثير مباشر
+      Images.mark_school,
+    ).then((icon) {
+      setState(() {
         schoolIcon = icon;
-      },
-    );
+      });
+    });
   }
+
 
 
   void setParmceyIcon() {

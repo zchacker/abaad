@@ -186,9 +186,21 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                     style: ButtonStyle(
                                       backgroundColor: WidgetStateProperty.all(Colors.blue),
                                     ),
-                                    onPressed: (){
-                                      __launchWhatsapp(userController.agentInfoModel!.phone!, userController.agentInfoModel!.name!);
-                                    }, icon: Icon(Icons.whatshot_rounded), label: Text("whatsapp".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall))),
+                                    onPressed: ()async{
+                                      // __launchWhatsapp(userController.agentInfoModel!.phone!, userController.agentInfoModel!.name!);
+                                      final Uri whatsappUrl = Uri.parse("https://wa.me/${userController.agentInfoModel!.phone!}?text=${Uri.encodeFull("")}");
+
+    if (await canLaunchUrl(whatsappUrl)) {
+    await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication);
+
+
+                                      } else {
+                                      // التعامل مع الخطأ
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: Text("لا يمكن فتح واتساب"),
+                                      ));
+                                      }
+                                    }, icon: Icon(Icons.whatshot_rounded,color: Colors.white), label: Text("whatsapp".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall,color: Colors.white))),
                             ),
                             const SizedBox(width:5),
                             Expanded(
@@ -203,7 +215,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                     //     user: Userinfo(id: userController.agentInfoModel!.id, name: userController.agentInfoModel!.name,  image: userController.agentInfoModel!.image,),estate_id: 0
                                     //
                                     // ));
-                                  }, icon: Icon(Icons.chat), label: Text("conversation".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall))),
+                                  }, icon: Icon(Icons.chat,color: Colors.white), label: Text("conversation".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall,color: Colors.white))),
                             ),
                              SizedBox(width:5),
                             Expanded(
@@ -220,7 +232,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                     throw 'Could not make a phone call.';
                                     }
 
-                              }, icon: Icon(Icons.call), label: Text("call".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall))),
+                              }, icon: Icon(Icons.call,color: Colors.white), label: Text("call".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall,color: Colors.white))),
                             ),
                           ],
                         ),

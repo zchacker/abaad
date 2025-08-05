@@ -572,62 +572,101 @@ class EstateController extends GetxController implements GetxService {
   }
 
 
+  // Future<bool> verifyLicense(String licenseNumber, String advertiserNumber, int type) async {
+  //   try {
+  //     final response = await estateRepo.verifyLicense(licenseNumber, advertiserNumber, type);
+  //
+  //     if (response.statusCode == 200) {
+  //       //print("📦 Raw API response body:");
+  //       ////print(jsonEncode(response.body)); // هذا يطبع كل شيء كـ JSON
+  //
+  //       if (response.body['success'] == true) {
+  //         // طباعة البيانات المتداخلة بشكل منسق
+  //         //print("✅ Success: License verified");
+  //
+  //         // طباعة كل المفاتيح مع القيم
+  //         //print("🔍 Full parsed response:");
+  //         Map<String, dynamic> fullResponse = response.body;
+  //         fullResponse.forEach((key, value) {
+  //           //print("------------------------------------------------------------------------------------------$key: ${jsonEncode(value)}");
+  //         });
+  //
+  //         licenseData = response.body['data'];
+  //         var licenseBorders = response.body['data2'];
+  //
+  //         SharedPreferences prefs = await SharedPreferences.getInstance();
+  //
+  //         // تخزين البيانات
+  //         String licenseJson = jsonEncode(licenseData);
+  //         await prefs.setString('license_data', licenseJson);
+  //
+  //         String data2Json = jsonEncode(response.body['data2']);
+  //         await prefs.setString('license_data2', data2Json);
+  //
+  //         String bordersJson = jsonEncode(licenseBorders);
+  //         await prefs.setString('license_borders', bordersJson);
+  //
+  //         // يمكنك أيضًا تخزين data3 إذا أردت:
+  //         String data3Json = jsonEncode(response.body['data3']);
+  //         await prefs.setString('license_data3', data3Json);
+  //
+  //         ////print('✅ Stored data2: $data2Json');
+  //         ////print('✅ Stored data3: $data3Json');
+  //
+  //         return true;
+  //       } else {
+  //         ////print('❌ Error: ${response.body['message']}');
+  //         return false;
+  //       }
+  //     } else {
+  //       ////print('❌ API error: ${response.statusCode} - ${response.statusText}');
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     //print('⚠️ Exception: $e');
+  //     return false;
+  //   }
+  // }
+  String licenseVerificationMessage = '';
   Future<bool> verifyLicense(String licenseNumber, String advertiserNumber, int type) async {
     try {
       final response = await estateRepo.verifyLicense(licenseNumber, advertiserNumber, type);
 
       if (response.statusCode == 200) {
-        //print("📦 Raw API response body:");
-        ////print(jsonEncode(response.body)); // هذا يطبع كل شيء كـ JSON
-
         if (response.body['success'] == true) {
-          // طباعة البيانات المتداخلة بشكل منسق
-          //print("✅ Success: License verified");
-
-          // طباعة كل المفاتيح مع القيم
-          //print("🔍 Full parsed response:");
           Map<String, dynamic> fullResponse = response.body;
-          fullResponse.forEach((key, value) {
-            //print("------------------------------------------------------------------------------------------$key: ${jsonEncode(value)}");
-          });
 
           licenseData = response.body['data'];
           var licenseBorders = response.body['data2'];
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
 
-          // تخزين البيانات
-          String licenseJson = jsonEncode(licenseData);
-          await prefs.setString('license_data', licenseJson);
+          await prefs.setString('license_data', jsonEncode(licenseData));
+          await prefs.setString('license_data2', jsonEncode(response.body['data2']));
+          await prefs.setString('license_borders', jsonEncode(licenseBorders));
+          await prefs.setString('license_data3', jsonEncode(response.body['data3']));
 
-          String data2Json = jsonEncode(response.body['data2']);
-          await prefs.setString('license_data2', data2Json);
-
-          String bordersJson = jsonEncode(licenseBorders);
-          await prefs.setString('license_borders', bordersJson);
-
-          // يمكنك أيضًا تخزين data3 إذا أردت:
-          String data3Json = jsonEncode(response.body['data3']);
-          await prefs.setString('license_data3', data3Json);
-
-          ////print('✅ Stored data2: $data2Json');
-          ////print('✅ Stored data3: $data3Json');
+          licenseVerificationMessage = response.body['message'] ?? 'تم التحقق من الترخيص بنجاح';
 
           return true;
-        } else {
-          ////print('❌ Error: ${response.body['message']}');
+        }
+        else if (response.statusCode == 409) {
+          // 💥 إعلان مكرر
+          licenseVerificationMessage = response.body['message'] ?? 'الإعلان موجود مسبقاً';
+          return false;
+        }else {
+          licenseVerificationMessage = response.body['message'] ?? 'رقم الترخيص غير صالح';
           return false;
         }
       } else {
-        ////print('❌ API error: ${response.statusCode} - ${response.statusText}');
+        licenseVerificationMessage = '  ${response.body['message']}';
         return false;
       }
     } catch (e) {
-      //print('⚠️ Exception: $e');
+      licenseVerificationMessage = 'حدث خطأ أثناء التحقق: $e';
       return false;
     }
   }
-
 
 
 

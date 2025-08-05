@@ -456,6 +456,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
       _selectionTypeEstate = timeSelected;
     });
   }
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -464,6 +465,45 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
     final currentLocale = Get.locale;
     bool isArabic = currentLocale?.languageCode == 'ar';
     return Scaffold(
+      key: _key,
+
+      appBar:
+
+
+      PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0, // نلغي الظل لأنه سنضيف بوردر يدوي
+          leading: IconButton(
+            icon: const Icon(Icons.home, color: Colors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Row(
+            children: [
+              const SizedBox(width: 12),
+              Text(
+                "اضافة عقار  ",
+                style: const TextStyle(
+
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(1.0),
+            child: Container(
+              color: Colors.grey.shade300,
+              height: 1.0,
+            ),
+          ),
+        ),
+      ),
+
       body: Get.find<AuthController>().isLoggedIn()
           ? SingleChildScrollView(
               child: GetBuilder<AuthController>(builder: (authController) {
@@ -2556,8 +2596,8 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                                             fromView:
                                                                                 true,
                                                                             lat:
-                                                                                authController.estateLocation!.latitude,
-                                                                            lot: authController.estateLocation!.longitude,
+                                                                                latitude,
+                                                                            lot: longitude,
                                                                             add: add),
                                                                       ),
                                                                       SizedBox(
@@ -2842,8 +2882,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                 }
                                               });
 
-                                              restController
-                                                  .addEstate(EstateBody(
+                                              restController.addEstate(EstateBody(
                                                 address: _addressController.text
                                                     .toString(),
                                                 space: space,

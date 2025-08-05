@@ -23,7 +23,7 @@ class _PlanImagesTabState extends State<PlanImagesTab> {
 
   List<XFile> _plannedFiles = [];
   List<String> _existingPlannedUrls = [];
-  final int _currentIndex = 0;
+  //final int _currentIndex = 0;
 
   Future<void> _fetchExistingPlanned(int id) async {
     final response = await http.get(Uri.parse('${AppConstants.BASE_URL}/api/v1/estate/etch-existing-planned/$id'));

@@ -85,7 +85,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                                 _idNumberController, // تأكد من تعريف هذا المتغير
                             inputType: TextInputType.phone,
                             showBorder: true,
-                            isEnabled: false,
+                            isEnabled: true,
                           ),
 
                           SizedBox(height: 20),
@@ -134,6 +134,8 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                                   width: 100,
                                   buttonText: 'التالي',
                                   onPressed: () async {
+                                    String licenseVerificationMessage = ''; // ✅ هذا هو المتغير الذي نحت
+
                                     String numberLicense =
                                         _numberLicenseController.text.trim();
 
@@ -188,8 +190,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
 
                                         // الانتقال إلى الشاشة التالية إذا لزم الأمر
                                       } else {
-                                        showCustomSnackBar(
-                                            'فشل التحقق من رقم الترخيص');
+                                        showCustomSnackBar(estateController.licenseVerificationMessage);
                                       }
                                     }
                                   },

@@ -407,12 +407,8 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
     }
 
     // وصف مختصر وطويل
-    _shortDescController.text =
-        'عقار ${data['propertyType'] ?? ''} للبيع في ${data['location']['district'] ?? ''}';
-    _longDescController.text = 'تفاصيل العقار:\n'
-        'المساحة: ${data['propertyArea']} م²\n'
-        'السعر: ${data['propertyPrice']} ريال\n'
-        'واجهة: ${data['propertyFace'] ?? ''}';
+    _shortDescController.text =  '';
+    _longDescController.text = '';
 
     //SharedPreferences prefs = await SharedPreferences.getInstance();
 

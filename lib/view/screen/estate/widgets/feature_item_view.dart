@@ -59,7 +59,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
     Get.find<EstateController>().getEstateDetails(Estate(id:widget.estate.id));
    // selectedUrl = '${AppConstants.BASE_URL}/payment-mobile/pyment?order_id=${widget.orderModel.id}&customer_id=${widget.orderModel.userId}';
 
-     print("-------------------------------${widget.estate.id}");
+     print("--------------------------widget.estate.latitude-----${widget.estate.latitude}");
 
 
     if(widget.featureId=="6"){
@@ -213,28 +213,50 @@ class _FeatureScreenState extends State<FeatureScreen> {
               ):widget.featureId=="2"?Center(
                 child: SizedBox(
                   width: Dimensions.WEB_MAX_WIDTH,
-                  child:WebViewScreen(  url: widget.path),
+                  child: widget.path!=""?WebViewScreen(  url: widget.path):NoDataScreen(
+                    text: 'no_data_available',
+                  ),
                 ),
               ):widget.featureId=="3"? SafeArea(
                 child: Center(
                   child: FlutterGoogleStreetView(
-                      initSource: StreetViewSource.outdoor,
-                      // initBearing: 30,
-                      zoomGesturesEnabled: false,
-                      initPos:LatLng(double.parse(widget.estate.latitude ?? ""),double.parse(widget.estate.longitude ?? "")),
-                      onStreetViewCreated: (StreetViewController controller) async {
-                        //save controller for late using
-                        streetViewController = controller;
-                        controller.animateTo(
-                            duration: 3000,
-                            camera: StreetViewPanoramaCamera(
-                                bearing: 200, tilt: 3));
+                    initSource: StreetViewSource.outdoor,
+                    zoomGesturesEnabled: true,
+                    initPos:LatLng(double.parse(widget.estate.latitude ?? ""),double.parse(widget.estate.longitude ?? "")),
+                    onStreetViewCreated: (StreetViewController controller) async {
+                      streetViewController = controller;
+
+                      controller.animateTo(
+                        duration: 3000,
+                        camera: StreetViewPanoramaCamera(
+                          bearing: 200,
+                          tilt: 3,
+                        ),
+                      );
+
+                      controller.setPosition(position:LatLng(double.parse(widget.estate.latitude ?? ""),double.parse(widget.estate.longitude ?? "")));
+                    },
+                  )
 
 
-                        //change position by controller
-                        controller.setPosition(position:LatLng(double.parse(widget.estate.latitude ?? ""),double.parse(widget.estate.longitude ?? "")));
-                      }
-                  ),
+                  // FlutterGoogleStreetView(
+                  //     initSource: StreetViewSource.outdoor,
+                  //     // initBearing: 30,
+                  //     zoomGesturesEnabled: false,
+                  //     initPos:LatLng(double.parse(widget.estate.latitude ?? ""),double.parse(widget.estate.longitude ?? "")),
+                  //     onStreetViewCreated: (StreetViewController controller) async {
+                  //       //save controller for late using
+                  //       streetViewController = controller;
+                  //       controller.animateTo(
+                  //           duration: 3000,
+                  //           camera: StreetViewPanoramaCamera(
+                  //               bearing: 200, tilt: 3));
+                  //
+                  //
+                  //       //change position by controller
+                  //       controller.setPosition(position:LatLng(double.parse(widget.estate.latitude ?? ""),double.parse(widget.estate.longitude ?? "")));
+                  //     }
+                  // ),
                 ),
               ):widget.featureId=="4"?Container(
                 width: Dimensions.WEB_MAX_WIDTH,
@@ -349,7 +371,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
             :widget.featureId=="5"? Container(
                 color: Colors.black,
             child:Center(
-              child: widget.skyView == "null"
+              child: widget.skyView == ""
                   ? NoDataScreen(
                 text: 'no_data_available'.tr,
               ) // Display a message when video path is null

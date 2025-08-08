@@ -9,6 +9,7 @@ import 'package:abaad_flutter/data/model/response/address_model.dart';
 import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
 import 'package:abaad_flutter/util/app_constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 ///import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,6 +46,28 @@ class AuthRepo {
 
 
 
+  Future<Response> updateToken({String notificationDeviceToken = ''}) async {
+    String? deviceToken;
+    if(notificationDeviceToken.isEmpty){
+      if (GetPlatform.isIOS && !GetPlatform.isWeb) {
+        FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
+        NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
+          alert: true, announcement: false, badge: true, carPlay: false,
+          criticalAlert: false, provisional: false, sound: true,
+        );
+        if(settings.authorizationStatus == AuthorizationStatus.authorized) {
+          deviceToken = await _saveDeviceToken();
+        }
+      }else {
+        deviceToken = await _saveDeviceToken();
+      }
+      if(!GetPlatform.isWeb) {
+        FirebaseMessaging.instance.subscribeToTopic(AppConstants.TOPIC);
+      }
+    }
+    return await apiClient.postData(AppConstants.TOKEN_URI, {"_method": "post", "cm_firebase_token": notificationDeviceToken.isNotEmpty ? notificationDeviceToken : deviceToken});
+  }
+
   // Future<Response> updateToken() async {
   //   String? deviceToken = "";
   //   if (GetPlatform.isIOS && !GetPlatform.isWeb) {
@@ -64,18 +87,21 @@ class AuthRepo {
   //   }
   //   return await apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "cm_firebase_token": deviceToken});
   // }
-  //
-  // Future<String?> _saveDeviceToken() async {
-  //   String? deviceToken = '@';
-  //   if(!GetPlatform.isWeb) {
-  //     try {
-  //       deviceToken = await FirebaseMessaging.instance.getToken();
-  //     }catch(e) {}
-  //   }
-  //   print('--------Device Token---------- $deviceToken');
-  //     return deviceToken;
-  // }
-  //
+
+
+  Future<String?> _saveDeviceToken() async {
+    String? deviceToken = '@';
+    if(!GetPlatform.isWeb) {
+      try {
+        deviceToken = (await FirebaseMessaging.instance.getToken())!;
+      }catch(_) {}
+    }
+    if (deviceToken != null) {
+      debugPrint('--------Device Token---------- $deviceToken');
+    }
+    return deviceToken;
+  }
+
 
   Future<Response> verifyToken(String phone, String token) async {
     return await apiClient.postData(AppConstants.VERIFY_TOKEN_URI, {"phone": phone, "reset_token": token},);
@@ -148,8 +174,8 @@ class AuthRepo {
 
   bool clearSharedData() {
     if(!GetPlatform.isWeb) {
-      //FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
-      apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "cm_firebase_token": '@'}, headers: {});
+      FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
+      apiClient.postData(AppConstants.TOKEN_URI, {"_method": "post", "cm_firebase_token": '@'});
     }
     sharedPreferences.remove(AppConstants.TOKEN);
     sharedPreferences.remove(AppConstants.userAddress);
@@ -187,13 +213,13 @@ class AuthRepo {
 
   void setNotificationActive(bool isActive) {
     if(isActive) {
-      //updateToken();
+      updateToken();
     }else {
       if(!GetPlatform.isWeb) {
-        // FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
-        // if(isLoggedIn()) {
-        //   FirebaseMessaging.instance.unsubscribeFromTopic('zone_${Get.find<LocationController>().getUserAddress()?.zoneId}_customer');
-        // }
+        FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
+        if(isLoggedIn()) {
+          FirebaseMessaging.instance.unsubscribeFromTopic('zone_${Get.find<LocationController>().getUserAddress()?.zoneId}_customer');
+        }
       }
     }
     sharedPreferences.setBool(AppConstants.NOTIFICATION, isActive);

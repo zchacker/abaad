@@ -1,7 +1,7 @@
 
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_button.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';

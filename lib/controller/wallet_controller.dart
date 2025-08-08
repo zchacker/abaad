@@ -1,8 +1,8 @@
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/model/response/wallet_model.dart';
-import 'package:abaad/data/repository/wallet_repo.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/model/response/wallet_model.dart';
+import 'package:abaad_flutter/data/repository/wallet_repo.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
 import 'package:get/get.dart';
 
 class WalletController extends GetxController implements GetxService{

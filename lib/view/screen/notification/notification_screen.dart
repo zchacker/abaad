@@ -1,11 +1,11 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/notification_controller.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
-import 'package:abaad/view/base/no_data_screen.dart';
-import 'package:abaad/view/base/not_logged_in_screen.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/notification_controller.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/view/base/no_data_screen.dart';
+import 'package:abaad_flutter/view/base/not_logged_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/category_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/data/model/response/zone_model.dart';
-import 'package:abaad/helper/route_helper.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/category_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/data/model/response/zone_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:abaad/util/images.dart';
+import 'package:abaad_flutter/util/images.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,11 +44,11 @@ class _MapViewScreenState extends State<MapViewScreen> {
 
 
 
-  @override
-  void dispose() {
-    super.dispose();
-    _controller?.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   _controller?.dispose();
+  // }
 
 
   get borderRadius => BorderRadius.circular(8.0);

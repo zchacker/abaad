@@ -1,19 +1,19 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/model/response/address_model.dart';
-import 'package:abaad/data/model/response/place_details_model.dart';
-import 'package:abaad/data/model/response/prediction_model.dart';
-import 'package:abaad/data/model/response/response_model.dart';
-import 'package:abaad/data/model/response/zone_model.dart';
-import 'package:abaad/data/model/response/zone_response_model.dart';
-import 'package:abaad/data/repository/location_repo.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/model/response/address_model.dart';
+import 'package:abaad_flutter/data/model/response/place_details_model.dart';
+import 'package:abaad_flutter/data/model/response/prediction_model.dart';
+import 'package:abaad_flutter/data/model/response/response_model.dart';
+import 'package:abaad_flutter/data/model/response/zone_model.dart';
+import 'package:abaad_flutter/data/model/response/zone_response_model.dart';
+import 'package:abaad_flutter/data/repository/location_repo.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -140,7 +140,7 @@ class LocationController extends GetxController implements GetxService {
       }
     }else {
       _inZone = false;
-      responseModel = ZoneResponseModel(false, response.statusText, [], []);
+      responseModel = ZoneResponseModel(false, response.statusText.toString(), [], []);
     }
     if(markerLoad) {
       _loading = false;
@@ -192,7 +192,7 @@ class LocationController extends GetxController implements GetxService {
       _addressList?.removeAt(index);
       responseModel = ResponseModel(true, response.body['message']);
     } else {
-      responseModel = ResponseModel(false, response.statusText);
+      responseModel = ResponseModel(false, response.statusText.toString());
     }
     update();
     return responseModel;
@@ -237,7 +237,7 @@ class LocationController extends GetxController implements GetxService {
       getAddressList();
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText);
+      responseModel = ResponseModel(false, response.statusText.toString());
     }
     _isLoading = false;
     update();
@@ -387,10 +387,10 @@ class LocationController extends GetxController implements GetxService {
   void autoNavigate(AddressModel address, bool fromSignUp, String route, bool canRoute) async {
     if(!GetPlatform.isWeb) {
       if (Get.find<LocationController>().getUserAddress()?.zoneId != address.zoneId) {
-        FirebaseMessaging.instance.unsubscribeFromTopic('zone_${Get.find<LocationController>().getUserAddress()?.zoneId}_customer');
-        FirebaseMessaging.instance.subscribeToTopic('zone_${address.zoneId}_customer');
+        // FirebaseMessaging.instance.unsubscribeFromTopic('zone_${Get.find<LocationController>().getUserAddress()?.zoneId}_customer');
+        // FirebaseMessaging.instance.subscribeToTopic('zone_${address.zoneId}_customer');
       } else {
-        FirebaseMessaging.instance.subscribeToTopic('zone_${address.zoneId}_customer');
+        //FirebaseMessaging.instance.subscribeToTopic('zone_${address.zoneId}_customer');
       }
     }
     await Get.find<LocationController>().saveUserAddress(address);

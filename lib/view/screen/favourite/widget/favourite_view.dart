@@ -1,7 +1,7 @@
-import 'package:abaad/controller/wishlist_controller.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/helper/responsive_helper.dart';
-import 'package:abaad/util/dimensions.dart';
+import 'package:abaad_flutter/controller/wishlist_controller.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/helper/responsive_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,5 +1,5 @@
 
-import 'package:abaad/util/dimensions.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

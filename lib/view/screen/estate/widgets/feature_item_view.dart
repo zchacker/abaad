@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:abaad/controller/estate_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/helper/responsive_helper.dart';
-import 'package:abaad/util/app_constants.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/image_view_dialog.dart';
-import 'package:abaad/view/base/no_data_screen.dart';
-import 'package:abaad/view/screen/estate/web_view_screen.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/helper/responsive_helper.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/image_view_dialog.dart';
+import 'package:abaad_flutter/view/base/no_data_screen.dart';
+import 'package:abaad_flutter/view/screen/estate/web_view_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_street_view/flutter_google_street_view.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -59,7 +59,7 @@ class _FeatureScreenState extends State<FeatureScreen> {
     Get.find<EstateController>().getEstateDetails(Estate(id:widget.estate.id));
    // selectedUrl = '${AppConstants.BASE_URL}/payment-mobile/pyment?order_id=${widget.orderModel.id}&customer_id=${widget.orderModel.userId}';
 
-     //print("-------------------------------${widget.featureId}");
+     print("-------------------------------${widget.estate.id}");
 
 
     if(widget.featureId=="6"){
@@ -151,6 +151,8 @@ class _FeatureScreenState extends State<FeatureScreen> {
     return WillPopScope(
       onWillPop: () async {
       if(widget.featureId=="6") {
+
+
         _controller?.pause();
       }
         return true;
@@ -178,7 +180,9 @@ class _FeatureScreenState extends State<FeatureScreen> {
                       ),
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            print("------------------------${widget.estate!.images?[index]}");
+                          },
                           child:   Container(
                             padding: EdgeInsets.all(7),
                             decoration: BoxDecoration(

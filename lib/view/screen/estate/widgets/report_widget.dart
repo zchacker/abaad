@@ -1,10 +1,10 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/estate_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/my_text_field.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/my_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,7 +38,22 @@ class _ReportWidgetState extends State<ReportWidget> {
     }
   }
 
-  late String _documentTypeValue;
+  String? _documentTypeValue;
+
+  final List<Map<String, String>> reasonItems = [
+    {
+      'key': 'place_wrong',
+      'label': 'place_wrong'.tr,
+    },
+    {
+      'key': 'contradicting_terms',
+      'label': 'contradicting_the_terms_o_the_real_estate_authority'.tr,
+    },
+    {
+      'key': 'another_reason',
+      'label': 'another_reason'.tr,
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     return GetBuilder<EstateController>(builder: (estateController) {
@@ -59,60 +74,56 @@ class _ReportWidgetState extends State<ReportWidget> {
           ),
           const SizedBox(
               height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+
           Container(
-            padding:  const EdgeInsets.symmetric(
-                horizontal: Dimensions.PADDING_SIZE_SMALL),
+            padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
             decoration: BoxDecoration(
-              color: Theme
-                  .of(context)
-                  .cardColor,
-              borderRadius: BorderRadius.circular(
-                  Dimensions.RADIUS_SMALL),
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
               boxShadow: [
-                BoxShadow(color: Colors.grey[Get.isDarkMode
-                    ? 800
-                    : 200]!,
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 5))
+                BoxShadow(
+                  color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 5),
+                ),
               ],
             ),
             child: DropdownButton<String>(
-              focusColor: Colors.white,
+              dropdownColor: Colors.white,
               value: _documentTypeValue,
               isExpanded: true,
               underline: SizedBox(),
-              //elevation: 5,
               style: robotoRegular.copyWith(
-                  fontSize: Dimensions.fontSizeLarge,
-                  color: Colors.black),
+                fontSize: Dimensions.fontSizeLarge,
+                color: Colors.black,
+              ),
               iconEnabledColor: Colors.black,
-              items: <String>[
-                'place_wrong'.tr,
-                'contradicting_the_terms_o_the_real_estate_authority'.tr,
-                'another_reason'.tr,
-              ].map<DropdownMenuItem<String>>((String value) {
+              items: reasonItems.map<DropdownMenuItem<String>>((item) {
                 return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value, style: const TextStyle(
-                      color: Colors.black),),
+                  value: item['key'],
+                  child: Text(
+                    item['label']!,
+                    style: const TextStyle(color: Colors.black),
+                  ),
                 );
               }).toList(),
               hint: Text(
-                "please_select_reason".tr,
+                'please_select_reason'.tr,
                 style: robotoRegular.copyWith(
-                    fontSize: Dimensions.fontSizeLarge,
-                    color: Colors.black),
+                  fontSize: Dimensions.fontSizeLarge,
+                  color: Colors.black,
+                ),
               ),
               onChanged: (String? value) {
                 setState(() {
-                  _documentTypeValue = value!;
+                  _documentTypeValue = value;
                 });
               },
             ),
           ),
 
-          SizedBox(height: 8),
+      SizedBox(height: 8),
           MyTextField(
             hintText: 'text_of_the_communication'.tr,
             controller: _longDescController,
@@ -135,7 +146,7 @@ class _ReportWidgetState extends State<ReportWidget> {
             final title = _documentTypeValue;
             final description = _longDescController.text;
             final estateId =  44;
-            estateController.insertEstate(title, description, estateId,context);
+            estateController.insertEstate(title!, description, estateId,context);
         //    Navigator.pop(context);
           },
           buttonText: 'send'.tr,

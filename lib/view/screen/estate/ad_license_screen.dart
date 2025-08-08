@@ -1,16 +1,18 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/estate_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/my_text_field.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/my_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../base/not_logged_in_screen.dart';
 
 class AdLicenseScreen extends StatefulWidget {
   const AdLicenseScreen({super.key});
@@ -22,6 +24,13 @@ class AdLicenseScreen extends StatefulWidget {
 class _AdLicenseScreenState extends State<AdLicenseScreen> {
   final TextEditingController _numberLicenseController =
       TextEditingController();
+  final bool _isLoggedIn = Get.find<AuthController>().isLoggedIn();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   final TextEditingController _idNumberController = TextEditingController();
 
@@ -31,7 +40,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
       appBar: CustomAppBar(title: 'add_ads'),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-        child: Center(
+        child: Get.find<AuthController>().isLoggedIn() ? Center(
             child: SizedBox(
                 width: Dimensions.WEB_MAX_WIDTH,
                 child: GetBuilder<AuthController>(builder: (authController) {
@@ -125,6 +134,8 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                                   width: 100,
                                   buttonText: 'التالي',
                                   onPressed: () async {
+                                    String licenseVerificationMessage = ''; // ✅ هذا هو المتغير الذي نحت
+
                                     String numberLicense =
                                         _numberLicenseController.text.trim();
 
@@ -179,8 +190,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
 
                                         // الانتقال إلى الشاشة التالية إذا لزم الأمر
                                       } else {
-                                        showCustomSnackBar(
-                                            'فشل التحقق من رقم الترخيص');
+                                        showCustomSnackBar(estateController.licenseVerificationMessage);
                                       }
                                     }
                                   },
@@ -190,7 +200,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                       );
                     });
                   });
-                }))),
+                }))): NotLoggedInScreen(),
       ),
     );
   }

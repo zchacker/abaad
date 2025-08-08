@@ -2,25 +2,25 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/localization_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/helper/responsive_helper.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/custom_text_field.dart';
-import 'package:abaad/view/base/web_menu_bar.dart';
-import 'package:abaad/view/screen/auth/widget/guest_button.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/localization_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/helper/responsive_helper.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/custom_text_field.dart';
+import 'package:abaad_flutter/view/base/web_menu_bar.dart';
+import 'package:abaad_flutter/view/screen/auth/widget/guest_button.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 //import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:phone_number/phone_number.dart';
+//import 'package:phone_number/phone_number.dart';
 
 import 'widget/code_picker_widget.dart';
 import 'widget/condition_check_box.dart';
@@ -104,68 +104,104 @@ class _SignInScreenState extends State<SignInScreen> {
 
                     return Column(children: [
                       const SizedBox(height: Dimensions.PADDING_SIZE_OVER_LARGE),
-                      Image.asset(Images.logo, width: 200),
+                      // Image.asset(Images.logo, width: 200),
                       // SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                      // Image.asset(Images.logo_name, width: 100),
+                       Image.asset(Images.logo_name, width: 100),
 
+                      SizedBox(height: 12,),
+                      Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: CustomTextField(
+                          titleText: ResponsiveHelper.isDesktop(context) ? 'phone'.tr : 'enter_phone_number'.tr,
+                          hintText: '5XXXXXXX',
+                          controller: _phoneController,
+                          focusNode: _phoneFocus,
+                          divider: false,
+                          nextFocus: _passwordFocus,
+                          inputType: TextInputType.phone,
+                          isPhone: true,
+                          showTitle: ResponsiveHelper.isDesktop(context),
+                          onCountryChanged: (CountryCode countryCode) {
+                            _countryDialCode = countryCode.dialCode;
+                          },
+                          countryDialCode: _countryDialCode != null ?
 
+                          CountryCode.fromCountryCode(Get.find<SplashController>().configModel!.country!).code
+                              : Get.find<LocalizationController>().locale.countryCode,
+                        ),
+                      ),
                       // Text('sign_in'.tr.toUpperCase(), style: robotoBlack.copyWith(fontSize: 30)),
                       SizedBox(height: 50),
 
-                      Directionality(
-                        textDirection: TextDirection.ltr,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                            color: Theme.of(context).cardColor,
-                            boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
-                          ),
-                          child: Column(children: [
 
-                            Row(children: [
-                              CodePickerWidget(
-                                onChanged: (CountryCode countryCode) {
-                                  _countryDialCode = countryCode.dialCode;
-                                },
-                                initialSelection: _countryDialCode != null ? Get.find<AuthController>().getUserCountryCode().isNotEmpty ? Get.find<AuthController>().getUserCountryCode()
-                                    : CountryCode.fromCountryCode(Get.find < SplashController>().configModel?.country ?? "").code : Get.find<LocalizationController>().locale.countryCode,
-                                favorite: [(Get.find<AuthController>().getUserCountryCode().isNotEmpty ?? false) ?
-                                Get.find<AuthController>().getUserCountryCode() : CountryCode.fromCountryCode(Get.find<SplashController>().configModel?.country ?? "").code ?? ""],
-                                showDropDownButton: true,
-                                padding: EdgeInsets.zero,
-                                showFlagMain: true,
-                                flagWidth: 25,
-                                dialogBackgroundColor: Theme.of(context).cardColor,
-                                textStyle: robotoRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge?.color,
-                                ),
-                              ),
-                              Expanded(flex: 1, child: CustomTextField(
-                                hintText: '500000000',
-                                controller: _phoneController,
-                                focusNode: _phoneFocus,
-                                nextFocus: _passwordFocus,
-                                inputType: TextInputType.phone,
-                                divider: false,
-                              )),
-                            ]),
-                            Padding(padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE), child: Divider(height: 1)),
 
-                            // CustomTextField(
-                            //   hintText: 'password'.tr,
-                            //   controller: _passwordController,
-                            //   focusNode: _passwordFocus,
-                            //   inputAction: TextInputAction.done,
-                            //   inputType: TextInputType.visiblePassword,
-                            //   prefixIcon: Images.lock,
-                            //   isPassword: true,
-                            //   onSubmit: (text) => (GetPlatform.isWeb && authController.acceptTerms)
-                            //       ? _login(authController, _countryDialCode) : null,
-                            // ),
 
-                          ]),
-                        ),
-                      ),
+                      // Directionality(
+                      //   textDirection: TextDirection.ltr,
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      //       color: Theme.of(context).cardColor,
+                      //       boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
+                      //     ),
+                      //     child: Column(children: [
+                      //
+                      //       Row(children: [
+                      //         // CodePickerWidget(
+                      //         //   onChanged: (CountryCode countryCode) {
+                      //         //     _countryDialCode = countryCode.dialCode;
+                      //         //   },
+                      //         //   initialSelection: _countryDialCode != null ? Get.find<AuthController>().getUserCountryCode().isNotEmpty ? Get.find<AuthController>().getUserCountryCode()
+                      //         //       : CountryCode.fromCountryCode(Get.find < SplashController>().configModel?.country ?? "").code : Get.find<LocalizationController>().locale.countryCode,
+                      //         //   favorite: [(Get.find<AuthController>().getUserCountryCode().isNotEmpty ?? false) ?
+                      //         //   Get.find<AuthController>().getUserCountryCode() : CountryCode.fromCountryCode(Get.find<SplashController>().configModel?.country ?? "").code ?? ""],
+                      //         //   showDropDownButton: true,
+                      //         //   padding: EdgeInsets.zero,
+                      //         //   showFlagMain: true,
+                      //         //   flagWidth: 25,
+                      //         //   dialogBackgroundColor: Theme.of(context).cardColor,
+                      //         //   textStyle: robotoRegular.copyWith(
+                      //         //     fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge?.color,
+                      //         //   ),
+                      //         // ),
+                      //         Expanded(flex: 1, child: CustomTextField(
+                      //           hintText: '500000000',
+                      //           controller: _phoneController,
+                      //           focusNode: _phoneFocus,
+                      //           nextFocus: _passwordFocus,
+                      //           inputType: TextInputType.phone,
+                      //
+                      //           divider: false,
+                      //
+                      //
+                      //
+                      //           // divider: false,
+                      //           // nextFocus: _passwordFocus,
+                      //           // inputType: TextInputType.phone,
+                      //           isPhone: true,
+                      //           showTitle: ResponsiveHelper.isDesktop(context),
+                      //           onCountryChanged: (CountryCode countryCode) {
+                      //             _countryDialCode = countryCode.dialCode;
+                      //           },
+                      //         )),
+                      //       ]),
+                      //       Padding(padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE), child: Divider(height: 1)),
+                      //
+                      //       // CustomTextField(
+                      //       //   hintText: 'password'.tr,
+                      //       //   controller: _passwordController,
+                      //       //   focusNode: _passwordFocus,
+                      //       //   inputAction: TextInputAction.done,
+                      //       //   inputType: TextInputType.visiblePassword,
+                      //       //   prefixIcon: Images.lock,
+                      //       //   isPassword: true,
+                      //       //   onSubmit: (text) => (GetPlatform.isWeb && authController.acceptTerms)
+                      //       //       ? _login(authController, _countryDialCode) : null,
+                      //       // ),
+                      //
+                      //     ]),
+                      //   ),
+                      // ),
                       SizedBox(height: 10),
 
                       SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
@@ -209,13 +245,14 @@ class _SignInScreenState extends State<SignInScreen> {
   }
   void _login(AuthController authController, String countryDialCode) async {
     String phone = _phoneController.text.trim();
+
     // String _password = _passwordController.text.trim();
     String numberWithCountryCode = countryDialCode+phone;
     bool isValid = GetPlatform.isWeb ? true : false;
     if(!GetPlatform.isWeb) {
       try {
-        PhoneNumber phoneNumber = await PhoneNumberUtil().parse(numberWithCountryCode);
-        numberWithCountryCode = '+${phoneNumber.countryCode}${phoneNumber.nationalNumber}';
+    //    PhoneNumber phoneNumber = await PhoneNumberUtil().parse(numberWithCountryCode);
+      //  numberWithCountryCode = '+${phoneNumber.countryCode}${phoneNumber.nationalNumber}';
         isValid = true;  
       } catch (e) {}
     }
@@ -226,17 +263,24 @@ class _SignInScreenState extends State<SignInScreen> {
     //   showCustomSnackBar('invalid phone number'.tr);
     // }
     else {
-      authController.login(numberWithCountryCode, "1234567").then((status) async {
+      authController.login("+966${phone}", "1234567").then((status) async {
         if (status.isSuccess) {
           if (authController.isActiveRememberMe) {
-            authController.saveUserNumberAndPassword(phone, "1234567", countryDialCode);
+            authController.saveUserNumberAndPassword("${phone}", "1234567", "+966");
           } else {
             authController.clearUserNumberAndPassword();
           }
           String token = status.message.substring(1, status.message.length);
+
+
             List<int> encoded = utf8.encode("1234567");
             String data = base64Encode(encoded);
-            Get.toNamed(RouteHelper.getVerificationRoute(numberWithCountryCode, token, RouteHelper.signUp, data));
+            
+            
+
+            
+            // showCustomSnackBar(data.)
+            Get.toNamed(RouteHelper.getVerificationRoute("+966${phone}", token, RouteHelper.signUp, data));
 
         }else {
           showCustomSnackBar(status.message);

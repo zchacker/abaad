@@ -1,9 +1,9 @@
 
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/view/screen/estate/widgets/ImageTab.dart';
-import 'package:abaad/view/screen/estate/widgets/PlanImagesTab.dart';
-import 'package:abaad/view/screen/estate/widgets/VideoTab.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/ImageTab.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/PlanImagesTab.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/VideoTab.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

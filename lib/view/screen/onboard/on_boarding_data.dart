@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:abaad/util/images.dart';
+import 'package:abaad_flutter/util/images.dart';
 import 'package:get/get.dart';
 
 class OnboardingModel {

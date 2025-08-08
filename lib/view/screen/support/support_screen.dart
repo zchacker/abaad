@@ -1,8 +1,8 @@
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';

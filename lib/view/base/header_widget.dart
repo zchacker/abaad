@@ -1,6 +1,6 @@
 // This widget will draw header section of all page. Wich you will get with the project source code.
 
-import 'package:abaad/util/styles.dart';
+import 'package:abaad_flutter/util/styles.dart';
 import 'package:flutter/material.dart';
 
 class HeaderWidget extends StatefulWidget {

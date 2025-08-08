@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/util/app_constants.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,7 +23,7 @@ class _PlanImagesTabState extends State<PlanImagesTab> {
 
   List<XFile> _plannedFiles = [];
   List<String> _existingPlannedUrls = [];
-  final int _currentIndex = 0;
+  //final int _currentIndex = 0;
 
   Future<void> _fetchExistingPlanned(int id) async {
     final response = await http.get(Uri.parse('${AppConstants.BASE_URL}/api/v1/estate/etch-existing-planned/$id'));

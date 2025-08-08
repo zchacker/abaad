@@ -1,19 +1,19 @@
 
 import 'dart:typed_data';
 
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/api/api_client.dart';
-import 'package:abaad/data/model/body/notification_body.dart';
-import 'package:abaad/data/model/response/conversation_model.dart';
-import 'package:abaad/data/model/response/message_model.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/data/repository/chat_repo.dart';
-import 'package:abaad/helper/date_converter.dart';
-import 'package:abaad/helper/responsive_helper.dart';
-import 'package:abaad/helper/user_type.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/api/api_client.dart';
+import 'package:abaad_flutter/data/model/body/notification_body.dart';
+import 'package:abaad_flutter/data/model/response/conversation_model.dart';
+import 'package:abaad_flutter/data/model/response/message_model.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/data/repository/chat_repo.dart';
+import 'package:abaad_flutter/helper/date_converter.dart';
+import 'package:abaad_flutter/helper/responsive_helper.dart';
+import 'package:abaad_flutter/helper/user_type.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:image_compression_flutter/image_compression_flutter.dart';

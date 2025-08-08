@@ -1,5 +1,5 @@
-import 'package:abaad/util/images.dart';
-import 'package:abaad/view/screen/onboard/on_boarding_data.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/view/screen/onboard/on_boarding_data.dart';
 import 'package:flutter/material.dart';
 
 import 'btn_onboarding.dart';

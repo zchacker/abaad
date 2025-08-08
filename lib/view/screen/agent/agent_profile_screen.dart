@@ -1,21 +1,22 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/estate_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/data/model/body/notification_body.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/estate_item.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/data/model/body/notification_body.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/estate_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../util/images.dart';
+import '../../base/details_dilog.dart';
 import '../profile/widget/profile_bg_widget.dart';
 
 
@@ -185,9 +186,21 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                     style: ButtonStyle(
                                       backgroundColor: WidgetStateProperty.all(Colors.blue),
                                     ),
-                                    onPressed: (){
-                                      __launchWhatsapp(userController.agentInfoModel!.phone!, userController.agentInfoModel!.name!);
-                                    }, icon: Icon(Icons.whatshot_rounded), label: Text("whatsapp".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall))),
+                                    onPressed: ()async{
+                                      // __launchWhatsapp(userController.agentInfoModel!.phone!, userController.agentInfoModel!.name!);
+                                      final Uri whatsappUrl = Uri.parse("https://wa.me/${userController.agentInfoModel!.phone!}?text=${Uri.encodeFull("")}");
+
+    if (await canLaunchUrl(whatsappUrl)) {
+    await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication);
+
+
+                                      } else {
+                                      // التعامل مع الخطأ
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: Text("لا يمكن فتح واتساب"),
+                                      ));
+                                      }
+                                    }, icon: Icon(Icons.whatshot_rounded,color: Colors.white), label: Text("whatsapp".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall,color: Colors.white))),
                             ),
                             const SizedBox(width:5),
                             Expanded(
@@ -196,12 +209,13 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                     backgroundColor: WidgetStateProperty.all(Colors.blue),
                                   ),
                                   onPressed: ()async{
-                                    await Get.toNamed(RouteHelper.getChatRoute(
-                                        notificationBody: NotificationBody(orderId: 1 ,restaurantId:userController.agentInfoModel!.id),
-                                        user: Userinfo(id: userController.agentInfoModel!.id, name: userController.agentInfoModel!.name,  image: userController.agentInfoModel!.image,),estate_id: 0
-
-                                    ));
-                                  }, icon: Icon(Icons.chat), label: Text("conversation".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall))),
+                                    showCustomSnackBar("غير متاحة حاليا");
+                                    // await Get.toNamed(RouteHelper.getChatRoute(
+                                    //     notificationBody: NotificationBody(orderId: 1 ,restaurantId:userController.agentInfoModel!.id),
+                                    //     user: Userinfo(id: userController.agentInfoModel!.id, name: userController.agentInfoModel!.name,  image: userController.agentInfoModel!.image,),estate_id: 0
+                                    //
+                                    // ));
+                                  }, icon: Icon(Icons.chat,color: Colors.white), label: Text("conversation".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall,color: Colors.white))),
                             ),
                              SizedBox(width:5),
                             Expanded(
@@ -218,7 +232,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                     throw 'Could not make a phone call.';
                                     }
 
-                              }, icon: Icon(Icons.call), label: Text("call".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall))),
+                              }, icon: Icon(Icons.call,color: Colors.white), label: Text("call".tr,style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall,color: Colors.white))),
                             ),
                           ],
                         ),
@@ -314,7 +328,9 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                   return  Padding(
                     padding: const EdgeInsets.only(top: 2,bottom: 2),
                     child: EstateItem(estate: restController.estateModel!.estates![index],onPressed: (){
-                      Get.toNamed(RouteHelper.getDetailsRoute( restController.estateModel!.estates![index].id!));
+                      Get.dialog(DettailsDilog(estate:restController.estateModel!.estates![index]));
+                    //  showCustomSnackBar("-------${restController.estateModel!.estates![index].id!}");
+                    //  Get.toNamed(RouteHelper.getDetailsRoute( restController.estateModel!.estates![index].id!));
                     },fav: false,isMyProfile: widget!.isMyProfile!),
                   );
                 });

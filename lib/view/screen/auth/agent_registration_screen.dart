@@ -1,15 +1,15 @@
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/helper/responsive_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/custom_text_field.dart';
-import 'package:abaad/view/base/not_logged_in_screen.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/helper/responsive_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/custom_text_field.dart';
+import 'package:abaad_flutter/view/base/not_logged_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -140,7 +140,7 @@ class _AgentRegistrationScreenState extends State<AgentRegistrationScreen> {
                     focusNode: _identityNumberNode,
                     nextFocus: _advertiserNoNode,
                     capitalization: TextCapitalization.words,
-                    prefixIcon: Icons.person,
+                    // prefixIcon: Icons.person,
                     showTitle: ResponsiveHelper.isDesktop(context),
                     // boarder: true,
 
@@ -153,7 +153,7 @@ class _AgentRegistrationScreenState extends State<AgentRegistrationScreen> {
                     focusNode: _advertiserNoNode,
                     inputType: TextInputType.emailAddress,
                     capitalization: TextCapitalization.words,
-                    prefixIcon: Icons.person,
+
                     showTitle: ResponsiveHelper.isDesktop(context),
                   )
 

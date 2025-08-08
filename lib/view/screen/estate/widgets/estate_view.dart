@@ -1,20 +1,20 @@
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/wishlist_controller.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/screen/estate/widgets/button_view.dart';
-import 'package:abaad/view/screen/estate/widgets/estate_image_view.dart';
-import 'package:abaad/view/screen/estate/widgets/service%20_provider_view.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/wishlist_controller.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/button_view.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/estate_image_view.dart';
+import 'package:abaad_flutter/view/screen/estate/widgets/service%20_provider_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -244,6 +244,7 @@ class _EstateViewState extends State<EstateView> {
                                 widget.estate?.latitude ?? "",
                                 widget.estate?.longitude ?? "",
                                 widget.estate?.skyView ?? ""
+
                             ));
                           // }
                         });
@@ -272,44 +273,44 @@ class _EstateViewState extends State<EstateView> {
       );
     });
   }
-
-  buildDynamicLinks(String title,String image,String docId) async {
-    String url = "https://abaadapp.page.link";
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: url,
-      link: Uri.parse('$url/$docId'),
-      androidParameters: AndroidParameters(
-        packageName: "sa.pdm.abaad.abaad",
-        minimumVersion: 0,
-      ),
-      iosParameters: IOSParameters(
-        bundleId: "Bundle-ID",
-        minimumVersion: '0',
-      ),
-      socialMetaTagParameters: SocialMetaTagParameters(
-          description: '',
-          imageUrl:
-          Uri.parse(image),
-          title: title),
-    );
-    // final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
-
-    // 1. Get FirebaseDynamicLinks instance
-    final dynamicLinks = FirebaseDynamicLinks.instance;
-
-    // 2. Build short link
-    final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
-      parameters,  // Your DynamicLinkParameters object
-    );
-
-    // 3. Get the URL
-    final dynamicUrl = shortLink.shortUrl;
-
-    String desc = dynamicUrl.toString();
-
-    await Share.share(desc, subject: title,);
-
-  }
+  //
+  // buildDynamicLinks(String title,String image,String docId) async {
+  //   String url = "https://abaadapp.page.link";
+  //   final DynamicLinkParameters parameters = DynamicLinkParameters(
+  //     uriPrefix: url,
+  //     link: Uri.parse('$url/$docId'),
+  //     androidParameters: AndroidParameters(
+  //       packageName: "sa.pdm.abaad.abaad",
+  //       minimumVersion: 0,
+  //     ),
+  //     iosParameters: IOSParameters(
+  //       bundleId: "Bundle-ID",
+  //       minimumVersion: '0',
+  //     ),
+  //     socialMetaTagParameters: SocialMetaTagParameters(
+  //         description: '',
+  //         imageUrl:
+  //         Uri.parse(image),
+  //         title: title),
+  //   );
+  //   // final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
+  //
+  //   // 1. Get FirebaseDynamicLinks instance
+  //   final dynamicLinks = FirebaseDynamicLinks.instance;
+  //
+  //   // 2. Build short link
+  //   final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
+  //     parameters,  // Your DynamicLinkParameters object
+  //   );
+  //
+  //   // 3. Get the URL
+  //   final dynamicUrl = shortLink.shortUrl;
+  //
+  //   String desc = dynamicUrl.toString();
+  //
+  //   await Share.share(desc, subject: title,);
+  //
+  // }
 }
 class RadioModel {
   bool isSelected;

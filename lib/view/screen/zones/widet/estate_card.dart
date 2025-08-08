@@ -1,13 +1,13 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/wishlist_controller.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/details_dilog.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/wishlist_controller.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/details_dilog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

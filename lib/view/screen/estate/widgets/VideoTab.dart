@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:abaad/util/app_constants.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,7 +31,16 @@ class _VideoTabState extends State<VideoTab> {
   @override
   void initState() {
     super.initState();
+    _videoController = VideoPlayerController.network('https://example.com/video.mp4')
+      ..initialize().then((_) {
+        setState(() {});
+      });
 
+
+    _videoSkeyController = VideoPlayerController.network('https://example.com/video.mp4')
+      ..initialize().then((_) {
+        setState(() {});
+      });
     v=true;
     s=true;
 
@@ -41,21 +50,21 @@ class _VideoTabState extends State<VideoTab> {
 
   }
 
-  late VideoPlayerController _videoController;
+  late VideoPlayerController ?_videoController;
   late FilePickerResult _filePickerResult;
   double _uploadProgress = 0.0;
   bool _uploading = false;
 
 
-  late VideoPlayerController _videoSkeyController;
+  late VideoPlayerController? _videoSkeyController;
   late FilePickerResult _fileSkyPickerResult;
   double _uploadSkyProgress = 0.0;
   bool _uploadingSky = false;
 
   @override
   void dispose() {
-    _videoController.dispose();
-    _videoSkeyController.dispose();
+    _videoController!.dispose();
+    _videoSkeyController!.dispose();
     super.dispose();
   }
 
@@ -253,7 +262,7 @@ class _VideoTabState extends State<VideoTab> {
                     onTap: (){
                       pickAndPreviewVideo();
                     },
-                    child: _videoController.value.isInitialized? Container(
+                    child: _videoController!.value.isInitialized? Container(
                       height: 140,
                       width: 140,
                       decoration: BoxDecoration(
@@ -265,8 +274,8 @@ class _VideoTabState extends State<VideoTab> {
                         ),
                       ),
                       child: AspectRatio(
-                        aspectRatio: _videoController.value.aspectRatio,
-                        child: VideoPlayer(_videoController),
+                        aspectRatio: _videoController!.value.aspectRatio,
+                        child: VideoPlayer(_videoController!),
                       ),
                     ):
                     Container(
@@ -340,7 +349,7 @@ class _VideoTabState extends State<VideoTab> {
                     onTap: (){
                       pickSkyAndPreviewVideo();
                     },
-                    child: _videoSkeyController.value.isInitialized? Container(
+                    child: _videoSkeyController!.value.isInitialized? Container(
                       height: 140,
                       width: 140,
                       decoration: BoxDecoration(
@@ -352,8 +361,8 @@ class _VideoTabState extends State<VideoTab> {
                         ),
                       ),
                       child: AspectRatio(
-                        aspectRatio: _videoSkeyController.value.aspectRatio,
-                        child: VideoPlayer(_videoSkeyController),
+                        aspectRatio: _videoSkeyController!.value.aspectRatio,
+                        child: VideoPlayer(_videoSkeyController!),
                       ),
                     ):
                     Container(

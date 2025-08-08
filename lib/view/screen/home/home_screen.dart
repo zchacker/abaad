@@ -1,23 +1,30 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/banner_controller.dart';
-import 'package:abaad/controller/category_controller.dart';
-import 'package:abaad/controller/localization_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/zone_controller.dart';
-import 'package:abaad/data/model/response/config_model.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/no_data_screen.dart';
-import 'package:abaad/view/screen/fillter/fillter_estate_sheet.dart';
-import 'package:abaad/view/screen/home/widet/estate_card.dart';
+import 'dart:convert';
+
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/banner_controller.dart';
+import 'package:abaad_flutter/controller/category_controller.dart';
+import 'package:abaad_flutter/controller/localization_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/zone_controller.dart';
+import 'package:abaad_flutter/data/model/response/config_model.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/no_data_screen.dart';
+import 'package:abaad_flutter/view/screen/fillter/fillter_estate_sheet.dart';
+import 'package:abaad_flutter/view/screen/home/widet/estate_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:barcode_scan2/barcode_scan2.dart';
+// import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+
+import '../../base/web_menu_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   int zoneId;
@@ -27,7 +34,7 @@ class HomeScreen extends StatefulWidget {
   final ScrollController scrollController = ScrollController();
   final bool _ltr = Get.find<LocalizationController>().isLtr;
 
-  final ScrollController _scrollController = ScrollController();
+
   final ConfigModel? _configModel = Get.find<SplashController>().configModel;
 
   static Future<void> loadData(bool reload) async {
@@ -73,6 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String? selectedZoneName = null;
 
+ // final ScrollController _searchController = ScrollController();
+  final TextEditingController _searchController = TextEditingController();
+
   void _loadSavedZone() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -84,24 +94,24 @@ class _HomeScreenState extends State<HomeScreen> {
   String result = "Scan a QR Code"; // Initialize with a default message
   bool isFlashOn = false;
 
-  Future<void> scanQRCode() async {
-    try {
-      final ScanResult scanResult = await BarcodeScanner.scan(
-        options: ScanOptions(
-          useCamera: -1, // Use the back camera by default
-          autoEnableFlash: isFlashOn,
-        ),
-      );
-      setState(() {
-        result = scanResult.rawContent;
-        Get.toNamed(RouteHelper.getDetailsRoute(162));
-      });
-    } catch (e) {
-      setState(() {
-        result = "Error: $e";
-      });
-    }
-  }
+  // Future<void> scanQRCode() async {
+  //   try {
+  //     final ScanResult scanResult = await BarcodeScanner.scan(
+  //       options: ScanOptions(
+  //         useCamera: -1, // Use the back camera by default
+  //         autoEnableFlash: isFlashOn,
+  //       ),
+  //     );
+  //     setState(() {
+  //       result = scanResult.rawContent;
+  //       Get.toNamed(RouteHelper.getDetailsRoute(162));
+  //     });
+  //   } catch (e) {
+  //     setState(() {
+  //       result = "Error: $e";
+  //     });
+  //   }
+  // }
 
   void toggleFlash() {
     setState(() {
@@ -117,7 +127,122 @@ class _HomeScreenState extends State<HomeScreen> {
     int length = 0;
 
     var width = MediaQuery.of(context).size.width;
+    final GlobalKey<ScaffoldState> _key = GlobalKey();
+
     return Scaffold(
+      key: _key,
+
+        appBar:
+
+
+        PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: AppBar(
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      // onTap: scanQRCode,
+                      child: Container(
+                        // margin: const EdgeInsets.only(
+                        //     left: 4.0, right: 4.0),
+                        padding:
+                        const EdgeInsets.all(7),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                            BorderRadius.circular(
+                                4),
+                            border: Border.all(
+                              width: 1,
+                              color: Colors.blue,
+                            )),
+                        child: const Icon(
+                          Icons.qr_code,
+                          size: 25,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 3,
+                    ),
+                    GetBuilder<ZoneController>(
+                        builder: (zoneController) {
+                          return GestureDetector(
+                            onTap: () {
+                              //    zoneController.categoryList.clear();
+                              zoneController
+                                  .categoryIndex ==
+                                  0;
+
+                              Get.dialog(FiltersScreen());
+                            },
+                            child: Container(
+                              padding:
+                              const EdgeInsets.all(7),
+                              // margin: const EdgeInsets.only(
+                              //     left: 4.0, right: 4.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.blue,
+                                  borderRadius:
+                                  BorderRadius.circular(
+                                      5),
+                                  border: Border.all(
+                                    width: 1,
+                                    color: Colors.white,
+                                  )),
+
+                              child: const Icon(
+                                Icons.filter_list_alt,
+                                size: 25,
+                                color: Colors.white,
+                              ),
+                            ),
+                          );
+                        }),
+                  ],
+                ),
+              )
+
+
+              // هام لإضافة مسافة بين الأيقونات وحافة الشاشة
+            ],
+            backgroundColor: Colors.white,
+            elevation: 0, // نلغي الظل لأنه سنضيف بوردر يدوي
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            title: Row(
+              children: [
+                const SizedBox(width: 12),
+                Text(
+                  "قائمة في منطقه ${ selectedZoneName}",
+                  style: const TextStyle(
+
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1.0),
+              child: Container(
+                color: Colors.grey.shade300,
+                height: 1.0,
+              ),
+            ),
+          ),
+        ),
+
+
+
         backgroundColor: Theme.of(context).cardColor,
         body: GetBuilder<CategoryController>(builder: (categoryController) {
           List<Estate> products;
@@ -139,118 +264,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            SafeArea(
-                              child: Align(
-                                alignment: Alignment.topCenter,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 7.0),
-                                  child: Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 2.0, right: 2.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Row(
-                                          children: [
-                                            _textField(
-                                                label: 'بحث',
-                                                prefixIcon:
-                                                    const Icon(Icons.search),
-                                                suffixIcon: IconButton(
-                                                  icon: Icon(Icons.my_location,
-                                                      color: Colors.blue),
-                                                  onPressed: () {
-                                                    showCustomSnackBar(
-                                                        "message");
-                                                  },
-                                                ),
-                                                width: width,
-                                                locationCallback:
-                                                    (String value) {
-                                                  setState(() {});
-                                                },
-                                                controller: null),
-                                            SizedBox(
-                                              width: 3,
-                                            ),
-                                            GestureDetector(
-                                              onTap: scanQRCode,
-                                              child: Container(
-                                                // margin: const EdgeInsets.only(
-                                                //     left: 4.0, right: 4.0),
-                                                padding:
-                                                    const EdgeInsets.all(7),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4),
-                                                    border: Border.all(
-                                                      width: 1,
-                                                      color: Colors.blue,
-                                                    )),
-                                                child: const Icon(
-                                                  Icons.qr_code,
-                                                  size: 25,
-                                                  color: Colors.blue,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 3,
-                                            ),
-                                            GetBuilder<ZoneController>(
-                                                builder: (zoneController) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  //    zoneController.categoryList.clear();
-                                                  zoneController
-                                                          .categoryIndex ==
-                                                      0;
 
-                                                  Get.dialog(FiltersScreen());
-                                                },
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.all(7),
-                                                  // margin: const EdgeInsets.only(
-                                                  //     left: 4.0, right: 4.0),
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.blue,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                      border: Border.all(
-                                                        width: 1,
-                                                        color: Colors.white,
-                                                      )),
-
-                                                  child: const Icon(
-                                                    Icons.filter_list_alt,
-                                                    size: 25,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              );
-                                            })
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                         // Container(
                         //   height: 150.0,
                         //   child: BannerView(),
                         // ),
 
-                        SizedBox(height: 8),
+                        SizedBox(height: 9),
+
                         (categoryController.subCategoryList != null)
                             ? Center(
                                 child: SizedBox(
@@ -366,7 +387,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       },
                                     )))
                             : SizedBox(),
-                        SizedBox(height: 6),
+                        SizedBox(height: 2),
                         selectedZoneName != null
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 6),
@@ -444,6 +465,30 @@ class _HomeScreenState extends State<HomeScreen> {
               : Center(child: CircularProgressIndicator());
         }));
   }
+  List<dynamic> _searchResults = [];
+
+  Future<void> _searchEstates(String query) async {
+    try {
+      final response = await http.get(
+        Uri.parse('https://app.abaadapp.sa/api/v1/estate/search?name=$query'),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          _searchResults = data['estate']; // تأكد من المسار الصحيح داخل response
+        });
+      } else {
+        showCustomSnackBar('فشل في جلب النتائج');
+      }
+    } catch (e) {
+      showCustomSnackBar('حدث خطأ: $e');
+    }
+  }
+
+
+
+
 }
 
 class SliverDelegate extends SliverPersistentHeaderDelegate {

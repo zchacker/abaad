@@ -1,11 +1,11 @@
 //import 'dart:ui_web' as ui;
 import 'package:flutter/widgets.dart';
 
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/html_type.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/html_type.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
@@ -26,9 +26,10 @@ class HtmlViewerScreen extends StatelessWidget {
         : htmlType == HtmlType.PRIVACY_POLICY ? Get.find<SplashController>().configModel!.privacyPolicy
         : null;
 
-    if(data!.isNotEmpty) {
-      data = data.replaceAll('href=', 'target="_blank" href=');
+    if (data?.isNotEmpty == true) {
+      data = data!.replaceAll('href=', 'target="_blank" href=');
     }
+
 
     String viewID = htmlType.toString();
 

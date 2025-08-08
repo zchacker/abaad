@@ -1,4 +1,4 @@
-import 'package:abaad/data/model/response/zone_response_model.dart';
+import 'package:abaad_flutter/data/model/response/zone_response_model.dart';
 class AddressModel {
   int? id;
   String? addressType;

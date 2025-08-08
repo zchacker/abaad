@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:io';
-import 'package:abaad/controller/category_controller.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/util/app_constants.dart';
+import 'package:abaad_flutter/controller/category_controller.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
 
-import 'package:abaad/controller/estate_controller.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
 
 class CategoryItem extends StatelessWidget {
   final int index;

@@ -1,8 +1,8 @@
-import 'package:abaad/controller/localization_controller.dart';
-import 'package:abaad/data/model/response/language_model.dart';
-import 'package:abaad/util/app_constants.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
+import 'package:abaad_flutter/controller/localization_controller.dart';
+import 'package:abaad_flutter/data/model/response/language_model.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

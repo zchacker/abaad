@@ -1,23 +1,24 @@
 import 'dart:convert';
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/data/model/body/signup_body.dart';
-import 'package:abaad/helper/responsive_helper.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/custom_text_field.dart';
-import 'package:abaad/view/base/web_menu_bar.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/data/model/body/signup_body.dart';
+import 'package:abaad_flutter/helper/responsive_helper.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/custom_text_field.dart';
+import 'package:abaad_flutter/view/base/web_menu_bar.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 //import 'package:country_code_picker/country_code.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:phone_number/phone_number.dart';
+// import 'package:phone_number/phone_number.dart';
 
+import '../../../controller/localization_controller.dart';
 import 'widget/code_picker_widget.dart';
 import 'widget/condition_check_box.dart';
 
@@ -152,32 +153,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(height: 4),
                           Directionality(
                             textDirection: TextDirection.ltr,
-                            child: Container(
-                              color: Theme.of(context).cardColor,
-                              child: Row(children: [
-                                CodePickerWidget(
-                                  onChanged: (CountryCode countryCode) {
-                                    _countryDialCode = countryCode.dialCode;
-                                  },
-                                  initialSelection: CountryCode.fromCountryCode(Get.find<SplashController>().configModel?.country ?? "").code,
-                                  favorite: [CountryCode.fromCountryCode(Get.find<SplashController>().configModel?.country ?? "").code ?? ""],
-                                  showDropDownButton: true,
-                                  padding: EdgeInsets.zero,
-                                  showFlagMain: true,
-                                  dialogBackgroundColor: Theme.of(context).cardColor,
-                                  textStyle: robotoRegular.copyWith(
-                                    fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge?.color ?? Color(0),
-                                  ),
-                                ),
-                                Expanded(child: CustomTextField(
-                                  hintText: '500000000',
-                                  controller: _phoneController,
-                                  focusNode: _phoneFocus,
-                                  nextFocus: _passwordFocus,
-                                  inputType: TextInputType.phone,
-                                  showTitle: ResponsiveHelper.isDesktop(context),
-                                )),
-                              ]),
+                            child: CustomTextField(
+                              titleText: ResponsiveHelper.isDesktop(context) ? 'phone'.tr : 'enter_phone_number'.tr,
+                              hintText: '5XXXXXXX',
+                              controller: _phoneController,
+                              focusNode: _phoneFocus,
+                              divider: false,
+                              nextFocus: _passwordFocus,
+                              inputType: TextInputType.phone,
+                              isPhone: true,
+                              showTitle: ResponsiveHelper.isDesktop(context),
+                              onCountryChanged: (CountryCode countryCode) {
+                                _countryDialCode = countryCode.dialCode;
+                              },
+                              countryDialCode: _countryDialCode != null ?
+
+                              CountryCode.fromCountryCode(Get.find<SplashController>().configModel!.country!).code
+                                  : Get.find<LocalizationController>().locale.countryCode,
                             ),
                           ),
                         ],
@@ -388,8 +380,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     bool isValid = GetPlatform.isWeb ? true : false;
     if(!GetPlatform.isWeb) {
       try {
-        PhoneNumber phoneNumber = await PhoneNumberUtil().parse(numberWithCountryCode);
-        numberWithCountryCode = '+${phoneNumber.countryCode}${phoneNumber.nationalNumber}';
+        //PhoneNumber phoneNumber = await PhoneNumberUtil().parse(numberWithCountryCode);
+        //numberWithCountryCode = '+${phoneNumber.countryCode}${phoneNumber.nationalNumber}';
         isValid = true;
       } catch (e) {}
     }

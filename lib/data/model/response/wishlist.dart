@@ -1,4 +1,4 @@
-import 'package:abaad/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
 
 class Wishlist {
   int id = 0;

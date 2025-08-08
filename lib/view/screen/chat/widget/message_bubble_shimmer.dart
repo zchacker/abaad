@@ -1,6 +1,6 @@
 
-import 'package:abaad/controller/chat_controller.dart';
-import 'package:abaad/util/dimensions.dart';
+import 'package:abaad_flutter/controller/chat_controller.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';

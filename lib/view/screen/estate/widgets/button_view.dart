@@ -1,4 +1,4 @@
-import 'package:abaad/util/styles.dart';
+import 'package:abaad_flutter/util/styles.dart';
 import 'package:flutter/material.dart';
 
 import 'estate_view.dart';

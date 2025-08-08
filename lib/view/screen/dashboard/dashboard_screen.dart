@@ -1,35 +1,35 @@
 import 'dart:async';
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/banner_controller.dart';
-import 'package:abaad/controller/category_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/controller/zone_controller.dart';
-import 'package:abaad/helper/responsive_helper.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
-import 'package:abaad/view/base/custom_text_field.dart';
-import 'package:abaad/view/base/drawer_menu.dart';
-import 'package:abaad/view/base/not_logged_in_screen.dart';
-import 'package:abaad/view/base/view_image_dilog.dart';
-import 'package:abaad/view/base/web_menu_bar.dart';
-import 'package:abaad/view/screen/chat/conversation_screen.dart';
-import 'package:abaad/view/screen/dashboard/widget/bottom_nav_item.dart';
-import 'package:abaad/view/screen/draw.dart';
-import 'package:abaad/view/screen/favourite/favourite_screen.dart';
-import 'package:abaad/view/screen/home/home_screen.dart';
-import 'package:abaad/view/screen/map/map_view_screen.dart';
-import 'package:abaad/view/screen/qr.dart';
-import 'package:abaad/view/screen/zones/zones_screen.dart';
-// import 'package:abaad/view/screen/map/map_view_screen.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/banner_controller.dart';
+import 'package:abaad_flutter/controller/category_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/controller/zone_controller.dart';
+import 'package:abaad_flutter/helper/responsive_helper.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/view/base/custom_text_field.dart';
+import 'package:abaad_flutter/view/base/drawer_menu.dart';
+import 'package:abaad_flutter/view/base/not_logged_in_screen.dart';
+import 'package:abaad_flutter/view/base/view_image_dilog.dart';
+import 'package:abaad_flutter/view/base/web_menu_bar.dart';
+import 'package:abaad_flutter/view/screen/chat/conversation_screen.dart';
+import 'package:abaad_flutter/view/screen/dashboard/widget/bottom_nav_item.dart';
+import 'package:abaad_flutter/view/screen/draw.dart';
+import 'package:abaad_flutter/view/screen/favourite/favourite_screen.dart';
+import 'package:abaad_flutter/view/screen/home/home_screen.dart';
+import 'package:abaad_flutter/view/screen/map/map_view_screen.dart';
+import 'package:abaad_flutter/view/screen/qr.dart';
+import 'package:abaad_flutter/view/screen/zones/zones_screen.dart';
+// import 'package:abaad_flutter/view/screen/map/map_view_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+//import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import 'widget/bottom_sheet_guide.dart';
 
@@ -49,9 +49,9 @@ class DashboardScreen extends StatefulWidget {
 
   static Future<void> loadData(bool reload) async {
     Get.find<UserController>().getUserInfo();
-
+    Get.find<AuthController>().getZoneList();
     Get.find<CategoryController>().getSubCategoryList("0");
-    Get.find<ZoneController>().getCategoryList();
+    // Get.find<ZoneController>().getCategoryList();
 
     // Get.find<AuthController>().getZoneList();
     Get.find<BannerController>().getBannerList(true,1);
@@ -95,7 +95,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
 
     _screens = [
-      MapViewScreen(),
+      // HomeScreen(zoneId: 1,),
+       MapViewScreen(),
       ZonesScreen(),
       // HomeScreen(),
       ConversationScreen(),
@@ -108,9 +109,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ];
 
     Future.delayed(Duration(seconds: 5), () async{
-     _initDynamicLinks(context);
+     //_initDynamicLinks(context);
 
-      setState(() {});
+      //setState(() {});
     });
 
     /*if(GetPlatform.isMobile) {
@@ -118,11 +119,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }*/
   }
   final bool _show = true;
-  @override
-  void dispose() {
-    super.dispose();
-    scrollController.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   scrollController.dispose();
+  // }
 
   bool checkingFlight = false;
   bool success = false;
@@ -251,18 +252,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   }
 
-  void _initDynamicLinks(context) async {
-    FirebaseDynamicLinks.instance.onLink;
-
-    final PendingDynamicLinkData? data =
-    await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri? deepLink = data?.link;
-
-      // final code = deepLink.path.split('/')[1];
-      if(deepLink != null) {
-        handleMyLink(deepLink);
-      }
-    }
+  // void _initDynamicLinks(context) async {
+  //   FirebaseDynamicLinks.instance.onLink;
+  //
+  //   final PendingDynamicLinkData? data =
+  //   await FirebaseDynamicLinks.instance.getInitialLink();
+  //   final Uri? deepLink = data?.link;
+  //
+  //     // final code = deepLink.path.split('/')[1];
+  //     if(deepLink != null) {
+  //       handleMyLink(deepLink);
+  //     }
+  //   }
 
 
 
@@ -335,7 +336,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 hintText: '000000000',
                                 controller: phoneController,
                                 inputType: TextInputType.phone,
-                                maxLength: 10,
+                                // maxLength: 10,
+
                                 textAlign: TextAlign.center,
 
                                 divider: false,
@@ -388,44 +390,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
 
-  buildDynamicLinks(String title,String image,String docId) async {
-    String url = "https://abaad.page.link";
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: url,
-      link: Uri.parse('$url/$docId'),
-      androidParameters: AndroidParameters(
-        packageName: "sa.pdm.abaad.abaad",
-        minimumVersion: 0,
-      ),
-        iosParameters: IOSParameters(
-            bundleId: "sa.pdm.abaad.abaad" ,
-            minimumVersion: "2.0.6"
-        ),
-      socialMetaTagParameters: SocialMetaTagParameters(
-          description: '',
-          imageUrl:
-          Uri.parse(image),
-          title: title),
-    );
-
-    //final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
-
-    // 1. Get FirebaseDynamicLinks instance
-    final dynamicLinks = FirebaseDynamicLinks.instance;
-
-    // 2. Build short link
-    final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
-      parameters,  // Your DynamicLinkParameters object
-    );
-
-    // 3. Get the URL
-    final dynamicUrl = shortLink.shortUrl;
-
-    String desc = dynamicUrl.toString();
-
-    await Share.share(desc, subject: title,);
-
-  }
+  // buildDynamicLinks(String title,String image,String docId) async {
+  //   String url = "https://abaad.page.link";
+  //   final DynamicLinkParameters parameters = DynamicLinkParameters(
+  //     uriPrefix: url,
+  //     link: Uri.parse('$url/$docId'),
+  //     androidParameters: AndroidParameters(
+  //       packageName: "sa.pdm.abaad.abaad",
+  //       minimumVersion: 0,
+  //     ),
+  //       iosParameters: IOSParameters(
+  //           bundleId: "sa.pdm.abaad.abaad" ,
+  //           minimumVersion: "2.0.6"
+  //       ),
+  //     socialMetaTagParameters: SocialMetaTagParameters(
+  //         description: '',
+  //         imageUrl:
+  //         Uri.parse(image),
+  //         title: title),
+  //   );
+  //
+  //   //final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
+  //
+  //   // 1. Get FirebaseDynamicLinks instance
+  //   final dynamicLinks = FirebaseDynamicLinks.instance;
+  //
+  //   // 2. Build short link
+  //   final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(
+  //     parameters,  // Your DynamicLinkParameters object
+  //   );
+  //
+  //   // 3. Get the URL
+  //   final dynamicUrl = shortLink.shortUrl;
+  //
+  //   String desc = dynamicUrl.toString();
+  //
+  //   await Share.share(desc, subject: title,);
+  //
+  // }
   void _setPage(int pageIndex) {
     setState(() {
       _pageController!.jumpToPage(pageIndex);
@@ -434,23 +436,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
-Future<String> createDynamicLink() async {
-  final dynamicLinks = FirebaseDynamicLinks.instance;
-
-  final parameters = DynamicLinkParameters(
-    uriPrefix: 'https://yourdomain.page.link',
-    link: Uri.parse('https://yourdomain.com/?id=123'),
-    androidParameters: const AndroidParameters(
-      packageName: 'com.your.package',
-    ),
-    iosParameters: const IOSParameters(
-      bundleId: 'com.your.bundle',
-    ),
-  );
-
-  final shortLink = await dynamicLinks.buildShortLink(parameters);
-  return shortLink.shortUrl.toString();
-}
+// Future<String> createDynamicLink() async {
+//   final dynamicLinks = FirebaseDynamicLinks.instance;
+//
+//   final parameters = DynamicLinkParameters(
+//     uriPrefix: 'https://yourdomain.page.link',
+//     link: Uri.parse('https://yourdomain.com/?id=123'),
+//     androidParameters: const AndroidParameters(
+//       packageName: 'com.your.package',
+//     ),
+//     iosParameters: const IOSParameters(
+//       bundleId: 'com.your.bundle',
+//     ),
+//   );
+//
+//   final shortLink = await dynamicLinks.buildShortLink(parameters);
+//   return shortLink.shortUrl.toString();
+// }
 
 
 Widget listItem( int  index ,IconData icon, String label, Color color,onTop) {

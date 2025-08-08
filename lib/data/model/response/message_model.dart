@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:abaad/data/model/response/conversation_model.dart';
+import 'package:abaad_flutter/data/model/response/conversation_model.dart';
 class MessageModel {
   int totalSize = 0;
   int limit = 0;

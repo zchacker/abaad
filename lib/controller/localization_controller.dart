@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:abaad/data/api/api_client.dart';
-import 'package:abaad/data/model/response/address_model.dart';
-import 'package:abaad/data/model/response/language_model.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/app_constants.dart';
+import 'package:abaad_flutter/data/api/api_client.dart';
+import 'package:abaad_flutter/data/model/response/address_model.dart';
+import 'package:abaad_flutter/data/model/response/language_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

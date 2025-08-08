@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/estate_controller.dart';
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/data/model/response/response_model.dart';
-import 'package:abaad/data/model/response/userinfo_model.dart';
-import 'package:abaad/data/repository/user_repo.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/data/model/response/response_model.dart';
+import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
+import 'package:abaad_flutter/data/repository/user_repo.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -23,13 +23,14 @@ class UserController extends GetxController implements GetxService {
   UserInfoModel? _userInfoModel;
   UserInfoModel? _agentInfoModel;
   XFile? _pickedFile;
+  XFile? get pickedFile => _pickedFile;
   bool _isLoading = false;
   EstateModel? _estateModel;
   final String _estateType = 'all';
 
   UserInfoModel? get userInfoModel => _userInfoModel;
   UserInfoModel? get agentInfoModel => _agentInfoModel;
-  XFile? get pickedFile => _pickedFile;
+
   bool get isLoading => _isLoading;
   EstateModel? get estateModel => _estateModel;
   String get estateType => _estateType;
@@ -43,15 +44,15 @@ class UserController extends GetxController implements GetxService {
   Future<ResponseModel> getUserInfo() async {
     _pickedFile = null;
     ResponseModel responseModel;
-    Response? response = await userRepo?.getUserInfo();
+    Response? response = await userRepo.getUserInfo();
    //print("user respone =====================>${response?.body}");
-    if (response?.statusCode == 200) {
-      _userInfoModel = UserInfoModel.fromJson(response?.body);
+    if (response.statusCode == 200) {
+      _userInfoModel = UserInfoModel.fromJson(response.body);
       //print('---------------------------body${response?.body}');
       responseModel = ResponseModel(true, 'successful');
     } else {
-      responseModel = ResponseModel(false, response!.statusText);
-      ApiChecker.checkApi(response, showToaster: true);
+      responseModel = ResponseModel(false, response.statusText.toString());
+  //    ApiChecker.checkApi(response, showToaster: true);
     }
     update();
     return responseModel;
@@ -71,8 +72,8 @@ class UserController extends GetxController implements GetxService {
       _agentInfoModel = UserInfoModel.fromJson(response?.body);
       responseModel = ResponseModel(true, 'successful');
     } else {
-      responseModel = ResponseModel(false, response!.statusText);
-      ApiChecker.checkApi(response, showToaster: true);
+      responseModel = ResponseModel(false, response!.statusText.toString());
+     // ApiChecker.checkApi(response, showToaster: true);
     }
     update();
     return responseModel;
@@ -96,28 +97,79 @@ class UserController extends GetxController implements GetxService {
     update();
     return _responseModel;
   }*/
+  //
+  // Future<ResponseModel> updateUserInfo(UserInfoModel updateUserModel, String token) async {
+  //   _isLoading = true;
+  //   update();
+  //   ResponseModel responseModel;
+  //   Response? response = await userRepo.updateProfile(updateUserModel, _pickedFile!, token);
+  //   _isLoading = false;
+  //   if (response.statusCode == 200) {
+  //     _userInfoModel = updateUserModel;
+  //     responseModel = ResponseModel(true, response.bodyString!);
+  //     _pickedFile = null;
+  //     getUserInfo();
+  //     //print(response.bodyString);
+  //   } else {
+  //     responseModel = ResponseModel(false, response.statusText!);
+  //     //print(response.statusText);
+  //   }
+  //   update();
+  //   return responseModel;
+  // }
+
+
+  // Future<ResponseModel> updateUserInfo(UserInfoModel updateUserModel, String token) async {
+  //   _isLoading = true;
+  //   update();
+  //   ResponseModel responseModel;
+  //
+  //   // تمرير الصورة فقط إذا كانت موجودة، وإلا null
+  //   Response? response = await userRepo.updateProfile(updateUserModel, _pickedFile!, token);
+  //
+  //   _isLoading = false;
+  //   if (response.statusCode == 200) {
+  //     _userInfoModel = updateUserModel;
+  //     responseModel = ResponseModel(true, response.bodyString!);
+  //     _pickedFile = null;
+  //     getUserInfo();
+  //   } else {
+  //     responseModel = ResponseModel(false, response.statusText!);
+  //   }
+  //
+  //   update();
+  //   return responseModel;
+  // }
+
 
   Future<ResponseModel> updateUserInfo(UserInfoModel updateUserModel, String token) async {
     _isLoading = true;
     update();
+
     ResponseModel responseModel;
-    Response? response = await userRepo?.updateProfile(updateUserModel, _pickedFile!, token);
+
+    // استدعاء الدالة بناءً على وجود صورة أو لا
+    Response? response;
+    if (_pickedFile != null) {
+      response = await userRepo.updateProfile(updateUserModel, _pickedFile, token);
+    } else {
+      response = await userRepo.updateProfile(updateUserModel, null, token);
+    }
+
     _isLoading = false;
-    if (response?.statusCode == 200) {
+
+    if (response.statusCode == 200) {
       _userInfoModel = updateUserModel;
-      responseModel = ResponseModel(true, response!.bodyString ?? "");
+      responseModel = ResponseModel(true, response.bodyString!);
       _pickedFile = null;
       getUserInfo();
-      //print(response.bodyString);
     } else {
-      responseModel = ResponseModel(false, response!.statusText ?? "");
-      //print(response.statusText);
+      responseModel = ResponseModel(false, response.statusText!);
     }
+
     update();
     return responseModel;
   }
-
-
 
   void pickImage() async {
     _pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -153,7 +205,7 @@ class UserController extends GetxController implements GetxService {
   @override
   void onInit() async {
     super.onInit();
-    getLocation();
+    //getLocation();
   }
 
 
@@ -162,47 +214,47 @@ class UserController extends GetxController implements GetxService {
     streamSubscription?.cancel();
   }
 
-  getLocation() async {
-    bool serviceEnabled;
-
-    LocationPermission permission;
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
-      await Geolocator.openLocationSettings();
-      return Future.error('Location services are disabled.');
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    streamSubscription =
-        Geolocator.getPositionStream().listen((Position position) {
-          latitude.value = '${position.latitude}';
-          longitude.value = '${position.longitude}';
-          //print("addressssssssssss");
-          // getAddressFromLatLang(position);
-        });
-    //print("addressssssssssss");
-  }
+  // getLocation() async {
+  //   bool serviceEnabled;
+  //
+  //   LocationPermission permission;
+  //   // Test if location services are enabled.
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     // Location services are not enabled don't continue
+  //     // accessing the position and request users of the
+  //     // App to enable the location services.
+  //     await Geolocator.openLocationSettings();
+  //     return Future.error('Location services are disabled.');
+  //   }
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       // Permissions are denied, next time you could try
+  //       // requesting permissions again (this is also where
+  //       // Android's shouldShowRequestPermissionRationale
+  //       // returned true. According to Android guidelines
+  //       // your App should show an explanatory UI now.
+  //       return Future.error('Location permissions are denied');
+  //     }
+  //   }
+  //   if (permission == LocationPermission.deniedForever) {
+  //     // Permissions are denied forever, handle appropriately.
+  //     return Future.error(
+  //         'Location permissions are permanently denied, we cannot request permissions.');
+  //   }
+  //   // When we reach here, permissions are granted and we can
+  //   // continue accessing the position of the device.
+  //   streamSubscription =
+  //       Geolocator.getPositionStream().listen((Position position) {
+  //         latitude.value = '${position.latitude}';
+  //         longitude.value = '${position.longitude}';
+  //         //print("addressssssssssss");
+  //         // getAddressFromLatLang(position);
+  //       });
+  //   //print("addressssssssssss");
+  // }
 
   // Future<void> getAddressFromLatLang(Position position) async {
   //   List<Placemark> placemark =

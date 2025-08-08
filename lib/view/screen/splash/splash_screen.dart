@@ -1,19 +1,19 @@
 import 'dart:async';
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/estate_controller.dart';
-import 'package:abaad/controller/location_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/data/model/body/notification_body.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/app_constants.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/no_internet_screen.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
+import 'package:abaad_flutter/controller/location_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/data/model/body/notification_body.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/no_internet_screen.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -109,7 +109,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Get.find<SplashController>().getConfigData().then((isSuccess) {
       if(isSuccess) {
         Timer(Duration(seconds: 1), () async {
-          initDynamicLinks();
+       //   initDynamicLinks();
           double _minimumVersion = 2.0;
           if(GetPlatform.isAndroid) {
             //   _minimumVersion = Get.find<SplashController>().configModel.appMinimumVersionAndroid;
@@ -129,7 +129,7 @@ class _SplashScreenState extends State<SplashScreen> {
               }
             }else {
               if (Get.find<AuthController>().isLoggedIn()) {
-                Get.find<AuthController>().updateToken();
+                //Get.find<AuthController>().updateToken();
                 //   await Get.find<WishListController>().getWishList();
                 if (Get.find<LocationController>().getUserAddress() != null) {
                   Get.offNamed(RouteHelper.getInitialRoute());
@@ -158,7 +158,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   open_app(){
     if (Get.find<AuthController>().isLoggedIn()) {
-      Get.find<AuthController>().updateToken();
+      //Get.find<AuthController>().updateToken();
       //   await Get.find<WishListController>().getWishList();
       if (Get.find<LocationController>().getUserAddress() != null) {
         Get.offNamed(RouteHelper.getInitialRoute());
@@ -255,15 +255,15 @@ class _SplashScreenState extends State<SplashScreen> {
   //   );
   // }
 
-  void initDynamicLinks() {
-    FirebaseDynamicLinks.instance.onLink
-        .listen((PendingDynamicLinkData dynamicLink) {
-      final Uri deepLink = dynamicLink.link;
-      handleMyLink(deepLink);
-    }).onError((error) {
-      //print('We got error $error');
-    });
-  }
+  // void initDynamicLinks() {
+  //   FirebaseDynamicLinks.instance.onLink
+  //       .listen((PendingDynamicLinkData dynamicLink) {
+  //     final Uri deepLink = dynamicLink.link;
+  //     handleMyLink(deepLink);
+  //   }).onError((error) {
+  //     //print('We got error $error');
+  //   });
+  // }
 
   void handleMyLink(Uri url) {
     List<String> sepeatedLink = [];

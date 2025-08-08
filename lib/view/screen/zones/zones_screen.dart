@@ -1,17 +1,17 @@
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/banner_controller.dart';
-import 'package:abaad/controller/category_controller.dart';
-import 'package:abaad/controller/localization_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/data/model/response/config_model.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/app_constants.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/screen/home/home_screen.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/banner_controller.dart';
+import 'package:abaad_flutter/controller/category_controller.dart';
+import 'package:abaad_flutter/controller/localization_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/data/model/response/config_model.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/screen/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:barcode_scan2/barcode_scan2.dart';
+// import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widet/banner_view.dart';
 
@@ -84,24 +84,24 @@ class _ZonesScreenState extends State<ZonesScreen> {
   String result = "Scan a QR Code"; // Initialize with a default message
   bool isFlashOn = false;
 
-  Future<void> scanQRCode() async {
-    try {
-      final ScanResult scanResult = await BarcodeScanner.scan(
-        options: ScanOptions(
-          useCamera: -1, // Use the back camera by default
-          autoEnableFlash: isFlashOn,
-        ),
-      );
-      setState(() {
-        result = scanResult.rawContent;
-        Get.toNamed(RouteHelper.getDetailsRoute( 162));
-      });
-    } catch (e) {
-      setState(() {
-        result = "Error: $e";
-      });
-    }
-  }
+  // Future<void> scanQRCode() async {
+  //   try {
+  //     final ScanResult scanResult = await BarcodeScanner.scan(
+  //       options: ScanOptions(
+  //         useCamera: -1, // Use the back camera by default
+  //         autoEnableFlash: isFlashOn,
+  //       ),
+  //     );
+  //     setState(() {
+  //       result = scanResult.rawContent;
+  //       Get.toNamed(RouteHelper.getDetailsRoute( 162));
+  //     });
+  //   } catch (e) {
+  //     setState(() {
+  //       result = "Error: $e";
+  //     });
+  //   }
+  // }
 
   void toggleFlash() {
     setState(() {
@@ -231,7 +231,7 @@ class _ZonesScreenState extends State<ZonesScreen> {
         ),
         Center(
         child: Text(
-        zone!.nameAr,
+        zone!.nameAr??"",
         style: const TextStyle(
         color: Colors.white,
         fontSize: 18,

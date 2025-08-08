@@ -1,5 +1,5 @@
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';

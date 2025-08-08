@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/controller/user_controller.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/confirmation_dialog.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/screen/dashboard/dashboard_screen.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/controller/user_controller.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/confirmation_dialog.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/screen/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
@@ -123,7 +123,9 @@ class DrawerMenu extends StatelessWidget {
                     // Get.find<WishListController>().removeWishes();
                     Get.offAllNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
                   }), useSafeArea: false);
-                }else {
+                }
+                else {
+                  Get.find<AuthController>().clearSharedData();
                   //   Get.find<WishListController>().removeWishes();
                   Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
                 }

@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:abaad/controller/auth_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/images.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_app_bar.dart';
-import 'package:abaad/view/base/custom_button.dart';
-import 'package:abaad/view/base/custom_dialog.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/controller/auth_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/images.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_app_bar.dart';
+import 'package:abaad_flutter/view/base/custom_button.dart';
+import 'package:abaad_flutter/view/base/custom_dialog.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -34,6 +34,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   @override
   void initState() {
     super.initState();
+   print("-------------------phone");
 
     _number = widget.number.startsWith('+') ? widget.number : '+${widget.number.substring(1, widget.number.length)}';
     _startTimer();
@@ -164,7 +165,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         ), dismissible: false);
                         Future.delayed(Duration(seconds: 2), () {
                        Get.offNamed(RouteHelper.getAccessLocationRoute('verification'));
-                          // Get.offNamed(RouteHelper.getInitialRoute());
+                          //Get.offNamed(RouteHelper.getInitialRoute());
                         });
                       }else {
                         showCustomSnackBar(value.message);

@@ -1,6 +1,6 @@
 // import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
 
-import 'package:abaad/data/model/response/service_provider.dart';
+import 'package:abaad_flutter/data/model/response/service_provider.dart';
 class BasicCampaignModel {
   int? id = 0;
   String? title = "";

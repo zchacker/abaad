@@ -1,5 +1,5 @@
-import 'package:abaad/helper/route_helper.dart';
-import 'package:barcode_scan2/barcode_scan2.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+// import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
@@ -16,24 +16,24 @@ class _QRCodeScannerWidgetState extends State<QRCodeScannerWidget> {
   String result = "Scan a QR Code"; // Initialize with a default message
   bool isFlashOn = false;
 
-  Future<void> scanQRCode() async {
-    try {
-      final ScanResult scanResult = await BarcodeScanner.scan(
-        options: ScanOptions(
-          useCamera: -1, // Use the back camera by default
-          autoEnableFlash: isFlashOn,
-        ),
-      );
-      setState(() {
-        result = scanResult.rawContent;
-        Get.toNamed(RouteHelper.getDetailsRoute( 162));
-      });
-    } catch (e) {
-      setState(() {
-        result = "Error: $e";
-      });
-    }
-  }
+  // Future<void> scanQRCode() async {
+  //   try {
+  //     final ScanResult scanResult = await BarcodeScanner.scan(
+  //       options: ScanOptions(
+  //         useCamera: -1, // Use the back camera by default
+  //         autoEnableFlash: isFlashOn,
+  //       ),
+  //     );
+  //     setState(() {
+  //       result = scanResult.rawContent;
+  //       Get.toNamed(RouteHelper.getDetailsRoute( 162));
+  //     });
+  //   } catch (e) {
+  //     setState(() {
+  //       result = "Error: $e";
+  //     });
+  //   }
+  // }
 
   void toggleFlash() {
     setState(() {
@@ -60,7 +60,8 @@ class _QRCodeScannerWidgetState extends State<QRCodeScannerWidget> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: scanQRCode,
+
+                   onPressed: (){},
                   child: Text('Scan QR Code'),
                 ),
               ],

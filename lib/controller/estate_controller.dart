@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:abaad/controller/category_controller.dart';
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/api/api_client.dart';
-import 'package:abaad/data/model/body/estate_body.dart';
-import 'package:abaad/data/model/response/category_model.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/data/repository/estate_repo.dart';
-import 'package:abaad/helper/route_helper.dart';
-import 'package:abaad/util/app_constants.dart';
-import 'package:abaad/view/base/custom_snackbar.dart';
+import 'package:abaad_flutter/controller/category_controller.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/api/api_client.dart';
+import 'package:abaad_flutter/data/model/body/estate_body.dart';
+import 'package:abaad_flutter/data/model/response/category_model.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/data/repository/estate_repo.dart';
+import 'package:abaad_flutter/helper/route_helper.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -232,9 +232,32 @@ class EstateController extends GetxController implements GetxService {
     update();
   }
 
-  Future<EstateModel?> getEstateDetails(Estate estate) async {
-    _estate = estate;
-      return _estateModel;
+  // Future<EstateModel?> getEstateDetails(Estate estate) async {
+  //   _estate = estate;
+  //
+  //   //print("--------------------${_estateModel!.estates!.length}");
+  //     return _estateModel;
+  // }
+
+
+
+  Future<EstateModel> getEstateDetails(Estate estate) async {
+    if (estate.shortDescription != null) {
+      _estate = estate;
+    } else {
+      _isLoading = true;
+      _estate = null;
+      Response response = await estateRepo.getEstateDetails(estate.id.toString());
+      if (response.statusCode == 200) {
+        _estate = Estate.fromJson(response.body);
+      } else {
+        // ApiChecker.checkApi(response);
+        ApiChecker.checkApi(response, showToaster: true);
+      }
+      _isLoading = false;
+      update();
+    }
+    return _estateModel!;
   }
 
 
@@ -340,19 +363,19 @@ class EstateController extends GetxController implements GetxService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _isLoading = true;
     update();
-    List<MultipartBody> multiParts = [];
-    multiParts.add(MultipartBody('image', _pickedImage!));
-    for (XFile file in _pickedIdentities) {
-      multiParts.add(MultipartBody('identity_image[]', file));
-    }
-
-    multiParts.add(MultipartBody('image', _pickedPlanedImage!));
-    for (XFile file in _pickPlaned) {
-      multiParts.add(MultipartBody('planed_image[]', file));
-    }
+    // List<MultipartBody> multiParts = [];
+    // multiParts.add(MultipartBody('image', _pickedImage!));
+    // for (XFile file in _pickedIdentities) {
+    //   multiParts.add(MultipartBody('identity_image[]', file));
+    // }
+    //
+    // multiParts.add(MultipartBody('image', _pickedPlanedImage!));
+    // for (XFile file in _pickPlaned) {
+    //   multiParts.add(MultipartBody('planed_image[]', file));
+    // }
 
     Response response = await estateRepo.addEstate(
-        estateBody,multiParts);
+        estateBody);
   prefs.setString('estate_id', response.body["estate_id"].toString());
     _pickPlaned.clear();
     if (response.statusCode == 200) {
@@ -549,62 +572,101 @@ class EstateController extends GetxController implements GetxService {
   }
 
 
+  // Future<bool> verifyLicense(String licenseNumber, String advertiserNumber, int type) async {
+  //   try {
+  //     final response = await estateRepo.verifyLicense(licenseNumber, advertiserNumber, type);
+  //
+  //     if (response.statusCode == 200) {
+  //       //print("📦 Raw API response body:");
+  //       ////print(jsonEncode(response.body)); // هذا يطبع كل شيء كـ JSON
+  //
+  //       if (response.body['success'] == true) {
+  //         // طباعة البيانات المتداخلة بشكل منسق
+  //         //print("✅ Success: License verified");
+  //
+  //         // طباعة كل المفاتيح مع القيم
+  //         //print("🔍 Full parsed response:");
+  //         Map<String, dynamic> fullResponse = response.body;
+  //         fullResponse.forEach((key, value) {
+  //           //print("------------------------------------------------------------------------------------------$key: ${jsonEncode(value)}");
+  //         });
+  //
+  //         licenseData = response.body['data'];
+  //         var licenseBorders = response.body['data2'];
+  //
+  //         SharedPreferences prefs = await SharedPreferences.getInstance();
+  //
+  //         // تخزين البيانات
+  //         String licenseJson = jsonEncode(licenseData);
+  //         await prefs.setString('license_data', licenseJson);
+  //
+  //         String data2Json = jsonEncode(response.body['data2']);
+  //         await prefs.setString('license_data2', data2Json);
+  //
+  //         String bordersJson = jsonEncode(licenseBorders);
+  //         await prefs.setString('license_borders', bordersJson);
+  //
+  //         // يمكنك أيضًا تخزين data3 إذا أردت:
+  //         String data3Json = jsonEncode(response.body['data3']);
+  //         await prefs.setString('license_data3', data3Json);
+  //
+  //         ////print('✅ Stored data2: $data2Json');
+  //         ////print('✅ Stored data3: $data3Json');
+  //
+  //         return true;
+  //       } else {
+  //         ////print('❌ Error: ${response.body['message']}');
+  //         return false;
+  //       }
+  //     } else {
+  //       ////print('❌ API error: ${response.statusCode} - ${response.statusText}');
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     //print('⚠️ Exception: $e');
+  //     return false;
+  //   }
+  // }
+  String licenseVerificationMessage = '';
   Future<bool> verifyLicense(String licenseNumber, String advertiserNumber, int type) async {
     try {
       final response = await estateRepo.verifyLicense(licenseNumber, advertiserNumber, type);
 
       if (response.statusCode == 200) {
-        //print("📦 Raw API response body:");
-        ////print(jsonEncode(response.body)); // هذا يطبع كل شيء كـ JSON
-
         if (response.body['success'] == true) {
-          // طباعة البيانات المتداخلة بشكل منسق
-          //print("✅ Success: License verified");
-
-          // طباعة كل المفاتيح مع القيم
-          //print("🔍 Full parsed response:");
           Map<String, dynamic> fullResponse = response.body;
-          fullResponse.forEach((key, value) {
-            //print("------------------------------------------------------------------------------------------$key: ${jsonEncode(value)}");
-          });
 
           licenseData = response.body['data'];
           var licenseBorders = response.body['data2'];
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
 
-          // تخزين البيانات
-          String licenseJson = jsonEncode(licenseData);
-          await prefs.setString('license_data', licenseJson);
+          await prefs.setString('license_data', jsonEncode(licenseData));
+          await prefs.setString('license_data2', jsonEncode(response.body['data2']));
+          await prefs.setString('license_borders', jsonEncode(licenseBorders));
+          await prefs.setString('license_data3', jsonEncode(response.body['data3']));
 
-          String data2Json = jsonEncode(response.body['data2']);
-          await prefs.setString('license_data2', data2Json);
-
-          String bordersJson = jsonEncode(licenseBorders);
-          await prefs.setString('license_borders', bordersJson);
-
-          // يمكنك أيضًا تخزين data3 إذا أردت:
-          String data3Json = jsonEncode(response.body['data3']);
-          await prefs.setString('license_data3', data3Json);
-
-          ////print('✅ Stored data2: $data2Json');
-          ////print('✅ Stored data3: $data3Json');
+          licenseVerificationMessage = response.body['message'] ?? 'تم التحقق من الترخيص بنجاح';
 
           return true;
-        } else {
-          ////print('❌ Error: ${response.body['message']}');
+        }
+        else if (response.statusCode == 409) {
+          // 💥 إعلان مكرر
+          licenseVerificationMessage = response.body['message'] ?? 'الإعلان موجود مسبقاً';
+          return false;
+        }else {
+          licenseVerificationMessage = response.body['message'] ?? 'رقم الترخيص غير صالح';
           return false;
         }
       } else {
-        ////print('❌ API error: ${response.statusCode} - ${response.statusText}');
+        licenseVerificationMessage = '  ${response.body['message']}';
         return false;
       }
     } catch (e) {
-      //print('⚠️ Exception: $e');
+      licenseVerificationMessage = 'حدث خطأ أثناء التحقق: $e';
       return false;
     }
   }
-
 
 
 

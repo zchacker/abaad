@@ -1,9 +1,9 @@
-import 'package:abaad/data/api/api_checker.dart';
-import 'package:abaad/data/model/response/city_model.dart';
-import 'package:abaad/data/model/response/district_model.dart';
-import 'package:abaad/data/model/response/land_service.dart';
-import 'package:abaad/data/model/response/region_model.dart';
-import 'package:abaad/data/repository/zone_repo.dart';
+import 'package:abaad_flutter/data/api/api_checker.dart';
+import 'package:abaad_flutter/data/model/response/city_model.dart';
+import 'package:abaad_flutter/data/model/response/district_model.dart';
+import 'package:abaad_flutter/data/model/response/land_service.dart';
+import 'package:abaad_flutter/data/model/response/region_model.dart';
+import 'package:abaad_flutter/data/repository/zone_repo.dart';
 import 'package:get/get.dart';
 
 class ZoneController extends GetxController implements GetxService {
@@ -110,7 +110,7 @@ class ZoneController extends GetxController implements GetxService {
         ApiChecker.checkApi(response, showToaster: true);
       }
     }
-    update();
+  //  update();
   }
 
 

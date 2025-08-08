@@ -1,9 +1,9 @@
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/custom_image.dart';
-import 'package:abaad/view/screen/map/widget/service_offer.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/screen/map/widget/service_offer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,7 +46,7 @@ class ServiceProviderItem extends StatelessWidget {
         itemBuilder: (context, index) {
           return
             Container(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only(right: 4,bottom: 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(3),
                 color: Colors.white,
@@ -83,7 +83,7 @@ class ServiceProviderItem extends StatelessWidget {
                         },
                         ),
                       ),
-                      const SizedBox(width: 4.0),
+                      const SizedBox(width: 3.0),
                       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
 

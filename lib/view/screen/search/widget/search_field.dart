@@ -1,5 +1,5 @@
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
 import 'package:flutter/material.dart';
 
 class SearchField extends StatefulWidget {
@@ -32,8 +32,7 @@ class _SearchFieldState extends State<SearchField> {
           icon: Icon(widget.suffixIcon),
         ),
       ),
-      onSubmitted: widget.onSubmit as ValueChanged<String>,
-      onChanged: widget.onChanged as ValueChanged<String>,
+
     );
   }
 }

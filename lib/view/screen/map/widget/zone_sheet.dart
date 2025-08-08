@@ -1,6 +1,6 @@
-import 'package:abaad/controller/estate_controller.dart';
-import 'package:abaad/controller/splash_controller.dart';
-import 'package:abaad/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/controller/estate_controller.dart';
+import 'package:abaad_flutter/controller/splash_controller.dart';
+import 'package:abaad_flutter/data/model/response/estate_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

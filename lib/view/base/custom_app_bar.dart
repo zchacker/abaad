@@ -1,6 +1,6 @@
-import 'package:abaad/util/dimensions.dart';
-import 'package:abaad/util/styles.dart';
-import 'package:abaad/view/base/notifi_widget.dart';
+import 'package:abaad_flutter/util/dimensions.dart';
+import 'package:abaad_flutter/util/styles.dart';
+import 'package:abaad_flutter/view/base/notifi_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -82,6 +82,8 @@ class _MapViewScreenState extends State<MapScreen> {
 
   var tappedPoint;
 
+   Estate? estate;
+
 
 
   // final GlobalKey _floatingButtonKey = GlobalKey();
@@ -118,8 +120,10 @@ class _MapViewScreenState extends State<MapScreen> {
   int selectedIndex = 0;
 
 
-  late Estate estate;
+
+
   void _setCircle(LatLng point) async {
+
 
 
     _controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -218,6 +222,7 @@ class _MapViewScreenState extends State<MapScreen> {
   final cardKey = GlobalKey<FlipCardState>();
   @override
   Widget build(BuildContext context) {
+
     final currentLocale = Get.locale;
     bool isArabic = currentLocale?.languageCode == 'ar';
     bool isNull = true;
@@ -684,7 +689,7 @@ class _MapViewScreenState extends State<MapScreen> {
                                   borderRadius: BorderRadius.circular(8.0)),
                               child:Column(
                                 children: [
-                                  ServiceProviderItem(estate:estate),
+                                  ServiceProviderItem(estate:estate!),
                                 ],
                               )
 
@@ -1148,7 +1153,7 @@ class _MapViewScreenState extends State<MapScreen> {
                                   borderRadius: BorderRadius.circular(8.0)),
                               child:Column(
                                 children: [
-                                  ServiceProviderItem(estate:estate),
+                                  ServiceProviderItem(estate:estate!),
                                 ],
                               )
 

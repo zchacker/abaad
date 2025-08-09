@@ -111,7 +111,7 @@ class AuthController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       if(!(Get.find<SplashController>().configModel!.customerVerification ?? false)) {
         authRepo.saveUserToken(response.body["token"]);
-        await authRepo.updateToken();
+       // await authRepo.updateToken();
       }
       responseModel = ResponseModel(true, response.body["token"]);
     } else {
@@ -174,9 +174,9 @@ class AuthController extends GetxController implements GetxService {
 
 
 
-  Future<void> updateToken() async {
-    await authRepo.updateToken();
-  }
+  // Future<void> updateToken() async {
+  //   await authRepo.updateToken();
+  // }
 
   Future<ResponseModel> verifyToken(String email) async {
     _isLoading = true;

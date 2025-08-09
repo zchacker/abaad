@@ -362,12 +362,12 @@ class ApiClient extends GetxService {
     Response response0 = Response(
       body: body ?? response.body, bodyString: response.body.toString(),
       request: Request(headers: response.request!.headers, method: response.request!.method, url: response.request!.url),
-      headers: response.headers, statusCode: response.statusCode, statusText: response.reasonPhrase.toString(),
+      headers: response.headers, statusCode: response.statusCode, statusText: response.reasonPhrase,
     );
     if(response0.statusCode != 200 && response0.body != null && response0.body is !String) {
       if(response0.body.toString().startsWith('{errors: [{code:')) {
         ErrorResponse errorResponse = ErrorResponse.fromJson(response0.body);
-        response0 = Response(statusCode: response0.statusCode, body: response0.body, statusText: errorResponse.errors![0].message.toString());
+        response0 = Response(statusCode: response0.statusCode, body: response0.body, statusText: errorResponse.errors![0].message);
       }else if(response0.body.toString().startsWith('{message')) {
         response0 = Response(statusCode: response0.statusCode, body: response0.body, statusText: response0.body['message']);
       }

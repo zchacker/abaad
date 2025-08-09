@@ -48,13 +48,18 @@ class DashboardScreen extends StatefulWidget {
   });
 
   static Future<void> loadData(bool reload) async {
-    Get.find<UserController>().getUserInfo();
+ //   Get.find<UserController>().getUserInfo();
     Get.find<AuthController>().getZoneList();
     Get.find<CategoryController>().getSubCategoryList("0");
     // Get.find<ZoneController>().getCategoryList();
 
     // Get.find<AuthController>().getZoneList();
     Get.find<BannerController>().getBannerList(true,1);
+
+
+    if(Get.find<AuthController>().isLoggedIn()) {
+      Get.find<UserController>().getUserInfo();
+    }
   }
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();

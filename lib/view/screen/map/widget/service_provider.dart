@@ -1,5 +1,6 @@
 import 'package:abaad_flutter/controller/splash_controller.dart';
 import 'package:abaad_flutter/data/model/response/estate_model.dart';
+import 'package:abaad_flutter/util/app_constants.dart';
 import 'package:abaad_flutter/util/dimensions.dart';
 import 'package:abaad_flutter/util/styles.dart';
 import 'package:abaad_flutter/view/base/custom_image.dart';
@@ -8,6 +9,8 @@ import 'package:abaad_flutter/view/screen/map/widget/service_offer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../util/images.dart';
 class ServiceProviderItem extends StatelessWidget {
   final Estate estate;
 
@@ -132,7 +135,7 @@ class ServiceProviderItem extends StatelessWidget {
                                 final phoneNumber = estate.serviceOffers![index].phoneProvider;
                                // //print("----------${phoneNumber}");// رقم الهاتف بدون "+" وبصيغة دولية
                                 final estateId = estate.id; // تأكد أن الـ ID موجود لديك
-                                final estateUrl = 'https://abaad.com/estate/$estateId';
+                                final estateUrl = '${AppConstants.BASE_URL}/estate/$estateId';
                                 final message = Uri.encodeComponent(
                                   "عرض داخل العقار مقدم من منصة أبعاد\n$estateUrl",
                                 );
@@ -151,7 +154,7 @@ class ServiceProviderItem extends StatelessWidget {
                                   color: Colors.green.shade700,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(Icons.whatshot_rounded, color: Colors.white, size: 12),
+                                child:      Image.asset(Images.whatsapp, height: 12, width: 12),
                               ),
                             ),
                             const SizedBox(width: 8),

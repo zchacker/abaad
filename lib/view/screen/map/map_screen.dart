@@ -639,7 +639,8 @@ class _MapViewScreenState extends State<MapScreen> {
                         ? Positioned(
                         top: 100.0,
                         left: 15.0,
-                        child:FlipCard(
+                        child: FlipCard(
+                          key: cardKey,
                           front: Container(
                             height: 180.0,
                             width: 175.0,
@@ -649,6 +650,37 @@ class _MapViewScreenState extends State<MapScreen> {
                                 BorderRadius.all(Radius.circular(8.0))),
                             child: SingleChildScrollView(
                               child: Column(children: [
+
+                                Positioned(
+                                  bottom: 5,
+                                  right: 5,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if(cardTapped==true){
+
+                                        cardTapped=false;
+                                      }else if(cardTapped==false){
+                                        cardTapped=true;
+                                      }
+
+                                      setState(() {
+
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      padding: const EdgeInsets.all(4),
+                                      child: const Icon(
+                                        Icons.close,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 Container(
                                   height: 100.0,
                                   width: 175.0,
@@ -694,6 +726,9 @@ class _MapViewScreenState extends State<MapScreen> {
                               )
 
                           ),
+                          autoFlipDuration: const Duration(seconds: 1),
+
+
                         ))
                         : Container(),
 

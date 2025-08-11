@@ -93,6 +93,7 @@ class Images {
 
   static const String background_gray = 'assets/image/background_gray.png';
   static const String video_place = 'assets/image/video-place.png';
+  static const String whatsapp = 'assets/image/whatsapp.png';
 
 
 

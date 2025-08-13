@@ -82,15 +82,13 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                                 ),
                                 alignment: Alignment.topRight,
                                 child: ClipOval(child: CustomImage(
-                                  image: '${Get.find<SplashController>().configModel!.baseUrls!.customerImageUrl}'
-                                      '/${(_isLoggedIn ?? false) ? userController.agentInfoModel!.image : ''}',
+                                  image: '${Get.find<SplashController>().configModel!.baseUrls!.customerImageUrl}''/${userController.agentInfoModel!.image }',
                                   height: 80, width: 80, fit: BoxFit.cover,
                                 )),
                               ),
                             ),
                             Positioned(
                               right: 0,
-                              bottom: 0,
                               child: Container(
                                 height: 22,
                                 width: 22,

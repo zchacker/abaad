@@ -45,7 +45,7 @@ class BannerView extends StatelessWidget {
 
                       print("------${bannerController.bannerImageList?[index]}");;
 
-                      showCustomSnackBar("${ bannerController.bannerImageList?.length}");
+                  //    showCustomSnackBar("${ bannerController.bannerImageList?.length}");
                     },
                     child: Container(
                       decoration: BoxDecoration(

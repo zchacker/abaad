@@ -690,8 +690,9 @@ class _MapViewScreenState extends State<MapScreen> {
                                         topRight: Radius.circular(8.0),
                                       ),
                                       image: DecorationImage(
-                                          image: NetworkImage('https://cdn.dribbble.com/users/234969/screenshots/5404808/medallion_burst_animation.gif'),
-                                          fit: BoxFit.cover)),
+                                        image: AssetImage(Images.offer),
+                                        fit: BoxFit.cover,
+                                      )),
                                 ),
                                 Container(
                                   padding:
@@ -1157,8 +1158,9 @@ class _MapViewScreenState extends State<MapScreen> {
                                         topRight: Radius.circular(8.0),
                                       ),
                                       image: DecorationImage(
-                                          image: NetworkImage('https://cdn.dribbble.com/users/234969/screenshots/5404808/medallion_burst_animation.gif'),
-                                          fit: BoxFit.cover)),
+                                        image: AssetImage(Images.offer),
+                                        fit: BoxFit.cover,
+                                      )),
                                 ),
                                 Container(
                                   padding:

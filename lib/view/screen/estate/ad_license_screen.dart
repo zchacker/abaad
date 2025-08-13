@@ -85,7 +85,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                                 _idNumberController, // تأكد من تعريف هذا المتغير
                             inputType: TextInputType.phone,
                             showBorder: true,
-                            isEnabled: true,
+                            isEnabled: false,
                           ),
 
                           SizedBox(height: 20),

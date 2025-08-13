@@ -94,10 +94,14 @@ class ServiceProviderItem extends StatelessWidget {
 
                         Container(
 
-                          child:  Text(
-                            estate.serviceOffers![index].title ?? "",
+                          child: Text(
+                            (estate.serviceOffers![index].title ?? "").length > 30
+                                ? (estate.serviceOffers![index].title ?? "").substring(0, 30) + "..."
+                                : (estate.serviceOffers![index].title ?? ""),
                             style: robotoBlack.copyWith(fontSize: 11),
                           ),
+
+
                         ),
                         Container(
 
@@ -135,7 +139,7 @@ class ServiceProviderItem extends StatelessWidget {
                                 final phoneNumber = estate.serviceOffers![index].phoneProvider;
                                // //print("----------${phoneNumber}");// رقم الهاتف بدون "+" وبصيغة دولية
                                 final estateId = estate.id; // تأكد أن الـ ID موجود لديك
-                                final estateUrl = '${AppConstants.BASE_URL}/estate/$estateId';
+                                final estateUrl = '${AppConstants.BASE_URL}/details/$estateId';
                                 final message = Uri.encodeComponent(
                                   "عرض داخل العقار مقدم من منصة أبعاد\n$estateUrl",
                                 );

@@ -124,7 +124,7 @@ class _OfferListState extends State<OfferList> {
                                                           final phoneNumber =  widget.estate?.serviceOffers?[index].phoneProvider;
                                                           // //print("----------${phoneNumber}");// رقم الهاتف بدون "+" وبصيغة دولية
                                                           final estateId = widget.estate?.id; // تأكد أن الـ ID موجود لديك
-                                                          final estateUrl = '${AppConstants.BASE_URL}/estate/$estateId';
+                                                          final estateUrl = '${AppConstants.BASE_URL}/details/$estateId';
                                                           final message = Uri.encodeComponent(
                                                             "عرض داخل العقار مقدم من منصة أبعاد\n$estateUrl",
                                                           );

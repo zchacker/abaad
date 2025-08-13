@@ -96,6 +96,13 @@ class Images {
   static const String whatsapp = 'assets/image/whatsapp.png';
 
 
+  static const String offer = 'assets/image/offer.png';
+
+
+
+
+
+
 
 
 

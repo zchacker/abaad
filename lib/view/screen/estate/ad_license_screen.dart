@@ -30,7 +30,11 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+
   }
+
+  String? oldIdNumber; // متغير مؤقت لحفظ هوية الفرد
 
   final TextEditingController _idNumberController = TextEditingController();
 
@@ -45,12 +49,23 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                 width: Dimensions.WEB_MAX_WIDTH,
                 child: GetBuilder<AuthController>(builder: (authController) {
                   return GetBuilder<UserController>(builder: (userController) {
-                    if (_idNumberController.text.isEmpty) {
-                      _idNumberController.text =
-                          userController.userInfoModel?.agent!.identity ?? '';
-                    }
+
                     return GetBuilder<EstateController>(
                         builder: (estateController) {
+                          // _idNumberController.text = userController.userInfoModel
+                          //        ?.agent!.identity ?? '';
+
+                          // print("-------------------------${_idNumberController.text = userController.userInfoModel
+                          //     ?.unified_number?? ''}");
+                          if (_idNumberController.text.isEmpty) {
+                            if( estateController.advertiserType == 1) {
+                              _idNumberController.text = userController.userInfoModel
+                                  ?.agent!.identity ?? '';
+                            }else if(estateController.advertiserType == 2){
+                              _idNumberController.text = userController.userInfoModel
+                                  ?.unified_number?? '';
+                            }
+                          }
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -70,23 +85,43 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                             controller: _numberLicenseController,
                             inputType: TextInputType.phone,
                             showBorder: true,
-                            isEnabled: true,
+                            isEnabled: estateController.advertiserType == 2, // مفعّل فقط إذا منشأة
                           ),
 
                           SizedBox(height: 20),
+
                           Text(
-                            'هوية المعلن',
+                            estateController.advertiserType == 2
+                                ? 'الرقم الموحد للمنشأة'
+                                : 'هوية المعلن',
                             style: robotoRegular.copyWith(
-                                fontSize: Dimensions.fontSizeSmall),
+                              fontSize: Dimensions.fontSizeSmall,
+                            ),
                           ),
+
                           MyTextField(
-                            hintText: 'ادخل رقم المعلن',
-                            controller:
-                                _idNumberController, // تأكد من تعريف هذا المتغير
+                            hintText: estateController.advertiserType == 2
+                                ? 'ادخل الرقم الموحد للمنشأة'
+                                : 'ادخل هوية المعلن',
+                            controller: _idNumberController,
                             inputType: TextInputType.phone,
                             showBorder: true,
-                            isEnabled: false,
+                            isEnabled: false, // مفعّل فقط إذا منشأة
                           ),
+
+                          // Text(
+                          //   'هوية المعلن',
+                          //   style: robotoRegular.copyWith(
+                          //       fontSize: Dimensions.fontSizeSmall),
+                          // ),
+                          // MyTextField(
+                          //   hintText: 'ادخل  هوية المعلن',
+                          //   controller:
+                          //       _idNumberController, // تأكد من تعريف هذا المتغير
+                          //   inputType: TextInputType.phone,
+                          //   showBorder: true,
+                          //   isEnabled: false,
+                          // ),
 
                           SizedBox(height: 20),
                           // دروب داون لست لخياري "منشأة" و"فرد"
@@ -114,8 +149,25 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                               ),
                             ],
                             onChanged: (value) {
-                              estateController.setAdvertiserType(
-                                  value!); // تحديث القيمة بناءً على الاختيار
+
+    if (value == "منشأة") {
+    // منشأة → امسح الحقل وافتحه
+    oldIdNumber = _idNumberController.text;
+    print("vaule------منساه");
+    _idNumberController.text = userController.userInfoModel
+        ?.unified_number?? '';
+    //_idNumberController.clear();
+    } else if (value == "فرد") {
+      // فرد → رجّع النص القديم واقفله
+      if (oldIdNumber != null) {
+        print("vaule------فرد");
+        _idNumberController.text =  userController.userInfoModel
+                ?.agent!.identity ?? '';
+      }
+    }
+    // تحديث الواجهة
+    setState(() {});
+    estateController.setAdvertiserType(value!); // تحديث القيمة بناءً على الاختيار
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),

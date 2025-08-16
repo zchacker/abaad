@@ -328,51 +328,13 @@ class EstateController extends GetxController implements GetxService {
 
 
 
-  // Future<void> addEstate(EstateBody estateBody, List<MultipartDocument> additionalDocument) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   _isLoading = true;
-  //   update();
-  //   List<MultipartBody> _multiParts = [];
-  //   _multiParts.add(MultipartBody('image', _pickedImage));
-  //   for (XFile file in _pickedIdentities) {
-  //     _multiParts.add(MultipartBody('identity_image[]', file));
-  //   }
-  //
-  //   _multiParts.add(MultipartBody('image', _pickedPlanedImage));
-  //   for (XFile file in _pickPlaned) {
-  //     _multiParts.add(MultipartBody('planed_image[]', file));
-  //   }
-  //   Response response = await estateRepo.createEstate(
-  //       estateBody, _multiParts,additionalDocument );
-  // //  prefs.setString('estate_id', response.body["message"].toString());
-  //
-  //   if (response.statusCode == 200) {
-  //     _isLoading=false;
-  //
-  //     Get.offNamed(RouteHelper.getPaymentRoute(161));
-  //     //   Get.offAllNamed(RouteHelper.getSuccess());
-  //   } else {
-  //     ApiChecker.checkApi(response, showToaster: true);
-  //     //print("error estate---------------------------------------------------${response.body}");
-  //   }
-  //   _isLoading = false;
-  //   update();
-  // }
+
 
   Future<void> addEstate(EstateBody estateBody) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _isLoading = true;
     update();
-    // List<MultipartBody> multiParts = [];
-    // multiParts.add(MultipartBody('image', _pickedImage!));
-    // for (XFile file in _pickedIdentities) {
-    //   multiParts.add(MultipartBody('identity_image[]', file));
-    // }
-    //
-    // multiParts.add(MultipartBody('image', _pickedPlanedImage!));
-    // for (XFile file in _pickPlaned) {
-    //   multiParts.add(MultipartBody('planed_image[]', file));
-    // }
+
 
     Response response = await estateRepo.addEstate(
         estateBody);
@@ -390,13 +352,13 @@ class EstateController extends GetxController implements GetxService {
 
       int estateId = int.tryParse(estateIdStr) ?? 0;
       Get.offNamed(RouteHelper.getUploadRoute(estateId));
-    
+
    //   Get.offAllNamed(RouteHelper.getSuccess());
     } else {
       ApiChecker.checkApi(response, showToaster: true);
             // //print("🔴 Error: Status Code: ${response.body["message"].toString()}");
-      //print("🔴 Error Body: ${response.statusText}");
-      //print("🔴 Error Body2: ${response.statusCode}");
+      print("🔴 Error Body: ${response.statusText}");
+      print("🔴 Error Body2: ${response.statusCode}");
    //   //print("error estate---------------------------------------------------${response}");
     }
     _isLoading = false;
@@ -404,33 +366,6 @@ class EstateController extends GetxController implements GetxService {
   }
 
 
-  // Future<void> addEstate(EstateBody estatetBody) async {
-  //   _isLoading = true;
-  //   update();
-  //   List<MultipartBody> _multiParts = [];
-  //   _multiParts.add(MultipartBody('image', _pickedImage));
-  //   for (XFile file in _pickedIdentities) {
-  //     _multiParts.add(MultipartBody('identity_image[]', file));
-  //   }
-  //
-  //   _multiParts.add(MultipartBody('image', _pickedPlanedImage));
-  //   for (XFile file in _pickPlaned) {
-  //     _multiParts.add(MultipartBody('planed_image[]', file));
-  //   }
-  //   Response response = await estateRepo.addEstate(estatetBody,_multiParts);
-  //
-  //   if (response.statusCode == 200) {
-  //     Get.offAllNamed(RouteHelper.getProfileRoute());
-  //     showCustomSnackBar('update_successful'.tr, isError: false);
-  //     update();
-  //
-  //   } else {
-  //     ApiChecker.checkApi(response, showToaster: true);
-  //     //print("error estate---------------------------------------------------${response.body}");
-  //   }
-  //   _isLoading = false;
-  //   update();
-  // }
 
 
 
@@ -636,6 +571,7 @@ class EstateController extends GetxController implements GetxService {
         if (response.body['success'] == true) {
           Map<String, dynamic> fullResponse = response.body;
 
+
           licenseData = response.body['data'];
           var licenseBorders = response.body['data2'];
 
@@ -663,7 +599,7 @@ class EstateController extends GetxController implements GetxService {
         return false;
       }
     } catch (e) {
-      licenseVerificationMessage = 'حدث خطأ أثناء التحقق: $e';
+      //licenseVerificationMessage = 'حدث خطأ أثناء التحقق: ${!response.body}';
       return false;
     }
   }

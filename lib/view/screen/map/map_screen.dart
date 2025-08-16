@@ -722,7 +722,9 @@ class _MapViewScreenState extends State<MapScreen> {
                                   borderRadius: BorderRadius.circular(8.0)),
                               child:Column(
                                 children: [
-                                  ServiceProviderItem(estate:estate!),
+                                  estate == null
+                                      ? SizedBox() // أو أي Widget بديل
+                                      : ServiceProviderItem(estate: estate!),
                                 ],
                               )
 
@@ -1190,7 +1192,9 @@ class _MapViewScreenState extends State<MapScreen> {
                                   borderRadius: BorderRadius.circular(8.0)),
                               child:Column(
                                 children: [
-                                  ServiceProviderItem(estate:estate!),
+                                  estate == null
+                                      ? SizedBox() // أو أي Widget بديل
+                                      : ServiceProviderItem(estate: estate!),
                                 ],
                               )
 

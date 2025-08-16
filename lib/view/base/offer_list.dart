@@ -11,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../util/app_constants.dart';
+import '../../util/images.dart';
+
 class OfferList extends StatefulWidget {
   Estate? estate;
   // Generate some dummy data
@@ -117,7 +120,21 @@ class _OfferListState extends State<OfferList> {
                                                       flex: 1,
                                                       child:GestureDetector(
 
-                                                        onTap:(){
+                                                        onTap:()async{
+                                                          final phoneNumber =  widget.estate?.serviceOffers?[index].phoneProvider;
+                                                          // //print("----------${phoneNumber}");// رقم الهاتف بدون "+" وبصيغة دولية
+                                                          final estateId = widget.estate?.id; // تأكد أن الـ ID موجود لديك
+                                                          final estateUrl = '${AppConstants.BASE_URL}/details/$estateId';
+                                                          final message = Uri.encodeComponent(
+                                                            "عرض داخل العقار مقدم من منصة أبعاد\n$estateUrl",
+                                                          );
+                                                          final url = "https://wa.me/$phoneNumber?text=$message";
+
+                                                          if (await canLaunchUrl(Uri.parse(url))) {
+                                                          await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+                                                          } else {
+                                                          //print("لا يمكن فتح واتساب");
+                                                          }
                                                           //buildDynamicLinks(widget.estate?.title ?? "", "${Get.find<SplashController>().configModel?.baseUrls?.estateImageUrl ?? ""}/${widget.estate?.images?[0] ?? ""}", (widget.estate?.id ?? 0).toString(),widget.estate?.serviceOffers?[index].phoneProvider ?? "");
                                                         },
                                                         child: Container(
@@ -144,7 +161,7 @@ class _OfferListState extends State<OfferList> {
                                                             mainAxisAlignment: MainAxisAlignment
                                                                 .center, // I had added main axis allignment to be center to make to be at the center.
                                                             children: [
-                                                              Icon(Icons.whatshot_rounded),
+      Image.asset(Images.whatsapp, height: 18, width: 18),
                                                               const SizedBox(width: 3),
                                                               Text(
                                                                 "واتساب",

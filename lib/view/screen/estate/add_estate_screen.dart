@@ -407,7 +407,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
     }
 
     // وصف مختصر وطويل
-    _shortDescController.text =  '';
+    _shortDescController.text =  'ادخل الوف المختصر ';
     _longDescController.text = '';
 
     //SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1070,38 +1070,38 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                               .start,
                                                       children: [
                                                         // الوصف المختصر (حقل مفرد)
-                                                        Text(
-                                                          'العنوان'.tr,
-                                                          style: robotoRegular
-                                                              .copyWith(
-                                                            fontSize: Dimensions
-                                                                .fontSizeLarge,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .disabledColor,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                            height: Dimensions
-                                                                .PADDING_SIZE_EXTRA_SMALL),
-                                                        MyTextField(
-                                                          hintText: 'adree',
-                                                          controller:
-                                                              _shortDescController,
-                                                          focusNode:
-                                                              _shorDesFocus,
-                                                          nextFocus:
-                                                              _longDescFocus,
-                                                          inputType:
-                                                              TextInputType
-                                                                  .text,
-                                                          isEnabled: false,
-                                                          size: 17,
-                                                          capitalization:
-                                                              TextCapitalization
-                                                                  .sentences,
-                                                          showBorder: true,
-                                                        ),
+                                                        // Text(
+                                                        //   'العنوان'.tr,
+                                                        //   style: robotoRegular
+                                                        //       .copyWith(
+                                                        //     fontSize: Dimensions
+                                                        //         .fontSizeLarge,
+                                                        //     color: Theme.of(
+                                                        //             context)
+                                                        //         .disabledColor,
+                                                        //   ),
+                                                        // ),
+                                                        // SizedBox(
+                                                        //     height: Dimensions
+                                                        //         .PADDING_SIZE_EXTRA_SMALL),
+                                                        // MyTextField(
+                                                        //   hintText: 'adree',
+                                                        //   controller:
+                                                        //       _shortDescController,
+                                                        //   focusNode:
+                                                        //       _shorDesFocus,
+                                                        //   nextFocus:
+                                                        //       _longDescFocus,
+                                                        //   inputType:
+                                                        //       TextInputType
+                                                        //           .text,
+                                                        //   isEnabled: false,
+                                                        //   size: 17,
+                                                        //   capitalization:
+                                                        //       TextCapitalization
+                                                        //           .sentences,
+                                                        //   showBorder: true,
+                                                        // ),
                                                       ],
                                                     )
                                                   : Container(),
@@ -1109,14 +1109,14 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                   height: Dimensions
                                                       .PADDING_SIZE_SMALL),
 
-                                              Text(
-                                                'space'.tr,
-                                                style: robotoRegular.copyWith(
-                                                    fontSize: Dimensions
-                                                        .fontSizeLarge,
-                                                    color: Theme.of(context)
-                                                        .disabledColor),
-                                              ),
+                                              // Text(
+                                              //   'space'.tr,
+                                              //   style: robotoRegular.copyWith(
+                                              //       fontSize: Dimensions
+                                              //           .fontSizeLarge,
+                                              //       color: Theme.of(context)
+                                              //           .disabledColor),
+                                              // ),
 
                                               SizedBox(
                                                   height: Dimensions

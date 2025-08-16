@@ -3,6 +3,7 @@ import 'package:abaad_flutter/controller/splash_controller.dart';
 import 'package:abaad_flutter/controller/theme_controller.dart';
 import 'package:abaad_flutter/util/dimensions.dart';
 import 'package:abaad_flutter/view/base/custom_image.dart';
+import 'package:abaad_flutter/view/base/custom_snackbar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,11 +39,13 @@ class BannerView extends StatelessWidget {
                 itemCount: bannerController.bannerImageList?.length == 0 ? 1 : bannerController.bannerImageList?.length,
                 itemBuilder: (context, index, _) {
                   String? baseUrl = Get.find<SplashController>().configModel?.baseUrls?.banners;
-                  //print("---------------anner----------$baseUrl");
+                  print("---------------anner----------$baseUrl");
                   return InkWell(
                     onTap: (){
 
+                      print("------${bannerController.bannerImageList?[index]}");;
 
+                  //    showCustomSnackBar("${ bannerController.bannerImageList?.length}");
                     },
                     child: Container(
                       decoration: BoxDecoration(

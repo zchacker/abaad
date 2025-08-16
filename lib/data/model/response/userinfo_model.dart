@@ -28,6 +28,7 @@ class UserInfoModel {
   String? membershipType = "";
   String? accountVerification = "";
   String?  advertiserNo = "";
+  String?  unified_number = "";
 
   UserInfoModel({
      this.id,
@@ -56,7 +57,8 @@ class UserInfoModel {
      this.twitter,
      this.membershipType,
      this.accountVerification,
-     this.advertiserNo
+     this.advertiserNo,
+    this.unified_number
   });
 
   UserInfoModel.fromJson(Map<String, dynamic> json) {
@@ -92,6 +94,9 @@ class UserInfoModel {
     membershipType = json['membership_type'];
     accountVerification=json['account_verification'];
     advertiserNo=json['advertiser_no'];
+    unified_number=json['unified_number'];
+
+
   }
 
   Map<String, dynamic> toJson() {
@@ -120,7 +125,7 @@ class UserInfoModel {
     data['membership_type'] = membershipType;
     data['account_verification']=accountVerification;
     data['advertiser_no']=advertiserNo;
-
+    data['unified_number']=unified_number;
     data['userinfo'] = userinfo?.toJson();
       data['estate_count'] = estateCount;
     data['agent'] = agent?.toJson();

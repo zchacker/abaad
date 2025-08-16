@@ -82,6 +82,8 @@ class _MapViewScreenState extends State<MapScreen> {
 
   var tappedPoint;
 
+   Estate? estate;
+
 
 
   // final GlobalKey _floatingButtonKey = GlobalKey();
@@ -118,8 +120,10 @@ class _MapViewScreenState extends State<MapScreen> {
   int selectedIndex = 0;
 
 
-  late Estate estate;
+
+
   void _setCircle(LatLng point) async {
+
 
 
     _controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -218,6 +222,7 @@ class _MapViewScreenState extends State<MapScreen> {
   final cardKey = GlobalKey<FlipCardState>();
   @override
   Widget build(BuildContext context) {
+
     final currentLocale = Get.locale;
     bool isArabic = currentLocale?.languageCode == 'ar';
     bool isNull = true;
@@ -634,7 +639,8 @@ class _MapViewScreenState extends State<MapScreen> {
                         ? Positioned(
                         top: 100.0,
                         left: 15.0,
-                        child:FlipCard(
+                        child: FlipCard(
+                          key: cardKey,
                           front: Container(
                             height: 180.0,
                             width: 175.0,
@@ -644,6 +650,37 @@ class _MapViewScreenState extends State<MapScreen> {
                                 BorderRadius.all(Radius.circular(8.0))),
                             child: SingleChildScrollView(
                               child: Column(children: [
+
+                                Positioned(
+                                  bottom: 5,
+                                  right: 5,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if(cardTapped==true){
+
+                                        cardTapped=false;
+                                      }else if(cardTapped==false){
+                                        cardTapped=true;
+                                      }
+
+                                      setState(() {
+
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      padding: const EdgeInsets.all(4),
+                                      child: const Icon(
+                                        Icons.close,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 Container(
                                   height: 100.0,
                                   width: 175.0,
@@ -653,8 +690,9 @@ class _MapViewScreenState extends State<MapScreen> {
                                         topRight: Radius.circular(8.0),
                                       ),
                                       image: DecorationImage(
-                                          image: NetworkImage('https://cdn.dribbble.com/users/234969/screenshots/5404808/medallion_burst_animation.gif'),
-                                          fit: BoxFit.cover)),
+                                        image: AssetImage(Images.offer),
+                                        fit: BoxFit.cover,
+                                      )),
                                 ),
                                 Container(
                                   padding:
@@ -684,11 +722,16 @@ class _MapViewScreenState extends State<MapScreen> {
                                   borderRadius: BorderRadius.circular(8.0)),
                               child:Column(
                                 children: [
-                                  ServiceProviderItem(estate:estate),
+                                  estate == null
+                                      ? SizedBox() // أو أي Widget بديل
+                                      : ServiceProviderItem(estate: estate!),
                                 ],
                               )
 
                           ),
+                          autoFlipDuration: const Duration(seconds: 1),
+
+
                         ))
                         : Container(),
 
@@ -1117,8 +1160,9 @@ class _MapViewScreenState extends State<MapScreen> {
                                         topRight: Radius.circular(8.0),
                                       ),
                                       image: DecorationImage(
-                                          image: NetworkImage('https://cdn.dribbble.com/users/234969/screenshots/5404808/medallion_burst_animation.gif'),
-                                          fit: BoxFit.cover)),
+                                        image: AssetImage(Images.offer),
+                                        fit: BoxFit.cover,
+                                      )),
                                 ),
                                 Container(
                                   padding:
@@ -1148,7 +1192,9 @@ class _MapViewScreenState extends State<MapScreen> {
                                   borderRadius: BorderRadius.circular(8.0)),
                               child:Column(
                                 children: [
-                                  ServiceProviderItem(estate:estate),
+                                  estate == null
+                                      ? SizedBox() // أو أي Widget بديل
+                                      : ServiceProviderItem(estate: estate!),
                                 ],
                               )
 

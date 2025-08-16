@@ -68,6 +68,7 @@ class _ZonesScreenState extends State<ZonesScreen> {
     super.initState();
     _loadSavedZone();
     Get.find<AuthController>().getZoneList();
+    Get.find<BannerController>().getBannerList(false, 1);
 
 
   }

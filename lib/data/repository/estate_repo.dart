@@ -29,50 +29,50 @@ class EstateRepo {
   }
 
 
-  Future<Response> createEstate(EstateBody estate,List<MultipartBody> multiParts) async {
-    List<MultipartBody> multipartBody;
-    Map<String, String> body = {};
-    body.addAll(<String, String>{
-      'address': estate.address ?? "",
-      'property': estate.property ?? "",
-      'space': estate.space ?? "",
-      'category_id': estate.categoryId ?? "",
-      'price': estate.price ?? "",
-      'long_description':estate.longDescription ?? "",
-      'national_address':estate.nationalAddress ?? "",
-      "zone_id":estate.zoneId ?? "",
-      "districts":estate.districts ?? "",
-      "network_type":estate.networkType ?? "",
-      "latitude":estate.latitude ?? "",
-      "longitude":estate.longitude ?? "",
-      "short_description":estate.shortDescription ?? "",
-      "ownership_type":estate.ownershipType ?? "",
-      "user_id":estate.user_id ?? "",
-      'price_negotiation':estate.priceNegotiation ?? "",
-      "facilities":estate.facilities ?? "",
-      "city":estate.city ?? "",
-      "other_advantages":estate.otherAdvantages ?? "",
-      "interface":estate.interface ?? "",
-      "street_space":estate.streetSpace ?? "",
-      "build_space":estate.buildSpace ?? "",
-      "document_number":estate.documentNumber ?? "",
-      "ad_number":estate.adNumber ?? "",
-      "feature":estate.feature ?? "",
-      "ar_path":estate.arPath ?? "",
-      "age_estate":estate.ageEstate ?? "",
-      "estate_type":estate.estate_type ?? "",
-      "authorization_number":estate.authorization_number ?? "",
-
-      "license_number": estate.licenseNumber ?? "",
-      "advertiser_number": estate.advertiserNumber ?? "",
-      "id_type": estate.idType ?? "",
-
-
-
-    });
-    return apiClient.postMultipartData(AppConstants.CREATE_ESATE_URI, body,multiParts);
-    // return apiClient.postMultipartData(AppConstants.CREATE_ESATE_URI, _body,multiParts);
-  }
+  // Future<Response> createEstate(EstateBody estate,List<MultipartBody> multiParts) async {
+  //   List<MultipartBody> multipartBody;
+  //   Map<String, String> body = {};
+  //   body.addAll(<String, String>{
+  //     'address': estate.address ?? "",
+  //     'property': estate.property ?? "",
+  //     'space': estate.space ?? "",
+  //     'category_id': estate.categoryId ?? "",
+  //     'price': estate.price ?? "",
+  //     'long_description':estate.longDescription ?? "",
+  //     'national_address':estate.nationalAddress ?? "",
+  //     "zone_id":estate.zoneId ?? "",
+  //     "districts":estate.districts ?? "",
+  //     "network_type":estate.networkType ?? "",
+  //     "latitude":estate.latitude ?? "",
+  //     "longitude":estate.longitude ?? "",
+  //     "short_description":estate.shortDescription ?? "",
+  //     "ownership_type":estate.ownershipType ?? "",
+  //     "user_id":estate.user_id ?? "",
+  //     'price_negotiation':estate.priceNegotiation ?? "",
+  //     "facilities":estate.facilities ?? "",
+  //     "city":estate.city ?? "",
+  //     "other_advantages":estate.otherAdvantages ?? "",
+  //     "interface":estate.interface ?? "",
+  //     "street_space":estate.streetSpace ?? "",
+  //     "build_space":estate.buildSpace ?? "",
+  //     "document_number":estate.documentNumber ?? "",
+  //     "ad_number":estate.adNumber ?? "",
+  //     "feature":estate.feature ?? "",
+  //     "ar_path":estate.arPath ?? "",
+  //     "age_estate":estate.ageEstate ?? "",
+  //     "estate_type":estate.estate_type ?? "",
+  //     "authorization_number":estate.authorization_number ?? "",
+  //
+  //     "license_number": estate.licenseNumber ?? "",
+  //     "advertiser_number": estate.advertiserNumber ?? "",
+  //     "id_type": estate.idType ?? "",
+  //
+  //
+  //
+  //   });
+  //   return apiClient.postMultipartData(AppConstants.CREATE_ESATE_URI, body,multiParts);
+  //   // return apiClient.postMultipartData(AppConstants.CREATE_ESATE_URI, _body,multiParts);
+  // }
 
 
 
@@ -174,9 +174,11 @@ class EstateRepo {
     });
 
     return await apiClient.postData(AppConstants.CREATE_ESATE_URI, body);
-   // return apiClient.postMultipartData(AppConstants.CREATE_ESATE_URI, _body,multiParts);
+   //return apiClient.postMultipartData(AppConstants.CREATE_ESATE_URI, body,null);
 
   }
+
+
 
 
 
@@ -234,6 +236,8 @@ class EstateRepo {
 
 
   Future<Response> verifyLicense(String licenseNumber,String advertiserId,int entityType) async {
+
+    print("type----------$entityType");
     return await apiClient.postData(AppConstants.verifyLicense,
       {
         'adLicenseNumber': licenseNumber,

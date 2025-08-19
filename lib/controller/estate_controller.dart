@@ -371,7 +371,7 @@ class EstateController extends GetxController implements GetxService {
 
   Future<void> updatEstate(EstateBody estatetBody) async {
     _isLoading = true;
-    update();
+  //  update();
     // List<MultipartBody> _multiParts = [];
     // _multiParts.add(MultipartBody('image', _pickedImage));
     // for (XFile file in _pickedIdentities) {
@@ -383,11 +383,11 @@ class EstateController extends GetxController implements GetxService {
     //   _multiParts.add(MultipartBody('planed_image[]', file));
     // }
     Response response = await estateRepo.updateEstate(estatetBody);
-
+    update();
     if (response.statusCode == 200) {
       Get.offAllNamed(RouteHelper.getProfileRoute());
       showCustomSnackBar('update_successful'.tr, isError: false);
-      update();
+
 
     } else {
       ApiChecker.checkApi(response, showToaster: true);

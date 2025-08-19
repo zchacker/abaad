@@ -85,7 +85,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                             controller: _numberLicenseController,
                             inputType: TextInputType.phone,
                             showBorder: true,
-                            isEnabled: estateController.advertiserType == 2, // مفعّل فقط إذا منشأة
+
                           ),
 
                           SizedBox(height: 20),

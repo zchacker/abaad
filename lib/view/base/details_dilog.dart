@@ -792,6 +792,10 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                 label: "advertisement_type".tr,
                                 value: widget.estate!.advertisementType ?? ""),
 
+                            buildInfoTile(context,
+                                label: "استخدام العقار",
+                                value: widget.estate!. propertyUsages?? ""),
+
                             // نوع الصك
                             buildInfoTile(context,
                                 label: "نوع وثيقة الملكية".tr,

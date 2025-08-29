@@ -241,23 +241,45 @@ class EstateController extends GetxController implements GetxService {
 
 
 
-  Future<EstateModel> getEstateDetails(Estate estate) async {
+  // Future<EstateModel> getEstateDetails(Estate estate) async {
+  //   if (estate.shortDescription != null) {
+  //     _estate = estate;
+  //   } else {
+  //     _isLoading = true;
+  //     _estate = null;
+  //     Response response = await estateRepo.getEstateDetails(estate.id.toString());
+  //     if (response.statusCode == 200) {
+  //       _estate = Estate.fromJson(response.body);
+  //     } else {
+  //       // ApiChecker.checkApi(response);
+  //       ApiChecker.checkApi(response, showToaster: true);
+  //     }
+  //     _isLoading = false;
+  //     update();
+  //   }
+  //   return _estateModel!;
+  // }
+
+  Future<Estate> getEstateDetails(Estate estate) async {
     if (estate.shortDescription != null) {
       _estate = estate;
     } else {
       _isLoading = true;
       _estate = null;
+
       Response response = await estateRepo.getEstateDetails(estate.id.toString());
+
       if (response.statusCode == 200) {
         _estate = Estate.fromJson(response.body);
       } else {
-        // ApiChecker.checkApi(response);
         ApiChecker.checkApi(response, showToaster: true);
       }
+
       _isLoading = false;
       update();
     }
-    return _estateModel!;
+
+    return _estate!;
   }
 
 

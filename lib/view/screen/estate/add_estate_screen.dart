@@ -407,7 +407,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
     }
 
     // وصف مختصر وطويل
-    _shortDescController.text =  'ادخل الوف المختصر ';
+    _shortDescController.text =  ' ';
     _longDescController.text = '';
 
     //SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -2557,14 +2557,12 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                                                 10,
                                                                             left:
                                                                                 10),
-                                                                        child:
-                                                                            DataView(
-                                                                          title:
-                                                                              'ad_typ'.tr,
-                                                                          value: _typeProperties == 0
-                                                                              ? "for_rent".tr
-                                                                              : "for_sell".tr,
-                                                                        ),
+                                                                        child: _advertisementTypeController.text.isNotEmpty
+                                                                            ? DataView(
+                                                                          title: _advertisementTypeController.text,
+                                                                        )
+                                                                            : Container(),
+
                                                                       ),
                                                                       SizedBox(
                                                                           height:

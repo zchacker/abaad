@@ -90,6 +90,7 @@ class EstateItem extends StatelessWidget {
                                         : Images.estate_type
                                     ,
                                     fit:  BoxFit.cover,
+                                    placeholder: "assets/image/logo.png",
                                     width: MediaQuery.of(context).size.width,
 
 

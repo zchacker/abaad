@@ -2557,11 +2557,11 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                                                 10,
                                                                             left:
                                                                                 10),
-                                                                        child: _advertisementTypeController.text.isNotEmpty
-                                                                            ? DataView(
-                                                                          title: _advertisementTypeController.text,
+                                                                        child: DataView(
+                                                                          title: '  نوع الاعلان',
+                                                                          value: _advertisementTypeController.text,
                                                                         )
-                                                                            : Container(),
+
 
                                                                       ),
                                                                       SizedBox(

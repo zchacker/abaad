@@ -49,12 +49,15 @@ class PropertyCard extends StatelessWidget {
                   clipBehavior: Clip.none,
                   children: [
                     CustomImage(
-                      image:estate.images!.isNotEmpty?"${Get.find<SplashController>().configModel!.baseUrls!.estateImageUrl}/${estate.images![0]}":'',
-                      fit:  BoxFit.cover,
+                      image: estate.images != null && estate.images!.isNotEmpty
+                          ? "${Get.find<SplashController>().configModel!.baseUrls!.estateImageUrl}/${estate.images![0]}"
+                          : null, // إذا ما في صورة نخليها null
+                      fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
-
-
+                      placeholder: "assets/image/logo.png", // الصورة الافتراضية
+                      //errorImage: "assets/images/default_estate.png", // إذا حصل خطأ
                     ),
+
                     Positioned(
                       top: 10.0,
                       right: 2.0,

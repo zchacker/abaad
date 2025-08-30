@@ -407,7 +407,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
     }
 
     // وصف مختصر وطويل
-    _shortDescController.text =  'ادخل الوف المختصر ';
+    _shortDescController.text =  ' ';
     _longDescController.text = '';
 
     //SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -996,12 +996,103 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                     showBorder: true,
                                                   ),
                                                   SizedBox(height: 16),
+
+
+
+
+
+
+
                                                 ],
                                               ),
+
+
+                                              Text(
+                                                'shot_description'.tr,
+                                                style: robotoRegular.copyWith(
+                                                    fontSize: Dimensions
+                                                        .fontSizeLarge,
+                                                    color: Theme.of(
+                                                        context)
+                                                        .disabledColor),
+                                              ),
+                                              SizedBox(
+                                                  height: Dimensions
+                                                      .PADDING_SIZE_EXTRA_SMALL),
+                                              MyTextField(
+                                                hintText:
+                                                'enter_shot_description'
+                                                    .tr,
+                                                controller:
+                                                _shortDescController,
+                                                focusNode:
+                                                _shorDesFocus,
+                                                nextFocus:
+                                                _longDescFocus,
+                                                inputType:
+                                                TextInputType.text,
+                                                size: 17,
+                                                capitalization:
+                                                TextCapitalization
+                                                    .sentences,
+                                                showBorder: true,
+                                              ),
+                                              SizedBox(
+                                                  height: Dimensions
+                                                      .PADDING_SIZE_SMALL),
+
+                                              Text(
+                                                'long_description'.tr,
+                                                style: robotoRegular.copyWith(
+                                                    fontSize: Dimensions
+                                                        .fontSizeLarge,
+                                                    color: Theme.of(
+                                                        context)
+                                                        .disabledColor),
+                                              ),
+                                              SizedBox(
+                                                  height: Dimensions
+                                                      .PADDING_SIZE_EXTRA_SMALL),
+
+
+                                              TextField(
+                                                  controller:
+                                                  _longDescController,
+                                                  keyboardType:
+                                                  TextInputType
+                                                      .multiline,
+                                                  maxLines: 4,
+                                                  focusNode:
+                                                  _longDescFocus,
+                                                  cursorColor:
+                                                  Theme.of(context)
+                                                      .primaryColor,
+                                                  decoration: InputDecoration(
+                                                      hintText:
+                                                      'enter_long_desc'
+                                                          .tr,
+                                                      isDense: true,
+                                                      filled: true,
+                                                      fillColor:
+                                                      Theme.of(context)
+                                                          .cardColor,
+                                                      border: OutlineInputBorder(
+                                                          borderRadius:
+                                                          BorderRadius.circular(Dimensions
+                                                              .RADIUS_SMALL),
+                                                          borderSide:
+                                                          BorderSide
+                                                              .none),
+                                                      hintStyle:
+                                                      robotoRegular.copyWith(
+                                                          color: Theme.of(context).hintColor),
+                                                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.grey)))),
 
                                               SizedBox(
                                                   height: Dimensions
                                                       .PADDING_SIZE_SMALL),
+
+
                                               Container(
                                                   height: 140,
                                                   width: MediaQuery.of(context)
@@ -1337,98 +1428,6 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                             )
                                                           : Container(),
 
-                                                      Text(
-                                                        'shot_description'.tr,
-                                                        style: robotoRegular.copyWith(
-                                                            fontSize: Dimensions
-                                                                .fontSizeLarge,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .disabledColor),
-                                                      ),
-                                                      SizedBox(
-                                                          height: Dimensions
-                                                              .PADDING_SIZE_EXTRA_SMALL),
-                                                      MyTextField(
-                                                        hintText:
-                                                            'enter_shot_description'
-                                                                .tr,
-                                                        controller:
-                                                            _shortDescController,
-                                                        focusNode:
-                                                            _shorDesFocus,
-                                                        nextFocus:
-                                                            _longDescFocus,
-                                                        inputType:
-                                                            TextInputType.text,
-                                                        size: 17,
-                                                        capitalization:
-                                                            TextCapitalization
-                                                                .sentences,
-                                                        showBorder: true,
-                                                      ),
-                                                      SizedBox(
-                                                          height: Dimensions
-                                                              .PADDING_SIZE_SMALL),
-
-                                                      Text(
-                                                        'long_description'.tr,
-                                                        style: robotoRegular.copyWith(
-                                                            fontSize: Dimensions
-                                                                .fontSizeLarge,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .disabledColor),
-                                                      ),
-                                                      SizedBox(
-                                                          height: Dimensions
-                                                              .PADDING_SIZE_EXTRA_SMALL),
-                                                      //    MyTextField(
-                                                      //      hintText: 'enter_long_desc'.tr,
-                                                      //      controller: _longDescController,
-                                                      // //     focusNode: _longDescFocus,
-                                                      //
-                                                      //      // nextFocus: _vatFocus,
-                                                      //      size: 17,
-                                                      //      maxLines: 4,
-                                                      //
-                                                      //      inputType: TextInputType.multiline,
-                                                      //      capitalization: TextCapitalization.sentences,
-                                                      //     // showBorder: true,
-                                                      //    ),
-
-                                                      TextField(
-                                                          controller:
-                                                              _longDescController,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .multiline,
-                                                          maxLines: 4,
-                                                          focusNode:
-                                                              _longDescFocus,
-                                                          cursorColor:
-                                                              Theme.of(context)
-                                                                  .primaryColor,
-                                                          decoration: InputDecoration(
-                                                              hintText:
-                                                                  'enter_long_desc'
-                                                                      .tr,
-                                                              isDense: true,
-                                                              filled: true,
-                                                              fillColor:
-                                                                  Theme.of(context)
-                                                                      .cardColor,
-                                                              border: OutlineInputBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius.circular(Dimensions
-                                                                          .RADIUS_SMALL),
-                                                                  borderSide:
-                                                                      BorderSide
-                                                                          .none),
-                                                              hintStyle:
-                                                                  robotoRegular.copyWith(
-                                                                      color: Theme.of(context).hintColor),
-                                                              focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.grey)))),
 
                                                       SizedBox(
                                                           height: Dimensions
@@ -2558,14 +2557,12 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                                                 10,
                                                                             left:
                                                                                 10),
-                                                                        child:
-                                                                            DataView(
-                                                                          title:
-                                                                              'ad_typ'.tr,
-                                                                          value: _typeProperties == 0
-                                                                              ? "for_rent".tr
-                                                                              : "for_sell".tr,
-                                                                        ),
+                                                                        child: DataView(
+                                                                          title: '  نوع الاعلان',
+                                                                          value: _advertisementTypeController.text,
+                                                                        )
+
+
                                                                       ),
                                                                       SizedBox(
                                                                           height:

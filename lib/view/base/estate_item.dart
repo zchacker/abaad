@@ -13,6 +13,9 @@ import 'package:abaad_flutter/view/base/view_image_dilog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../helper/route_helper.dart';
+import '../screen/profile/edit_dilog.dart';
+
 class EstateItem extends StatelessWidget {
  final Estate? estate;
  final bool? fav;
@@ -87,6 +90,7 @@ class EstateItem extends StatelessWidget {
                                         : Images.estate_type
                                     ,
                                     fit:  BoxFit.cover,
+                                    placeholder: "assets/image/logo.png",
                                     width: MediaQuery.of(context).size.width,
 
 
@@ -112,11 +116,11 @@ class EstateItem extends StatelessWidget {
                               ),
                               IconButton(
                                 onPressed: ()async {
-                                  // Get.find<EstateController>().currentIndex==0;
-                                  // Get.find<EstateController>().categoryIndex==0;
-                                  // await       Get.toNamed(RouteHelper.getEditEstatRoute(estate));
+                                  Get.find<EstateController>().currentIndex==0;
+                                  Get.find<EstateController>().categoryIndex==0;
+                                  await       Get.toNamed(RouteHelper.getEditEstatRoute(estate));
 
-                                  // Get.dialog(EditDialog(estate:estate));
+                                  Get.dialog(EditDialog(estate:estate));
                                 },
                                 icon: Icon(Icons.edit_note_rounded, color: Colors.orange),
                               ),

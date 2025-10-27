@@ -94,6 +94,25 @@ class UserInfoModel {
     membershipType = json['membership_type'];
     accountVerification=json['account_verification'];
     advertiserNo=json['advertiser_no'];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     unified_number=json['unified_number'];
 
 

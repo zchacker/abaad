@@ -432,12 +432,21 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
   }
 
   void loadSavedLicenseData() async {
+
+
+
     final prefs = await SharedPreferences.getInstance();
     _licenseNumberController.text = prefs.getString('numberLicense') ?? '';
     _advertiserNumberController.text =
         prefs.getString('advertiserNumber') ?? '';
     _advertiserTypeController.text =
-        (prefs.getInt('advertiserTypeInput')?.toString() ?? '');
+    (prefs.getInt('advertiserTypeInput')?.toString() ?? '');
+
+
+
+    print("2222222222${prefs.getInt('advertiserTypeInput')?.toString() }");
+
+
   }
 
   static const _locale = 'en';
@@ -2927,9 +2936,7 @@ class _AddEstateScreenState extends State<AddEstateScreen> {
                                                 documentNumber:
                                                     _deedNumberController.text
                                                         .toString(),
-                                                estate_type:
-                                                    _selectionTypeEstate
-                                                        .toString(),
+                                                estate_type: _advertiserTypeController.text,
                                                 adNumber: _addNumberController
                                                     .text
                                                     .toString(),

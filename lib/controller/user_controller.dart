@@ -9,7 +9,7 @@ import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
 import 'package:abaad_flutter/data/repository/user_repo.dart';
 import 'package:abaad_flutter/helper/route_helper.dart';
 import 'package:abaad_flutter/view/base/custom_snackbar.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
+//import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -316,39 +316,39 @@ class UserController extends GetxController implements GetxService {
         //print("----------${random.value}");
 
 
-        AwesomeDialog(
-          context: context,
-          btnCancelColor:Theme.of(context).primaryColor ,
-          btnOkColor: Theme.of(context).primaryColor,
-          barrierColor: Theme.of(context).primaryColor,
-          dialogType: DialogType.success,
-          borderSide:  BorderSide(
-            color:Theme.of(context).primaryColor,
-            width: 2,
-          ),
-
-          buttonsBorderRadius: const BorderRadius.all(
-            Radius.circular(2),
-          ),
-          dismissOnTouchOutside: true,
-          dismissOnBackKeyPress: false,
-          onDismissCallback: (type) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Dismissed by $type'),
-              ),
-            );
-          },
-          headerAnimationLoop: false,
-          animType: AnimType.bottomSlide,
-          title: '$random',
-          desc: 'click_on_confirm_the_authentication_process'.tr,
-          showCloseIcon: true,
-          btnOkOnPress: () {
-            //print("--------------------------------------------idNumber-${idNumber}random  $random transId$transId ");
-            checkRequestStatus(idNumber,transId!,random.toString());
-          },
-        ).show();
+        // AwesomeDialog(
+        //   context: context,
+        //   btnCancelColor:Theme.of(context).primaryColor ,
+        //   btnOkColor: Theme.of(context).primaryColor,
+        //   barrierColor: Theme.of(context).primaryColor,
+        //   dialogType: DialogType.success,
+        //   borderSide:  BorderSide(
+        //     color:Theme.of(context).primaryColor,
+        //     width: 2,
+        //   ),
+        //
+        //   buttonsBorderRadius: const BorderRadius.all(
+        //     Radius.circular(2),
+        //   ),
+        //   dismissOnTouchOutside: true,
+        //   dismissOnBackKeyPress: false,
+        //   onDismissCallback: (type) {
+        //     ScaffoldMessenger.of(context).showSnackBar(
+        //       SnackBar(
+        //         content: Text('Dismissed by $type'),
+        //       ),
+        //     );
+        //   },
+        //   headerAnimationLoop: false,
+        //   animType: AnimType.bottomSlide,
+        //   title: '$random',
+        //   desc: 'click_on_confirm_the_authentication_process'.tr,
+        //   showCloseIcon: true,
+        //   btnOkOnPress: () {
+        //     //print("--------------------------------------------idNumber-${idNumber}random  $random transId$transId ");
+        //     checkRequestStatus(idNumber,transId!,random.toString());
+        //   },
+        // ).show();
 
       }
     } catch (e) {

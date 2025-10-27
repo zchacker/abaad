@@ -667,18 +667,18 @@ class _MapViewScreenState extends State<MapScreen> {
 
                                       });
                                     },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      padding: const EdgeInsets.all(4),
-                                      child: const Icon(
-                                        Icons.close,
-                                        size: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                                    // child: Container(
+                                    //   decoration: BoxDecoration(
+                                    //     color: Colors.red,
+                                    //     shape: BoxShape.circle,
+                                    //   ),
+                                    //   padding: const EdgeInsets.all(4),
+                                    //   child: const Icon(
+                                    //     Icons.close,
+                                    //     size: 16,
+                                    //     color: Colors.white,
+                                    //   ),
+                                    // ),
                                   ),
                                 ),
                                 Container(
@@ -1137,18 +1137,18 @@ class _MapViewScreenState extends State<MapScreen> {
 
                                       });
                                     },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      padding: const EdgeInsets.all(4),
-                                      child: const Icon(
-                                        Icons.close,
-                                        size: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                                    // child: Container(
+                                    //   decoration: BoxDecoration(
+                                    //     color: Colors.red,
+                                    //     shape: BoxShape.circle,
+                                    //   ),
+                                    //   padding: const EdgeInsets.all(4),
+                                    //   child: const Icon(
+                                    //     Icons.close,
+                                    //     size: 16,
+                                    //     color: Colors.white,
+                                    //   ),
+                                    // ),
                                   ),
                                 ),
                                 Container(

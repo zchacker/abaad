@@ -211,87 +211,93 @@ class _MapViewScreenState extends State<MapViewScreen> {
 
 
           child: Directionality(
-            textDirection: TextDirection.ltr,
-            child: Stack(
-
-              children: <Widget>[
+            textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // الدائرة
                 Container(
-                  width: 54,
-                  height: 18,
-
+                  height: 30,
+                  width: 30,
                   decoration: BoxDecoration(
-                    borderRadius : BorderRadius.only(
-                      topLeft: Radius.circular(7),
-                      topRight: Radius.circular(4),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(4),
+                    shape: BoxShape.circle,
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFFFFFFF), Color(0xFFF4F7FF)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
-                    color : Color.fromRGBO(55, 133, 250, 1),
-                    border : Border.all(
-                      color: Color.fromRGBO(255, 255, 255, 1),
+                    border: Border.all(
+                      color: Color(0xFF3785FA),
                       width: 1.5,
                     ),
-                  ),
-                  child: Container(
-                    alignment: Alignment.bottomRight,
-                    padding: EdgeInsets.only(right: 3,left: 3,bottom: 2),
-                    child: Text(isArabic?zone[index].nameAr:zone[index].name, textAlign: TextAlign.left, style: TextStyle(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                        fontFamily: 'Cairo',
-                        fontSize: 8,
-                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                        fontWeight: FontWeight.normal,
-                        height: 1.5
-                    ),),
-                  ),
-                ),
-
-                Container(
-                  padding: EdgeInsets.only(bottom: 3),
-                  child: Row(
-
-
-                    children: <Widget>[
-                      Container(
-                        height: 19,
-                        width: 19,
-                        decoration: BoxDecoration(
-                          borderRadius : const BorderRadius.only(
-                            topLeft: Radius.circular(8520),
-                            topRight: Radius.circular(8520),
-                            bottomLeft: Radius.circular(8520),
-                            bottomRight: Radius.circular(8520),
-                          ),
-                          color : Color.fromRGBO(255, 255, 255, 1),
-                          border : Border.all(
-                            color: Color.fromRGBO(55, 133, 250, 1),
-                            width: 1,
-                          ),
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-
-                            children: <Widget>[Text(zone[index].estate_count, textAlign: TextAlign.left, style: TextStyle(
-                                color: Color.fromRGBO(55, 133, 250, 1),
-                                fontFamily: 'Cairo',
-                                fontSize: 10,
-                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                fontWeight: FontWeight.normal,
-                                height: 1.5
-                            ),),
-                            ],
-                          ),
-                        ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.blue.withOpacity(0.2),
+                        blurRadius: 3,
+                        offset: Offset(1, 2),
                       ),
-
                     ],
                   ),
+                  child: Center(
+                    child: Text(
+                      zone[index].estate_count.toString(),
+                      style: const TextStyle(
+                        color: Color(0xFF2A7BF6),
+                        fontFamily: 'Cairo',
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
 
+                const SizedBox(width: 0),
+
+                // المستطيل الأزرق باسم المنطقة
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFF2A7BF6),
+                        Color(0xFF4A9BFF),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 3,
+                        offset: Offset(1, 2),
+                      ),
+                    ],
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 60,
+                    maxWidth: 120,
+                  ),
+                  child: Text(
+                    isArabic ? zone[index].nameAr : zone[index].name,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Cairo',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      height: 1.2,
+                    ),
+                  ),
+                ),
               ],
             ),
-          ),
+          )
         ),
       ));
     }

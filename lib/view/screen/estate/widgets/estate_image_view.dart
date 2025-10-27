@@ -81,6 +81,7 @@ class _EstateImageViewState extends State<EstateImageView> {
                         return  CustomImage(
                           image: '$baseUrl/${estateController.estate?.images?[index]}'??'',
                           fit: BoxFit.cover,
+                          placeholder: "assets/image/logo.png",
                         );
                       },
                       ),

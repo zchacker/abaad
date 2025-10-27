@@ -792,6 +792,10 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                 label: "advertisement_type".tr,
                                 value: widget.estate!.advertisementType ?? ""),
 
+                            buildInfoTile(context,
+                                label: "استخدام العقار",
+                                value: widget.estate!. propertyUsages?? ""),
+
                             // نوع الصك
                             buildInfoTile(context,
                                 label: "نوع وثيقة الملكية".tr,
@@ -1510,6 +1514,85 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                 : Container(),
                            // const MapDetailsView(fromView: true),
 
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            /// النص فوق الخريطة
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              padding: EdgeInsets.all(14),
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey.shade50,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: Colors.blueGrey.shade100),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.15),
+                                    blurRadius: 6,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  /// العنوان الرئيسي مع الأيقونة
+                                  Row(
+                                    children: [
+                                      Icon(Icons.location_on, color: Colors.blue, size: 22),
+                                      SizedBox(width: 6),
+                                      Text(
+                                        "الموقع حسب الصك من وزارة العدل",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue.shade700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10),
+
+                                  /// كل تفاصيل العقار في نص واحد
+                                  Text(  widget.estate
+                                      ?.locationDescriptionOnMOJDeed ??
+                                      "",
+
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black87,
+                                      height: 1.6,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                  ),
+
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: double.infinity,
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue.shade50,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(color: Colors.blue.shade100),
+                                    ),
+                                    child: Text(
+                                      "نأمل مطابقة الموقع أدناه مع الموقع المذكور في وصف عنوان العقار المكتوب.",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.red, // 🔴 تغيير لون النص إلى الأحمر
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+
+
+                                ],
+                              ),
+                            ),
+
+                            /// الخريطة
                             Container(
                               height: 300,
                               margin: EdgeInsets.all(12),
@@ -1567,9 +1650,71 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                   );
                                 },
                               ),
-                            )
+                            ),
+                          ],
+                        ),
 
-,
+
+                        // Container(
+                            //   height: 300,
+                            //   margin: EdgeInsets.all(12),
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(15),
+                            //     boxShadow: [
+                            //       BoxShadow(
+                            //         color: Colors.grey.withOpacity(0.3),
+                            //         blurRadius: 8,
+                            //         offset: Offset(0, 4),
+                            //       ),
+                            //     ],
+                            //   ),
+                            //   clipBehavior: Clip.antiAlias,
+                            //   child: Builder(
+                            //     builder: (context) {
+                            //       final lat = double.tryParse(widget.estate?.latitude ?? '');
+                            //       final lng = double.tryParse(widget.estate?.longitude ?? '');
+                            //
+                            //       if (lat == null || lng == null) {
+                            //         return Center(
+                            //           child: Text(
+                            //             'خطأ في إحداثيات الموقع',
+                            //             style: TextStyle(color: Colors.red),
+                            //           ),
+                            //         );
+                            //       }
+                            //
+                            //       return ClipRRect(
+                            //         borderRadius: BorderRadius.circular(15),
+                            //         child: GoogleMap(
+                            //           initialCameraPosition: CameraPosition(
+                            //             target: LatLng(lat, lng),
+                            //             zoom: 16,
+                            //           ),
+                            //           markers: {
+                            //             Marker(
+                            //               markerId: MarkerId("estate_location"),
+                            //               position: LatLng(lat, lng),
+                            //               icon: BitmapDescriptor.defaultMarker,
+                            //             ),
+                            //           },
+                            //           minMaxZoomPreference: MinMaxZoomPreference(5, 20),
+                            //           zoomControlsEnabled: true,
+                            //           compassEnabled: true,
+                            //           indoorViewEnabled: false,
+                            //           mapToolbarEnabled: true,
+                            //           myLocationEnabled: true,
+                            //           myLocationButtonEnabled: true,
+                            //           zoomGesturesEnabled: true,
+                            //           scrollGesturesEnabled: true,
+                            //           tiltGesturesEnabled: true,
+                            //           rotateGesturesEnabled: true,
+                            //         ),
+                            //       );
+                            //     },
+                            //   ),
+                            // )
+
+
 
                             widget.estate?.otherAdvantages == null ||
                                     widget.estate!.otherAdvantages!.isEmpty

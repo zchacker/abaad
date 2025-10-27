@@ -111,7 +111,7 @@ class Estate {
   String? mainLandUseTypeName = "";
   List<String>? propertyUtilities;
   String? landNumber = "";
-
+  String? propertyUsages="" ;
   Estate({
      this.id,
      this.address,
@@ -189,6 +189,7 @@ class Estate {
      this.mainLandUseTypeName,
      this.propertyUtilities,
     this.landNumber,
+    this.propertyUsages
   });
 
   Estate.fromJson(Map<String, dynamic> json) {
@@ -305,6 +306,7 @@ class Estate {
     mainLandUseTypeName = json['mainLandUseTypeName'];
     propertyUtilities = json['propertyUtilities'] != null ? List<String>.from(json['propertyUtilities']) : [];
     landNumber = json['landNumber'];
+    propertyUsages= json['propertyUsages'];// ✅ New
 
 
 
@@ -393,6 +395,7 @@ class Estate {
     data['mainLandUseTypeName'] = mainLandUseTypeName;
     data['propertyUtilities'] = propertyUtilities;
     data['landNumber'] = landNumber;
+    data['propertyUsages'] = propertyUsages;
 
 
     return data;

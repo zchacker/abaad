@@ -145,7 +145,7 @@ class _ReportWidgetState extends State<ReportWidget> {
           {
             final title = _documentTypeValue;
             final description = _longDescController.text;
-            final estateId =  44;
+            final estateId =  widget.estate_id;
             estateController.insertEstate(title!, description, estateId,context);
         //    Navigator.pop(context);
           },

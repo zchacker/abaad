@@ -138,8 +138,8 @@ class RouteHelper {
 
   static String getSuccesstRoute(int id) => '$sucess2?id=$id';
 
-  static String getEditEstatRoute(Estate estate) {
-    String data = base64Url.encode(utf8.encode(jsonEncode(estate.toJson())));
+  static String getEditEstatRoute(Estate? estate) {
+    String data = base64Url.encode(utf8.encode(jsonEncode(estate!.toJson())));
     return '$editEstate?item=$data';
   }
 

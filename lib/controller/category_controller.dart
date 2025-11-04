@@ -227,6 +227,9 @@ class CategoryController extends GetxController implements GetxService {
   //
   // }
 
+
+
+
   void setFilterIndex(
       int zoneId,
       int index,
@@ -237,6 +240,9 @@ class CategoryController extends GetxController implements GetxService {
       int sv,
       String type // أضف هذا المعامل
       ) {
+
+
+    print("--------------tyoe${type}");
     getCategoryProductList(
         zoneId,
         index.toString(),

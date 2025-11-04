@@ -42,6 +42,9 @@ import 'package:abaad_flutter/view/screen/wallet/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controller/location_controller.dart';
+import '../util/app_constants.dart';
+import '../view/screen/access_location_screen.dart';
 import '../view/screen/estate/success_screen.dart';
 class RouteHelper {
   static const String initial = '/';
@@ -167,7 +170,7 @@ class RouteHelper {
   }
   static String getProfileAgentRoute(int id,int isMyProfile) => '$marketer?id=$id&isMyProfile=$isMyProfile';
   static List<GetPage> routes = [
-     GetPage(name: initial, page: () => DashboardScreen(pageIndex: 0)),
+     GetPage(name: initial, page: () => getRoute( const DashboardScreen(pageIndex: 0))),
     GetPage(name: splash, page: () {
       NotificationBody data = NotificationBody(notificationType: null, orderId: null, adminId: 0, deliverymanId: null, restaurantId: 0, type: null, conversationId: 0);
       if(Get.parameters['data'] != 'null') {
@@ -177,10 +180,10 @@ class RouteHelper {
       return SplashScreen(body: data);
     }),
     GetPage(name: language, page: () => ChooseLanguageScreen(fromMenu: Get.parameters['page'] == 'menu')),
-    GetPage(name: onBoarding, page: () => OnboardingScreen()),
-    GetPage(name: addEstate, page: () => AddEstateScreen()),
+    GetPage(name: onBoarding, page: () =>  getRoute(OnboardingScreen())),
+    GetPage(name: addEstate, page: () => getRoute( AddEstateScreen())),
 
-    GetPage(name: addLicense, page: () => AdLicenseScreen()),
+    GetPage(name: addLicense, page: () => getRoute( AdLicenseScreen())),
     GetPage(name: addEstateTow, page: () => AddEstateScreenTow()),
 
     GetPage(name: agent, page: () => AgentRegistrationScreen()),
@@ -299,15 +302,29 @@ class RouteHelper {
 
   static String getUpdateRoute(bool isUpdate) => '$update?update=${isUpdate.toString()}';
 
-  static getRoute(Widget navigateTo) {
-    int minimumVersion = 0;
-    if(GetPlatform.isAndroid) {
-      minimumVersion = Get.find<SplashController>().configModel?.appMinimumVersionAndroid ?? 2;
-    }else if(GetPlatform.isIOS) {
-      minimumVersion = Get.find<SplashController>().configModel?.appMinimumVersionIos ?? 4;
-    }
-    // return AppConstants.APP_VERSION < _minimumVersion ? UpdateScreen(isUpdate: true)
-    //     : Get.find<SplashController>().configModel.maintenanceMode ? UpdateScreen(isUpdate: false));
+  // static getRoute(Widget navigateTo) {
+  //   int minimumVersion = 0;
+  //   if(GetPlatform.isAndroid) {
+  //     minimumVersion = Get.find<SplashController>().configModel?.appMinimumVersionAndroid ?? 2;
+  //   }else if(GetPlatform.isIOS) {
+  //     minimumVersion = Get.find<SplashController>().configModel?.appMinimumVersionIos ?? 4;
+  //   }
+  //   // return AppConstants.APP_VERSION < _minimumVersion ? UpdateScreen(isUpdate: true)
+  //   //     : Get.find<SplashController>().configModel.maintenanceMode ? UpdateScreen(isUpdate: false));
+  //
+  // }
 
+
+  static getRoute(Widget? navigateTo, {bool byPuss = false}) {
+    int ? minimumVersion = 0;
+    if(GetPlatform.isAndroid) {
+      minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionAndroid;
+    }else if(GetPlatform.isIOS) {
+      minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionIos;
+    }
+    return AppConstants.APP_VERSION < minimumVersion! ?  UpdateScreen(isUpdate: true)
+        : Get.find<SplashController>().configModel!.maintenanceMode! ?  UpdateScreen(isUpdate: false)
+        : (Get.find<LocationController>().getUserAddress() == null && !byPuss)
+        ? AccessLocationScreen(fromSignUp: false, fromHome: false, route: Get.currentRoute) : navigateTo;
   }
 }

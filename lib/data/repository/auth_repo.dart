@@ -8,7 +8,7 @@ import 'package:abaad_flutter/data/model/body/signup_body.dart';
 import 'package:abaad_flutter/data/model/response/address_model.dart';
 import 'package:abaad_flutter/data/model/response/userinfo_model.dart';
 import 'package:abaad_flutter/util/app_constants.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 ///import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
@@ -216,9 +216,9 @@ class AuthRepo {
       //updateToken();
     }else {
       if(!GetPlatform.isWeb) {
-        FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
+        //FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.TOPIC);
         if(isLoggedIn()) {
-          FirebaseMessaging.instance.unsubscribeFromTopic('zone_${Get.find<LocationController>().getUserAddress()?.zoneId}_customer');
+        //  FirebaseMessaging.instance.unsubscribeFromTopic('zone_${Get.find<LocationController>().getUserAddress()?.zoneId}_customer');
         }
       }
     }

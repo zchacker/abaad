@@ -289,11 +289,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                               right: 6, left: 6),
                                           child: InkWell(
                                             onTap: () async {
-                                              SharedPreferences prefs =
-                                                  await SharedPreferences
-                                                      .getInstance();
-                                              int? savedZoneId =
-                                                  prefs.getInt('zone_id');
+
+
+                                              // حفظ معرف القسم الفرعي الذي تم اختياره
+
+
+                                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                                              int? savedZoneId = prefs.getInt('zone_id');
+
+
+
+
                                               categoryController
                                                   .setSubCategoryIndex(
                                                       index, savedZoneId!);

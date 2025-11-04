@@ -298,88 +298,250 @@ class UserController extends GetxController implements GetxService {
   var random = ''.obs;
   int?  codeStatus ;
 
-  void validateNafath(String idNumber,BuildContext context) async {
+  // void validateNafath(String idNumber,BuildContext context) async {
+  //   _isLoading = true;
+  //   update();
+  //   try {
+  //     final response = await userRepo?.validateNafath(idNumber);
+  //
+  //     codeStatus=response?.statusCode;
+  //     if (response?.statusCode != 200) {
+  //       final errorMessage = response?.body['message']['message'].toString();
+  //       Get.snackbar('Error', errorMessage!);
+  //     } else {
+  //       transId = response?.body['transId'];
+  //       random.value = response?.body['random'];
+  //       // Handle the successful response
+  //       //print("----------$transId");
+  //       //print("----------${random.value}");
+  //
+  //
+  //       // AwesomeDialog(
+  //       //   context: context,
+  //       //   btnCancelColor:Theme.of(context).primaryColor ,
+  //       //   btnOkColor: Theme.of(context).primaryColor,
+  //       //   barrierColor: Theme.of(context).primaryColor,
+  //       //   dialogType: DialogType.success,
+  //       //   borderSide:  BorderSide(
+  //       //     color:Theme.of(context).primaryColor,
+  //       //     width: 2,
+  //       //   ),
+  //       //
+  //       //   buttonsBorderRadius: const BorderRadius.all(
+  //       //     Radius.circular(2),
+  //       //   ),
+  //       //   dismissOnTouchOutside: true,
+  //       //   dismissOnBackKeyPress: false,
+  //       //   onDismissCallback: (type) {
+  //       //     ScaffoldMessenger.of(context).showSnackBar(
+  //       //       SnackBar(
+  //       //         content: Text('Dismissed by $type'),
+  //       //       ),
+  //       //     );
+  //       //   },
+  //       //   headerAnimationLoop: false,
+  //       //   animType: AnimType.bottomSlide,
+  //       //   title: '$random',
+  //       //   desc: 'click_on_confirm_the_authentication_process'.tr,
+  //       //   showCloseIcon: true,
+  //       //   btnOkOnPress: () {
+  //       //     //print("--------------------------------------------idNumber-${idNumber}random  $random transId$transId ");
+  //       //     checkRequestStatus(idNumber,transId!,random.toString());
+  //       //   },
+  //       // ).show();
+  //
+  //     }
+  //   } catch (e) {
+  //
+  //     Get.snackbar('Error', e.toString());
+  //   } finally {
+  //     _isLoading = false;
+  //   }
+  // }
+  //
+  //
+
+
+  Future<void> validateNafath(String idNumber, BuildContext context) async {
     _isLoading = true;
     update();
     try {
       final response = await userRepo?.validateNafath(idNumber);
 
-      codeStatus=response?.statusCode;
-      if (response?.statusCode != 200) {
-        final errorMessage = response?.body['message']['message'].toString();
-        Get.snackbar('Error', errorMessage!);
-      } else {
+      codeStatus = response?.statusCode;
+
+      if (response?.statusCode == 200) {
+        // نجاح العملية
         transId = response?.body['transId'];
         random.value = response?.body['random'];
-        // Handle the successful response
-        //print("----------$transId");
-        //print("----------${random.value}");
 
+        Get.snackbar('Success', 'تم إنشاء طلب التحقق بنجاح');
 
-        // AwesomeDialog(
-        //   context: context,
-        //   btnCancelColor:Theme.of(context).primaryColor ,
-        //   btnOkColor: Theme.of(context).primaryColor,
-        //   barrierColor: Theme.of(context).primaryColor,
-        //   dialogType: DialogType.success,
-        //   borderSide:  BorderSide(
-        //     color:Theme.of(context).primaryColor,
-        //     width: 2,
-        //   ),
-        //
-        //   buttonsBorderRadius: const BorderRadius.all(
-        //     Radius.circular(2),
-        //   ),
-        //   dismissOnTouchOutside: true,
-        //   dismissOnBackKeyPress: false,
-        //   onDismissCallback: (type) {
-        //     ScaffoldMessenger.of(context).showSnackBar(
-        //       SnackBar(
-        //         content: Text('Dismissed by $type'),
-        //       ),
-        //     );
-        //   },
-        //   headerAnimationLoop: false,
-        //   animType: AnimType.bottomSlide,
-        //   title: '$random',
-        //   desc: 'click_on_confirm_the_authentication_process'.tr,
-        //   showCloseIcon: true,
-        //   btnOkOnPress: () {
-        //     //print("--------------------------------------------idNumber-${idNumber}random  $random transId$transId ");
-        //     checkRequestStatus(idNumber,transId!,random.toString());
-        //   },
-        // ).show();
+        // عرض الديالوج المخصص مع إرسال الطلب تلقائيًا
+        showVerificationDialogAuto(context, idNumber, transId!, random.value);
 
+      } else if (response?.statusCode == 400) {
+        final errorMessage = response?.body['message']['message'].toString();
+        if (errorMessage != null && errorMessage.contains("There Is Active Trx")) {
+          Get.snackbar('تنبيه', 'يوجد عملية تحقق سابقة لم تنته بعد. حاول لاحقًا.');
+        } else {
+          Get.snackbar('خطأ', errorMessage ?? 'حدث خطأ غير معروف');
+        }
+
+      } else {
+        final errorMessage = response?.body['message']['message'].toString();
+        Get.snackbar('خطأ', errorMessage ?? 'حدث خطأ غير معروف');
       }
-    } catch (e) {
 
-      Get.snackbar('Error', e.toString());
+    } catch (e) {
+      Get.snackbar('خطأ', e.toString());
     } finally {
       _isLoading = false;
+      update();
     }
   }
 
-
-
-
-
-
-  Future<ResponseModel?> checkRequestStatus(String nationalId, String transId, String random) async {
-    final response = await userRepo?.checkRequestStatus(nationalId,transId,random);
+  // تعديل checkRequestStatus لإرجاع bool
+  Future<bool> checkRequestStatus(String nationalId, String transId, String random) async {
+    final response = await userRepo?.checkRequestStatus(nationalId, transId, random);
 
     if (response?.statusCode == 200) {
-      Get.offAllNamed(RouteHelper.getInitialRoute() );
+      Get.offAllNamed(RouteHelper.getInitialRoute());
       showCustomSnackBar('registration_successful'.tr, isError: false);
-
+      return true;
     } else {
       final errorMessage = response?.body['message']['message'].toString();
-    //  Get.snackbar('Error', errorMessage);
-      showCustomSnackBar(errorMessage!);
-      //print("=============================================$errorMessage");
-      //print("=============================================${response?.body}");
-      //throw Exception('Failed to check status: ${response.body}');
+      showCustomSnackBar(errorMessage ?? 'حدث خطأ');
+      return false;
     }
-    return null;
+  }
+
+  // Future<ResponseModel?> checkRequestStatus(String nationalId, String transId, String random) async {
+  //   final response = await userRepo?.checkRequestStatus(nationalId,transId,random);
+  //
+  //   if (response?.statusCode == 200) {
+  //     Get.offAllNamed(RouteHelper.getInitialRoute() );
+  //     showCustomSnackBar('registration_successful'.tr, isError: false);
+  //
+  //   } else {
+  //     final errorMessage = response?.body['message']['message'].toString();
+  //   //  Get.snackbar('Error', errorMessage);
+  //     showCustomSnackBar(errorMessage!);
+  //     //print("=============================================$errorMessage");
+  //     //print("=============================================${response?.body}");
+  //     //throw Exception('Failed to check status: ${response.body}');
+  //   }
+  //   return null;
+  // }
+  //
+
+  void showVerificationDialogAuto(BuildContext context, String idNumber, String transId, String random) {
+    int countdown = 60; // الوقت بالثواني
+    Timer? timerCountdown;
+    Timer? timerRequest;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false, // منع الإغلاق باللمس خارج الديالوج
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            // بدء العد التنازلي
+            if (timerCountdown == null) {
+              timerCountdown = Timer.periodic(const Duration(seconds: 1), (t) {
+                if (countdown == 0) {
+                  t.cancel();
+                  timerRequest?.cancel(); // إيقاف طلبات التحقق
+                  Navigator.of(context).pop(); // اغلاق الديالوج
+                } else {
+                  setState(() {
+                    countdown--;
+                  });
+                }
+              });
+            }
+
+            // بدء إرسال الطلب كل 5 ثواني
+            if (timerRequest == null) {
+              timerRequest = Timer.periodic(const Duration(seconds: 5), (t) async {
+                bool success = await checkRequestStatus(idNumber, transId, random);
+                if (success) {
+                  t.cancel();
+                  timerCountdown?.cancel();
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  }
+                }
+              });
+            }
+
+            return Dialog(
+              backgroundColor: Colors.white.withOpacity(0.95),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: BorderSide(color: Theme.of(context).primaryColor, width: 2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.2),
+                      child: Text(
+                        random,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      'click_on_confirm_the_authentication_process'.tr,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 14, color: Colors.black87),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      'Time remaining: $countdown s',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.redAccent,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            timerCountdown?.cancel();
+                            timerRequest?.cancel();
+                            Navigator.of(context).pop(); // اغلاق الديالوج
+                          },
+                          child: Text(
+                            'Cancel'.tr,
+                            style: TextStyle(color: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    ).then((_) {
+      timerCountdown?.cancel();
+      timerRequest?.cancel();
+    });
   }
 }
 

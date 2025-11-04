@@ -12,7 +12,9 @@ import 'package:abaad_flutter/view/screen/fillter/widgets/slider_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:dropdown_search/dropdown_search.dart';
 
+import '../../../data/model/response/district_model.dart';
 import 'widgets/popular_filter_list.dart';
 
 
@@ -75,6 +77,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
      return GetBuilder<EstateController>(builder: (restController) {
       return GetBuilder<ZoneController>(builder: (zoneController) {
 
+
+        return GetBuilder<CategoryController>(builder: (categoryController) {
         return   zoneController.subCategoryList!=null ? Container(
       color: Theme.of(context).primaryColor,
       child: Scaffold(
@@ -95,6 +99,126 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
 
+
+                          (categoryController.subCategoryList != null)
+                              ? Center(
+                              child: SizedBox(
+                                  height: 40,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: categoryController
+                                        .subCategoryList!.length,
+                                    padding: EdgeInsets.only(
+                                        left: Dimensions.PADDING_SIZE_SMALL),
+                                    physics: BouncingScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 6, left: 6),
+                                        child: InkWell(
+                                          onTap: () async {
+                                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                                            int? savedZoneId = prefs.getInt('zone_id');
+
+
+
+
+                                            categoryController
+                                                .setSubCategoryIndex(
+                                                index, savedZoneId!);
+                                            //  categoryController.subCategoryIndex==index;
+                                            int selectedSubCategoryId = categoryController.subCategoryList![index].id!;
+                                            await prefs.setInt('sub_category_id', selectedSubCategoryId);
+
+                                            //_loadSavedZone();
+
+                                            // Get.find<CategoryController>().setFilterIndex(savedZoneId,categoryController.categoryList[index].id,"0","0",0,0,0,"0");
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                              left: index ==
+                                                  categoryController
+                                                      .subCategoryList!
+                                                      .length -
+                                                      1
+                                                  ? Dimensions
+                                                  .PADDING_SIZE_LARGE
+                                                  : Dimensions
+                                                  .PADDING_SIZE_SMALL,
+                                              right: index ==
+                                                  categoryController
+                                                      .subCategoryList!
+                                                      .length -
+                                                      1
+                                                  ? Dimensions
+                                                  .PADDING_SIZE_LARGE
+                                                  : Dimensions
+                                                  .PADDING_SIZE_SMALL,
+                                              //   top: Dimensions.PADDING_SIZE_SMALL,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: index ==
+                                                      categoryController
+                                                          .subCategoryIndex
+                                                      ? Theme.of(context)
+                                                      .primaryColor
+                                                      : Colors.black12,
+                                                  width: 2),
+                                              borderRadius:
+                                              BorderRadius.circular(8.0),
+                                              color: Colors.white30,
+                                            ),
+                                            child: Row(children: [
+                                              Text(
+                                                isArabic
+                                                    ? categoryController
+                                                    .subCategoryList![
+                                                index]
+                                                    .nameAr ?? ""
+                                                    : categoryController
+                                                    .subCategoryList![
+                                                index]
+                                                    .name ??
+                                                    'all',
+                                                style: index ==
+                                                    categoryController
+                                                        .subCategoryIndex
+                                                    ? robotoMedium.copyWith(
+                                                    fontSize: Dimensions
+                                                        .fontSizeDefault,
+                                                    color:
+                                                    Theme.of(context)
+                                                        .primaryColor)
+                                                    : robotoRegular.copyWith(
+                                                    fontSize: Dimensions
+                                                        .fontSizeDefault,
+                                                    color: Theme.of(
+                                                        context)
+                                                        .disabledColor),
+                                              ),
+                                              SizedBox(width: 10),
+                                              index == 0
+                                                  ? Container()
+                                                  : CustomImage(
+                                                  image:
+                                                  '${Get.find<SplashController>().configModel!.baseUrls!.categoryImageUrl}/${categoryController.subCategoryList![index].image}',
+                                                  height: 25,
+                                                  width: 25,
+                                                  colors: index ==
+                                                      categoryController
+                                                          .subCategoryIndex
+                                                      ? Theme.of(context)
+                                                      .primaryColor
+                                                      : Colors.black12),
+                                            ]),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  )))
+                              : SizedBox(),
+
                           Row(
                             children: [
                               // زر البيع
@@ -102,9 +226,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                 onPressed: () {
                                   setState(() {
                                     selectedPropertyType = 'بيع';
-                                    Get.find<CategoryController>().setFilterIndex(
-                                      0, 0, "0", "0", 0, 0, 0, selectedPropertyType,
-                                    );
+                                    // Get.find<CategoryController>().setFilterIndex(
+                                    //   0, 0, "0", "0", 0, 0, 0, selectedPropertyType,
+                                    // );
                                   });
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -126,9 +250,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                 onPressed: () {
                                   setState(() {
                                     selectedPropertyType = 'إيجار';
-                                    Get.find<CategoryController>().setFilterIndex(
-                                      0, 0, "0", "0", 0, 0, 0, selectedPropertyType,
-                                    );
+                                    // Get.find<CategoryController>().setFilterIndex(
+                                    //   0, 0, "0", "0", 0, 0, 0, selectedPropertyType,
+                                    // );
                                   });
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -361,35 +485,157 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     Row(children: [
 
 
-                      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text(
-                          'district '.tr,
-                          style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'district '.tr,
+                              style: robotoRegular.copyWith(
+                                fontSize: Dimensions.fontSizeSmall,
+                                color: Theme.of(context).disabledColor,
+                              ),
+                            ),
+                            SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                            GestureDetector(
+                              onTap: () async {
+                                final selected = await showModalBottomSheet<DistrictModel>(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Theme.of(context).cardColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                  ),
+                                  builder: (context) {
+                                    TextEditingController searchController = TextEditingController();
+                                    List<DistrictModel> filteredList = List.from(zoneController.subSubCategoryList ?? []);
+
+                                    return StatefulBuilder(
+                                      builder: (context, setState) => Padding(
+                                        padding: const EdgeInsets.all(16),
+                                        child: SizedBox(
+                                          // تحديد طول النافذة نصف الشاشة
+                                          height: MediaQuery.of(context).size.height * 0.5,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              TextField(
+                                                controller: searchController,
+                                                decoration: InputDecoration(
+                                                  hintText: 'ابحث عن الحي',
+                                                  prefixIcon: Icon(Icons.search),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                  ),
+                                                ),
+                                                onChanged: (query) {
+                                                  setState(() {
+                                                    filteredList = (zoneController.subSubCategoryList ?? []).where((district) {
+                                                      return district.nameAr.toLowerCase().contains(query.toLowerCase());
+                                                    }).toList();
+                                                  });
+                                                },
+                                              ),
+                                              SizedBox(height: 10),
+                                              Expanded(
+                                                child: ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount: filteredList.length,
+                                                  itemBuilder: (context, index) {
+                                                    final item = filteredList[index];
+                                                    return ListTile(
+                                                      title: Text(item.nameAr),
+                                                      onTap: () => Navigator.pop(context, item),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+
+                                if (selected != null) {
+                                  final index = zoneController.subSubCategoryList!
+                                      .indexWhere((e) => e.districtId == selected.districtId);
+                                  if (index != -1) {
+                                    zoneController.setSubSubCategoryIndex(index + 1, true);
+                                    districts = selected.nameAr;
+                                  }
+                                }
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL, vertical: 12),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).cardColor,
+                                  borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 5),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        ((districts ?? '').isNotEmpty) ? districts! : 'اختر الحي',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: ((districts ?? '').isEmpty)
+                                              ? Colors.grey
+                                              : Theme.of(context).textTheme.bodyLarge?.color,
+                                        ),
+                                      ),
+                                    ),
+                                    Icon(Icons.arrow_drop_down),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                            boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
-                          ),
-                          child: DropdownButton<int>(
-                            value: zoneController.subSubCategoryIndex,
-                            items: zoneController.subSubCategoryIds.map((int value) {
-                              return DropdownMenuItem<int>(
-                                value: zoneController.subSubCategoryIds.indexOf(value),
-                                child: isArabic? Text(value != 0 ? zoneController.subSubCategoryList![(zoneController.subSubCategoryIds.indexOf(value)-1)].nameAr : 'اختر الحي'):Text(value != 0 ? zoneController.subSubCategoryList![(zoneController.subSubCategoryIds.indexOf(value)-1)].nameEn : 'select district'),
-                              );
-                            }).toList(),
-                            onChanged: (int? value) {
-                              zoneController.setSubSubCategoryIndex(value!, true);
-                              districts= zoneController.subSubCategoryList![value-1].nameAr ;
-                            },
-                            isExpanded: true,
-                            underline: SizedBox(),
-                          ),
-                        ),
-                      ])),
+                      )
+
+
+
+                      // Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      //   Text(
+                      //     'district '.tr,
+                      //     style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
+                      //   ),
+                      //   SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                      //   Container(
+                      //     padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                      //     decoration: BoxDecoration(
+                      //       color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      //       boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
+                      //     ),
+                      //     child: DropdownButton<int>(
+                      //       value: zoneController.subSubCategoryIndex,
+                      //       items: zoneController.subSubCategoryIds.map((int value) {
+                      //         return DropdownMenuItem<int>(
+                      //           value: zoneController.subSubCategoryIds.indexOf(value),
+                      //           child: isArabic? Text(value != 0 ? zoneController.subSubCategoryList![(zoneController.subSubCategoryIds.indexOf(value)-1)].nameAr : 'اختر الحي'):Text(value != 0 ? zoneController.subSubCategoryList![(zoneController.subSubCategoryIds.indexOf(value)-1)].nameEn : 'select district'),
+                      //         );
+                      //       }).toList(),
+                      //       onChanged: (int? value) {
+                      //         zoneController.setSubSubCategoryIndex(value!, true);
+                      //         districts= zoneController.subSubCategoryList![value-1].nameAr ;
+                      //       },
+                      //       isExpanded: true,
+                      //       underline: SizedBox(),
+                      //     ),
+                      //   ),
+                      // ])),
 
                     ]),
 
@@ -469,12 +715,32 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       showCustomSnackBar(selectedFilters.join(', '));
 
 
-                      ////print("-----------------------------------------$zone_id");
                       SharedPreferences prefs = await SharedPreferences.getInstance();
-                      int? savedZoneId = prefs.getInt('zone_id');
+                      int? savedZoneId = prefs.getInt('zone_id');       // قد تكون null
+                      int? category_id = prefs.getInt('sub_category_id'); // قد تكون null
 
-                      Get.find<CategoryController>().setFilterIndex(savedZoneId!,restController.getCategoryIndex(),ctiy_name??"",districts??"",distValue~/10,selectedFilters.join(', ')=='virtual_ture'.tr?1:0,selectedFilters.join(', ')=='it_includes_offers'.tr?1:0,"");
+                      print('zone_id: $savedZoneId');
+                      print('sub_category_id: $category_id');
+
+// استدعاء setFilterIndex مع دعم null
+                      Get.find<CategoryController>().setFilterIndex(
+                        savedZoneId ?? 0,        // إذا كانت null، استخدم 0 أو أي قيمة افتراضية مناسبة
+                        category_id ?? 0,        // إذا كانت null، استخدم 0
+                        ctiy_name ?? "",
+                        districts ?? "",
+                        distValue ~/ 10,
+                        selectedFilters.join(', ') == 'virtual_ture'.tr ? 1 : 0,
+                        selectedFilters.join(', ') == 'it_includes_offers'.tr ? 1 : 0,
+                        selectedPropertyType,
+                      );
+
                       Navigator.pop(context);
+
+
+                      // int? category_id = prefs.getInt('sub_category_id');
+                      //
+                      // Get.find<CategoryController>().setFilterIndex(savedZoneId!,category_id!,ctiy_name??"",districts??"",distValue~/10,selectedFilters.join(', ')=='virtual_ture'.tr?1:0,selectedFilters.join(', ')=='it_includes_offers'.tr?1:0,selectedPropertyType);
+                      // Navigator.pop(context);
                     },
                     child: const Center(
                       child: Text(
@@ -495,6 +761,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     ): Center(child: CircularProgressIndicator());
       });
     });
+     });
   }
 
   Widget allAccommodationUI() {

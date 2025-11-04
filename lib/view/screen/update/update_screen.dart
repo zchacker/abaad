@@ -44,17 +44,20 @@ class UpdateScreen extends StatelessWidget {
             SizedBox(height: isUpdate ? MediaQuery.of(context).size.height*0.04 : 0),
 
             isUpdate ? CustomButton(height:40 , width:100, buttonText: 'update_now'.tr, onPressed: () async {
-              String? appUrl = 'https://google.com';
+              String? appUrl;
               if(GetPlatform.isAndroid) {
                 appUrl = Get.find<SplashController>().configModel?.appUrlAndroid;
-              }else if(GetPlatform.isIOS) {
+              } else if(GetPlatform.isIOS) {
                 appUrl = Get.find<SplashController>().configModel?.appUrlIos;
+                print("like--------------------${appUrl}");
               }
-              if(await canLaunchUrlString(appUrl!)) {
+
+              if(appUrl != null && await canLaunchUrlString(appUrl)) {
                 launchUrlString(appUrl, mode: LaunchMode.externalApplication);
-              }else {
-                showCustomSnackBar('${'can_not_launch'.tr} $appUrl');
+              } else {
+                showCustomSnackBar('${'can_not_launch'.tr} ${appUrl ?? ''}');
               }
+
             }) : SizedBox(),
 
           ]),

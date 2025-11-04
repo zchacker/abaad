@@ -280,100 +280,111 @@ class _DashboardScreenState extends State<DashboardScreen> {
           return
 
 
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Material(
-                  child:Container(
-
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-
-
-                           Text(
-                          "account_verification".tr,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.2,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        const SizedBox(height: 5,),
-
-                        Text(
-                          "your_account_is_not_verified_verify_the_account_through_nafath".tr,
-                          style:const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.2,
-                            color: Colors.black87,
-                          ),
-                        ),
-
-
-                        SizedBox(height: 5,),
-
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                    blurRadius: 10, color: Colors.grey[300]!, spreadRadius: 5)
-                              ]),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Material(
+                        child: Container(
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              CustomTextField(
-                                hintText: '000000000',
-                                controller: phoneController,
-                                inputType: TextInputType.phone,
-                                // maxLength: 10,
-
-                                textAlign: TextAlign.center,
-
-                                divider: false,
+                              // عنوان الصفحة
+                              Text(
+                                "توثيق الحساب بالنفاذ الوطني",
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.2,
+                                  color: Colors.black87,
+                                ),
                               ),
+                              const SizedBox(height: 5),
 
+                              // وصف العملية
+                              Text(
+                                "your_account_is_not_verified_verify_the_account_through_nafath".tr,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.2,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              const SizedBox(height: 15),
 
+                              // نص توضيحي لحقل الهوية
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  "ادخل رقم الهوية الوطنية لتوثيق حسابك",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5),
 
+                              // حقل الإدخال مع تصميم
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          blurRadius: 10,
+                                          color: Colors.grey[300]!,
+                                          spreadRadius: 5)
+                                    ]),
+                                child: Column(
+                                  children: <Widget>[
+                                    CustomTextField(
+                                      hintText: '1000000000', // توضيح داخل الحقل
+                                      controller: phoneController,
+                                      inputType: TextInputType.phone,
+                                      textAlign: TextAlign.center,
+                                      divider: false,
+                                    ),
 
-                            !userController.isLoading  ? CustomButton(
-                                onPressed: () {
-          userController.validateNafath(phoneController.text.toString(),context);
-          if(userController.codeStatus==200){
-            showCustomSnackBar("oomeroomer");
+                                    const SizedBox(height: 15),
 
-          }
-          },
-                                margin: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-                                buttonText: 'verification'.tr,
-                              ) : Center(child: CircularProgressIndicator()),
+                                    !userController.isLoading
+                                        ? CustomButton(
+                                      onPressed: () {
+                                        userController.validateNafath(
+                                            phoneController.text.trim(),
+                                            context);
+                                      },
+                                      margin: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                                      buttonText: 'verification'.tr,
+                                    )
+                                        : const Center(child: CircularProgressIndicator()),
+                                  ],
+                                ),
+                              )
                             ],
                           ),
-                        )
-                      ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        ],
-      );
+              ],
+            );
+
 
 
         })

@@ -324,7 +324,6 @@ class RouteHelper {
     }
     return AppConstants.APP_VERSION < minimumVersion! ?  UpdateScreen(isUpdate: true)
         : Get.find<SplashController>().configModel!.maintenanceMode! ?  UpdateScreen(isUpdate: false)
-        : (Get.find<LocationController>().getUserAddress() == null && !byPuss)
-        ? AccessLocationScreen(fromSignUp: false, fromHome: false, route: Get.currentRoute) : navigateTo;
+        : navigateTo;
   }
 }

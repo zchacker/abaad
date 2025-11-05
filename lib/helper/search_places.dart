@@ -1,8 +1,7 @@
 import 'package:abaad_flutter/data/model/auto_complete_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart' show ChangeNotifierProvider;
-
+import 'package:flutter_riverpod/legacy.dart';
 
 final placeResultsProvider = ChangeNotifierProvider<PlaceResults>((ref) {
   return PlaceResults();

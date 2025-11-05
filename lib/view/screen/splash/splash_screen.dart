@@ -96,7 +96,7 @@ class _SplashScreenState extends State<SplashScreen> {
               if (Get.find<LocationController>().getUserAddress() != null) {
                 Get.offNamed(RouteHelper.getInitialRoute( ));
               } else {
-                Get.offNamed(RouteHelper.getAccessLocationRoute('splash'));
+                Get.offNamed(RouteHelper.getInitialRoute( ));
               }
             } else {
               if (Get.find<SplashController>().showIntro()!) {

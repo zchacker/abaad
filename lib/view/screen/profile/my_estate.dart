@@ -18,7 +18,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../util/images.dart';
-import '../profile/widget/profile_bg_widget.dart';
+import 'widget/profile_bg_widget.dart';
 
 
 class EstateScreen extends StatefulWidget {

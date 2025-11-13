@@ -106,7 +106,9 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                             controller: _idNumberController,
                             inputType: TextInputType.phone,
                             showBorder: true,
-                            isEnabled: false, // مفعّل فقط إذا منشأة
+                         isEnabled: false,
+
+                         // مفعّل فقط إذا منشأة
                           ),
 
                           // Text(

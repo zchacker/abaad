@@ -70,7 +70,9 @@ class _MediaTabScreenState extends State<UploadScreen>
                  Navigator.of(context).pop(); // أغلق الديالوج
                  final userController = Get.find<UserController>();
                  userController.getUserInfoByID(userController.userInfoModel?.id ?? 0);
-                 Get.toNamed(RouteHelper.getProfileAgentRoute(userController.userInfoModel?.id ?? 0, 1));
+
+                 // Get.offAllNamed(RouteHelper.getInitialRoute());
+                 Get.offAllNamed(RouteHelper.getProfileAgentRoute(userController.userInfoModel?.id ?? 0, 1));
                },
                style: ElevatedButton.styleFrom(
                  backgroundColor: Color(0xFF003366),
@@ -131,35 +133,7 @@ class _MediaTabScreenState extends State<UploadScreen>
                 ],
               ),
             ),
-            SafeArea( // ✅ يحمي الزر من الصدام بأسفل الجهاز
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      final userController = Get.find<UserController>();
-                      userController.getUserInfoByID(userController.userInfoModel?.id ?? 0);
-                      Get.toNamed(
-                        RouteHelper.getProfileAgentRoute(userController.userInfoModel?.id ?? 0, 1),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.indigo[800],
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text(
-                      'إنهاء',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+
           ],
         ),
 

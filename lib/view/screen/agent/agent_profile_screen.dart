@@ -40,6 +40,9 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
     Get.find<AuthController>().getZoneList();
     Get.find<UserController>().getEstateByUser(1, false,widget.userInfo!.id ?? 0);
 
+
+
+
   }
 
   @override
@@ -47,10 +50,23 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
 
 
     return Scaffold(
-      appBar:  CustomAppBar(title: 'profile'.tr),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.offAllNamed(RouteHelper.getInitialRoute());
+          },
+        ),
+        title: Text('الملف الشخصي'),
+      ),
       backgroundColor: Theme.of(context).cardColor,
       body: GetBuilder<UserController>(builder: (userController) {
     return   GetBuilder<UserController>(builder: (restController) {
+
+
+      // Get.find<UserController>().getUserInfoByID(userController.userInfoModel?.id ?? 0 );
+      // Get.find<UserController>().getEstateByUser(1, false,userController.userInfoModel?.id ?? 0 );
+      // Get.toNamed(RouteHelper.getProfileRoute());
         return (_isLoggedIn! && userController.agentInfoModel == null ) ? Center(child: CircularProgressIndicator()) :( restController.estateModel!.estates != null) ?  Padding(
           padding: const EdgeInsets.only(right: 0.0,left: 0.0),
           child: ProfileBgWidget(

@@ -257,6 +257,21 @@ class EstateRepo {
     return await apiClient.postData('${AppConstants.ADD_WISH_LIST_URI}estate_id=$id', null);
   }
 
+  Future<Response> verify(
+      String adLicenseNumber,
+      String advertiserId,
+      int idType,
+      ) async {
+    return await apiClient.postData(
+      '/api/v1/banners/advertisement/validate',
+      {
+        'adLicenseNumber': adLicenseNumber,
+        'advertiserId': advertiserId,
+        'idType': idType,
+      },
+    );
+  }
+
 
 
 

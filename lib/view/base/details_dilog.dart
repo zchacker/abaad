@@ -1514,7 +1514,63 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                 : Container(),
                            // const MapDetailsView(fromView: true),
 
-                        Column(
+
+
+                            Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF2252A1),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Text(
+                                  "معلومات المعلن",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            /// اسم المعلن
+                            if (widget.estate?.advertiserName != null)
+                              buildInfoRowEnhanced(
+                                context,
+                                label: "اسم المعلن",
+                                value: widget.estate!.advertiserName!,
+                                icon: Icons.person,
+                              ),
+
+                            /// رقم الجوال + زر اتصال
+                            if (widget.estate?.phoneNumber != null)
+                              buildInfoRowEnhanced(
+                                context,
+                                label: "رقم الجوال",
+                                value: widget.estate!.phoneNumber!,
+                                icon: Icons.phone,
+                                trailing: buildCallButton(widget.estate!.phoneNumber!),
+                              ),
+
+                            /// حالة الإعلان
+                            if (widget.estate?.isValid != null)
+                              buildInfoRowEnhanced(
+                                context,
+                                label: "حالة الإعلان",
+                                value: getAdStatusText(widget.estate!.isValid),
+                                valueColor: getAdStatusColor(widget.estate!.isValid),
+                                icon: Icons.verified,
+                              ),
+
+
+
+                            Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             /// النص فوق الخريطة
@@ -1924,6 +1980,10 @@ class _DettailsDilogState extends State<DettailsDilog> {
                                   ]),
                             ),
 
+
+
+
+
                             SizedBox(height: 10),
                             Divider(
                               height: 1,
@@ -2190,6 +2250,100 @@ class _DettailsDilogState extends State<DettailsDilog> {
                   ],
                 )
               : const SizedBox()),
+    );
+  }
+
+
+  Widget buildCallButton(String phoneNumber) {
+    return InkWell(
+      onTap: () async {
+        final uri = Uri.parse("tel:$phoneNumber");
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri);
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.green,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: const Icon(
+          Icons.call,
+          color: Colors.white,
+          size: 22,
+        ),
+      ),
+    );
+  }
+
+
+  String getAdStatusText(String? isValid) {
+    if (isValid == "1") return "ساري";
+    return "ملغي";
+  }
+
+  Color getAdStatusColor(String? isValid) {
+    if (isValid == "1") return Colors.green;
+    return Colors.red;
+  }
+
+  Widget buildInfoRowEnhanced(
+      BuildContext context, {
+        required String label,
+        required String value,
+        IconData? icon,
+        Color? valueColor,
+        Widget? trailing,
+      }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          if (icon != null)
+            Icon(icon, color: Colors.blueGrey, size: 22),
+
+          if (icon != null) const SizedBox(width: 10),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: valueColor ?? Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          if (trailing != null) trailing,
+        ],
+      ),
     );
   }
 
@@ -2817,6 +2971,116 @@ Widget buildInfoRow(BuildContext context, String label, String value) {
     ),
   );
 }
+
+
+Widget buildPhoneRow(BuildContext context, {required String phoneNumber}) {
+  return Container(
+    margin: const EdgeInsets.only(bottom: 8),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(8),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 4,
+          offset: Offset(0, 2),
+        ),
+      ],
+    ),
+    child: Row(
+      children: [
+        Icon(Icons.phone, color: Colors.green),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            phoneNumber,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        ElevatedButton.icon(
+          onPressed: () {
+            // لاحقاً تضيف launchUrl للاتصال
+            // launchUrl(Uri.parse("tel:$phoneNumber"));
+          },
+          icon: const Icon(Icons.call, size: 18),
+          label: const Text("اتصال"),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+
+Widget buildInfoRowEnhanced(
+    BuildContext context, {
+      required String label,
+      required String value,
+      IconData? icon,
+      Color? valueColor,
+      Widget? trailing,
+    }) {
+  return Container(
+    margin: const EdgeInsets.only(bottom: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.05),
+          blurRadius: 6,
+          offset: const Offset(0, 2),
+        ),
+      ],
+    ),
+    child: Row(
+      children: [
+        if (icon != null)
+          Icon(icon, color: Colors.blueGrey, size: 22),
+
+        if (icon != null) const SizedBox(width: 10),
+
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: valueColor ?? Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        if (trailing != null) trailing,
+      ],
+    ),
+  );
+}
+
 
 String formatPrice(String priceStr) {
 

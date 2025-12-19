@@ -177,10 +177,10 @@ class EstateController extends GetxController implements GetxService {
     _categoryList = [];
     _categoryList?.add(CategoryModel(id: 0, name: 'all'.tr, nameAr: '', slug: '', position: '', statusHome: '', image: '', createdAt: '', updatedAt: ''));
     Get.find<CategoryController>().categoryList?.forEach((category) {
-        _categoryList?.add(category);
+      _categoryList?.add(category);
 
     });
-    }
+  }
 
 
   void showBottomLoader() {
@@ -194,7 +194,7 @@ class EstateController extends GetxController implements GetxService {
     _categoryIndex = index;
     getEstateList(1, false, 1);
     update();
- //    estateList.clear();
+    //    estateList.clear();
   }
 
   void setCategoryPostion(int index) {
@@ -313,7 +313,7 @@ class EstateController extends GetxController implements GetxService {
         XFile? xFile = await ImagePicker().pickImage(
             source: ImageSource.gallery);
         _pickedIdentities.add(xFile!);
-            }
+      }
       update();
     }
   }
@@ -331,7 +331,7 @@ class EstateController extends GetxController implements GetxService {
         XFile? xFile = await ImagePicker().pickImage(
             source: ImageSource.gallery);
         _pickPlaned.add(xFile!);
-            }
+      }
       update();
     }
   }
@@ -360,14 +360,14 @@ class EstateController extends GetxController implements GetxService {
 
     Response response = await estateRepo.addEstate(
         estateBody);
-  prefs.setString('estate_id', response.body["estate_id"].toString());
+    prefs.setString('estate_id', response.body["estate_id"].toString());
     _pickPlaned.clear();
     if (response.statusCode == 200) {
       _isLoading=false;
       _pickPlaned.clear();
       _pickedIdentities.clear();
       _categoryIndex=0;
-    //  Get.offNamed(RouteHelper.getUploadRoute(161));
+      //  Get.offNamed(RouteHelper.getUploadRoute(161));
 
 
       String estateIdStr = response.body["estate_id"].toString();
@@ -375,13 +375,13 @@ class EstateController extends GetxController implements GetxService {
       int estateId = int.tryParse(estateIdStr) ?? 0;
       Get.offNamed(RouteHelper.getUploadRoute(estateId));
 
-   //   Get.offAllNamed(RouteHelper.getSuccess());
+      //   Get.offAllNamed(RouteHelper.getSuccess());
     } else {
       ApiChecker.checkApi(response, showToaster: true);
-            // //print("🔴 Error: Status Code: ${response.body["message"].toString()}");
+      // //print("🔴 Error: Status Code: ${response.body["message"].toString()}");
       print("🔴 Error Body: ${response.statusText}");
       print("🔴 Error Body2: ${response.statusCode}");
-   //   //print("error estate---------------------------------------------------${response}");
+      //   //print("error estate---------------------------------------------------${response}");
     }
     _isLoading = false;
     update();
@@ -393,7 +393,7 @@ class EstateController extends GetxController implements GetxService {
 
   Future<void> updatEstate(EstateBody estatetBody) async {
     _isLoading = true;
-  //  update();
+    //  update();
     // List<MultipartBody> _multiParts = [];
     // _multiParts.add(MultipartBody('image', _pickedImage));
     // for (XFile file in _pickedIdentities) {
@@ -458,9 +458,9 @@ class EstateController extends GetxController implements GetxService {
 
   Future<void> getCategoryList(Estate product) async {
     _categoryIds = [];
-  //  _subCategoryIds = [];
+    //  _subCategoryIds = [];
     _categoryIds.add(0);
- //   _subCategoryIds.add(0);
+    //   _subCategoryIds.add(0);
     _isLoading = true;
     Response response = await estateRepo.getCategoryList();
     if (response.statusCode == 200) {
@@ -471,8 +471,8 @@ class EstateController extends GetxController implements GetxService {
         _categoryIds.add(_categoryList![index].id ?? 0);
       }
       setCategoryIndex(_categoryIds.indexOf(product.categoryId ?? 0));
-    //  await getSubCategoryList(int.parse(product.categoryIds[0].id), product);
-            } else {
+      //  await getSubCategoryList(int.parse(product.categoryIds[0].id), product);
+    } else {
       ApiChecker.checkApi(response, showToaster: true);
     }
     update();
@@ -630,16 +630,16 @@ class EstateController extends GetxController implements GetxService {
 
 
 // void addToWishList(Estate restaurant, bool isRestaurant) async {
-  //   Response response = await wishListRepo.addWishList( restaurant.id, isRestaurant);
-  //   if (response.statusCode == 200) {
-  //     _wishRestIdList.add(restaurant.id);
-  //     _wishRestList.add(restaurant);
-  //
-  //     showCustomSnackBar(response.body['message'], isError: false);
-  //   } else {
-  //     ApiChecker.checkApi(response, showToaster: true);
-  //   }
-  //   update();
-  // }
+//   Response response = await wishListRepo.addWishList( restaurant.id, isRestaurant);
+//   if (response.statusCode == 200) {
+//     _wishRestIdList.add(restaurant.id);
+//     _wishRestList.add(restaurant);
+//
+//     showCustomSnackBar(response.body['message'], isError: false);
+//   } else {
+//     ApiChecker.checkApi(response, showToaster: true);
+//   }
+//   update();
+// }
 
 }

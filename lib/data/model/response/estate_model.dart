@@ -112,6 +112,19 @@ class Estate {
   List<String>? propertyUtilities;
   String? landNumber = "";
   String? propertyUsages="" ;
+
+
+  String? agent_identity = "";
+  String? unified_number="" ;
+
+
+  String? advertiserName="" ;
+
+
+  String? phoneNumber = "";
+  String? isValid="" ;
+
+
   Estate({
      this.id,
      this.address,
@@ -189,7 +202,14 @@ class Estate {
      this.mainLandUseTypeName,
      this.propertyUtilities,
     this.landNumber,
-    this.propertyUsages
+    this.propertyUsages,
+    this.agent_identity,
+    this.unified_number,
+
+
+    this.advertiserName,
+    this.phoneNumber,
+    this.isValid
   });
 
   Estate.fromJson(Map<String, dynamic> json) {
@@ -309,6 +329,16 @@ class Estate {
     propertyUsages= json['propertyUsages'];// ✅ New
 
 
+    agent_identity = json['agent_identity'];
+    unified_number= json['unified_number'];// ✅ New
+
+
+
+    advertiserName= json['advertiserName'];// ✅ New
+
+
+    phoneNumber = json['phoneNumber'];
+    isValid= json['isValid'];// ✅ Ne
 
 
 
@@ -397,6 +427,18 @@ class Estate {
     data['landNumber'] = landNumber;
     data['propertyUsages'] = propertyUsages;
 
+
+    data['agent_identity'] = agent_identity;
+    data['unified_number'] = unified_number;
+
+
+
+
+    data['advertiserName'] = advertiserName;
+
+
+    data['phoneNumber'] = phoneNumber;
+    data['isValid'] = phoneNumber;
 
     return data;
   }

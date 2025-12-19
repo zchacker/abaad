@@ -1373,68 +1373,6 @@ class _MapViewScreenState extends State<MapScreen> {
 
 
 
-  // Future<void> _createTutorial() async {
-  //   final targets = [
-  //     TargetFocus(
-  //       identify: 'floatingButton',
-  //       keyTarget: _floatingButtonKey,
-  //       alignSkip: Alignment.topCenter,
-  //       contents: [
-  //         TargetContent(
-  //           align: ContentAlign.top,
-  //           builder: (context, controller) => Text(
-  //             'Use this button to add new elements to the list',
-  //             style: Theme.of(context)
-  //                 .textTheme
-  //                 .titleLarge
-  //                 ?.copyWith(color: Colors.white),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //     TargetFocus(
-  //       identify: 'editButton',
-  //       keyTarget: _editButtonKey,
-  //       alignSkip: Alignment.bottomCenter,
-  //       contents: [
-  //         TargetContent(
-  //           align: ContentAlign.bottom,
-  //           builder: (context, controller) => Text(
-  //             'You can edit the entries by pressing on the edit button',
-  //             style: Theme.of(context)
-  //                 .textTheme
-  //                 .titleLarge
-  //                 ?.copyWith(color: Colors.white),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //     TargetFocus(
-  //       identify: 'settingsButton',
-  //       keyTarget: _settingsButtonKey,
-  //       alignSkip: Alignment.bottomCenter,
-  //       contents: [
-  //         TargetContent(
-  //           align: ContentAlign.bottom,
-  //           builder: (context, controller) => Text(
-  //             'Configure the app in the settings screen',
-  //             style: Theme.of(context)
-  //                 .textTheme
-  //                 .titleLarge
-  //                 ?.copyWith(color: Colors.white),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   ];
-  //   final tutorial = TutorialCoachMark(
-  //     targets: targets,
-  //   );
-  //
-  //   Future.delayed(const Duration(milliseconds: 500), () {
-  //     tutorial.show(context: context);
-  //   });
-  // }
 
 
   Future<Position> getUserCurrentLocation() async {

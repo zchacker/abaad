@@ -73,7 +73,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
                           SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
                           Text(
-                            'رقم الترخيص',
+                            'رقم رخصة الإعلان',
                             style: robotoRegular.copyWith(
                                 fontSize: Dimensions.fontSizeSmall),
                           ),
@@ -81,7 +81,7 @@ class _AdLicenseScreenState extends State<AdLicenseScreen> {
 
                           // حقل إدخال رقم الترخيص
                           MyTextField(
-                            hintText: 'ادخل رقم الترخيص',
+                            hintText: 'ادخل رقم رخصة الإعلان',
                             controller: _numberLicenseController,
                             inputType: TextInputType.phone,
                             showBorder: true,

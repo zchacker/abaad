@@ -648,70 +648,67 @@ class _MapViewScreenState extends State<MapScreen> {
                                 color: Colors.white,
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8.0))),
-                            child: SingleChildScrollView(
-                              child: Column(children: [
-
-                                Positioned(
-                                  bottom: 5,
-                                  right: 5,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if(cardTapped==true){
-
-                                        cardTapped=false;
-                                      }else if(cardTapped==false){
-                                        cardTapped=true;
-                                      }
-
-                                      setState(() {
-
-                                      });
-                                    },
-                                    // child: Container(
-                                    //   decoration: BoxDecoration(
-                                    //     color: Colors.red,
-                                    //     shape: BoxShape.circle,
-                                    //   ),
-                                    //   padding: const EdgeInsets.all(4),
-                                    //   child: const Icon(
-                                    //     Icons.close,
-                                    //     size: 16,
-                                    //     color: Colors.white,
-                                    //   ),
-                                    // ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 100.0,
-                                  width: 175.0,
-                                  decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(8.0),
-                                        topRight: Radius.circular(8.0),
-                                      ),
-                                      image: DecorationImage(
-                                        image: AssetImage(Images.offer),
-                                        fit: BoxFit.cover,
-                                      )),
-                                ),
-                                Container(
-                                  padding:
-                                  const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
-                                  width: 175.0,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    children:  [
-                                      SizedBox(
-                                        width: 150,
-                                        child: Text(
-                                          "this_offer_includes_offers_and_discounts".tr,style: robotoBlack.copyWith(fontSize: 10),
+                            child:SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  // 移除 Positioned，改用其他布局方式
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        if(cardTapped == true) {
+                                          cardTapped = false;
+                                        } else if(cardTapped == false) {
+                                          cardTapped = true;
+                                        }
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        padding: const EdgeInsets.all(4),
+                                        child: const Icon(
+                                          Icons.close,
+                                          size: 16,
+                                          color: Colors.white,
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ]),
+                                  Container(
+                                    height: 100.0,
+                                    width: 175.0,
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(8.0),
+                                          topRight: Radius.circular(8.0),
+                                        ),
+                                        image: DecorationImage(
+                                          image: AssetImage(Images.offer),
+                                          fit: BoxFit.cover,
+                                        )
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
+                                    width: 175.0,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: 150,
+                                          child: Text(
+                                            "this_offer_includes_offers_and_discounts".tr,
+                                            style: robotoBlack.copyWith(fontSize: 10),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           back: Container(
@@ -1119,69 +1116,66 @@ class _MapViewScreenState extends State<MapScreen> {
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8.0))),
                             child: SingleChildScrollView(
-                              child: Column(children: [
-
-                                Positioned(
-                                  bottom: 5,
-                                  right: 5,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if(cardTapped==true){
-
-                                        cardTapped=false;
-                                      }else if(cardTapped==false){
-                                        cardTapped=true;
-                                      }
-
-                                      setState(() {
-
-                                      });
-                                    },
-                                    // child: Container(
-                                    //   decoration: BoxDecoration(
-                                    //     color: Colors.red,
-                                    //     shape: BoxShape.circle,
-                                    //   ),
-                                    //   padding: const EdgeInsets.all(4),
-                                    //   child: const Icon(
-                                    //     Icons.close,
-                                    //     size: 16,
-                                    //     color: Colors.white,
-                                    //   ),
-                                    // ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 100.0,
-                                  width: 175.0,
-                                  decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(8.0),
-                                        topRight: Radius.circular(8.0),
-                                      ),
-                                      image: DecorationImage(
-                                        image: AssetImage(Images.offer),
-                                        fit: BoxFit.cover,
-                                      )),
-                                ),
-                                Container(
-                                  padding:
-                                  const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
-                                  width: 175.0,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    children:  [
-                                      SizedBox(
-                                        width: 150,
-                                        child: Text(
-                                          "this_offer_includes_offers_and_discounts".tr,style: robotoBlack.copyWith(fontSize: 10),
+                              child: Column(
+                                children: [
+                                  // 移除 Positioned，改用其他布局方式
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        if(cardTapped == true) {
+                                          cardTapped = false;
+                                        } else if(cardTapped == false) {
+                                          cardTapped = true;
+                                        }
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        padding: const EdgeInsets.all(4),
+                                        child: const Icon(
+                                          Icons.close,
+                                          size: 16,
+                                          color: Colors.white,
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ]),
+                                  Container(
+                                    height: 100.0,
+                                    width: 175.0,
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(8.0),
+                                          topRight: Radius.circular(8.0),
+                                        ),
+                                        image: DecorationImage(
+                                          image: AssetImage(Images.offer),
+                                          fit: BoxFit.cover,
+                                        )
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
+                                    width: 175.0,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: 150,
+                                          child: Text(
+                                            "this_offer_includes_offers_and_discounts".tr,
+                                            style: robotoBlack.copyWith(fontSize: 10),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           back: Container(

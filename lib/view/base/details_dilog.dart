@@ -23,9 +23,12 @@ import 'package:abaad_flutter/view/screen/estate/widgets/report_widget.dart';
 import 'package:clipboard/clipboard.dart';
 // import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DettailsDilog extends StatefulWidget {
@@ -1569,6 +1572,9 @@ class _DettailsDilogState extends State<DettailsDilog> {
                               ),
 
 
+                            adLicenseQr(context),
+
+
 
                             Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -2288,6 +2294,141 @@ class _DettailsDilogState extends State<DettailsDilog> {
     return Colors.red;
   }
 
+
+  Widget adLicenseQr(BuildContext context) {
+    final url = widget.estate?.adLicenseUrl;
+
+    if (url == null || url.isEmpty) return const SizedBox();
+
+    return Container(
+      // تصغير الهوامش الخارجية والداخلية
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.all(16.0), // كان 20.0
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(12), // كان 16
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 8, // كان 12
+            offset: const Offset(0, 2), // كان 4
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // العنوان مع حجم خط أصغر
+          Text(
+            "رابط الإعلان في هيئة العقار",
+            style: TextStyle(
+              fontSize: 16, // كان 18
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
+          const SizedBox(height: 16), // كان 20
+
+          // حاوية كود QR الأصغر حجماً
+          Material(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10), // كان 12
+            elevation: 2.0, // كان 3.0
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () async {
+                final uri = Uri.parse(url);
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                } else {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text('لا يمكن فتح الرابط'),
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                      ),
+                    );
+                  }
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(12.0), // كان 16.0
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    QrImageView(
+                      data: url,
+                      size: 150, // كان 200 (الحجم الرئيسي)
+                      backgroundColor: Colors.white,
+                    ),
+                    // تصغير الأيقونة وحاويتها
+                    Container(
+                      width: 36, // كان 44
+                      height: 36, // كان 44
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.9),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 3, // كان 4
+                          )
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.open_in_new,
+                        color: Theme.of(context).primaryColor,
+                        size: 20, // كان 24
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 12), // كان 16
+          Text(
+            "اضغط على الرمز لفتح الرابط",
+            style: TextStyle(
+              fontSize: 12, // كان 13
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            ),
+          ),
+
+          const SizedBox(height: 16), // كان 24
+
+          // أزرار الإجراءات مع أيقونات أصغر
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton.icon(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: url));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('✓ تم نسخ الرابط')),
+                  );
+                },
+                icon: const Icon(Icons.copy_outlined, size: 18), // كان 20
+                label: const Text('نسخ الرابط'),
+                style: TextButton.styleFrom(
+                  foregroundColor: Theme.of(context).primaryColor,
+                ),
+              ),
+              TextButton.icon(
+                onPressed: () => Share.share(url, subject: 'رابط الإعلان في هيئة العقار'),
+                icon: const Icon(Icons.share_outlined, size: 18), // كان 20
+                label: const Text('مشاركة'),
+                style: TextButton.styleFrom(
+                  foregroundColor: Theme.of(context).primaryColor,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
   Widget buildInfoRowEnhanced(
       BuildContext context, {
         required String label,

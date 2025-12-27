@@ -124,6 +124,8 @@ class Estate {
   String? phoneNumber = "";
   String? isValid="" ;
 
+  String? adLicenseUrl = "";
+
 
   Estate({
      this.id,
@@ -209,7 +211,8 @@ class Estate {
 
     this.advertiserName,
     this.phoneNumber,
-    this.isValid
+    this.isValid,
+    this.adLicenseUrl
   });
 
   Estate.fromJson(Map<String, dynamic> json) {
@@ -341,6 +344,9 @@ class Estate {
     isValid= json['isValid'];// ✅ Ne
 
 
+    adLicenseUrl=json["adLicenseUrl"];
+
+
 
   }
 
@@ -436,7 +442,7 @@ class Estate {
 
     data['advertiserName'] = advertiserName;
 
-
+    data['adLicenseUrl'] = adLicenseUrl;
     data['phoneNumber'] = phoneNumber;
     data['isValid'] = phoneNumber;
 

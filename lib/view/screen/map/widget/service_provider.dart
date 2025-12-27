@@ -189,53 +189,6 @@ class ServiceProviderItem extends StatelessWidget {
                         ),
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        // const RatingStars(
-                        //   value: 3* 1.0,
-                        //   starCount: 5,
-                        //   starSize: 7,
-                        //   valueLabelColor: Color(0xff9b9b9b),
-                        //   valueLabelTextStyle: TextStyle(
-                        //       color: Colors.white,
-                        //       fontFamily: 'WorkSans',
-                        //       fontWeight: FontWeight.w400,
-                        //       fontStyle: FontStyle.normal,
-                        //       fontSize: 9.0),
-                        //   valueLabelRadius: 7,
-                        //   maxValue: 5,
-                        //   starSpacing: 2,
-                        //   maxValueVisibility: false,
-                        //   valueLabelVisibility: true,
-                        //   animationDuration: Duration(milliseconds: 1000),
-                        //   valueLabelPadding:
-                        //   EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-                        //   valueLabelMargin: EdgeInsets.only(right: 4),
-                        //   starOffColor: Color(0xffe7e8ea),
-                        //   starColor: Colors.yellow,
-                        // )
                       ])
                     ],
                   ),
